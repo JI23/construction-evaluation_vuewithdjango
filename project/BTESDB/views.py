@@ -38,8 +38,8 @@ def show_projects(request):
         #projects = Project.objects.filter(is_finished=is_finished)
         projects = Project.objects.all()
         print (1)
-        id=request.POST.get['id']
-        print (request.body+'111111')
+        id=request.GET['id']
+        #print (request.body+'111111')
         print (id)
         response['list']  = json.loads(serializers.serialize("json", projects))
         response['msg'] = 'success'

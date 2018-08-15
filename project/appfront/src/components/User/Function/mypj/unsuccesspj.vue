@@ -105,9 +105,9 @@
                         console.log(error)
                     })*/
                 this.$ajax({
-                    method:'post',
+                    method:'get',
                     url:'http://localhost:8000/api/show_projects',
-                    data: JSON.stringify({
+                    params: ({
                        'id': "123456", 
                     }),
                     headers:{"Content-Type": "application/json"}
@@ -117,7 +117,7 @@
                         var res = response.data
                         console.log(res)
                         if (res.error_num == 0) {
-                            console.log(res['list'][0].fields)
+                            //console.log(res['list'][0].fields)
                             //_this.projects[0] = res['list'][0].fields
                             //_this.projects[1] = res['list'][1].fields
                             //vue.set(_this.projects[0],'',res['list'][0].fields);
