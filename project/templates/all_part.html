@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+ 
+{% block content %}
+
+<h2>易损件数据库</h2>
+<h3>易损件id    易损件名    易损件描述    EDP类型   数据来源   官方认证  场地类别</h3>
+{% for part in part_list %}
+    <h3><a href="{% url 'new_project4' id=part.id %}">{{ part.id}}</a>
+        {{ part.part_name}}
+        {{ part.description }}
+        {{ part.EDP_type }}
+        {{ part.data_resource }}
+        {{ part.is_formal }}
+        {{ part.part_type }}
+    </h3>
+{% endfor %}
+ 
+{% endblock %}
