@@ -9,18 +9,7 @@
                     :value="item.label">
                 </el-option>
               </el-select>
-            <!--<el-button style="float: right" type="info" round @click="newdb">新建易损性数据库</el-button>-->
-            <el-button style="float: right" round type="info" @click="dialogVisible = true">新建易损性数据库</el-button>
-                <el-dialog
-                    title="新建易损性数据库"
-                    :visible.sync="dialogVisible"
-                    width="30%"
-                    :before-close="handleClose">
-                    <span slot="footer" class="dialog-footer">
-                        <el-button @click="upload_xml">上传xml文件</el-button>
-                        <el-button type="primary" @click="write">手动填写</el-button>
-                    </span>
-                </el-dialog>
+            <el-button style="float: right" type="info" round @click="newdb">新建易损性数据库</el-button>
             <div style="height:380px; overflow:scroll; position:relative; top:20px">
                 <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
             </div>
@@ -32,7 +21,6 @@
     export default {
         data() {
             return {
-                dialogVisible: false,
                 options: [{
                     value: '选项1',
                     label: 'DB_Common'
@@ -72,37 +60,19 @@
             }
         },
 
-        methods: {
-            newdb(){
-                this.$router.push({name:'newdb'});
-            },
-            handleNodeClick(data,node){
-                //console.log(data);
-                if(node.level > 3){
-                    this.$router.push({name:'generalinfo'});
-                    console.log(node);
-                    localStorage.setItem("label",JSON.stringify(data.label));
-                    
-                }
-            },
-
-            handleClose(done) {
-                this.$confirm('确认关闭？')
-                .then(_ => {
-                    done();
-                })
-                .catch(_ => {});
-            },
-
-            upload_xml(){
-                this.dialogVisible = false
-                this.$router.push({name:'uploadXML'});
-            },
-
-            write(){
-                this.dialogVisible = false;
-                this.$router.push({name:'newdb'});
-            }
+      methods: {
+          newdb(){
+              this.$router.push({name:'newdb'});
+          },
+          handleNodeClick(data,node){
+              //console.log(data);
+              if(node.level > 3){
+                  this.$router.push({name:'generalinfo'});
+                  console.log(node);
+                  localStorage.setItem("label",JSON.stringify(data.label));
+                  
+              }
+          }
       }
     }
 </script>

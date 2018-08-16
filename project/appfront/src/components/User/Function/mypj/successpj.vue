@@ -1,39 +1,44 @@
 <template> 
     <div style="top:-73px; position:relative; height:400px; margin:18px 20px;">
         <el-table
-            :data="newData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
-                border
-                style="width: 100%">
-                <el-table-column
-                    prop="date"
-                    label="日期"
-                    width="150">
-                </el-table-column>
-                <el-table-column
-                    prop="name"
-                    label="项目名称"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="pjNum"
-                    label="项目编号"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="pjHead"
-                    label="项目负责人"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="grade"
-                    label="等级"
-                    width="120">
-                </el-table-column>
-                <el-table-column
-                    prop="explain"
-                    label="项目说明"
-                    width="270">
-                </el-table-column>
+             :data="projects.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            border
+            style="width: 100%">
+            <el-table-column
+                prop="create_time"
+                label="日期"
+                width="150">
+            </el-table-column>
+            <el-table-column
+                prop="project_name"
+                label="项目名称"
+                width="120">
+            </el-table-column>
+            <el-table-column
+                prop="id"
+                label="项目编号"
+                width="120">
+            </el-table-column>
+            <el-table-column
+                prop="client_name"
+                label="客户姓名"
+                width="270">
+            </el-table-column>
+            <el-table-column
+                prop="project_leader"
+                label="项目负责人"
+                width="120">
+            </el-table-column>
+            <el-table-column
+                prop="rate"
+                label="定级"
+                width="120">
+            </el-table-column>
+            <el-table-column
+                prop="project_description"
+                label="项目说明"
+                width="270">
+            </el-table-column>
                 <el-table-column
                     fixed="right"
                     label="操作"
@@ -78,45 +83,91 @@
             },
             deletepj: function(){
                 //给后台发送删除项目的对应ID
-            }
+            },
+            showProjects(){
+                let _this = this;
+                /*_this.$http.get('http://localhost:8000/api/show_projects')
+                    .then((response) => {
+                        var res = JSON.parse(response.bodyText)
+                        console.log(res)
+                        if (res.error_num == 0) {
+                            _this.projects = res['list']
+                        } 
+                        else {
+                            _this.$message.error('查询项目失败')
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })*/
+                this.$ajax({
+                    method:'get',
+                    url:'http://localhost:8000/api/show_projects',
+                    params: {
+                       'is_finished': 'True', 
+                    },
+                    headers:{"Content-Type": "application/json"}
+                })
+                    .then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        console.log(res)
+                        if (res.error_num == 0) {
+                            console.log(res['list'][0].fields)
+                            //_this.projects[0] = res['list'][0].fields
+                            //_this.projects[1] = res['list'][1].fields
+                            //vue.set(_this.projects[0],'',res['list'][0].fields);
+                            _this.projects = res['list']
+                            for(var i = 0; i < res['list'].length; i++){
+                                _this.projects[i] = res['list'][i].fields
+                            }
+                            //_this.projects[0] = res['list'][0].fields
+                            //_this.projects[1] = res['list'][1].fields
+                            console.log(_this.projects)
+                        } 
+                        else {
+                            _this.$message.error('查询项目失败')
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
+                /*this.$ajax.get('http://localhost:8000/api/show_projects')
+                    .then(function(response){
+                        console.log(response)
+                        var res = JSON.parse(response.bodyText)
+                        console.log(res)
+                        if (res.error_num == 0) {
+                            _this.projects = res['list']
+                        } 
+                        else {
+                            _this.$message.error('查询项目失败')
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });*/
+            },
         },
 //改成从后台重新获取数据，前端object的处理写不出来
 
 
         beforeMount: function() {
-            //console.log('hhh');
-            let vm = this;
-            var input;
-            input = JSON.parse(localStorage.getItem("input"));
-            //console.log(input+'!!!!!');
-            var tempdata = this.data[input];
-            this.newData[input] = tempdata;
-            localStorage.removeItem("input");
-            //post 有报错信息 配置未完成
-            console.log(this.data)
-            
+            this.showProjects()
         },
-
-
         data () {
             return {
                 input: '',
-                data: [{
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    pjNum: 'asdfghjkl',
-                    pjHead: '普陀区',
-                    grade: '上海市',
-                    explain: 2003333,
-                    hhh: 'ssada'
-                },{
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    pjNum: 'qwerty',
-                    pjHead: '普陀区',
-                    grade: '上海市',
-                    explain: 2003331
-                }],
+                 projects: [{create_time: '2016-05-03',
+                      project_leader: '王小虎',
+                      client_name:'王小五',
+                      project_name: '上海',
+                      user: '普陀区',
+                      rate: '上海市',
+                      project_description: 200333},],
                 newData: [{
                     date: '2016-05-03',
                     name: '王小虎',

@@ -27,26 +27,7 @@
     export default {
         data() {
             return {
-                allpj:'',
-                successpj: '',
-                unsuccesspj: ''
-            }
-        },
-
-        mounted(){
-            this.show_info()
-        },
-
-        methods:{
-            show_info(){
-                this.$axios({
-                    method: 'get',
-                    url: '',
-
-                }).then(function(response){
-                    console.log(response)
-                    //进行赋值
-                })
+                
             }
         },
         
