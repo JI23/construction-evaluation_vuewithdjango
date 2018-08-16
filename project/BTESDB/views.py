@@ -38,8 +38,9 @@ def show_projects(request):
         #projects = Project.objects.filter(is_finished=is_finished)
         projects = Project.objects.all()
         print (1)
-        id=request.GET['id']
-        #print (request.body+'111111')
+        print (request)
+        id=request.POST['id']
+        #print (request.body)
         print (id)
         response['list']  = json.loads(serializers.serialize("json", projects))
         response['msg'] = 'success'
@@ -47,6 +48,7 @@ def show_projects(request):
         #print (response)
     except  Exception as e:
         print (2)
+        print (e)
         response['msg'] = str(e)
         response['error_num'] = 1
     print (3)

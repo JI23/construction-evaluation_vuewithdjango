@@ -36,31 +36,10 @@
                 }
             },
             search(){
-                //与上面相同 只是获取的data不一样
-                //console.log(this.$route.path)
-                //console.log(this.input)
-                //console.log(JSON.stringify({
-                //    searchName: this.input,
-                //}));
-                if(this.$route.path === "/mypj/successpj"){
-                    this.reload();
-                    this.$router.push({name:'successpj'});
-                    //this.$router.go(0);
-                    //Bus.$emit('input', this.input)
-                    //setTimeout(() => {
-                    //    Bus.$emit('input', this.input)
-                    //}, 1)
-                    localStorage.setItem("input",JSON.stringify(this.input));
-                    //var input2 = JSON.parse(localStorage.getItem("input"));
-                    //console.log(input2+"!");
-                    this.reload();
-                }
-                else if(this.$route.path === "/mypj/unsuccesspj"){
-                    this.$router.push({name:'unsuccesspj'});
-                    setTimeout(() => {
-                        Bus.$emit('input', this.input)
-                    }, 10)
-                }
+                this.reload();
+                this.$router.push({name:this.$router.name});
+                localStorage.setItem("input",JSON.stringify(this.input));
+                this.reload();
             },
             reload(){
                 this.isRouteAlive = false

@@ -17,6 +17,7 @@
     "highcharts": "^6.1.1",
     "hoek": "^4.2.1",
     "kiko-rascalhao": "^1.0.0",
+    "qs": "^6.5.2",
     "store": "^2.0.12",
     "vue": "^2.5.2",
     "vue-resource": "^1.5.1",
