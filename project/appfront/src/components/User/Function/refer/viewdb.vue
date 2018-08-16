@@ -103,7 +103,6 @@
                 this.dialogVisible = false;
                 this.$router.push({name:'newdb'});
             }
-          
       }
     }
 </script>
