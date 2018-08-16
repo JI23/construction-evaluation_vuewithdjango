@@ -57,7 +57,7 @@
         width="30%"
         :before-close="handleClose">
         <span>这是一段信息</span>
-        <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
+        <el-tree :default-expand-all="true" :data="data1"  @node-click="handleNodeClick" ></el-tree>
         <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -82,20 +82,35 @@
                 Y:null,
                 Non:null
             }],
-            data: [{
+            data1: [{
                     label: 'General Info',
                     children: [{
                         label: 'Damage State Type',
                         children: [{
                             label: 'Damage State 1',
                             children: [{
-                                label: 'A1101 Consequence Functions'
+                                label: 'A1101 Consequence '
                             }]
                         }]
                     }],
-                  }]
+                  }],
+            data:[]
+            
         };
     },
+
+    mounted(){
+        //console.log(this.data1[0].children[0].children[0].children[0])
+        //this.data1 = this.data
+        const newChild = {label: 'testtest', children: [] };
+        //this.data1[0].children[0].children[0].children[0].label = "hhh";
+        this.data1[0].children[0].children[0].children[1] = newChild
+        this.data.label123 = "aaaa"
+        console.log(this.data)
+        console.log(this.data1)
+        //console.log(this.data1)
+    },
+
     methods: {
         chooseId(index, rows){
             this.dialogVisible = true;
@@ -121,7 +136,7 @@
                 Non:null
             })
         },
-         handleNodeClick(data,node){
+        handleNodeClick(data,node){
               //console.log(data);
               if(node.level > 3){
                   console.log(data)

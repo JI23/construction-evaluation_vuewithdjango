@@ -1,6 +1,14 @@
 <template>
     <div>
         <div class="wrapper6"><!--基本信息填写 -->
+            <el-col>
+                <span class="lebal">ID</span>
+                <el-input style="width:100%" v-model="id" placeholder="请输入内容"></el-input>
+                <span class="lebal">Name</span>
+                <el-input  style="width:100%" v-model="name" placeholder="请输入内容"></el-input>
+                <span class="lebal">Description</span>
+                <el-input style="width:100%" type="textarea" :rows="4" placeholder="请输入内容" v-model="description"></el-input>
+            </el-col>
         </div>
         <div class="wrapper6"><!--上传及保存按钮 -->
             <el-upload
@@ -14,7 +22,7 @@
                 :on-exceed="handleExceed"
                 :file-list="fileList">
                 <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                <div slot="tip" class="el-upload__tip">请上传XML文件</div>
             </el-upload><br><br><br>
             <el-button style="display:block;margin:0 auto" @click="savegen">保存</el-button>
         </div>
@@ -25,7 +33,10 @@
     export default {
         data() {
             return {
-                fileList: []
+                fileList: [],
+                id: '',
+                name: '',
+                description: ''
             };
         },
 
