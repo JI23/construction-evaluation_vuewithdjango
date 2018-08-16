@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+ 
+{% block content %}
+ 
+<div>
+         <p>用户{{ request.session.username }},你好！</p>
+         <br>
+         <br>
+                   
+            <form action="/new_project3/" method="POST">
+                {% csrf_token %}
+                {% for floor in floor_list %}  
+                楼层{{ forloop.counter }}：
+                {{floor.as_p}}
+                
+                <p style="color: red">{{ project_error }}</p>
+                <br>
+                <br>
+                <br>
+                {% endfor %}
+                <input type="submit" value="保存" />
+            
+            </form>
+            {{AddResponse}}
+        
+            
+            <h3><a href="{% url 'new_project4' id=0 %}">下一步</a></h3>
+            
+        </form>
+</div>
+ 
+{% endblock %}

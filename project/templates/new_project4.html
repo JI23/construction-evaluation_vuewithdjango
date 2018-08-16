@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+ 
+{% block content %}
+<h1>添加结构构件</h1>
+<br>
+<br>
+<h3><a href="{% url 'all_part' %}">新增</a></h3>
+
+
+<h2>已添加:</h2>
+<h3>
+    序号 易损件id 易损件名 起始楼层  终止楼层 易损件描述 EDP类型 数据来源    官方认证 场地类别
+</h3>
+<form action="/new_project4/" method="POST">
+    {% csrf_token %}
+{% for selected in selected_list %}
+    <h3>{{ forloop.counter }}}
+        {{ selected.part_id }}
+        {{ selected.part_name}}
+        <input type="text" name='start'/>
+        <input type="text" name='stop'/>
+        {{ selected.description }}
+        {{ selected.EDP_type }}
+        {{ selected.data_resource }}
+        {{ selected.is_formal }}
+        {{ selected.part_type }}
+    </h3>
+{% endfor %}
+
+
+    <input type="submit" value="保存" name='save'/>
+    </form>
+
+{{ AddResponse }}
+<h3><a href="{% url 'new_project5' id=0 %}">下一步</a></h3>
+{% endblock %}

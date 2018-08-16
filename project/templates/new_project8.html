@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+ 
+{% block content %}
+ 
+<div>
+         <p>用户{{ request.session.username }},你好！</p>
+         <br>
+         <br>
+                   
+            <form action="/new_project8/" method="POST">
+                {% csrf_token %}
+                
+                {{sf.as_p}}
+                楼层数：{{floor}}}
+                地震数：{{number}}
+                <p style="color: red">{{ project_error }}</p>
+                <br>
+                <br>
+                <br>
+            
+                <input type="submit" value="保存" />
+            
+            </form>
+            {{AddResponse}}
+        
+            
+            <h3>对项目定级</h3>
+            
+</div>
+{% endblock %}
