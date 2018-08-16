@@ -17,7 +17,7 @@ Vue.use(ElementUI);
 Vue.use(VueResource) 
 
 
-axios.defaults.timeout = 5000;  //设置超时时间
+//axios.defaults.timeout = 5000;  //设置超时时间
 axios.defaults.baseURL = 'http://localhost:8000/api/'; //这是调用数据接口
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 
@@ -34,8 +34,7 @@ axios.interceptors.request.use(
         return Promise.reject(err);
     }
 );
-Vue.prototype.$axios = axios
-
+Vue.prototype.$ajax = axios
 
 /* eslint-disable no-new */
 new Vue({
@@ -45,5 +44,3 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
-
-

@@ -3,7 +3,7 @@
 # Create your views here.
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
-from .models import Project
+from .models import Project,User_Info
 from django.contrib import auth
 from django import forms    #导入表单
 from django.contrib.auth.models import User   #导入django自带的user表
@@ -35,20 +35,20 @@ def logout(request):
 def show_projects(request):
     response = {}
     try:
-        #projects = Project.objects.filter(is_finished=is_finished)
-        projects = Project.objects.all()
         print (1)
-        print (request)
-        id=request.POST['id']
-        #print (request.body)
-        print (id)
+        is_finished=request.GET['is_finished']
+        #print (str(request.body)+'111111')
+        print (is_finished)
+        if is_finished=='False':
+            projects = Project.objects.filter(is_finished=0)
+        else:
+            projects = Project.objects.filter(is_finished=1)
         response['list']  = json.loads(serializers.serialize("json", projects))
         response['msg'] = 'success'
         response['error_num'] = 0
         #print (response)
     except  Exception as e:
         print (2)
-        print (e)
         response['msg'] = str(e)
         response['error_num'] = 1
     print (3)

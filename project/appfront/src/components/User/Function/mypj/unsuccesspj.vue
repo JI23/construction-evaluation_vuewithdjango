@@ -31,7 +31,7 @@
             </el-table-column>
             <el-table-column
                 prop="rate"
-                label="等级"
+                label="定级"
                 width="120">
             </el-table-column>
             <el-table-column
@@ -67,7 +67,7 @@
 <script>
     export default {
         
-        mounted: function() {
+        beforeMount: function() {
             this.showProjects()
         },
 
@@ -78,53 +78,55 @@
             handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
             },
-            editpj: function(row){//未做
+            editpj: function(row){
                 localStorage.setItem("pjNum",JSON.stringify(row.pjNum));
                 //掉用setp1进行编辑
                 //console.log(pjname)
             },
-            deletepj: function(row){//未连接
-                this.$axios({
-                    method:'post',
-                    url:'',
-                    data:({
-                        "num":row.pjNum,
-                    })
-                }).then(function(response){
-                    //判断后弹窗
-                    this.reload()
-                }).catch(function(err){
-                    console.log(err)
-                })
-            },
-            reload(){
-                this.isRouteAlive = false
-                this.$nextTick(function(){
-                    this.isRouteAlive = true
-                })
+            deletepj: function(row){
+                //传值给数据库进行删除
+                //console.log(pjname)
             },
             showProjects(){
-                var input = ''
-                input = JSON.parse(localStorage.getItem("input"));
-                localStorage.removeItem("input");
                 let _this = this;
-                this.$axios({
-                    method:'post',
-                    url:'show_projects',
-                    data: ({
-                       'id': "123456", 
-                       'input': input
-                    }),
+                /*_this.$http.get('http://localhost:8000/api/show_projects')
+                    .then((response) => {
+                        var res = JSON.parse(response.bodyText)
+                        console.log(res)
+                        if (res.error_num == 0) {
+                            _this.projects = res['list']
+                        } 
+                        else {
+                            _this.$message.error('查询项目失败')
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })*/
+                this.$ajax({
+                    method:'get',
+                    url:'http://localhost:8000/api/show_projects',
+                    params: {
+                       'is_finished': 'False', 
+                    },
+                    headers:{"Content-Type": "application/json"}
                 })
                     .then(function(response){
                         console.log(response)
                         var res = response.data
                         console.log(res)
                         if (res.error_num == 0) {
+                            console.log(res['list'][0].fields)
+                            //_this.projects[0] = res['list'][0].fields
+                            //_this.projects[1] = res['list'][1].fields
+                            //vue.set(_this.projects[0],'',res['list'][0].fields);
                             _this.projects = res['list']
                             for(var i = 0; i < res['list'].length; i++){
                                 _this.projects[i] = res['list'][i].fields
                             }
+                            //_this.projects[0] = res['list'][0].fields
+                            //_this.projects[1] = res['list'][1].fields
                             console.log(_this.projects)
                         } 
                         else {
@@ -135,21 +137,37 @@
                     .catch(function(err){
                         console.log(err);
                     });
+                /*this.$ajax.get('http://localhost:8000/api/show_projects')
+                    .then(function(response){
+                        console.log(response)
+                        var res = JSON.parse(response.bodyText)
+                        console.log(res)
+                        if (res.error_num == 0) {
+                            _this.projects = res['list']
+                        } 
+                        else {
+                            _this.$message.error('查询项目失败')
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });*/
             },
         },
 
-        data () {
-            return {
-                projects: [{create_time: '2016-05-03',
-                    project_leader: '王小虎',
-                    client_name:'王小五',
-                    project_name: '上海',
-                    user: '普陀区',
-                    rate: '上海市',
-                    project_description: 200333},],
-                currentPage:1,
-                pagesize:5,
-                isRouteAlive: true
+          data () {
+              return {
+                  projects: [{create_time: '2016-05-03',
+                      project_leader: '王小虎',
+                      client_name:'王小五',
+                      project_name: '上海',
+                      user: '普陀区',
+                      rate: '上海市',
+                      project_description: 200333},],
+                  currentPage:1,
+                  pagesize:5,
+        
             }
         } 
     }
