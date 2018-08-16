@@ -4,6 +4,10 @@ appfront目录下
 npm install
 npm run dev试运行看看依赖有没有报错
 
+python3.6
+django2.1
+python的依赖库忘了根据报错信息装吧
+
 数据库的创建
 create database btesdb;
 
