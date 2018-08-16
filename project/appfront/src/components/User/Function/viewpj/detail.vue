@@ -32,15 +32,6 @@
 
 
 <style scoped>
-<<<<<<< HEAD
-=======
-    .wrapper{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
->>>>>>> upstream/master
     .box10{
         width:600px;
         height:300px;

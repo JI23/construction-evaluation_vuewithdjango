@@ -46,6 +46,7 @@ import detail from "../components/User/Function/viewpj/detail.vue";
 import viewdb from "../components/User/Function/refer/viewdb.vue";
 import newdb from "../components/User/Function/refer/newdb/newdb.vue";
 //新建易损性数据库
+import uploadXML from "../components/User/Function/refer/newdb/uploadXML.vue";
 import general_info from "../components/User/Function/refer/newdb/general_info";
 import statenum from "../components/User/Function/refer/newdb/statenum";
 import consequence from "../components/User/Function/refer/newdb/consequence";
@@ -164,6 +165,11 @@ export default new Router({
               path:'/refer/viewdb',
               name:'viewdb',
               component:viewdb
+            },
+            {
+              path:'/refer/newdb/uploadXML',
+              name:'uploadXML',
+              component:uploadXML
             },
             {
               path:'/refer/newdb/newdb',

@@ -89,21 +89,11 @@
             var input;
             input = JSON.parse(localStorage.getItem("input"));
             //console.log(input+'!!!!!');
-            //var tempdata = this.data[input];
-            //this.newData[input] = tempdata;
+            var tempdata = this.data[input];
+            this.newData[input] = tempdata;
             localStorage.removeItem("input");
             //post 有报错信息 配置未完成
             console.log(this.data)
-            
-            axios.post('/user', JSON.stringify({
-                searchName: this.input,
-            }))
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
             
         },
 
