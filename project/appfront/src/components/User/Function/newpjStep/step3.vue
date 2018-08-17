@@ -55,9 +55,17 @@
         <el-dialog
         title="提示"
         :visible.sync="dialogVisible"
-        width="30%"
+        width="50%"
         :before-close="handleClose">
         <span>这是一段信息</span>
+        <div class="block">
+            <el-cascader
+                placeholder="试试搜索：指南"
+                :options="options"
+                filterable
+                @change="changed"
+            ></el-cascader>
+        </div>
         <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
         <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
@@ -73,6 +81,7 @@
     export default {
       data() {
           return{
+            choose_value:'',
             index: null,
             dialogVisible:false,
             tableData: [{
@@ -83,8 +92,20 @@
                 Y:null,
                 Non:null
             }],
-            data: [{
-                    label: 'General Info',
+            options: [{
+                value: 'hhh',
+                label: 'General Info',
+                children: [{
+                    value: 'hhh',
+                    label: 'Damage State Type',
+                    children: [{
+                        value: 'hhh',
+                        label: 'Damage State 1',
+                    }]
+                }],
+            }],
+            /*data2: [{
+                    label: 'General Info123456',
                     children: [{
                         label: 'Damage State Type',
                         children: [{
@@ -94,7 +115,10 @@
                             }]
                         }]
                     }],
-                  }]
+                  }],*/
+            data:[],
+            data1:[]
+            
         };
     },
     methods: {
@@ -109,18 +133,46 @@
             })
             .then(function(response){
                 console.log(response)
+                //console.log('111')
                 var res=response.data
                 if(res.error_num==0){
                     console.log(res['list'])
+                    console.log(res['detail'])
+                    _this.data =  _this.data1
+                    for(var i = 0; i < res['detail'].length; i++ ){
+                        var max = 0;
+                        if(res['detail'][i].fields.DB_part > max){
+                            max = res['detail'][i].fields.DB_part
+                        }
+                    }
+
+                    for(var i = 0; i < max; i++){
+                        const newchild={label: i+1, children:[]}
+                        _this.data[i]=newchild
+                    }
+                    var temp=new Array()
+                    for(var i = 0; i < max; i++){
+                        temp[i] = 0
+                    }
                     
+                    console.log('111')
+                    for(var i = 0; i < res['detail'].length; i++){
+                        //_this.data =  _this.data1
+                        //console.log(i+'!!!')
+                        const newchild={label: res['detail'][i].fields.damage_id, children:[]}
+                        _this.data[res['detail'][i].fields.DB_part-1].children[temp[res['detail'][i].fields.DB_part-1]] = newchild
+                        temp[res['detail'][i].fields.DB_part-1] += 1
+                    }
+                    console.log('222')
+                    //const newchild={label:'test',children:[]}
+                    //_this.data =  _this.data1
+                    //_this.data[1]=newchild
                     
-                    
-                    _this.data[0].label=res['list'][0].fields.part_id
+                    //_this.data[0].label=res['list'][0].fields.part_id
                     console.log(_this.data[0].label)
                     
-                    const newchild={label:'test',children:[]}
-                    _this.data[1]=newchild
-                    console.log(_this.data.label=res['list'][0].fields.part_id)
+                    
+                    //console.log(_this.data.label=res['list'][0].fields.part_id)
                     _this.$index=res['list'][0].fields.part_id
                 }
                 else {
@@ -130,6 +182,8 @@
             })
             .catch(function(err){
                     console.log(err);
+                    console.log('!!')
+                    console.log(_this.data)
                     });
         },
         saveElements(){
@@ -142,7 +196,6 @@
                     project:7,
                     tableData:this.tableData,
                 },
-                headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
                 console.log(response)
@@ -181,7 +234,8 @@
         },
          handleNodeClick(data,node){
               //console.log(data);
-              if(node.level==1){
+              console.log(this.choose_value)
+              if(node.level==2){
                   console.log(data)
                   this.tableData[this.index].id = data.label.substr(0,5);
                   this.dialogVisible = false;   
@@ -192,6 +246,9 @@
         },
         back(){
             this.$emit('back','');
+        },
+        changed(value){//请求数据
+            console.log(value)
         }
     },
            
