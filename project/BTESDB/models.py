@@ -143,35 +143,35 @@ class Damage_state_detail(models.Model):
     #损伤状态描述
     damage_description=models.CharField(max_length=300,verbose_name='损伤状态描述')
     #中位值
-    median=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='中位值')
+    median=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='中位值')
     #方差
-    variance=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='方差')
+    variance=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='方差')
     #损失参数
-    lost_parameter=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='损失参数')
+    lost_parameter=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='损失参数')
     #修复系数
-    rehabilitation_coeffcient=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='修复系数')
+    rehabilitation_coeffcient=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='修复系数')
     #最小工程量折减数量(修复费用)
-    min_rehab_cost=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='最小工程量折减数量(修复费用)')
+    min_rehab_cost=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='最小工程量折减数量(修复费用)')
     #工程量折减系数(修复费用)
-    min_lost_cost=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='工程量折减系数(修复费用)')
+    min_lost_cost=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='工程量折减系数(修复费用)')
     #最大工程量折减数量(修复费用)
-    max_rehab_cost=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='最大工程量折减数量(修复费用)')
+    max_rehab_cost=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='最大工程量折减数量(修复费用)')
     #工程量折减系数(修复费用)
-    max_lost_cost=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='工程量折减系数(修复费用)')
+    max_lost_cost=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='工程量折减系数(修复费用)')
     #费用COV
-    cov_cost=models.DecimalField(max_digits=8,decimal_places=4,verbose_name='费用COV')
+    cov_cost=models.DecimalField(max_digits=8,decimal_places=4,default=0,verbose_name='费用COV')
     #修复时间(人*天)
-    repair_people_day=models.IntegerField(verbose_name='修复时间(人*天)')
+    repair_people_day=models.IntegerField(default=0,verbose_name='修复时间(人*天)')
     #最小工程量折减数量(修复时间)
-    min_rehab_time=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='最小工程量折减数量(修复时间)')
+    min_rehab_time=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='最小工程量折减数量(修复时间)')
     #工程量折减系数(修复时间)
-    min_lost_time=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='工程量折减系数(修复时间)')
+    min_lost_time=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='工程量折减系数(修复时间)')
     #最大工程量折减数量(修复时间)
-    max_rehab_time=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='最大工程量折减数量(修复时间)')
+    max_rehab_time=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='最大工程量折减数量(修复时间)')
     #工程量折减系数(修复时间)
-    max_lost_time=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='工程量折减系数(修复时间)')
+    max_lost_time=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='工程量折减系数(修复时间)')
     #时间COV
-    cov_time=models.DecimalField(max_digits=8,decimal_places=4,verbose_name='时间COV')
+    cov_time=models.DecimalField(max_digits=8,decimal_places=4,default=0,verbose_name='时间COV')
     
 
 

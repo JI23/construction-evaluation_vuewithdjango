@@ -42,6 +42,10 @@ urlpatterns = [
     path('company_register/',register.company_register),
     path('login/',user_login.login),
     path('logout/',views.logout),
+    path('insert/',project.insert),
+    path('ist/',project.ist),
+
+
     path('new_project/',project.one_project),
     path('new_project2/',project.two_project),
     path('new_project3/',floor.three_floor),
