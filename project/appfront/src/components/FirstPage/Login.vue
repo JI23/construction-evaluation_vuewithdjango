@@ -6,7 +6,7 @@
             <el-input v-model="LoginLabel.phone" placeholder="请输入手机号"></el-input>
             </el-form-item>
             <el-form-item label="密　码">
-            <el-input v-model="LoginLabel.password" placeholder="请输入密码"></el-input>
+            <el-input v-model="LoginLabel.password" type="password"  placeholder="请输入密码"></el-input>
             </el-form-item>
         </el-form>
         <el-button @click="gotoRegister" type="text" size="small">没有账号？立即注册</el-button>
@@ -28,7 +28,43 @@ export default {
     },
     methods:{
         login(){
-            this.$router.push({name:'dashboard'});
+
+            let _this=this;
+            this.$ajax({
+                method:'get',
+                url:'http://localhost:8000/api/login',
+                params:{
+                    username:this.LoginLabel.phone,
+                    password:this.LoginLabel.password
+                },
+                headers:{"Content-Type": "application/json"}
+            })
+            .then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        console.log(res)
+                        if (res['error_num'] == 0) {
+                            console.log(res['msg'])
+                            localStorage.setItem('phone', res['username'])
+                            localStorage.setItem('password', res['password'])
+                            console.log(localStorage.getItem('phone')) 
+                            console.log(localStorage.getItem('password'))
+                            _this.$router.push({name:'dashboard'});   //这里前面要加个_
+                        } 
+                        else if(res['error_num']==1){
+                            _this.$message.error('账号还在审核中')
+                            console.log(res['msg'])
+                        }
+                        else {
+                            _this.$message.error('用户名或密码错误')
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
+
+            
         },
         gotoRegister()
         {
