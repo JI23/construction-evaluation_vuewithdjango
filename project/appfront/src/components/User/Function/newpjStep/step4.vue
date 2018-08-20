@@ -115,6 +115,7 @@
                     console.log(_this.data[0].label)
                     console.log(_this.data.label=res['list'][0].fields.part_id)
                     _this.$index=res['list'][0].fields.part_id
+                    
                 }
                 else {
                     _this.$message.error('获取非结构构件失败')
@@ -142,9 +143,10 @@
                 var res=response.data
                 if(res.error_num==0){
                     console.log(res['msg'])
+                    _this.$message.success(res['msg'])
                 }
                 else {
-                    _this.$message.error('存储非结构构件失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })

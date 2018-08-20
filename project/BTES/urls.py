@@ -23,6 +23,7 @@ from BTESDB import floor
 from BTESDB import show_all
 from BTESDB import earthquake_info
 from BTESDB import wave
+from BTESDB import insertState
 from BTESDB import structure_response
 from django.conf.urls import url,include
 from django.views.generic import TemplateView
@@ -32,7 +33,8 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="index.html")),
     url(r'^api/', include(BTESDB.urls)),
-
+    path('insert/', insertState.insert),
+    path('insert_DB_part/', insertState.insert_temp),
     path('admin/', admin.site.urls),
 
     path('',views.index),

@@ -25,17 +25,33 @@ def step1(request):
         client_name=request.GET['client_name']
         project_description=request.GET['project_description']
         project_leader=request.GET['project_leader']
-            
-
+        #username=request.GET['username']
+        this_user=User_Info.objects.get(username='13051997327')
+        if len(project_name)==0:
+            response['msg']='项目名称不能为空！'
+            response['error_num']=1
+            return JsonResponse(response)
+        elif Project.objects.filter(user=this_user,project_name=project_name).exists():
+            response['msg']='项目名称不得重复！'
+            response['error_num']=1
+            return JsonResponse(response)
+        
+        if len(client_name)==0:
+            response['msg']='客户名称不能为空！'
+            response['error_num']=1
+            return JsonResponse(response)
+        if len(project_leader)==0:
+            response['msg']='项目负责人不能为空！'
+            response['error_num']=1
+            return JsonResponse(response)
+        if len(project_description)==0:
+            response['msg']='项目描述不能为空！'
+            response['error_num']=1
+            return JsonResponse(response)
+        
         #获取user外键
         #this_user=User_Info.objects.get(username='13051997327')
-        '''    
-        request.session['project_name']=project_name
-        request.session['client_name']=client_name
-        request.session['project_description']=project_description
-        request.session['project_leader']=project_leader
-        print(request.session['project_name'])
-        '''
+
         response['error_num']=0
         response['msg']='success'
         response['project_name']=project_name
@@ -43,14 +59,11 @@ def step1(request):
         response['project_leader']=project_leader
         response['project_description']=project_description
         print(3)
-        #print (username)
-        #return HttpResponse('<p>数据添加成功</p>')
+        
     except Exception as e:
-        print (4)
+        print (4)    
         response['msg']=str(e)
-        response['error_num']=1
-    finally:
-        #print (list(request.session.keys()))
-        return JsonResponse(response)
+        response['error_num']= 1
+    return JsonResponse(response)
         
  

@@ -83,12 +83,19 @@ export default {
         saveFloor(){
             let _this=this;
             console.log(this.Floor_info)
+            var floors=localStorage.getItem('floors')
+            var area=localStorage.getItem('area')
+            var height=localStorage.getItem('height')
+            var project=localStorage.getItem('project')
             this.$ajax({
                 method:'get',
                 url:'step2-saveFloor',
                 params:{
+                    floors:floors,
+                    area:area,
+                    height:height,
                     Floor_info:this.Floor_info,
-                    project:7,
+                    project:project,
                 },
             })
             .then(function(response){
@@ -97,9 +104,10 @@ export default {
                 console.log(res)
                 if (res.error_num == 0) {
                     console.log(res['msg'])
+                    _this.$message.success(res['msg'])
                 } 
                 else {
-                    _this.$message.error('存储楼层失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })
@@ -127,6 +135,7 @@ export default {
                 method:'get',
                 url:'step2',
                 params:{
+                    username:'13051997327',
                     project_name:project_name,
                     project_leader:project_leader,
                     project_description:project_description,
@@ -148,9 +157,13 @@ export default {
                             console.log(res['msg'])
                             console.log(res['project'])
                             localStorage.setItem('project',res['project'])
+                            localStorage.setItem('floors',_this.floors)
+                            localStorage.setItem('height',_this.height)
+                            localStorage.setItem('area',_this.area)
+                            _this.$message.success(res['msg'])
                         } 
                         else {
-                            _this.$message.error('新建项目失败')
+                            _this.$message.error(res['msg'])
                             console.log(res['msg'])
                         }
                     })
