@@ -128,3 +128,20 @@ def two_project(request):
         pf=Two_Project_Form()
     return render(request,'new_project2.html',{'pf':pf})
 
+def insert(request):
+    this_user=User_Info.objects.get(username='123456')
+    new=DB_part(user=this_user,
+    part_id='3',
+    part_name='3',
+    description='3')
+    new.save()
+    return HttpResponse('数据添加成功')
+
+def ist(request):
+    this_part=DB_part.objects.get(id=2)
+    new=Damage_state_detail(DB_part=this_part,
+    damage_id='22',
+    damage_state='22',
+    damage_description='22')
+    new.save()
+    return HttpResponse('数据添加成功') 

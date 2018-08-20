@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="index.html")),
     url(r'^api/', include(BTESDB.urls)),
     path('insert/', insertState.insert),
+    path('insert_DB_part/', insertState.insert_temp),
     path('admin/', admin.site.urls),
 
     path('',views.index),
@@ -43,6 +44,10 @@ urlpatterns = [
     path('company_register/',register.company_register),
     path('login/',user_login.login),
     path('logout/',views.logout),
+    path('insert/',project.insert),
+    path('ist/',project.ist),
+
+
     path('new_project/',project.one_project),
     path('new_project2/',project.two_project),
     path('new_project3/',floor.three_floor),

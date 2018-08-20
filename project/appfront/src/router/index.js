@@ -2,12 +2,35 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from "./../components/FirstPage/Index.vue";
 import Dashboard from "../components/User/Dashboard.vue";
+import Dashboard_admin from "../components/admin/Dashboard_admin.vue";
 
 // 未登陆页面(index)的二级路由
 import Product from "../components/FirstPage/Product.vue";
 import Service from "../components/FirstPage/Service.vue";
 import Login from "../components/FirstPage/Login.vue";
 import Register from "../components/FirstPage/Register.vue";
+
+//管理员中心的二级页面
+import Home_admin from "../components/admin/Function/Home_admin.vue";
+import Audit_user from "../components/admin/Function/Audit_user.vue";
+import View_project from "../components/admin/Function/View_project.vue";
+import View_user from "../components/admin/Function/View_user.vue";
+import Feedback_user from "../components/admin/Function/Feedback_user.vue";
+import View_refer from "../components/admin/Function/View_refer.vue";
+
+//审核用户
+import detail_user from "../components/admin/Function/user/detail_user.vue";
+import audit_list from "../components/admin/Function/user/audit_list.vue";
+
+//查看用户
+import normal from "../components/admin/Function/view_user/normal";
+import abnormal from "../components/admin/Function/view_user/abnormal";
+import view_detail from "../components/admin/Function/view_user/view_detail";
+
+//查看反馈信息
+import feedback_list from "../components/admin/Function/feedback/feedback_list";
+import feedback_detail from "../components/admin/Function/feedback/feedback_detail";
+
 
 //个人中心的二级页面
 import Home from "../components/User/Function/Home.vue";
@@ -296,6 +319,88 @@ export default new Router({
             }
           ]
         },
+      ]
+    },
+    {
+      path:'/dashboard_admin',
+      name:'dashboard_admin',
+      component:Dashboard_admin,
+      redirect:'/home_admin',
+      children:[
+        {
+            path:'/home_admin',
+            name:'home_admin',
+            component:Home_admin,
+        },
+        {
+          path:'/audit_user',
+          name:'audit_user',
+          component:Audit_user,
+          redirect:'/user/audit_list',
+          children:[
+            {
+              path:'/user/detail_user',
+              name:'detail_user',
+              component:detail_user
+            },
+            {
+              path:'/user/audit_list',
+              name:'audit_list',
+              component:audit_list
+            }
+          ]
+        },
+        {
+          path:'/view_project',
+          name:'view_project',
+          component:View_project
+        },
+        {
+          path:'/view_user',
+          name:'view_user',
+          component:View_user,
+          redirect: '/view_user/normal',
+          children: [
+            {
+              path:'/view_user/normal',
+              name: 'normal',
+              component: normal,
+            },
+            {
+              path: '/view_user/abnormal',
+              name: 'abnormal',
+              component: abnormal
+            },
+            {
+              path: '/view_user/view_detail',
+              name: 'view_detail',
+              component: view_detail
+            }
+          ]
+        },
+        {
+          path:'/feedback_user',
+          name:'feedback_user',
+          component:Feedback_user,
+          redirect:'/feedback/feedback_list',
+          children:[
+            {
+              path:'/feedback/feedback_list',
+              name:'feedback_list',
+              component:feedback_list,
+            },
+            {
+              path:'/feedback/feedback_detail',
+              name:'feedback_detail',
+              component:feedback_detail,
+            }
+          ]
+        },
+        {
+          path:'/view_refer',
+          name:'view_refer',
+          component:View_refer
+        }
       ]
     }
   ]

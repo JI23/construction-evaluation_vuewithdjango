@@ -104,6 +104,7 @@ export default {
                 console.log(res)
                 if (res.error_num == 0) {
                     console.log(res['msg'])
+                    _this.$message.success(res['msg'])
                 } 
                 else {
                     _this.$message.error(res['msg'])
@@ -132,7 +133,7 @@ export default {
             console.log(project_name)
             this.$ajax({
                 method:'get',
-                url:'http://localhost:8000/api/step2',
+                url:'step2',
                 params:{
                     username:'13051997327',
                     project_name:project_name,
@@ -147,7 +148,6 @@ export default {
                     area:this.area,
                     cost_per_squaremeter:this.cost_per_squaremeter,
                 },
-                headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
                         console.log(response)
@@ -160,6 +160,7 @@ export default {
                             localStorage.setItem('floors',_this.floors)
                             localStorage.setItem('height',_this.height)
                             localStorage.setItem('area',_this.area)
+                            _this.$message.success(res['msg'])
                         } 
                         else {
                             _this.$message.error(res['msg'])

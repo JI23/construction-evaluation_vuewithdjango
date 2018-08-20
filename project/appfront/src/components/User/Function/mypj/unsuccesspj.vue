@@ -123,7 +123,7 @@
                     })*/
                 this.$ajax({
                     method:'get',
-                    url:'http://localhost:8000/api/show_projects',
+                    url:'show_projects',
                     params: {
                        'is_finished': 'False', 
                     },

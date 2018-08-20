@@ -139,17 +139,15 @@
                     console.log(res['list'])
                     console.log(res['detail'])
                     _this.data =  _this.data1
-                    for(var i = 0; i < res['detail'].length; i++ ){
-                        var max = 0;
-                        if(res['detail'][i].fields.DB_part > max){
-                            max = res['detail'][i].fields.DB_part
-                        }
-                    }
+                    
+                    var max=res['list'].length
 
                     for(var i = 0; i < max; i++){
-                        const newchild={label: i+1, children:[]}
+                        //console.log(res['list'][i+1].fields.part_id+' !'+res['list'][i+1].fields.description)
+                        const newchild={label: res['list'][i].fields.part_id+' '+res['list'][i].fields.description, children:[]}
                         _this.data[i]=newchild
                     }
+                    console.log('000')
                     var temp=new Array()
                     for(var i = 0; i < max; i++){
                         temp[i] = 0
@@ -158,8 +156,9 @@
                     console.log('111')
                     for(var i = 0; i < res['detail'].length; i++){
                         //_this.data =  _this.data1
-                        //console.log(i+'!!!')
-                        const newchild={label: res['detail'][i].fields.damage_id, children:[]}
+                        //console.log(res['detail'][i].fields.DB_part_id-1+'!!!')
+                        
+                        const newchild={label: res['detail'][i].fields.DB_part+res['detail'][i].fields.damage_id+res['detail'][i].fields.damage_description, children:[]}
                         _this.data[res['detail'][i].fields.DB_part-1].children[temp[res['detail'][i].fields.DB_part-1]] = newchild
                         temp[res['detail'][i].fields.DB_part-1] += 1
                     }
@@ -169,7 +168,7 @@
                     //_this.data[1]=newchild
                     
                     //_this.data[0].label=res['list'][0].fields.part_id
-                    console.log(_this.data[0].label)
+                    //console.log(_this.data[0].label)
                     
                     
                     //console.log(_this.data.label=res['list'][0].fields.part_id)
@@ -205,6 +204,7 @@
                 var res=response.data
                 if(res.error_num==0){
                     console.log(res['msg'])
+                    _this.$message.success(res['msg'])
                 }
                 else {
                     _this.$message.error(res['msg'])

@@ -36,6 +36,19 @@ axios.interceptors.request.use(
 );
 Vue.prototype.$ajax = axios
 
+
+//登陆验证
+router.beforeEach((to, from, next) =>{
+    if(to.path === '/login'){
+        next()
+    }
+    else{
+        //验证登陆信息
+        next()
+    }
+})
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

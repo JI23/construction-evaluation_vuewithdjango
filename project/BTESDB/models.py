@@ -5,7 +5,21 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-
+class DB_template(models.Model):
+    #如BE.F.01.01，必须遵循该格式，有10位和11位的，最好写max_length=20
+    part_id=models.CharField(max_length=20,primary_key=True)
+    #可以是任意字符串，如ACI 318 OMF with weak joints and column flexural response, Conc Col & Bm = 24" x 24", Beam one side
+    Name=models.CharField(max_length=100)
+    #如单片玻璃幕墙...
+    Description=models.CharField(max_length=300)
+    #EDP类型，分层间位移角和楼层加速度
+    TypeName=models.CharField(max_length=20)
+    #数据来源
+    Author=models.CharField(max_length=20)
+    #是否是官方认证
+    Official=models.CharField(max_length=10)
+    #易损件的场地类别
+    part_type=models.CharField(max_length=20,default='Common')
 # Create your models here.
 class Company_Info(models.Model):
     '''公司信息表'''
@@ -188,35 +202,35 @@ class Damage_state_detail(models.Model):
     #损伤状态描述
     damage_description=models.CharField(max_length=300,verbose_name='损伤状态描述')
     #中位值
-    median=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='中位值')
+    median=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='中位值')
     #方差
-    variance=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='方差')
+    variance=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='方差')
     #损失参数
-    lost_parameter=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='损失参数')
+    lost_parameter=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='损失参数')
     #修复系数
-    rehabilitation_coeffcient=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='修复系数')
+    rehabilitation_coeffcient=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='修复系数')
     #最小工程量折减数量(修复费用)
-    min_rehab_cost=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='最小工程量折减数量(修复费用)')
+    min_rehab_cost=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='最小工程量折减数量(修复费用)')
     #工程量折减系数(修复费用)
-    min_lost_cost=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='工程量折减系数(修复费用)')
+    min_lost_cost=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='工程量折减系数(修复费用)')
     #最大工程量折减数量(修复费用)
-    max_rehab_cost=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='最大工程量折减数量(修复费用)')
+    max_rehab_cost=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='最大工程量折减数量(修复费用)')
     #工程量折减系数(修复费用)
-    max_lost_cost=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='工程量折减系数(修复费用)')
+    max_lost_cost=models.DecimalField(max_digits=8, decimal_places=2,default=0,verbose_name='工程量折减系数(修复费用)')
     #费用COV
-    cov_cost=models.DecimalField(max_digits=8,decimal_places=4,verbose_name='费用COV')
+    cov_cost=models.DecimalField(max_digits=8,decimal_places=4,default=0,verbose_name='费用COV')
     #修复时间(人*天)
-    repair_people_day=models.IntegerField(verbose_name='修复时间(人*天)')
+    repair_people_day=models.IntegerField(default=0,verbose_name='修复时间(人*天)')
     #最小工程量折减数量(修复时间)
-    min_rehab_time=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='最小工程量折减数量(修复时间)')
+    min_rehab_time=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='最小工程量折减数量(修复时间)')
     #工程量折减系数(修复时间)
-    min_lost_time=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='工程量折减系数(修复时间)')
+    min_lost_time=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='工程量折减系数(修复时间)')
     #最大工程量折减数量(修复时间)
-    max_rehab_time=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='最大工程量折减数量(修复时间)')
+    max_rehab_time=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='最大工程量折减数量(修复时间)')
     #工程量折减系数(修复时间)
-    max_lost_time=models.DecimalField(max_digits=5, decimal_places=2,verbose_name='工程量折减系数(修复时间)')
+    max_lost_time=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='工程量折减系数(修复时间)')
     #时间COV
-    cov_time=models.DecimalField(max_digits=8,decimal_places=4,verbose_name='时间COV')
+    cov_time=models.DecimalField(max_digits=8,decimal_places=4,default=0,verbose_name='时间COV')
     
 
 

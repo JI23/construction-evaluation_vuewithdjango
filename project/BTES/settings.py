@@ -25,7 +25,7 @@ SECRET_KEY = 'jh((mneg+#9vex3m3#uu@cc=t2*=5(1vu73^4(a4^u$-9tfx$i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Add for vuejs
 STATICFILES_DIRS = [

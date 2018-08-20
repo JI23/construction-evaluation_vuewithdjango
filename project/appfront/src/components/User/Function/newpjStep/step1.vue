@@ -50,7 +50,7 @@ export default {
             let _this=this;
             this.$ajax({
                 method:'get',
-                url:'http://localhost:8000/api/step1',
+                url:'step1',
                 params:{
                     project_name:this.project_name,
                     client_name:this.client_name,
@@ -73,6 +73,7 @@ export default {
                             console.log(res['project_leader'])
                             console.log(res['project_description'])
                             console.log(res['client_name'])
+                            _this.$message.success(res['msg'])
                         } 
                         else {
                             _this.$message.error(res['msg'])

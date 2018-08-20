@@ -8,8 +8,15 @@
             <el-col :span='11'>
             <span class="lebal">方向</span>
             <el-input v-model="data[0].direction" :disabled="true"></el-input>
-            <span class="lebal">EDP类型</span>
-            <el-input v-model="data[0].EDP_type" placeholder="请输入内容"></el-input>
+            <span class="lebal">EDP类型</span><br>
+            <el-select style="width:370px" v-model="data[0].EDP_type" placeholder="请选择">
+                <el-option
+                    v-for="item in EDP_option"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">                    
+                </el-option>
+            </el-select><br>
             <span class="lebal">楼层数量</span>
             <el-input v-model="data[0].floor_no" placeholder="请输入内容"></el-input>
             <span class="lebal">地震数量</span>
@@ -19,8 +26,16 @@
             <el-col :span='11'>
                 <span class="lebal">方向</span>
                 <el-input v-model="data[1].direction" :disabled="true"></el-input>
-                <span class="lebal">EDP类型</span>
-                <el-input v-model="data[1].EDP_type" placeholder="请输入内容"></el-input>
+                <span class="lebal">EDP类型</span><br>
+                <!--<el-input v-model="data[1].EDP_type" placeholder="请输入内容"></el-input>-->
+                <el-select style="width:370px" v-model="data[1].EDP_type" placeholder="请选择">
+                    <el-option
+                    v-for="item in EDP_option"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                    </el-option>
+                </el-select><br>
                 <span class="lebal">楼层数量</span>
                 <el-input v-model="data[1].floor_no" placeholder="请输入内容"></el-input>
                 <span class="lebal">地震数量</span>
@@ -62,9 +77,10 @@ export default {
                 console.log(res)
                 if (res.error_num == 0) {
                     console.log(res['msg'])
+                    _this.$message.success(res['msg'])
                 } 
                 else {
-                    _this.$message.error('存储结构响应失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })
@@ -85,6 +101,13 @@ export default {
                 EDP_type:null,
                 floor_no:null,
                 earthquake_no:null
+            }],
+            EDP_option:[{
+                value:'1',
+                label: 'Story Drift Ratio/层间位移角',
+            }, {
+                value:'2',
+                label: 'Acceleration/楼层加速度',
             }]
             
         }    

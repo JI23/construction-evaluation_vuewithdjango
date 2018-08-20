@@ -13,7 +13,7 @@
         <div class="wrapper6"><!--上传及保存按钮 -->
             <el-upload
                 class="upload-demo"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="http://localhost:8000/"
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
                 :before-remove="beforeRemove"
