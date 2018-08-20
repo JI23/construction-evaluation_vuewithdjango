@@ -125,7 +125,7 @@ export default {
             console.log(project_name)
             this.$ajax({
                 method:'get',
-                url:'http://localhost:8000/api/step2',
+                url:'step2',
                 params:{
                     project_name:project_name,
                     project_leader:project_leader,
@@ -139,7 +139,6 @@ export default {
                     area:this.area,
                     cost_per_squaremeter:this.cost_per_squaremeter,
                 },
-                headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
                         console.log(response)

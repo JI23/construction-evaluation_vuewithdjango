@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
 from django.http import JsonResponse
-from BTESDB.models import DB_part,Element,Project
+from BTESDB.models import DB_part,Element,Project,Damage_state_detail
 from django.core import serializers
 import requests
 import json
@@ -9,9 +9,11 @@ def get_all_parts(request):
     response={}
     try:
         part_list = DB_part.objects.all()
+        detail_list = Damage_state_detail.objects.all()
         response['msg']='success'
         response['error_num']=0
         response['list']  = json.loads(serializers.serialize("json", part_list))
+        response['detail']  = json.loads(serializers.serialize("json", detail_list))
     except Exception as e:
         response['msg']=str(e)
         response['error_num']=1

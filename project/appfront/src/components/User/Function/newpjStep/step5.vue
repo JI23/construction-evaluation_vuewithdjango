@@ -7,7 +7,7 @@
         </el-row>
         <el-col :span="8" class="step5">
             <span class="lebal">设防烈度</span>
-                <el-select v-model="defense_intensity" placeholder="请选择">
+                <el-select @change="change_level" v-model="defense_intensity" placeholder="请选择">
                     <el-option
                     v-for="item in defense_in_option"
                     :key="item.value"
@@ -36,9 +36,9 @@
                     </el-option>
                 </el-select>
             <span class="lebal">峰值加速度</span>
-            <el-input v-model="peak_acceleration" placeholder="请输入内容"></el-input>
+            <el-input :disabled="true" v-model="peak_acceleration" placeholder="请输入内容"></el-input>
             <span class="lebal">地震水准</span>
-                <el-select v-model="earthquake_level" placeholder="请选择">
+                <el-select @change="change_level" v-model="earthquake_level" placeholder="请选择">
                     <el-option
                     v-for="item in earth_level_option"
                     :key="item.value"
@@ -168,6 +168,15 @@ export default {
         },
         back(){
             this.$emit('back','');
+        },
+        change_level(){
+            //console.log('!')
+            var array = new Array([0.18,0.5,1.25],[0.35,1,2.2],[0.5,1.5,3.1],[0.7,2,4],[1.1,3,5.1],[1.4,4,6.2])
+            if(this.defense_intensity !== '' && this.earthquake_level !== null){
+                console.log(this.defense_intensity)
+                console.log(this.earthquake_level)
+                this.peak_acceleration = array[this.defense_intensity-1][this.earthquake_level]
+            }
         }
     },
     data(){
