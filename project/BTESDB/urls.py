@@ -1,6 +1,6 @@
 from django.contrib import admin
 from . import views,step1,step2,step3
-from . import step5,step6
+from . import step5,step6,user_login,register
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'step5-save-waves$', step5.save_waves ),
     url(r'step6$', step6.step6 ),
     url(r'show_projects$', views.show_projects, ),
+    url(r'login$', user_login.login ),
+    url(r'user_register$', register.user_register ),
     ]
