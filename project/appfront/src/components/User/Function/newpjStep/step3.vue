@@ -176,7 +176,7 @@
                     _this.$index=res['list'][0].fields.part_id
                 }
                 else {
-                    _this.$message.error('获取结构构件失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })
@@ -187,13 +187,16 @@
                     });
         },
         saveElements(){
-            let _this=this
+            let _this=this;
+            var floors=localStorage.getItem('floors')
+            var project=localStorage.getItem('project')
             this.$ajax({
                 method:'get',
                 url:'step3-save-elements',
                 params:{
                     is_structure:'True',
-                    project:7,
+                    project:project,
+                    floors:floors,
                     tableData:this.tableData,
                 },
             })
@@ -204,7 +207,7 @@
                     console.log(res['msg'])
                 }
                 else {
-                    _this.$message.error('存储结构构件失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })

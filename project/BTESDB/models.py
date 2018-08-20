@@ -127,6 +127,51 @@ class DB_part(models.Model):
     def __str__(self):
         return self.part_id
 
+class Damage_state_test(models.Model):
+    '''易损件损伤详情'''
+    #主键由django自行生成
+    class Meta:
+        verbose_name='易损件损伤临时'
+        verbose_name_plural='易损件损伤详情临时'
+        unique_together=('DB_part','damage_id')
+    id=models.CharField(max_length=3,primary_key=True)
+    DB_part=models.CharField(max_length=14,verbose_name='易损件',default='')
+    #损伤编号，一个自定义易损件对应多个易损件损伤
+    damage_id=models.SmallIntegerField(verbose_name='损伤编号')
+    #损伤状态
+    damage_state=models.CharField(max_length=45,verbose_name='损伤状态',blank=True)
+    #损伤状态描述
+    damage_description=models.CharField(max_length=300,verbose_name='损伤状态描述')
+    #中位值
+    median=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='中位值')
+    #方差
+    variance=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='方差')
+    #损失参数
+    lost_parameter=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='损失参数')
+    #修复系数
+    rehabilitation_coeffcient=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='修复系数')
+    #最小工程量折减数量(修复费用)
+    min_rehab_cost=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='最小工程量折减数量(修复费用)')
+    #工程量折减系数(修复费用)
+    min_lost_cost=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='工程量折减系数(修复费用)')
+    #最大工程量折减数量(修复费用)
+    max_rehab_cost=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='最大工程量折减数量(修复费用)')
+    #工程量折减系数(修复费用)
+    max_lost_cost=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='工程量折减系数(修复费用)')
+    #费用COV
+    cov_cost=models.DecimalField(max_digits=6,decimal_places=4,blank=True,verbose_name='费用COV')
+    #修复时间(人*天)
+    repair_people_day=models.IntegerField(default=0,blank=True,verbose_name='修复时间(人*天)')
+    #最小工程量折减数量(修复时间)
+    min_rehab_time=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='最小工程量折减数量(修复时间)')
+    #工程量折减系数(修复时间)
+    min_lost_time=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='工程量折减系数(修复时间)')
+    #最大工程量折减数量(修复时间)
+    max_rehab_time=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='最大工程量折减数量(修复时间)')
+    #工程量折减系数(修复时间)
+    max_lost_time=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='工程量折减系数(修复时间)')
+    #时间COV
+    cov_time=models.DecimalField(max_digits=6,decimal_places=4,blank=True,verbose_name='时间COV')
 
 class Damage_state_detail(models.Model):
     '''易损件损伤详情'''
@@ -134,12 +179,12 @@ class Damage_state_detail(models.Model):
     class Meta:
         verbose_name='易损件损伤'
         verbose_name_plural='易损件损伤详情'
-        unique_together=('DB_part','damage_id')
+        #unique_together=('DB_part','damage_id')
     DB_part=models.ForeignKey(DB_part,on_delete=models.CASCADE,verbose_name='易损件',default=None)
     #损伤编号，一个自定义易损件对应多个易损件损伤
     damage_id=models.SmallIntegerField(verbose_name='损伤编号')
     #损伤状态
-    damage_state=models.CharField(max_length=45,verbose_name='损伤状态')
+    damage_state=models.CharField(max_length=45,verbose_name='损伤状态',blank=True)
     #损伤状态描述
     damage_description=models.CharField(max_length=300,verbose_name='损伤状态描述')
     #中位值

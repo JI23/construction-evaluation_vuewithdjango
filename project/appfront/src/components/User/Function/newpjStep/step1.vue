@@ -75,7 +75,7 @@ export default {
                             console.log(res['client_name'])
                         } 
                         else {
-                            _this.$message.error('新建项目失败')
+                            _this.$message.error(res['msg'])
                             console.log(res['msg'])
                         }
                     })
