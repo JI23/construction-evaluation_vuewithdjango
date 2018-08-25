@@ -5,24 +5,30 @@
             <el-button size="small" class='btn' @click="back">上一步</el-button>
             <el-button size="small" class='btn' @click="save2">保存</el-button>
         </el-row>
-        <el-col :span="8" class="step2">
-            <span class="lebal">建筑材料</span>
-            <el-input size='small' v-model="material" placeholder="请输入内容"></el-input>
-            <span class="lebal">结构类型</span>
-            <el-input size='small' v-model="structure_type" placeholder="请输入内容"></el-input>
-            <span class="lebal">图审时间</span>
-            <el-input size='small' v-model="figure_time" placeholder="请输入内容"></el-input>
-            <span class="lebal">结构层数</span>
-            <el-input size='small' v-model="floors" placeholder="请输入内容"></el-input>
-            <span class="lebal">结构高度(m)</span>
-            <el-input size='small' v-model="height" placeholder="请输入内容"></el-input>
-            <span class="lebal">建筑面积(m^2)</span>
-            <el-input size='small' v-model="area" placeholder="请输入内容"></el-input>
-            <span class="lebal">单位造价(元)</span>
-            <el-input size='small' v-model="cost_per_squaremeter" placeholder="请输入内容"></el-input>
+        <el-col :span="24" class="step2">
+            <el-col :span="8">
+                <span class="lebal">建筑材料</span>
+                <el-input style="width:90%" size='small' v-model="material" placeholder="请输入内容"></el-input>
+                <span class="lebal">结构类型</span>
+                <el-input style="width:90%" size='small' v-model="structure_type" placeholder="请输入内容"></el-input>
+            </el-col>
+            <el-col :span='8'>
+                <span class="lebal">图审时间</span>
+                <el-input style="width:90%" size='small' v-model="figure_time" placeholder="请输入内容"></el-input>
+                <span class="lebal">结构层数</span>
+                <el-input style="width:90%" size='small' v-model="floors" placeholder="请输入内容"></el-input>
+            </el-col>
+            <el-col :span="8">
+                <span class="lebal">结构高度(m)</span>
+                <el-input style="width:90%" size='small' v-model="height" placeholder="请输入内容"></el-input>
+                <span class="lebal">建筑面积(m^2)</span>
+                <el-input style="width:90%" size='small' v-model="area" placeholder="请输入内容"></el-input>
+                <span class="lebal">单位造价(元)</span>
+                <el-input style="width:90%" size='small' v-model="cost_per_squaremeter" placeholder="请输入内容"></el-input>
+            </el-col>
         </el-col>
         <el-col :span="1" style="color:transparent">''</el-col>
-        <el-col :span="15">
+        <el-col :span="24">
             <el-table :data="Floor_info" border style="width:100%" max-height="350">
                 <el-table-column prop="floor_no" label="楼层">
                     <template slot-scope="scope">
@@ -65,7 +71,7 @@
             </el-table> 
             <el-button @click="newFloor">新增楼层</el-button>
         </el-col>
-        <el-button @click="saveFloor">保存所有楼层</el-button>
+        <!--<el-button @click="saveFloor">保存所有楼层</el-button>-->
     </div>
 </template>
 <script>
@@ -197,12 +203,19 @@ export default {
             var project_leader=localStorage.getItem('project_leader')
             var project_description=localStorage.getItem('project_description')
             var client_name=localStorage.getItem('client_name')
+            var project=localStorage.getItem('project')
+            var username=localStorage.getItem('phone')
             console.log(project_name)
             this.$ajax({
                 method:'get',
                 url:'step2',
                 params:{
+<<<<<<< HEAD
                     username:'123456',
+=======
+                    username:'13051997327',
+                    project:project,
+>>>>>>> upstream/master
                     project_name:project_name,
                     project_leader:project_leader,
                     project_description:project_description,

@@ -61,6 +61,11 @@ export default {
             this.$router.push({name:'userinfo'})
         },
 
+    },
+
+    mounted:function(){
+        var name = localStorage.getItem('phone')
+        this.username = name
     }
 }
 </script>

@@ -38,6 +38,7 @@ export default {
             project_description:''
         }
     },
+<<<<<<< HEAD
     beforeRouteLeave(to, from, next){
     //  if (to.name == 'step2') {
         let project_name = JSON.stringify(this.project_name)
@@ -83,6 +84,24 @@ export default {
     //     console.log(error)
     //   })
     },
+=======
+
+    mounted:function(){
+        var name = localStorage.getItem('project_name')
+        this.$ajax({
+            method: 'get',
+            url: '',
+            params:{
+                project_name:name
+            }
+        }).then(function(response){
+
+        }).catch(function(response){
+
+        })
+    },
+
+>>>>>>> upstream/master
     methods:{
         next(){
             this.$emit('next','');
