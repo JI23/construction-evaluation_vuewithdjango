@@ -32,7 +32,7 @@ export default {
             let _this=this;
             this.$ajax({
                 method:'get',
-                url:'api/login',
+                url:'login',
                 params:{
                     username:this.LoginLabel.phone,
                     password:this.LoginLabel.password
@@ -46,9 +46,9 @@ export default {
                         if (res['error_num'] == 0) {
                             console.log(res['msg'])
                             localStorage.setItem('phone', res['username'])
-                            localStorage.setItem('password', res['password'])
+                            //localStorage.setItem('password', res['password'])
                             console.log(localStorage.getItem('phone')) 
-                            console.log(localStorage.getItem('password'))
+                            //console.log(localStorage.getItem('password'))
                             _this.$router.push({name:'dashboard'});   //这里前面要加个_
                         } 
                         else if(res['error_num']==1){
