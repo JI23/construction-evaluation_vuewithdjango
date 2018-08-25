@@ -86,26 +86,14 @@
             },
             showProjects(){
                 let _this = this;
-                /*_this.$http.get('http://localhost:8000/api/show_projects')
-                    .then((response) => {
-                        var res = JSON.parse(response.bodyText)
-                        console.log(res)
-                        if (res.error_num == 0) {
-                            _this.projects = res['list']
-                        } 
-                        else {
-                            _this.$message.error('查询项目失败')
-                            console.log(res['msg'])
-                        }
-                    })
-                    .catch(function(error){
-                        console.log(error)
-                    })*/
+                var name=localStorage.getItem('phone')
+                console.log(name)
                 this.$ajax({
                     method:'get',
-                    url:'http://localhost:8000/api/show_projects',
+                    url:'show_projects',
                     params: {
                        'is_finished': 'True', 
+                       username:'13051997327'
                     },
                     headers:{"Content-Type": "application/json"}
                 })

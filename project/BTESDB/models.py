@@ -96,6 +96,12 @@ class User_comment(models.Model):
     def __str__(self):
         return self.comment_id
 
+from django.conf.urls.static import static
+from django.conf import settings
+
+def upload_to(instance,filename):
+    return '/'.join([instance.part_type,filename])
+
 class DB_part(models.Model):
     '''易损件数据库'''
     #主键由django自行生成
@@ -134,6 +140,8 @@ class DB_part(models.Model):
     #create_date=models.DateTimeField(verbose_name='创建时间',default=timezone.now())
     #损伤数量
     damage_state_number=models.SmallIntegerField(default=0,verbose_name='损伤数量')
+    #与该易损件相关的损伤xml文件
+    xml=models.FileField(upload_to=upload_to,blank=True,verbose_name='xml文件')
     class Meta:
         unique_together=('part_id','part_type')
         verbose_name='易损件'

@@ -127,13 +127,14 @@
                     });
         },
         saveElements(){
-            let _this=this
+            let _this=this;
+            var project=localStorage.getItem('project')
             this.$ajax({
                 method:'get',
                 url:'step3-save-elements',
                 params:{
                     is_structure:'False',
-                    project:7,
+                    project:project,
                     tableData:this.tableData,
                 },
                 headers:{"Content-Type": "application/json"}
