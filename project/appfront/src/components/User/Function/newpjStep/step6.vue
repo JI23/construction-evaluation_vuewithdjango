@@ -63,12 +63,13 @@ export default {
         save6(){
             let _this=this;
             console.log(this.Floor_info)
+            var project=localStorage.getItem('project')
             this.$ajax({
                 method:'get',
                 url:'step6',
                 params:{
                     data:this.data,
-                    project:7,
+                    project:project,
                 },
             })
             .then(function(response){

@@ -32,7 +32,7 @@ export default {
             let _this=this;
             this.$ajax({
                 method:'get',
-                url:'http://localhost:8000/api/login',
+                url:'api/login',
                 params:{
                     username:this.LoginLabel.phone,
                     password:this.LoginLabel.password

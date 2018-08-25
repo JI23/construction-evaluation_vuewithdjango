@@ -102,13 +102,14 @@ export default {
         },
         saveWaves(){
             let _this=this;
+            var project=localStorage.getItem('project')
             console.log(this.earthquake_info)
             this.$ajax({
                 method:'get',
                 url:'step5-save-waves',
                 params:{
                     earthquake_info:this.earthquake_info,
-                    project:7,
+                    project:project,
                 },
             })
             .then(function(response){
@@ -130,11 +131,12 @@ export default {
         save5(){
             let _this=this;
             console.log(this.defense_intensity)
+            var project=localStorage.getItem('project')
             this.$ajax({
                 method:'get',
                 url:'step5',
                 params:{
-                    project:7,
+                    project:project,
                     defense_intensity:this.defense_intensity,
                     site_type:this.site_type,
                     number:this.number,
@@ -176,6 +178,7 @@ export default {
                 console.log(this.defense_intensity)
                 console.log(this.earthquake_level)
                 this.peak_acceleration = array[this.defense_intensity-1][this.earthquake_level]
+                console.log(this.peak_acceleration)
             }
         }
     },

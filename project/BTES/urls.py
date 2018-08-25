@@ -28,6 +28,8 @@ from BTESDB import structure_response
 from django.conf.urls import url,include
 from django.views.generic import TemplateView
 import BTESDB.urls
+from django.conf.urls.static import static
+from django.conf import settings
 
 admin.autodiscover()
 urlpatterns = [
@@ -37,6 +39,7 @@ urlpatterns = [
     path('insert_DB_part/', insertState.insert_temp),
     path('admin/', admin.site.urls),
 
+    path('upload/',views.uploadImg),
     path('',views.index),
 
     path('user_register/',register.user_register),
@@ -59,4 +62,4 @@ urlpatterns = [
     path('all_part/',show_all.get_all_parts,name='all_part'),
     url(r'^new_project4/(?P<id>\d+)/$',show_all.show_selected_structure,name='new_project4'),
     url(r'^new_project5/(?P<id>\d+)/$',show_all.show_selected_nonstructure,name='new_project5'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

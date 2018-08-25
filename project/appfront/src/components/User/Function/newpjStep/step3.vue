@@ -238,9 +238,9 @@
          handleNodeClick(data,node){
               //console.log(data);
               console.log(this.choose_value)
-              if(node.level==2){
+              if(node.level==1){
                   console.log(data)
-                  this.tableData[this.index].id = data.label.substr(0,5);
+                  this.tableData[this.index].id = data.label.substr(0,10);
                   this.dialogVisible = false;   
               }
           },

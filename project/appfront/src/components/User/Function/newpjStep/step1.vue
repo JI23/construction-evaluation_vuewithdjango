@@ -39,6 +39,22 @@ export default {
             project_description:''
         }
     },
+
+    mounted:function(){
+        var name = localStorage.getItem('project_name')
+        this.$ajax({
+            method: 'get',
+            url: '',
+            params:{
+                project_name:name
+            }
+        }).then(function(response){
+
+        }).catch(function(response){
+
+        })
+    },
+
     methods:{
         next(){
             this.$emit('next','');
