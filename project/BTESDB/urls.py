@@ -1,10 +1,12 @@
 from django.contrib import admin
-from . import views,step1,step2,step3
+from . import views,step0,step1,step2,step3
 from . import step5,step6,user_login,register
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
 urlpatterns = [
+    url(r'step0-edit$', step0.edit, ),
+    url(r'step0-delete$', step0.delete, ),
     url(r'step1$', step1.step1, ),
     url(r'step2$', step2.step2, ),
     url(r'step2-saveFloor$', step2.saveFloor, ),

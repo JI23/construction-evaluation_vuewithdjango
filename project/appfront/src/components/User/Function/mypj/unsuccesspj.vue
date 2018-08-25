@@ -44,9 +44,9 @@
                 fixed="right"
                 label="操作"
                 width="130">
-            <template slot-scope="scope">
-                <el-button @click="editpj(row)" type="text" size="small">编辑</el-button>
-                <el-button @click="deletepj(row)" type="text" size="small">删除</el-button>
+            <template slot-scope="{row,$index}">
+                <el-button @click="editpj($index,row)" type="text" size="small">编辑</el-button>
+                <el-button @click="deletepj($index,row)" type="text" size="small">删除</el-button>
             </template>
             </el-table-column>
         </el-table>
@@ -78,21 +78,44 @@
             handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
             },
-            editpj: function(row){
-                localStorage.setItem("pjNum",JSON.stringify(row.pjNum));
+            editpj: function(index,row){
+                localStorage.setItem("project",JSON.stringify(row.id));
+                let project = localStorage.getItem('project');
+                //console.log(project_name);
                 //掉用setp1进行编辑
                 //console.log(pjname)
-            },
-            deletepj: function(row){//未连接
-                this.$axios({
-                    method:'post',
-                    url:'',
-                    data:({
-                        "num":row.pjNum,
-                    })
+                var username=localStorage.getItem('phone')
+                this.$ajax({
+                    method:'get',
+                    url:'step0-edit',
+                    params:{
+                        username:username,
+                        project:project
+                    }
                 }).then(function(response){
                     //判断后弹窗
-                    this.reload()
+                    var res = response.data
+                    console.log(res['base_info'])
+                    console.log(res['base_info'][0].fields.project_name)
+                }).catch(function(err){
+                    console.log(err)
+                })
+                this.$router.push({name:'step1'});
+            },
+            deletepj: function(index,row){//未连接
+
+                var username=localStorage.getItem('phone')
+                this.$ajax({
+                    method:'get',
+                    url:'step0-delete',
+                    params:{
+                        project:row.id,
+                        username:username
+                    }
+                }).then(function(response){
+                    //判断后弹窗
+                    var res = response.data
+                    console.log(res['msg'])
                 }).catch(function(err){
                     console.log(err)
                 })
@@ -139,7 +162,10 @@
                             //vue.set(_this.projects[0],'',res['list'][0].fields);
                             _this.projects = res['list']
                             for(var i = 0; i < res['list'].length; i++){
+                                var id=res['list'][i].pk
+                                console.log(id)
                                 _this.projects[i] = res['list'][i].fields
+                                _this.projects[i].id=id
                             }
                             //_this.projects[0] = res['list'][0].fields
                             //_this.projects[1] = res['list'][1].fields
@@ -178,6 +204,7 @@
                     project_leader: '王小虎',
                     client_name:'王小五',
                     project_name: '上海',
+                    id:'12',
                     user: '普陀区',
                     rate: '上海市',
                     project_description: 200333},],

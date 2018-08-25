@@ -131,32 +131,50 @@ export default new Router({
             {
               path: '/newpj/step1',
               name: 'step1',
-              component: step1
+              component: step1,
+               meta: {
+              //   //keepAlive: true // 需要被缓存
+               }
             },
             {
               path: '/newpj/step2',
               name: 'step2',
-              component: step2
+              component: step2,
+              // meta: {
+              //  // keepAlive: true // 需要被缓存
+              // }
             },
             {
               path: '/newpj/step3',
               name: 'step3',
-              component: step3
+              component: step3,
+              // meta: {
+              //  // keepAlive: true // 需要被缓存
+              // }
             },
             {
               path: '/newpj/step4',
               name: 'step4',
-              component: step4
+              component: step4,
+              // meta: {
+              //  // keepAlive: true // 需要被缓存
+              // }
             },
             {
               path: '/newpj/step5',
               name: 'step5',
-              component: step5
+              component: step5,
+              // meta: {
+              // //  keepAlive: true // 需要被缓存
+              // }
             },
             {
               path: '/newpj/step6',
               name: 'step6',
-              component: step6
+              component: step6,
+              // meta: {
+              // //  keepAlive: true // 需要被缓存
+              // }
             }
           ]
         }, {

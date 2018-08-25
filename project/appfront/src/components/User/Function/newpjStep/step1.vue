@@ -1,4 +1,4 @@
-<template>
+<template> 
     <div>
         <el-row>
             <el-button size="small" class='btn' @click="next">下一步</el-button>
@@ -26,7 +26,6 @@
             </el-input>
         </el-col>
         </el-row> 
-        {{ resonse_message }}
     </div>
 </template>
 <script>
@@ -38,6 +37,51 @@ export default {
             project_leader:'',
             project_description:''
         }
+    },
+    beforeRouteLeave(to, from, next){
+    //  if (to.name == 'step2') {
+        let project_name = JSON.stringify(this.project_name)
+        let client_name = JSON.stringify(this.client_name)
+        let project_leader = JSON.stringify(this.project_leader)
+        let project_description = JSON.stringify(this.project_description)
+        sessionStorage.setItem('project_name', project_name)
+        sessionStorage.setItem('client_name', client_name)
+        sessionStorage.setItem('project_leader', project_leader)
+        sessionStorage.setItem('project_description', project_description)
+    //  }
+    //   else{
+    //     localStorage.removeItem('project_name')
+    //     localStorage.removeItem('client_name')
+    //     localStorage.removeItem('project_leader')
+    //     localStorage.removeItem('project_description')
+    //     console.log('到其他地方');
+    //   }
+      next()
+    },
+    created(){
+      //从localStorage中读取条件并赋值给查询表单
+        let project_name = sessionStorage.getItem('project_name')
+        let client_name = sessionStorage.getItem('client_name')
+        let project_leader = sessionStorage.getItem('project_leader')
+        let project_description = sessionStorage.getItem('project_description')
+        if (project_name != null) {
+            this.project_name = JSON.parse(project_name)
+        }
+        if (client_name != null) {
+            this.client_name = JSON.parse(client_name)
+        }
+        if (project_leader != null) {
+            this.project_leader = JSON.parse(project_leader)
+        }
+        if (project_description != null) {
+            this.project_description = JSON.parse(project_description)
+        }
+    //   this.$http.get('http://example.com/api/test', {params: this.searchForm})
+    //   .then((response)=>{
+    //     console.log(response.data)
+    //   }).catch((error)=>{
+    //     console.log(error)
+    //   })
     },
     methods:{
         next(){
