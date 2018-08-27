@@ -12,25 +12,6 @@
 <script>    
     export default {
         data() {
-            const data2 =  [{  
-                label: 'General Info',
-                children: [{
-                    label: 'Damage State Type',
-                    children: [{
-                        label: 'Damage State 1',
-                        children: [{
-                            label: 'Consequence Functions'
-                        }],
-                    },{
-                        label: 'Damage State 1',
-                        children: [{
-                            label: 'Consequence Functions'
-                        }]
-                    }]
-                }],
-            }, {
-                label: 'Add Damage State'
-            }];
             return {
                 contentHasSave: false,//用于判断是否有修改
                 data: [{  
@@ -42,17 +23,11 @@
                             children: [{
                                 label: 'Consequence Functions'
                             }],
-                        },{
-                            label: 'Damage State 1',
-                            children: [{
-                                label: 'Consequence Functions'
-                            }]
                         }]
                     }],
                 }, {
                     label: 'Add Damage State'
                 }],
-                data6: JSON.parse(JSON.stringify(data2)), 
             }
         },
 
@@ -82,11 +57,31 @@
                     this.$router.push({name:'statenum'});
                     localStorage.setItem("label",JSON.stringify(data.label));
                 }
-            }
+            },
         },
 
+        
+
         beforeRouteLeave (to, from , next) {
-            const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+            /*next(false)
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+                next()
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+                next(false)          
+            });*/
+            const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
             if (answer) {
                 next()
             } else {

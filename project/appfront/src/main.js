@@ -40,6 +40,8 @@ axios.interceptors.request.use(
 Vue.prototype.$ajax = axios
 
 
+
+
 //登陆验证
 router.beforeEach((to, from, next) =>{
     if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
