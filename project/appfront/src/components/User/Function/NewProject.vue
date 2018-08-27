@@ -8,7 +8,9 @@
             <el-step title="地震信息"></el-step>
             <el-step title="结构响应"></el-step>
         </el-steps>
-        <router-view class="input clearfix"  @next="next" @back="back"></router-view>
+       
+        <router-view  class="input clearfix"  @next="next" @back="back"></router-view>
+        
     </div>
 </template>
     

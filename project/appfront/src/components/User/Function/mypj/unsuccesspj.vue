@@ -44,9 +44,15 @@
                 fixed="right"
                 label="操作"
                 width="130">
+<<<<<<< HEAD
+            <template slot-scope="{row,$index}">
+                <el-button @click="editpj($index,row)" type="text" size="small">编辑</el-button>
+                <el-button @click="deletepj($index,row)" type="text" size="small">删除</el-button>
+=======
             <template slot-scope="scope">
                 <el-button @click="editpj(scope.row)" type="text" size="small">编辑</el-button>
                 <el-button @click="deletepj(scope.row)" type="text" size="small">删除</el-button>
+>>>>>>> upstream/master
             </template>
             </el-table-column>
         </el-table>
@@ -78,6 +84,35 @@
             handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
             },
+<<<<<<< HEAD
+            editpj: function(index,row){
+                localStorage.setItem("project",JSON.stringify(row.id));
+                let project = localStorage.getItem('project');
+                //console.log(project_name);
+                //掉用setp1进行编辑
+                //console.log(pjname)
+                var username=localStorage.getItem('phone')
+                this.$ajax({
+                    method:'get',
+                    url:'step0-edit',
+                    params:{
+                        username:username,
+                        project:project
+                    }
+                }).then(function(response){
+                    //判断后弹窗
+                    var res = response.data
+                    console.log(res['base_info'])
+                    console.log(res['base_info'][0].fields.project_name)
+                }).catch(function(err){
+                    console.log(err)
+                })
+                this.$router.push({name:'step1'});
+            },
+            deletepj: function(index,row){//未连接
+
+                var username=localStorage.getItem('phone')
+=======
             editpj: function(row){
                 //console.log(row.value)
                 localStorage.setItem("project_name",JSON.stringify(row.project_name));
@@ -114,10 +149,20 @@
                 console.log('111')
                 var username=localStorage.getItem('phone')
                 var project=row.id
+>>>>>>> upstream/master
                 this.$ajax({
                     method:'get',
                     url:'step0-delete',
                     params:{
+<<<<<<< HEAD
+                        project:row.id,
+                        username:username
+                    }
+                }).then(function(response){
+                    //判断后弹窗
+                    var res = response.data
+                    console.log(res['msg'])
+=======
                         project:project,
                         username:username,
                     }
@@ -132,6 +177,7 @@
                     else{
                         console.log(res['msg'])
                     }
+>>>>>>> upstream/master
                 }).catch(function(err){
                     console.log(err)
                 })
@@ -169,9 +215,13 @@
                                 var id=res['list'][i].pk
                                 console.log(id)
                                 _this.projects[i] = res['list'][i].fields
+<<<<<<< HEAD
+                                _this.projects[i].id=id
+=======
                                 
                                 _this.projects[i].id = id
                                 console.log(_this.projects[i])
+>>>>>>> upstream/master
                             }
                             //_this.projects[0] = res['list'][0].fields
                             //_this.projects[1] = res['list'][1].fields
@@ -211,7 +261,12 @@
                     project_leader: '王小虎',
                     client_name:'王小五',
                     project_name: '上海',
+<<<<<<< HEAD
+                    id:'12',
+                    user: '普陀区',
+=======
                     id: 12,
+>>>>>>> upstream/master
                     rate: '上海市',
                     project_description: 200333},],
                 currentPage:1,
