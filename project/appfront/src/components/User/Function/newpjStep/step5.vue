@@ -76,7 +76,17 @@
                 </el-table-column>
                 <el-table-column prop="file" label="地震波文件">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.file"></el-input>
+                        <el-upload
+                            class="upload-demo"
+                            ref="upload"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :file-list="fileList"
+                            :auto-upload="false">
+                            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+                        </el-upload>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -189,10 +199,22 @@ export default {
                 this.peak_acceleration = array[this.defense_intensity-1][this.earthquake_level]
                 console.log(this.peak_acceleration)
             }
+        },
+        submitUpload() {
+            //console.log(this.fileList);
+            this.$refs.upload.submit();
+        },
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePreview(file) {
+            console.log(this.fileList);
+            console.log(file);
         }
     },
     data(){
         return{
+            fileList: [],
             defense_intensity:'',
             defense_in_option:[{
                     value: 1,
