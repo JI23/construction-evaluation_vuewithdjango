@@ -34,7 +34,7 @@
                                 style="position:relative; left:30px;"
                             ></el-cascader><br><br>
                             <el-form-item label="DP Dimension" :label-width="formLabelWidth">
-                                <el-select v-model="DP_Demision" placeholder="请选择">
+                                <el-select v-model="DP_Dimension" placeholder="请选择">
                                     <el-option label="区域一" value="shanghai"></el-option>
                                     <el-option label="区域二" value="beijing"></el-option>
                                 </el-select>
@@ -81,7 +81,7 @@
                     desc: ''
                 },
                 typename: '',
-                DP_Demision: '',
+                DP_Dimension: '',
                 units: '',
                 formLabelWidth: '120px',
                 value2: false,
@@ -90,22 +90,22 @@
                 choose2: '1',
                 options: [{
                     value: '选项1',
-                    label: 'DB_Common'
+                    label: 'Store Drift Radio'
                 }, {
                     value: '选项2',
-                    label: 'DB_School'
+                    label: 'Acceleration'
                 }, {
                     value: '选项3',
-                    label: 'DB_Hospital'
+                    label: 'Building Residual Drift'
                 }, {
                     value: '选项4',
-                    label: 'DB_User'
+                    label: 'Peak Floor Velocity'
                 }, {
                     value: '选项5',
-                    label: 'DB_Office'
+                    label: 'Link Rotation Angle'
                 }, {
                     value: '选项6',
-                    label: 'DB_FEMA'
+                    label: 'Link Beam Chord Rotation'
                 }],
                 id:"",
                 name:"",
@@ -216,6 +216,9 @@
             saveReq_Coe(){
                 this.dialogFormVisible = false;
                 //post数据去后台提交新建请求或修改
+                let typename=this.typename
+                let DP_Dimension= this.DP_Dimension
+                let units=this.units
             },
 
             editReq(){
@@ -224,17 +227,32 @@
             },
 
             savegen() {//保存当前页面内容
+                console.log('111')
+                if (this.value1==false){
+                    var v1='False'
+                }
+                else{var v1='True'}
+                if (this.value2==false){
+                    var v2='False'
+                }
+                else{var v2='True'}
                 var gen_info = {
                     name: this.name, 
                     id: this.id, 
-                    req_coe: this.req_coe,
-                    cus_name: this.cus_name,
-                    value1: this.value1,
-                    value2: this.value2,
+                    //req_coe: this.req_coe,
+                    //cus_name: this.cus_name,
+                    description:this.description,
+                    demand_Para:this.demand_Para,
+                    value1: v1,
+                    value2: v2,
                     choose1: this.choose1,
-                    choose2: this.choose2
+                    choose2: this.choose2,
+                    typename: this.typename,
+                    DP_Dimension: this.DP_Dimension,
+                    units: this.units,
                 };
                 localStorage.setItem("gen_info",JSON.stringify(gen_info));
+                console.log(localStorage.getItem('gen_info'))
                 this.$router.push({name:'notes'});
             },
             open() {

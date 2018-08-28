@@ -22,9 +22,9 @@ class User_Register_Form(forms.Form):
     #com_tel=forms.CharField(label='公司电话',max_length=13,)
     #fax=forms.CharField(label='传真号',max_length=13)
     #address=forms.CharField(label='地址',max_length=100)
-    #com_tel=request.GET['com_tel']
-    #fax=request.GET['fax']
-    #address=request.GET['address']
+    #com_tel=request.POST['com_tel']
+    #fax=request.POST['fax']
+    #address=request.POST['address']
 
 # Create your views here.   
 
@@ -32,9 +32,9 @@ def user_register(request):
     if request.method=='GET':
         response={}
         #获取表单数据
-        com_name=request.GET['com_name']
-        certificate=request.GET['certificate']
-        job=request.GET['job']
+        com_name=request.POST['com_name']
+        certificate=request.POST['certificate']
+        job=request.POST['job']
         com_exist=Company_Info.objects.filter(certificate=certificate,com_name=com_name)
         #验证是否存在该公司，若不存在，在company_info新增一条公司条目
         #验证是否存在该公司，若不存在，不可以申请成为用户
@@ -52,14 +52,14 @@ def user_register(request):
                #return render(request,'user_register.html', {'uf': uf,'user_register_error':'公司不存在'})
         else:
                 #
-                username = request.GET['username']
-                telephone=request.GET['username']  
-                password = request.GET['password']
-                password_again=request.GET['password_again']
-                email=request.GET['email']
-                nickname=request.GET['nickname']
-                truename=request.GET['truename']
-                architect_id=request.GET['architect_id']
+                username = request.POST['username']
+                telephone=request.POST['username']  
+                password = request.POST['password']
+                password_again=request.POST['password_again']
+                email=request.POST['email']
+                nickname=request.POST['nickname']
+                truename=request.POST['truename']
+                architect_id=request.POST['architect_id']
                 if str(password)==str(password_again):
                     #两次密码相同，尝试添加到数据库
                     try:
@@ -115,12 +115,12 @@ def admin_register(request):
         if uf.is_valid():
             #获取表单数据
             print(2)
-            com_name=request.GET['com_name']
-            certificate=request.GET['certificate']
-            job=request.GET['job']
-            com_tel=request.GET['com_tel']
-            fax=request.GET['fax']
-            address=request.GET['address']
+            com_name=request.POST['com_name']
+            certificate=request.POST['certificate']
+            job=request.POST['job']
+            com_tel=request.POST['com_tel']
+            fax=request.POST['fax']
+            address=request.POST['address']
             
             com_exist=Company_Info.objects.filter(certificate=certificate,com_name=com_name)
             
@@ -135,20 +135,20 @@ def admin_register(request):
             
             this_company=com_exist[0]
             print(4)
-            username = request.GET['username']
-            telephone=request.GET['username']  
-            password = request.GET['password']
-            password_again=request.GET['password_again']
-            email=request.GET['email']
-            nickname=request.GET['nickname']
-            truename=request.GET['truename']
-            architect_id=request.GET['architect_id']
+            username = request.POST['username']
+            telephone=request.POST['username']  
+            password = request.POST['password']
+            password_again=request.POST['password_again']
+            email=request.POST['email']
+            nickname=request.POST['nickname']
+            truename=request.POST['truename']
+            architect_id=request.POST['architect_id']
             if str(password)==str(password_again):
                 #两次密码相同，尝试添加到数据库
                 print (5)
                 try:
                     registAdd = User_Info.objects.create_user(username=username, password=password,login_amount=1,company=this_company,
-                    telephone=telephone,email=email,nickname=nickname,truename=truename,architect_id=architect_id,
+                    telephone=telephone,email=email,nickname=nickname,truename=truename,job=job,architect_id=architect_id,
                     is_superuser=True,is_staff=True, is_active=True) 
                     #添加成功   
                     return render(request,'fail_user.html', {'registAdd': '管理员'+username})
@@ -188,12 +188,12 @@ def company_register(request):
         if uf.is_valid():
             #获取表单数据
             print(2)
-            com_name=request.GET['com_name']
-            certificate=request.GET['certificate']
-            #job=request.GET['job']
-            com_tel=request.GET['com_tel']
-            fax=request.GET['fax']
-            address=request.GET['address']
+            com_name=request.POST['com_name']
+            certificate=request.POST['certificate']
+            #job=request.POST['job']
+            com_tel=request.POST['com_tel']
+            fax=request.POST['fax']
+            address=request.POST['address']
             
             com_exist=Company_Info.objects.filter(certificate=certificate,com_name=com_name)
             

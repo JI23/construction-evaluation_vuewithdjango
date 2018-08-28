@@ -21,8 +21,8 @@
                     </el-option>
                 </el-select>
 
-                <span class="lebal">Documentation quailty</span>
-                <el-select v-model="quailty" placeholder="请选择">
+                <span class="lebal">Documentation quality</span>
+                <el-select v-model="quality" placeholder="请选择">
                     <el-option
                         v-for="item in options1"
                         :key="item.value"
@@ -31,8 +31,8 @@
                     </el-option>
                 </el-select>
 
-                <span class="lebal">Retionality</span>
-                <el-select v-model="retionality" placeholder="请选择">
+                <span class="lebal">Rationality</span>
+                <el-select v-model="rationality" placeholder="请选择">
                     <el-option
                         v-for="item in options1"
                         :key="item.value"
@@ -45,7 +45,7 @@
         <div class="wrapper7">
             <el-col>
                 <span class="lebal">作者</span>
-                <el-input  style="width:100%" v-model="auther" placeholder="请输入内容"></el-input>
+                <el-input  style="width:100%" v-model="author" placeholder="请输入内容"></el-input>
                 <span class="lebal">备注</span>
                 <el-input style="width:100%" type="textarea" :rows="6" placeholder="请输入内容" v-model="notes"></el-input><br><br>
                 <el-button style="display:block;margin:0 auto" @click="savegen">保存</el-button>
@@ -73,9 +73,9 @@
                 }],
                 data: '',
                 relevance: '',
-                quailty: '',
-                retionality: '',
-                auther: '',
+                quality: '',
+                rationality: '',
+                author: '',
                 notes: '',
             }
           },
@@ -85,14 +85,42 @@
                 var notes_info = {
                     data: this.data, 
                     relevance: this.relevance, 
-                    quailty: this.quailty,
-                    retionality: this.retionality,
-                    auther: this.auther,
+                    quality: this.quality,
+                    rationality: this.rationality,
+                    author: this.author,
                     notes: this.notes,
                 };
                 localStorage.setItem("notes_info",JSON.stringify(notes_info));
+                var gen_info=localStorage.getItem('gen_info')
+                var username=localStorage.getItem('phone')
+                console.log(gen_info)
+                console.log(localStorage.getItem('notes_info'))
+                console.log(username)
                 //提交给后台若成功则弹窗提示并跳转至下一部分
                 //记得删除localStorage内容
+                this.$ajax({
+                    method:'get',
+                    url:'savegen',
+                    params: {
+                       gen_info:gen_info,
+                       notes_info:JSON.stringify(notes_info),
+                       username:username,
+                    },
+                })
+                    .then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        if (res.error_num == 0) {
+                            console.log('111')
+                        } 
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
             },
         }
     }
