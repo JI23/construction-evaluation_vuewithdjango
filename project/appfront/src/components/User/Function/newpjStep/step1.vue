@@ -38,7 +38,6 @@ export default {
             project_description:''
         }
     },
-<<<<<<< HEAD
     beforeRouteLeave(to, from, next){
     //  if (to.name == 'step2') {
         let project_name = JSON.stringify(this.project_name)
@@ -59,9 +58,16 @@ export default {
     //   }
       next()
     },
+    // beforeCreate()
+    // {
+    //     let project_name = sessionStorage.getItem('project_name')
+    //     console.log('beforecreated')
+    // },
     created(){
       //从localStorage中读取条件并赋值给查询表单
+      
         let project_name = sessionStorage.getItem('project_name')
+        console.log(project_name)
         let client_name = sessionStorage.getItem('client_name')
         let project_leader = sessionStorage.getItem('project_leader')
         let project_description = sessionStorage.getItem('project_description')
@@ -77,31 +83,7 @@ export default {
         if (project_description != null) {
             this.project_description = JSON.parse(project_description)
         }
-    //   this.$http.get('http://example.com/api/test', {params: this.searchForm})
-    //   .then((response)=>{
-    //     console.log(response.data)
-    //   }).catch((error)=>{
-    //     console.log(error)
-    //   })
     },
-=======
-
-    mounted:function(){
-        var name = localStorage.getItem('project_name')
-        this.$ajax({
-            method: 'get',
-            url: '',
-            params:{
-                project_name:name
-            }
-        }).then(function(response){
-
-        }).catch(function(response){
-
-        })
-    },
-
->>>>>>> upstream/master
     methods:{
         next(){
             this.$emit('next','');

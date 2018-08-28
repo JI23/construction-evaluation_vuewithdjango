@@ -44,15 +44,9 @@
                 fixed="right"
                 label="操作"
                 width="130">
-<<<<<<< HEAD
             <template slot-scope="{row,$index}">
                 <el-button @click="editpj($index,row)" type="text" size="small">编辑</el-button>
                 <el-button @click="deletepj($index,row)" type="text" size="small">删除</el-button>
-=======
-            <template slot-scope="scope">
-                <el-button @click="editpj(scope.row)" type="text" size="small">编辑</el-button>
-                <el-button @click="deletepj(scope.row)" type="text" size="small">删除</el-button>
->>>>>>> upstream/master
             </template>
             </el-table-column>
         </el-table>
@@ -84,7 +78,6 @@
             handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
             },
-<<<<<<< HEAD
             editpj: function(index,row){
                 localStorage.setItem("project",JSON.stringify(row.id));
                 let project = localStorage.getItem('project');
@@ -102,59 +95,63 @@
                 }).then(function(response){
                     //判断后弹窗
                     var res = response.data
-                    console.log(res['base_info'])
-                    console.log(res['base_info'][0].fields.project_name)
+                    //step1
+                    let project_name = JSON.stringify(res['base_info'][0].fields.project_name)
+                    let client_name = JSON.stringify(res['base_info'][0].fields.client_name)
+                    let project_leader = JSON.stringify(res['base_info'][0].fields.project_leader)
+                    let project_description = JSON.stringify(res['base_info'][0].fields.project_description)
+                    //step2
+                    let material = JSON.stringify(res['base_info'][0].fields.material)
+                    let structure_type = JSON.stringify(res['base_info'][0].fields.structure_type)
+                    let figure_time = JSON.stringify(res['base_info'][0].fields.figure_time)
+                    let floors = JSON.stringify(res['base_info'][0].fields.floor)
+                    let height = JSON.stringify(res['base_info'][0].fields.height)
+                    let area = JSON.stringify(res['base_info'][0].fields.area)
+                    let cost_per_squaremeter = JSON.stringify(res['base_info'][0].fields.cost_per_squaremeter)
+                    let Floor_info=JSON.stringify(res['floor_info'])
+                    
+                    // console.log(res['floor_info'][0].fields)
+                    // for(var i = 0; i < res['floor_info'].length; i++){
+                    //             // Floor_info_session[i].floor_no=JSON.stringify(res['floor_info'][i].fields.floor_no),
+                    //             // Floor_info_session[i].floor_height=JSON.stringify(res['floor_info'][i].fields.floor_height),
+                    //             // Floor_info_session[i].floor_area=JSON.stringify(res['floor_info'][i].fields.floor_area),
+                    //             // Floor_info_session[i].influence_coefficient=JSON.stringify(res['floor_info'][i].fields.influence_coefficient),
+                    //             // Floor_info_session[i].population_density=JSON.stringify(res['floor_info'][i].fields.population_density)
+                    //             Floor_info[i]=JSON.stringify(res['floor_info'][i].fields)
+                    //         }
+                    console.log('aaaaaaaaaaaaaaaaaaaa')
+                    console.log(Floor_info)
+                    sessionStorage.clear()
+                    //step1的
+                    sessionStorage.setItem('project_name', project_name)
+                    sessionStorage.setItem('client_name', client_name)
+                    sessionStorage.setItem('project_leader', project_leader)
+                    sessionStorage.setItem('project_description', project_description)
+                    //step2的
+                    sessionStorage.setItem('material', material)
+                    sessionStorage.setItem('structure_type', structure_type)
+                    sessionStorage.setItem('figure_time', figure_time)
+                    sessionStorage.setItem('floors', floors)
+                    sessionStorage.setItem('height', height)
+                    sessionStorage.setItem('area', area)
+                    sessionStorage.setItem('cost_per_squaremeter', cost_per_squaremeter)
+                    sessionStorage.setItem('Floor_info', Floor_info)
                 }).catch(function(err){
                     console.log(err)
                 })
-                this.$router.push({name:'step1'});
+                //这里延迟跳转，不知道为啥执行起来是先跳到step1再 console.log('unsucess')了
+                setTimeout(()=>{
+                    this.$router.push({name:'step1'})
+                },100)
+                 
             },
             deletepj: function(index,row){//未连接
 
                 var username=localStorage.getItem('phone')
-=======
-            editpj: function(row){
-                //console.log(row.value)
-                localStorage.setItem("project_name",JSON.stringify(row.project_name));
-                //this.$router.push({name:'step1'});
-                console.log('111')
-                var username=localStorage.getItem('phone')
-                var project=row.id
-                console.log(username)
-                this.$ajax({
-                    method:'get',
-                    url:'step0-edit',
-                    params:{
-                        project:project,
-                        username:username,
-                    },
-                }).then(function(response){
-                    //判断后弹窗
-                    var res=response.data
-                    if (res.error_num==0){
-                        
-                        console.log(res['msg'])
-                    }
-                    else{
-                        console.log(res['msg'])
-                    }
-                }).catch(function(err){
-                    console.log(err)
-                })
-                //console.log(localStorage.getItem('pjNum'))
-                //掉用setp1进行编辑
-                //console.log("!!!")
-            },
-            deletepj: function(row){//未连接
-                console.log('111')
-                var username=localStorage.getItem('phone')
-                var project=row.id
->>>>>>> upstream/master
                 this.$ajax({
                     method:'get',
                     url:'step0-delete',
                     params:{
-<<<<<<< HEAD
                         project:row.id,
                         username:username
                     }
@@ -162,22 +159,6 @@
                     //判断后弹窗
                     var res = response.data
                     console.log(res['msg'])
-=======
-                        project:project,
-                        username:username,
-                    }
-                }).then(function(response){
-                    //判断后弹窗
-                    //this.reload()
-                    var res=response.data
-                    if (res.error_num==0){
-                        
-                        console.log(res['msg'])
-                    }
-                    else{
-                        console.log(res['msg'])
-                    }
->>>>>>> upstream/master
                 }).catch(function(err){
                     console.log(err)
                 })
@@ -191,20 +172,34 @@
             
             showProjects(){
                 let _this = this;
-                var username=localStorage.getItem('phone')
+                var username=localStorage.getItem('phone');
+                /*_this.$http.get('http://localhost:8000/api/show_projects')
+                    .then((response) => {
+                        var res = JSON.parse(response.bodyText)
+                        console.log(res)
+                        if (res.error_num == 0) {
+                            _this.projects = res['list']
+                        } 
+                        else {
+                            _this.$message.error('查询项目失败')
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })*/
                 this.$ajax({
                     method:'get',
                     url:'show_projects',
                     params: {
-                       'is_finished': 'False', 
-                       username:username,
+                        'username': username,
+                        'is_finished': 'False', 
                     },
                 })
                     .then(function(response){
                         console.log(response)
                         var res = response.data
-                        console.log(res['list'][0].pk)
-                        console.log('234567')
+                        console.log(res)
                         if (res.error_num == 0) {
                             //console.log(res['list'][0].fields)
                             //_this.projects[0] = res['list'][0].fields
@@ -215,13 +210,7 @@
                                 var id=res['list'][i].pk
                                 console.log(id)
                                 _this.projects[i] = res['list'][i].fields
-<<<<<<< HEAD
                                 _this.projects[i].id=id
-=======
-                                
-                                _this.projects[i].id = id
-                                console.log(_this.projects[i])
->>>>>>> upstream/master
                             }
                             //_this.projects[0] = res['list'][0].fields
                             //_this.projects[1] = res['list'][1].fields
@@ -256,17 +245,12 @@
 
         data () {
             return {
-                projects: [{
-                    create_time: '2016-05-03',
+                projects: [{create_time: '2016-05-03',
                     project_leader: '王小虎',
                     client_name:'王小五',
                     project_name: '上海',
-<<<<<<< HEAD
                     id:'12',
                     user: '普陀区',
-=======
-                    id: 12,
->>>>>>> upstream/master
                     rate: '上海市',
                     project_description: 200333},],
                 currentPage:1,

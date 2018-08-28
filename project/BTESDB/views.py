@@ -42,7 +42,7 @@ def show_projects(request):
         print (is_finished)
         this_user=User_Info.objects.get(username=username)
         if is_finished=='False':
-            projects = Project.objects.filter(is_finished=0,user=this_user)
+            projects = Project.objects.filter(is_finished=0,user=this_user) 
         else:
             projects = Project.objects.filter(is_finished=1,user=this_user)
         response['list']  = json.loads(serializers.serialize("json", projects))
@@ -71,7 +71,7 @@ def uploadImg(request):
                 print (str(Exception))
 
             get=DB_template.objects.get(part_id=name)
-            this_user=User_Info.objects.get(username='13051997327')
+            this_user=User_Info.objects.get(username='123456')
             
             print (get)
             if get.TypeName=='Acceleration':

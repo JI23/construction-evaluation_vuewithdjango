@@ -121,6 +121,21 @@
             
         };
     },
+    beforeRouteLeave(to, from, next){
+    //  if (to.name == 'step2') {
+        //let id = JSON.stringify(this.id)
+        //sessionStorage.setItem('id', id)
+        let structure_element = JSON.stringify(this.tableData)
+        sessionStorage.setItem('structure_element', structure_element)
+      next()
+    },
+    created(){
+      //从localStorage中读取条件并赋值给查询表单
+        let tableData = sessionStorage.getItem('structure_element')
+        if (tableData != null) {
+            this.tableData = JSON.parse(tableData)
+        }
+    },
     methods: {
         chooseId(index, rows){
             this.dialogVisible = true;
