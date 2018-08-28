@@ -56,19 +56,24 @@ def show_projects(request):
     print (3)
     return JsonResponse(response)
 
-def uploadImg(request):  
+def upload_db_part(request):  
     if request.method=='POST':
         xmls=request.FILES.getlist('xml',[])
         for item in xmls:
             xml=item
             name=item.name
-            name='.'.join(name.split('.')[0:4])
+            name=name.split('.')
+            name.pop()
+            name='.'.join(name)
+            #name='.'.join(name.split('.')[0:4])
+
             print (name)
             try:
                 this_part=DB_part.objects.get(part_id=name)
-                this_part.delete()
-            except Exception:
-                print (str(Exception))
+                #this_part.delete()
+                continue
+            except Exception as e:
+                print (str(e))
 
             get=DB_template.objects.get(part_id=name)
             this_user=User_Info.objects.get(username='13051997327')
@@ -78,18 +83,26 @@ def uploadImg(request):
                 EDP_type='A'
             else:
                 EDP_type='S'
-            if get.Official=='True':
+            if get.Official=='TRUE':
                 is_formal=1
             else:
                 is_formal=0
+            if get.user_defined=='FALSE':
+                get.user_defined=0
+            else:
+                get.user_defined=1
+            
+            get.part_type=get.part_type[0]
+            
             new=DB_part(user=this_user,
             part_id=get.part_id,
             part_name=get.Name,
             EDP_type=EDP_type,
             data_resource=get.Author,
             is_formal=is_formal,
-            part_type='c',
+            part_type=get.part_type,
             description=get.Description,
+            user_defined=get.user_defined,
             xml=xml
             )
             new.save()

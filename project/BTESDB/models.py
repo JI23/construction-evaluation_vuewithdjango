@@ -20,6 +20,8 @@ class DB_template(models.Model):
     Official=models.CharField(max_length=10)
     #易损件的场地类别
     part_type=models.CharField(max_length=20,default='Common')
+    #是否用户自定义
+    user_defined=models.CharField(max_length=10,default='False')
 # Create your models here.
 class Company_Info(models.Model):
     '''公司信息表'''
@@ -100,7 +102,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 def upload_to(instance,filename):
-    return '/'.join([instance.part_type,filename])
+    return '/'.join([instance.get_part_type_display(),instance.part_id,filename])
 
 class DB_part(models.Model):
     '''易损件数据库'''
@@ -108,9 +110,9 @@ class DB_part(models.Model):
     #指向User的外键，一个user对应多个自定义易损件,对系统给的易损件，user指向一个特定的superuser
     user=models.ForeignKey(User_Info,on_delete=models.CASCADE,verbose_name='用户',default=None)
     #如BE.F.01.01，必须遵循该格式
-    part_id=models.CharField(max_length=10,blank=False,verbose_name='易损件id')
+    part_id=models.CharField(max_length=20,blank=False,verbose_name='易损件id')
     #可以是任意字符串
-    part_name=models.CharField(max_length=10,blank=False,verbose_name='易损件名称')
+    part_name=models.CharField(max_length=100,blank=False,verbose_name='易损件名称')
     #如单片玻璃幕墙...
     description=models.CharField(max_length=300,blank=False,verbose_name='易损件描述')
     #基本单位，如1个，3.3m2等
@@ -127,21 +129,23 @@ class DB_part(models.Model):
     data_resource=models.CharField(max_length=45,blank=False,default='《建筑抗震韧性评价标准》编委会',verbose_name='数据来源')
     #是否是官方认证
     is_formal=models.BooleanField(default=True,verbose_name='官方认证')
-
+    #是否是用户自定义
+    user_defined=models.BooleanField(default=False,verbose_name='用户自定义')
     #易损件的场地类别
     site_classification_choice=(
         ('h','hospital'),
         ('o','office'),
         ('s','school'),
         ('c','common'),
+        ('u','user_defined')
     )
     part_type=models.CharField(max_length=1,choices=site_classification_choice,default='c',verbose_name='场地类别')
     #创建时间
-    #create_date=models.DateTimeField(verbose_name='创建时间',default=timezone.now())
+    create_date=models.DateTimeField(verbose_name='创建时间',auto_now_add=True)
     #损伤数量
     damage_state_number=models.SmallIntegerField(default=0,verbose_name='损伤数量')
     #与该易损件相关的损伤xml文件
-    xml=models.FileField(upload_to=upload_to,blank=True,verbose_name='xml文件')
+    xml=models.FileField(upload_to=upload_to,blank=True,default=None,verbose_name='xml文件')
     class Meta:
         unique_together=('part_id','part_type')
         verbose_name='易损件'
