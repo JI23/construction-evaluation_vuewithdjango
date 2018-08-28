@@ -58,9 +58,16 @@ export default {
     //   }
       next()
     },
+    // beforeCreate()
+    // {
+    //     let project_name = sessionStorage.getItem('project_name')
+    //     console.log('beforecreated')
+    // },
     created(){
       //从localStorage中读取条件并赋值给查询表单
+      
         let project_name = sessionStorage.getItem('project_name')
+        console.log(project_name)
         let client_name = sessionStorage.getItem('client_name')
         let project_leader = sessionStorage.getItem('project_leader')
         let project_description = sessionStorage.getItem('project_description')
@@ -76,12 +83,6 @@ export default {
         if (project_description != null) {
             this.project_description = JSON.parse(project_description)
         }
-    //   this.$http.get('http://example.com/api/test', {params: this.searchForm})
-    //   .then((response)=>{
-    //     console.log(response.data)
-    //   }).catch((error)=>{
-    //     console.log(error)
-    //   })
     },
     methods:{
         next(){

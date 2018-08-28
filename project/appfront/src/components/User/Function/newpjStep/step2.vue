@@ -71,7 +71,7 @@
             </el-table> 
             <el-button @click="newFloor">新增楼层</el-button>
         </el-col>
-        <!--<el-button @click="saveFloor">保存所有楼层</el-button>-->
+        <el-button @click="saveFloor">保存所有楼层</el-button>
     </div>
 </template>
 <script>
@@ -115,7 +115,8 @@ export default {
         let area = sessionStorage.getItem('area')
         let cost_per_squaremeter = sessionStorage.getItem('cost_per_squaremeter')
         let Floor_info = sessionStorage.getItem('Floor_info')
-
+        console.log('step2')
+        //console.log(Floor_info)
         if (material != null) {
             this.material = JSON.parse(material)
         }
@@ -138,7 +139,7 @@ export default {
             this.cost_per_squaremeter = JSON.parse(cost_per_squaremeter)
         }
         if (Floor_info != null) {
-            this.Floor_info = JSON.parse(Floor_info)
+            this.Floor_info = JSON.parse(Floor_info) 
         }
     },
 
@@ -210,7 +211,11 @@ export default {
                 method:'get',
                 url:'step2',
                 params:{
+<<<<<<< HEAD
+                    username:username,
+=======
                     username:'13051997327',
+>>>>>>> upstream/master
                     project:project,
                     project_name:project_name,
                     project_leader:project_leader,
