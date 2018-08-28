@@ -211,11 +211,7 @@ export default {
                 method:'get',
                 url:'step2',
                 params:{
-<<<<<<< HEAD
                     username:username,
-=======
-                    username:'13051997327',
->>>>>>> upstream/master
                     project:project,
                     project_name:project_name,
                     project_leader:project_leader,

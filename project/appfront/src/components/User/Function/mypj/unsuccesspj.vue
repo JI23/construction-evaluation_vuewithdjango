@@ -44,15 +44,9 @@
                 fixed="right"
                 label="操作"
                 width="130">
-<<<<<<< HEAD
-            <template slot-scope="{row,$index}">
-                <el-button @click="editpj($index,row)" type="text" size="small">编辑</el-button>
-                <el-button @click="deletepj($index,row)" type="text" size="small">删除</el-button>
-=======
             <template slot-scope="scope">
                 <el-button @click="editpj(index,scope.row)" type="text" size="small">编辑</el-button>
                 <el-button @click="deletepj(scope.row)" type="text" size="small">删除</el-button>
->>>>>>> upstream/master
             </template>
             </el-table-column>
         </el-table>
@@ -84,10 +78,6 @@
             handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
             },
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
             editpj: function(index,row){
                 localStorage.setItem("project",JSON.stringify(row.id));
                 let project = localStorage.getItem('project');
@@ -157,9 +147,6 @@
             },
             
 
-<<<<<<< HEAD
-                var username=localStorage.getItem('phone')
-=======
 
             /*editpj: function(row){
                 //console.log(row.value)
@@ -197,12 +184,10 @@
                 console.log('111')
                 var username=localStorage.getItem('phone')
                 var project=row.id
->>>>>>> upstream/master
                 this.$ajax({
                     method:'get',
                     url:'step0-delete',
                     params:{
-<<<<<<< HEAD
                         project:row.id,
                         username:username
                     }
@@ -210,22 +195,6 @@
                     //判断后弹窗
                     var res = response.data
                     console.log(res['msg'])
-=======
-                        project:project,
-                        username:username,
-                    }
-                }).then(function(response){
-                    //判断后弹窗
-                    //this.reload()
-                    var res=response.data
-                    if (res.error_num==0){
-                        
-                        console.log(res['msg'])
-                    }
-                    else{
-                        console.log(res['msg'])
-                    }
->>>>>>> upstream/master
                 }).catch(function(err){
                     console.log(err)
                 })
@@ -355,12 +324,7 @@
                     project_leader: '王小虎',
                     client_name:'王小五',
                     project_name: '上海',
-<<<<<<< HEAD
-                    id:'12',
-                    user: '普陀区',
-=======
                     id: 12,
->>>>>>> upstream/master
                     rate: '上海市',
                     project_description: 200333},],
                 currentPage:1,
