@@ -69,10 +69,14 @@ def save_waves(request):
     response={}
     try:  
         #获取表单内容
+        #print(request)
+        print(request.FILES)
         project=request.GET['project']
         wave_list=request.GET.getlist('earthquake_info[]',[])
-        number=request.GET['number']
-    except Exception:
+        print(wave_list)
+        number=int(request.GET['number'])
+    except Exception as e:
+        print (str(e))
         response['msg']='请正确填写数据'
         response['error_num']=1
         return JsonResponse(response)
@@ -88,12 +92,17 @@ def save_waves(request):
             return JsonResponse(response) 
         else:
             try:
+                #print(a['earthquake_no'])
+                #print(type(a['earthquake_no']))
                 earthquake_no=int(a['earthquake_no'])
+                #print (type(earthquake_no))
                 if earthquake_no<=0 or earthquake_no>number:
+                    #print(number+1)
                     response['msg']='地震波编号不能小于0或大于地震波数！' 
                     response['error_num']=1
                     return JsonResponse(response) 
-            except Exception:
+            except Exception as e:
+                print(str(e))
                 response['msg']='地震波编号必须为整数！' 
                 response['error_num']=1
                 return JsonResponse(response)

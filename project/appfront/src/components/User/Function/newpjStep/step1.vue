@@ -92,10 +92,12 @@ export default {
         },
         save1(){
             let _this=this;
+            var username=localStorage.getItem('phone')
             this.$ajax({
                 method:'get',
                 url:'step1',
                 params:{
+                    username:username,
                     project_name:this.project_name,
                     client_name:this.client_name,
                     project_leader:this.project_leader,

@@ -129,6 +129,7 @@ export default {
                 params:{
                     earthquake_info:this.earthquake_info,
                     project:project,
+                    number:this.number,
                 },
             })
             .then(function(response){
@@ -200,9 +201,9 @@ export default {
                 console.log(this.peak_acceleration)
             }
         },
-        submitUpload() {
-            //console.log(this.fileList);
+        submitUpload() {           
             this.$refs.upload.submit();
+            console.log(this.fileList);
         },
         handleRemove(file, fileList) {
             console.log(file, fileList);

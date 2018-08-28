@@ -20,8 +20,8 @@ def step1(request):
         client_name=request.GET['client_name']
         project_description=request.GET['project_description']
         project_leader=request.GET['project_leader']
-        #username=request.GET['username']
-        this_user=User_Info.objects.get(username='123456')
+        username=request.GET['username']
+        this_user=User_Info.objects.get(username=username)
         if len(project_name)==0:
             response['msg']='项目名称不能为空！'
             response['error_num']=1

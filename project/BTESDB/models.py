@@ -374,7 +374,8 @@ class Earthquake_Info(models.Model):
     #峰值加速度,用if，else判断，由地震水准和设防烈度唯一确定
     #peak_acceleration=models.DecimalField(max_digits=6,decimal_place=3,verbose_name='峰值加速度')
 
-
+def upload_to2(instance,filename):
+    return '/'.join(['wave_file',instance.project,instance.earthquake_wave_no,filename])
 class Earthquake_wave_detail(models.Model):
     '''地震波详情'''
     class Meta:
@@ -388,8 +389,8 @@ class Earthquake_wave_detail(models.Model):
     earthquake_wave_name=models.CharField(max_length=15,verbose_name='地震波名称')
     #地震波峰值
     peak=models.DecimalField(max_digits=4,decimal_places=2,verbose_name='地震波峰值')
-    #文件存放位置，%Y、%m、%d分别表示年、月、日，描述性txt文件，以后不会用，要存在云端
-    earthquake_wave_file=models.FileField(upload_to=str(project)+'/%Y/%m/%d/',verbose_name='地震波文件')
+    #文件存放位置
+    earthquake_wave_file=models.FileField(upload_to=upload_to2,verbose_name='地震波文件')
 
 class Structure_response(models.Model):
     #django自己生成主键

@@ -210,7 +210,7 @@ export default {
                 method:'get',
                 url:'step2',
                 params:{
-                    username:'13051997327',
+                    username:username,
                     project:project,
                     project_name:project_name,
                     project_leader:project_leader,
