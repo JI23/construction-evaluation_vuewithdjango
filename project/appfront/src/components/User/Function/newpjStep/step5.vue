@@ -79,11 +79,12 @@
                         <el-upload
                             class="upload-demo"
                             ref="upload"
-                            action="https://jsonplaceholder.typicode.com/posts/"
+                            action="http://localhost:8000/api/show_projects"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :file-list="fileList"
-                            :auto-upload="false">
+                            :auto-upload="false"
+                            name="test"><!--这里是命名-->
                             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                             <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                         </el-upload>
@@ -255,9 +256,8 @@ export default {
         handleRemove(file, fileList) {
             console.log(file, fileList);
         },
-        handlePreview(file) {
-            console.log(this.fileList);
-            console.log(file);
+        handlePreview(file, fileList) {
+            console.log(file, fileList);
         }
     },
     data(){

@@ -35,8 +35,12 @@ def logout(request):
 def show_projects(request):
     response = {}
     try:
+        #image=request.FILES.get('test')
+        #print (image.name)
+        
         print (1)
         #print (request)
+        print (4)
         is_finished=request.GET['is_finished']
         username=request.GET['username']
         print (is_finished)

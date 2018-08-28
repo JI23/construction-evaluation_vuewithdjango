@@ -24,13 +24,16 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 axios.interceptors.request.use(
     config => {
-        const token = localStorage.getItem("token"); //获取存储在本地的token
+        if(config.method === 'post'){
+            config.data = qs.stringify(config.data);
+        }
+        /*const token = localStorage.getItem("token"); //获取存储在本地的token
         if(token){
             config.headers.Authorization = `token ${store.state.token}`;
             if(config.method === 'post'){
                 config.data = qs.stringify(config.data);
             }
-        }
+        }*/
         return config;
     },
     err => {
