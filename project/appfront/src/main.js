@@ -24,9 +24,12 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 axios.interceptors.request.use(
     config => {
-        //const token = sessionStorage.getItem("token"); //获取存储在本地的token
-        if(config.method === 'post'){
-            config.data = qs.stringify(config.data);
+        const token = localStorage.getItem("token"); //获取存储在本地的token
+        if(token){
+            config.headers.Authorization = `token ${store.state.token}`;
+            if(config.method === 'post'){
+                config.data = qs.stringify(config.data);
+            }
         }
         return config;
     },
@@ -37,14 +40,23 @@ axios.interceptors.request.use(
 Vue.prototype.$ajax = axios
 
 
+
+
 //登陆验证
 router.beforeEach((to, from, next) =>{
-    if(to.path === '/login'){
-        next()
+    if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+        if (store.state.token) {  // 通过vuex state获取当前的token是否存在
+            next();
+        }
+        else {
+            next({
+                path: '/login',
+                query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+            })
+        }
     }
-    else{
-        //验证登陆信息
-        next()
+    else {
+        next();
     }
 })
 

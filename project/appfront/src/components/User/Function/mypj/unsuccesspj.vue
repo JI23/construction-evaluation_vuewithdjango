@@ -45,7 +45,7 @@
                 label="操作"
                 width="130">
             <template slot-scope="scope">
-                <el-button @click="editpj(scope.row)" type="text" size="small">编辑</el-button>
+                <el-button @click="editpj(index,scope.row)" type="text" size="small">编辑</el-button>
                 <el-button @click="deletepj(scope.row)" type="text" size="small">删除</el-button>
             </template>
             </el-table-column>
@@ -78,7 +78,35 @@
             handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
             },
-            editpj: function(row){
+
+            editpj: function(index,row){
+                localStorage.setItem("project",JSON.stringify(row.id));
+                let project = localStorage.getItem('project');
+                //console.log(project_name);
+                //掉用setp1进行编辑
+                //console.log(pjname)
+                var username=localStorage.getItem('phone')
+                this.$ajax({
+                    method:'get',
+                    url:'step0-edit',
+                    params:{
+                        username:username,
+                        project:project
+                    }
+                }).then(function(response){
+                    //判断后弹窗
+                    var res = response.data
+                    console.log(res['base_info'])
+                    console.log(res['base_info'][0].fields.project_name)
+                }).catch(function(err){
+                    console.log(err)
+                })
+                this.$router.push({name:'step1'});
+            },
+            
+
+
+            /*editpj: function(row){
                 //console.log(row.value)
                 localStorage.setItem("project_name",JSON.stringify(row.project_name));
                 //this.$router.push({name:'step1'});
@@ -109,7 +137,7 @@
                 //console.log(localStorage.getItem('pjNum'))
                 //掉用setp1进行编辑
                 //console.log("!!!")
-            },
+            },*/
             deletepj: function(row){//未连接
                 console.log('111')
                 var username=localStorage.getItem('phone')
@@ -142,6 +170,45 @@
                     this.isRouteAlive = true
                 })
             },
+
+            editpj: function(index,row){
+                //this.$router.push({name:'step1'})
+                localStorage.setItem("project",JSON.stringify(row.id));
+                let project = localStorage.getItem('project');
+                //console.log(project_name);
+                //掉用setp1进行编辑
+                //console.log(pjname)
+                var username=localStorage.getItem('phone')
+                this.$ajax({
+                    method:'get',
+                    url:'step0-edit',
+                    params:{
+                        username:username,
+                        project:project
+                    }}).then(function(response){
+                    //判断后弹窗
+                        var res = response.data
+                        //console.log(res['base_info'])
+                        //console.log(res['base_info'][0].fields.project_name)
+                        //var project_name=res['base_info'][0].fields.project_name
+                        //sessionStorage.removeItem('project_name')
+                        let project_name = JSON.stringify(res['base_info'][0].fields.project_name)
+                        sessionStorage.clear()
+                        sessionStorage.setItem('project_name', project_name)
+                        console.log('unsucess')
+                        console.log(project_name)
+                        //this.$router.push({name:'step1'})
+                    }).catch(function(err){
+                        console.log(err)
+                        //this.$router.push({name:'step1'})
+                    })
+                    //setTimeout(this.$router.push({name:'step1'}),3000)
+                    setTimeout(()=>{
+                        this.$router.push({name:'step1'})
+                    },1000)
+                //this.$router.push({name:'step1'})
+                //this.$router.go('/step1');
+                },
             
             showProjects(){
                 let _this = this;
@@ -169,9 +236,7 @@
                                 var id=res['list'][i].pk
                                 console.log(id)
                                 _this.projects[i] = res['list'][i].fields
-                                
-                                _this.projects[i].id = id
-                                console.log(_this.projects[i])
+                                _this.projects[i].id=id
                             }
                             //_this.projects[0] = res['list'][0].fields
                             //_this.projects[1] = res['list'][1].fields

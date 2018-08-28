@@ -4,7 +4,7 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" label-position=left class="demo-ruleForm">  
           <el-row>
             <el-col :span="2" style="color:transparent">''</el-col>
-            <el-col span="10">
+            <el-col :span="10">
             <h3>个人信息</h3> 
             <el-form-item label="昵称" prop="nickname">
             <el-input v-model="ruleForm.nickname"></el-input>
@@ -29,7 +29,7 @@
             </el-form-item>
         </el-col>
         <el-col :span="1" style="color:transparent">''</el-col>
-        <el-col span="10">
+        <el-col :span="10">
             <h3>公司信息</h3>
             <el-form-item label="公司名称" prop="comName">
             <el-input v-model="ruleForm.comName"></el-input>

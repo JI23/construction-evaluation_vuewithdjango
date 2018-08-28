@@ -5,9 +5,10 @@
             <el-button size="small" class='btn' @click="back">上一步</el-button>
             <el-button size="small" class='btn' @click="save5">保存地震信息</el-button>
         </el-row>
-        <el-col :span="8" class="step5">
-            <span class="lebal">设防烈度</span>
-                <el-select @change="change_level" v-model="defense_intensity" placeholder="请选择">
+        <el-col :span="24" class="step5">
+            <el-col :span='8'>
+                <span class="lebal">设防烈度</span>
+                <el-select style="width:90%" @change="change_level" v-model="defense_intensity" placeholder="请选择">
                     <el-option
                     v-for="item in defense_in_option"
                     :key="item.value"
@@ -15,19 +16,21 @@
                     :value="item.value">
                     </el-option>
                 </el-select>
-            <span class="lebal">场地类别</span>
-                <el-select v-model="site_type" placeholder="请选择">
-                    <el-option
-                    v-for="item in site_type_option"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
-            <span class="lebal">地震波数</span>
-            <el-input v-model="number" placeholder="请输入内容"></el-input>
-            <span class="lebal">地震分组</span>
-                <el-select v-model="group" placeholder="请选择">
+                <span class="lebal">场地类别</span>
+                    <el-select style="width:90%" v-model="site_type" placeholder="请选择">
+                        <el-option
+                        v-for="item in site_type_option"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+            </el-col>
+            <el-col :span='8'>
+                <span class="lebal">地震波数</span>
+                <el-input style="width:90%" v-model="number" placeholder="请输入内容"></el-input>
+                <span class="lebal">地震分组</span>
+                <el-select style="width:90%" v-model="group" placeholder="请选择">
                     <el-option
                     v-for="item in group_option"
                     :key="item.value"
@@ -35,10 +38,13 @@
                     :value="item.value">
                     </el-option>
                 </el-select>
-            <span class="lebal">峰值加速度</span>
-            <el-input :disabled="true" v-model="peak_acceleration" placeholder="请输入内容"></el-input>
-            <span class="lebal">地震水准</span>
-                <el-select @change="change_level" v-model="earthquake_level" placeholder="请选择">
+                
+            </el-col>
+            <el-col :span='8'>
+                <span class="lebal">峰值加速度</span>
+                <el-input style="width:90%" :disabled="true" v-model="peak_acceleration" placeholder="请输入内容"></el-input>
+                <span class="lebal">地震水准</span>
+                <el-select style="width:90%" @change="change_level" v-model="earthquake_level" placeholder="请选择">
                     <el-option
                     v-for="item in earth_level_option"
                     :key="item.value"
@@ -46,9 +52,12 @@
                     :value="item.value">
                     </el-option>
                 </el-select>
+            </el-col>
+            
+            
         </el-col>
-        <el-col :span="1" style="color:transparent">''</el-col>
-        <el-col :span="15">
+        <!--<el-col :span="1" style="color:transparent">''</el-col>-->
+        <el-col :span="24">
             <el-table :data="earthquake_info" border style="width:100%" max-height="350">
                 <el-table-column prop="earthquake_no" label="地震波编号">
                     <template slot-scope="scope">

@@ -191,6 +191,7 @@ def saveFloor(request):
         area=float(request.GET['area'])
         height=float(request.GET['height'])
         floor_list=request.GET.getlist('Floor_info[]',[])
+        
     #print(floor_list)
     except Exception as e:
         response['msg']='请先正确填写楼层信息'

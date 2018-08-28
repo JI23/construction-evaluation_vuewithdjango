@@ -90,22 +90,22 @@
                 choose2: '1',
                 options: [{
                     value: '选项1',
-                    label: 'DB_Common'
+                    label: 'Store Drift Radio'
                 }, {
                     value: '选项2',
-                    label: 'DB_School'
+                    label: 'Acceleration'
                 }, {
                     value: '选项3',
-                    label: 'DB_Hospital'
+                    label: 'Building Residual Drift'
                 }, {
                     value: '选项4',
-                    label: 'DB_User'
+                    label: 'Peak Floor Velocity'
                 }, {
                     value: '选项5',
-                    label: 'DB_Office'
+                    label: 'Link Rotation Angle'
                 }, {
                     value: '选项6',
-                    label: 'DB_FEMA'
+                    label: 'Link Beam Chord Rotation'
                 }],
                 id:"",
                 name:"",

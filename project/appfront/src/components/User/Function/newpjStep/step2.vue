@@ -5,24 +5,30 @@
             <el-button size="small" class='btn' @click="back">上一步</el-button>
             <el-button size="small" class='btn' @click="save2">保存</el-button>
         </el-row>
-        <el-col :span="8" class="step2">
-            <span class="lebal">建筑材料</span>
-            <el-input size='small' v-model="material" placeholder="请输入内容"></el-input>
-            <span class="lebal">结构类型</span>
-            <el-input size='small' v-model="structure_type" placeholder="请输入内容"></el-input>
-            <span class="lebal">图审时间</span>
-            <el-input size='small' v-model="figure_time" placeholder="请输入内容"></el-input>
-            <span class="lebal">结构层数</span>
-            <el-input size='small' v-model="floors" placeholder="请输入内容"></el-input>
-            <span class="lebal">结构高度(m)</span>
-            <el-input size='small' v-model="height" placeholder="请输入内容"></el-input>
-            <span class="lebal">建筑面积(m^2)</span>
-            <el-input size='small' v-model="area" placeholder="请输入内容"></el-input>
-            <span class="lebal">单位造价(元)</span>
-            <el-input size='small' v-model="cost_per_squaremeter" placeholder="请输入内容"></el-input>
+        <el-col :span="24" class="step2">
+            <el-col :span="8">
+                <span class="lebal">建筑材料</span>
+                <el-input style="width:90%" size='small' v-model="material" placeholder="请输入内容"></el-input>
+                <span class="lebal">结构类型</span>
+                <el-input style="width:90%" size='small' v-model="structure_type" placeholder="请输入内容"></el-input>
+            </el-col>
+            <el-col :span='8'>
+                <span class="lebal">图审时间</span>
+                <el-input style="width:90%" size='small' v-model="figure_time" placeholder="请输入内容"></el-input>
+                <span class="lebal">结构层数</span>
+                <el-input style="width:90%" size='small' v-model="floors" placeholder="请输入内容"></el-input>
+            </el-col>
+            <el-col :span="8">
+                <span class="lebal">结构高度(m)</span>
+                <el-input style="width:90%" size='small' v-model="height" placeholder="请输入内容"></el-input>
+                <span class="lebal">建筑面积(m^2)</span>
+                <el-input style="width:90%" size='small' v-model="area" placeholder="请输入内容"></el-input>
+                <span class="lebal">单位造价(元)</span>
+                <el-input style="width:90%" size='small' v-model="cost_per_squaremeter" placeholder="请输入内容"></el-input>
+            </el-col>
         </el-col>
         <el-col :span="1" style="color:transparent">''</el-col>
-        <el-col :span="15">
+        <el-col :span="24">
             <el-table :data="Floor_info" border style="width:100%" max-height="350">
                 <el-table-column prop="floor_no" label="楼层">
                     <template slot-scope="scope">
@@ -65,11 +71,78 @@
             </el-table> 
             <el-button @click="newFloor">新增楼层</el-button>
         </el-col>
-        <el-button @click="saveFloor">保存所有楼层</el-button>
+        <!--<el-button @click="saveFloor">保存所有楼层</el-button>-->
     </div>
 </template>
 <script>
 export default {
+    beforeRouteLeave(to, from, next){
+    //  if (to.name == 'step2') {
+        let material = JSON.stringify(this.material)
+        let structure_type = JSON.stringify(this.structure_type)
+        let figure_time = JSON.stringify(this.figure_time)
+        let floors = JSON.stringify(this.floors)
+        let height = JSON.stringify(this.height)
+        let area = JSON.stringify(this.area)
+        let cost_per_squaremeter = JSON.stringify(this.cost_per_squaremeter)
+        let Floor_info = JSON.stringify(this.Floor_info)
+        sessionStorage.setItem('material', material)
+        sessionStorage.setItem('structure_type', structure_type)
+        sessionStorage.setItem('figure_time', figure_time)
+        sessionStorage.setItem('floors', floors)
+        sessionStorage.setItem('height', height)
+        sessionStorage.setItem('area', area)
+        sessionStorage.setItem('cost_per_squaremeter', cost_per_squaremeter)
+        sessionStorage.setItem('Floor_info', Floor_info)
+
+    //  }
+    //   else{
+    //     localStorage.removeItem('project_name')
+    //     localStorage.removeItem('client_name')
+    //     localStorage.removeItem('project_leader')
+    //     localStorage.removeItem('project_description')
+    //     console.log('到其他地方');
+    //   }
+      next()
+    },
+    created(){
+      //从localStorage中读取条件并赋值给查询表单
+        let material = sessionStorage.getItem('material')
+        let structure_type = sessionStorage.getItem('structure_type')
+        let figure_time = sessionStorage.getItem('figure_time')
+        let floors = sessionStorage.getItem('floors')
+        let height = sessionStorage.getItem('height')
+        let area = sessionStorage.getItem('area')
+        let cost_per_squaremeter = sessionStorage.getItem('cost_per_squaremeter')
+        let Floor_info = sessionStorage.getItem('Floor_info')
+
+        if (material != null) {
+            this.material = JSON.parse(material)
+        }
+        if (structure_type != null) {
+            this.structure_type = JSON.parse(structure_type)
+        }
+        if (figure_time != null) {
+            this.figure_time = JSON.parse(figure_time)
+        }
+        if (floors != null) {
+            this.floors = JSON.parse(floors)
+        }
+        if (height != null) {
+            this.height = JSON.parse(height)
+        }
+        if (area != null) {
+            this.area = JSON.parse(area)
+        }
+        if (cost_per_squaremeter != null) {
+            this.cost_per_squaremeter = JSON.parse(cost_per_squaremeter)
+        }
+        if (Floor_info != null) {
+            this.Floor_info = JSON.parse(Floor_info)
+        }
+    },
+
+    
     methods:{
         newFloor(){
             this.Floor_info.push({
