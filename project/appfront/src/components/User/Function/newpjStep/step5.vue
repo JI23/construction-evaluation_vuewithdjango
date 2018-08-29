@@ -28,7 +28,7 @@
             </el-col>
             <el-col :span='8'>
                 <span class="lebal">地震波数</span>
-                <el-input style="width:90%" v-model="number" placeholder="请输入内容"></el-input>
+                <el-input @change="set_num" style="width:90%" v-model="number" placeholder="请输入内容"></el-input>
                 <span class="lebal">地震分组</span>
                 <el-select style="width:90%" v-model="group" placeholder="请选择">
                     <el-option
@@ -78,19 +78,20 @@
                     <template slot-scope="scope">
                         <el-upload
                             class="upload-demo"
-                            ref="upload"
                             action="http://localhost:8000/api/show_projects"
+                            :data="upload_data"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
-                            :file-list="fileList"
-                            :auto-upload="false"
+                            :on-success="handleResponse"
+                            :file-list="fileList[scope.$index]"
+                            accept=".jpg"
                             name="test"><!--这里是命名-->
-                            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+                            <el-button slot="trigger" size="small" type="primary" @click="get_num">选取文件</el-button>
+                            <!--<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload(scope.$index)">上传到服务器</el-button>-->
                         </el-upload>
                     </template>
                 </el-table-column>
-                <el-table-column
+                <!--<el-table-column
                     fixed="right"
                     label="操作"
                     width="120">
@@ -102,9 +103,9 @@
                         移除
                         </el-button>
                     </template>
-                </el-table-column>
+                </el-table-column>-->
             </el-table> 
-            <el-button @click="newEarthquake">新增地震波</el-button>
+            <!--<el-button @click="newEarthquake">新增地震波</el-button>-->
             <el-button @click="saveWaves">保存所有地震波</el-button>
         </el-col>
     </div>
@@ -159,15 +160,16 @@ export default {
             this.earthquake_info = JSON.parse(earthquake_info)
         }
     },
+
     methods:{
-        newEarthquake(){
+        /*newEarthquake(){
             this.earthquake_info.push({
                 earthquake_no: '',
                 name: '',
                 peak:'',
                 file:''
             })        
-        },
+        },*/
         saveWaves(){
             let _this=this;
             var project=localStorage.getItem('project')
@@ -230,9 +232,10 @@ export default {
                     console.log(err);
                     });
         },
+        /*
         deleteRow(index, rows) {
             rows.splice(index, 1);
-        },
+        },*/
         next(){
             this.$emit('next','');
         },
@@ -249,19 +252,44 @@ export default {
                 console.log(this.peak_acceleration)
             }
         },
-        submitUpload() {
-            //console.log(this.fileList);
+        submitUpload(index) {
+            console.log(index);
+            console.log('!')
             this.$refs.upload.submit();
         },
         handleRemove(file, fileList) {
+            //发送请求后台删除文件
             console.log(file, fileList);
         },
         handlePreview(file, fileList) {
             console.log(file, fileList);
+        },
+        handleResponse(response, file, fileList){
+            console.log(response)
+        },
+        get_num(index){
+            //localStorage.setItem('index',index)
+        },
+        set_num(){
+            for(var i = 0; i < this.number-1; i++){
+                //this.earthquake_info[i]=temp
+                this.earthquake_info.push({
+                    earthquake_no: '',
+                    name: '',
+                    peak:'',
+                    file:''
+                })    
+            }
+            console.log(this.earthquake_info)
+
         }
     },
     data(){
         return{
+            upload_data:{
+                'test1':'test'
+            },
+            test:'jpg',
             fileList: [],
             defense_intensity:'',
             defense_in_option:[{

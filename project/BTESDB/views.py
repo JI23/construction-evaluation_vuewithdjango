@@ -35,9 +35,12 @@ def logout(request):
 def show_projects(request):
     response = {}
     try:
-        #image=request.FILES.get('test')
-        #print (image.name)
-        
+        image=request.FILES.get('test')
+        #test = request.POST['test1']
+        #print (test)
+        print (request.FILES)
+        response['error_num'] = 0
+        return JsonResponse(response)
         print (1)
         #print (request)
         print (4)

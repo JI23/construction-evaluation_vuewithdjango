@@ -2,7 +2,7 @@
 <template>
     <div>
         <el-main>
-            <el-select v-model="value4" clearable placeholder="选择易损性数据库"><!--value4为选中内容 -->
+            <el-select @change="change_db" v-model="value4" clearable placeholder="选择易损性数据库"><!--value4为选中内容 -->
                 <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -33,22 +33,22 @@
             return {
                 dialogVisible: false,
                 options: [{
-                    value: '选项1',
+                    value: 'DB_Common',
                     label: 'DB_Common'
                 }, {
-                    value: '选项2',
+                    value: 'DB_School',
                     label: 'DB_School'
                 }, {
-                    value: '选项3',
+                    value: 'DB_Hospital',
                     label: 'DB_Hospital'
                 }, {
-                    value: '选项4',
+                    value: 'DB_User',
                     label: 'DB_User'
                 }, {
-                    value: '选项5',
+                    value: 'DB_Office',
                     label: 'DB_Office'
                 }, {
-                    value: '选项6',
+                    value: 'DB_FEMA',
                     label: 'DB_FEMA'
                 }],
                 value4: '',
@@ -71,10 +71,11 @@
             }
         },
 
+        beforeMount(){
+            this.change_view()
+        },
+
         methods: {
-            newdb(){
-                this.$router.push({name:'newdb'});
-            },
             handleNodeClick(data,node){
                 //console.log(data);
                 if(node.level > 3){
@@ -101,7 +102,15 @@
             write(){
                 this.dialogVisible = false;
                 this.$router.push({name:'newdb'});
+            },
+            change_db(){
+                this.change_view()
+            },
+            change_view(){
+                //获取数据库信息并显示
             }
+
+
         }
     }
 </script>

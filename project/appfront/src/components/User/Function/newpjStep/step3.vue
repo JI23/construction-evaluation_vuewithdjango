@@ -51,7 +51,7 @@
         </el-table> 
         <el-button @click="newComponent">新增结构构件</el-button>
         <el-button @click="saveElements">保存所有结构构件</el-button>
-        
+        <el-button @click="view_db">查看易损性数据库详情</el-button>
         <el-dialog
         title="提示"
         :visible.sync="dialogVisible"
@@ -104,18 +104,6 @@
                     }]
                 }],
             }],
-            /*data2: [{
-                    label: 'General Info123456',
-                    children: [{
-                        label: 'Damage State Type',
-                        children: [{
-                            label: 'Damage State 1',
-                            children: [{
-                                label: 'A1101 Consequence Functions'
-                            }]
-                        }]
-                    }],
-                  }],*/
             data:[],
             data1:[]
             
@@ -137,6 +125,9 @@
         }
     },
     methods: {
+        view_db(){
+            window.open('http://localhost:8080/#/refer/viewdb')
+        },
         chooseId(index, rows){
             this.dialogVisible = true;
             this.index = index;
@@ -170,23 +161,11 @@
                     
                     console.log('111')
                     for(var i = 0; i < res['detail'].length; i++){
-                        //_this.data =  _this.data1
-                        //console.log(res['detail'][i].fields.DB_part_id-1+'!!!')
-                        
                         const newchild={label: res['detail'][i].fields.DB_part+res['detail'][i].fields.damage_id+res['detail'][i].fields.damage_description, children:[]}
                         _this.data[res['detail'][i].fields.DB_part-1].children[temp[res['detail'][i].fields.DB_part-1]] = newchild
                         temp[res['detail'][i].fields.DB_part-1] += 1
                     }
                     console.log('222')
-                    //const newchild={label:'test',children:[]}
-                    //_this.data =  _this.data1
-                    //_this.data[1]=newchild
-                    
-                    //_this.data[0].label=res['list'][0].fields.part_id
-                    //console.log(_this.data[0].label)
-                    
-                    
-                    //console.log(_this.data.label=res['list'][0].fields.part_id)
                     _this.$index=res['list'][0].fields.part_id
                 }
                 else {

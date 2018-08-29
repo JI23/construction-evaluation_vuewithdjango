@@ -48,9 +48,9 @@
             var vm = this
             // 用$on事件来接收参数
             var label = JSON.parse(localStorage.getItem("label"));
-            //console.log(input+'!!!!!');
-            //var tempdata = this.data[input];
-            //this.newData[input] = tempdata;
+            //console.log(label)
+            var temp = label.substring(13,14)
+            console.log(temp)
             localStorage.removeItem("label");
         },
 

@@ -19,6 +19,14 @@
             }
         },
 
+        watch:{
+            "$route": "get_url"
+        },
+        
+        beforeMount(){
+            this.get_url()
+        },
+
         mounted: function () {
             var vm = this
             // 用$on事件来接收参数
@@ -30,7 +38,7 @@
         methods: {
             handleClick(tab, event){
                 if(tab.name === "gen_con_info"){
-                    this.$router.push({name:'gen_info'});
+                    this.$router.push({name:'gen_con_info'});
                 }
                 else if(tab.name === "re_cost"){
                     this.$router.push({name:'re_cost'});
@@ -41,6 +49,15 @@
                 else if(tab.name === "others"){
                     this.$router.push({name:'others'});
                 }
+            },
+
+            get_url(){
+                let _this = this
+                console.log(_this.activeName)
+                //console.log(this.$route.path)
+                var path1 = this.$route.path.split("/")
+                console.log(path1)
+                _this.activeName = path1[4]
             }
             
         }

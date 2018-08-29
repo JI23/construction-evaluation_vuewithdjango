@@ -78,7 +78,7 @@ import damage_state from "../components/User/Function/refer/newdb/damage_state";
 import generalinfo from "../components/User/Function/refer/newdb/generalinfo/generalinfo";
 import notes from "../components/User/Function/refer/newdb/generalinfo/notes";
 //consequence部分
-import gen_info from "../components/User/Function/refer/newdb/consequence/gen_info";
+import gen_con_info from "../components/User/Function/refer/newdb/consequence/gen_con_info";
 import others from "../components/User/Function/refer/newdb/consequence/others.vue";
 import re_cost from "../components/User/Function/refer/newdb/consequence/re_cost";
 import re_time from "../components/User/Function/refer/newdb/consequence/re_time";
@@ -222,12 +222,12 @@ export default new Router({
                   path:'/refer/newdb/consequence',
                   name:'consequence',
                   component:consequence,
-                  redirect:'/refer/newdb/consequence/gen_info',
+                  redirect:'/refer/newdb/consequence/gen_con_info',
                   children:[
                     {
-                      path:'/refer/newdb/consequence/gen_info',
-                      name:'gen_info',
-                      component:gen_info
+                      path:'/refer/newdb/consequence/gen_con_info',
+                      name:'gen_con_info',
+                      component:gen_con_info
                     },
                     {
                       path:'/refer/newdb/consequence/others',
@@ -354,15 +354,15 @@ export default new Router({
           path:'/audit_user',
           name:'audit_user',
           component:Audit_user,
-          redirect:'/user/audit_list',
+          redirect:'/audit_user/audit_list',
           children:[
             {
-              path:'/user/detail_user',
+              path:'/audit_user/detail_user',
               name:'detail_user',
               component:detail_user
             },
             {
-              path:'/user/audit_list',
+              path:'/audit_user/audit_list',
               name:'audit_list',
               component:audit_list
             }
@@ -400,15 +400,15 @@ export default new Router({
           path:'/feedback_user',
           name:'feedback_user',
           component:Feedback_user,
-          redirect:'/feedback/feedback_list',
+          redirect:'/feedback_user/feedback_list',
           children:[
             {
-              path:'/feedback/feedback_list',
+              path:'/feedback_user/feedback_list',
               name:'feedback_list',
               component:feedback_list,
             },
             {
-              path:'/feedback/feedback_detail',
+              path:'/feedback_user/feedback_detail',
               name:'feedback_detail',
               component:feedback_detail,
             }

@@ -96,48 +96,24 @@
                        username:'13051997327'
                     },
                     headers:{"Content-Type": "application/json"}
-                })
-                    .then(function(response){
-                        console.log(response)
-                        var res = response.data
-                        console.log(res)
-                        if (res.error_num == 0) {
-                            //console.log(res['list'][0].fields)
-                            //_this.projects[0] = res['list'][0].fields
-                            //_this.projects[1] = res['list'][1].fields
-                            //vue.set(_this.projects[0],'',res['list'][0].fields);
-                            _this.projects = res['list']
-                            for(var i = 0; i < res['list'].length; i++){
-                                _this.projects[i] = res['list'][i].fields
-                            }
-                            //_this.projects[0] = res['list'][0].fields
-                            //_this.projects[1] = res['list'][1].fields
-                            console.log(_this.projects)
-                        } 
-                        else {
-                            _this.$message.error('查询项目失败')
-                            console.log(res['msg'])
+                }).then(function(response){
+                    console.log(response)
+                    var res = response.data
+                    console.log(res)
+                    if (res.error_num == 0) {
+                        _this.projects = res['list']
+                        for(var i = 0; i < res['list'].length; i++){
+                             _this.projects[i] = res['list'][i].fields
                         }
-                    })
-                    .catch(function(err){
-                        console.log(err);
-                    });
-                /*this.$ajax.get('http://localhost:8000/api/show_projects')
-                    .then(function(response){
-                        console.log(response)
-                        var res = JSON.parse(response.bodyText)
-                        console.log(res)
-                        if (res.error_num == 0) {
-                            _this.projects = res['list']
-                        } 
-                        else {
-                            _this.$message.error('查询项目失败')
-                            console.log(res['msg'])
-                        }
-                    })
-                    .catch(function(err){
-                        console.log(err);
-                    });*/
+                        console.log(_this.projects)
+                    } 
+                    else {
+                        _this.$message.error('查询项目失败')
+                        console.log(res['msg'])
+                    }
+                }).catch(function(err){
+                    console.log(err);
+                });
             },
         },
 //改成从后台重新获取数据，前端object的处理写不出来
@@ -149,13 +125,13 @@
         data () {
             return {
                 input: '',
-                 projects: [{create_time: '2016-05-03',
-                      project_leader: '王小虎',
-                      client_name:'王小五',
-                      project_name: '上海',
-                      user: '普陀区',
-                      rate: '上海市',
-                      project_description: 200333},],
+                projects: [{create_time: '2016-05-03',
+                    project_leader: '王小虎',
+                    client_name:'王小五',
+                    project_name: '上海',
+                    user: '普陀区',
+                    rate: '上海市',
+                    project_description: 200333},],
                 newData: [{
                     date: '2016-05-03',
                     name: '王小虎',
