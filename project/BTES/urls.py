@@ -39,7 +39,7 @@ urlpatterns = [
     path('insert_DB_part/', insertState.insert_temp),
     path('admin/', admin.site.urls),
 
-    path('upload/',views.upload_db_part),
+    path('upload/',views.upload),
 
     path('',views.index),
 

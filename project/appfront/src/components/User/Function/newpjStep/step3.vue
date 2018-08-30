@@ -53,24 +53,29 @@
         <el-button @click="saveElements">保存所有结构构件</el-button>
         <el-button @click="view_db">查看易损性数据库详情</el-button>
         <el-dialog
-        title="提示"
+        title="选择易损性数据库"
         :visible.sync="dialogVisible"
         width="50%"
+        top=10px
+        :center=true
         :before-close="handleClose">
-        <span>这是一段信息</span>
         <div class="block">
-            <el-cascader
-                placeholder="试试搜索：指南"
-                :options="options"
-                filterable
-                @change="changed"
-            ></el-cascader>
+            <el-select style="position:relative; top:-10px" v-model="value4" filterable placeholder="请选择">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+            </el-select>
         </div>
-        <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
+        <el-scrollbar style='height:450px'>
+            <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-scrollbar>
         </el-dialog>
     </div>
     
@@ -93,17 +98,25 @@
                 Non:null
             }],
             options: [{
-                value: 'hhh',
-                label: 'General Info',
-                children: [{
-                    value: 'hhh',
-                    label: 'Damage State Type',
-                    children: [{
-                        value: 'hhh',
-                        label: 'Damage State 1',
-                    }]
+                    value: 'DB_Common',
+                    label: 'DB_Common'
+                }, {
+                    value: 'DB_School',
+                    label: 'DB_School'
+                }, {
+                    value: 'DB_Hospital',
+                    label: 'DB_Hospital'
+                }, {
+                    value: 'DB_User',
+                    label: 'DB_User'
+                }, {
+                    value: 'DB_Office',
+                    label: 'DB_Office'
+                }, {
+                    value: 'DB_FEMA',
+                    label: 'DB_FEMA'
                 }],
-            }],
+                value4:'DB_Common',
             data:[],
             data1:[]
             
@@ -135,6 +148,9 @@
             this.$ajax({
                 method:'get',
                 url:'step3-get-all-parts',
+                params:{
+                    value: this.value4
+                },
                 headers:{"Content-Type": "application/json"}
             })
             .then(function(response){

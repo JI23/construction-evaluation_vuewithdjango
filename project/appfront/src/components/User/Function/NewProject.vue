@@ -31,6 +31,33 @@
         "$route": "get_url"
     },
 
+    beforeRouteLeave (to, from , next) {
+            /*next(false)
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+                next()
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+                next(false)          
+            });*/
+            const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
+            if (answer) {
+                next()
+            } else {
+                next(false)
+            }
+        },
+
     methods: {
         get_url(){
             let _this = this
@@ -39,22 +66,30 @@
             _this.active = path1
         },
         createNew(){
-            this.$confirm('是否保存当前项目修改', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-                }).then(() => {
+            this.$confirm('当前项目可能为保存，是否保存当前项目？', '确认信息', {
+            distinguishCancelAndClose: true,
+            confirmButtonText: '保存',
+            cancelButtonText: '放弃修改'
+            })
+            .then(() => {
+                this.$router.push({name:'step1'})
+                //清除缓存发送保存请求
+                this.$message({
+                type: 'info',
+                message: '保存修改'
+                });
+            })
+            .catch(action => {
+                if(action === 'cancel'){
                     this.$router.push({name:'step1'})
-                    //移除本地存储
-                    //this.$message({
-                    //    type: 'success',
-                    //    message: '删除成功!'
-                    //});
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消重新建立'
-                    });          
+                    //清除缓存
+                }
+                this.$message({
+                type: 'info',
+                message: action === 'cancel'
+                    ? '放弃保存并离开页面'
+                    : '停留在当前页面'
+                })
             });
         },
         next() {  

@@ -112,36 +112,68 @@ class DB_part(models.Model):
     #如BE.F.01.01，必须遵循该格式
     part_id=models.CharField(max_length=20,blank=False,verbose_name='易损件id')
     #可以是任意字符串
-    part_name=models.CharField(max_length=100,blank=False,verbose_name='易损件名称')
+    part_name=models.CharField(max_length=400,blank=False,verbose_name='易损件名称')
     #如单片玻璃幕墙...
-    description=models.CharField(max_length=300,blank=False,verbose_name='易损件描述')
+    description=models.CharField(max_length=570,blank=False,verbose_name='易损件描述')
     #基本单位，如1个，3.3m2等
     basic_unit=models.CharField(max_length=10,default='1个',verbose_name='基本单位')
     #易损件单价，默认为0，0.00-999999.99
     cost=models.DecimalField(max_digits=8, decimal_places=2,blank=False,verbose_name='易损件单价',default=0.00)
+    #correlation
+    correlation=models.BooleanField(default=True,verbose_name='Correlation')
+    #directional
+    directional=models.BooleanField(default=True,verbose_name='Directional')
+    
+    #EDP
     #EDP类型，分层间位移角和楼层加速度
     EDP_type_choice=(
         ('S','Story Drift Ratio'),#层间位移角
         ('A','Acceleration'),#楼层加速度
     )
     EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S',verbose_name='EDP类型')
+    #默认单位
+    default_units=models.CharField(max_length=25,verbose_name='默认单位')
+    #Dimension
+    dimension=models.CharField(max_length=5,verbose_name='Dimension')
+    #是否是用户自定义
+    user_defined=models.BooleanField(default=False,verbose_name='用户自定义')
+    
+    #Rating
+    #DataQuality
+    DataQuality=models.CharField(max_length=1,default='1',verbose_name='DataQuality')
+    #DataRelevance
+    DataRelevance=models.CharField(max_length=1,default='1',verbose_name='DataRelevance')
+    #Documentation
+    Documentation=models.CharField(max_length=1,default='1',verbose_name='Documentation')
+    #Rationality
+    Rationality=models.CharField(max_length=1,default='1',verbose_name='Rationality')
+    
     #数据来源
     data_resource=models.CharField(max_length=45,blank=False,default='《建筑抗震韧性评价标准》编委会',verbose_name='数据来源')
     #是否是官方认证
     is_formal=models.BooleanField(default=True,verbose_name='官方认证')
-    #是否是用户自定义
-    user_defined=models.BooleanField(default=False,verbose_name='用户自定义')
+    #Approved
+    Approved=models.BooleanField(default=True,verbose_name='Approved')
+    #Incomplete
+    Incomplete=models.BooleanField(default=True,verbose_name='Incomplete')
+    #Notes
+    #Notes=models.CharField(max_length=200,blank=True,default=None,verbose_name='Notes')
+    #UseEDPValueOfFloorAbove
+    UseEDPValueOfFloorAbove=models.BooleanField(default=False,verbose_name='UseEDPValueOfFloorAbove')
     #易损件的场地类别
     site_classification_choice=(
         ('h','hospital'),
         ('o','office'),
         ('s','school'),
         ('c','common'),
-        ('u','user_defined')
+        ('u','user_defined'),
+        ('f','FEMA')
     )
     part_type=models.CharField(max_length=1,choices=site_classification_choice,default='c',verbose_name='场地类别')
     #创建时间
     create_date=models.DateTimeField(verbose_name='创建时间',auto_now_add=True)
+    #DSGroupType
+    DSGroupType=models.CharField(max_length=25,verbose_name='DSGroupType')
     #损伤数量
     damage_state_number=models.SmallIntegerField(default=0,verbose_name='损伤数量')
     #与该易损件相关的损伤xml文件
@@ -374,7 +406,8 @@ class Earthquake_Info(models.Model):
     #峰值加速度,用if，else判断，由地震水准和设防烈度唯一确定
     #peak_acceleration=models.DecimalField(max_digits=6,decimal_place=3,verbose_name='峰值加速度')
 
-
+def upload_to2(instance,filename):
+    return '/'.join(['wave_file',instance.project,instance.earthquake_wave_no,filename])
 class Earthquake_wave_detail(models.Model):
     '''地震波详情'''
     class Meta:
@@ -388,8 +421,8 @@ class Earthquake_wave_detail(models.Model):
     earthquake_wave_name=models.CharField(max_length=15,verbose_name='地震波名称')
     #地震波峰值
     peak=models.DecimalField(max_digits=4,decimal_places=2,verbose_name='地震波峰值')
-    #文件存放位置，%Y、%m、%d分别表示年、月、日，描述性txt文件，以后不会用，要存在云端
-    earthquake_wave_file=models.FileField(upload_to=str(project)+'/%Y/%m/%d/',verbose_name='地震波文件')
+    #文件存放位置
+    earthquake_wave_file=models.FileField(upload_to=upload_to2,verbose_name='地震波文件')
 
 class Structure_response(models.Model):
     #django自己生成主键

@@ -1,7 +1,7 @@
 <template> 
     <div style="top:-73px; position:relative; height:400px; margin:18px 20px;">
         <el-table
-             :data="projects.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+            :data="projects.slice((currentPage-1)*pagesize,currentPage*pagesize)"
             border
             style="width: 100%">
             <el-table-column
@@ -22,7 +22,7 @@
             <el-table-column
                 prop="client_name"
                 label="客户姓名"
-                width="270">
+                width="120">
             </el-table-column>
             <el-table-column
                 prop="project_leader"
@@ -57,7 +57,7 @@
             :page-sizes="[5, 20, 50, 100]"
             :page-size="pagesize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="newData.length"
+            :total="projects.length"
             style="text-align: center">
         </el-pagination>
     </div>
@@ -93,26 +93,26 @@
                     url:'show_projects',
                     params: {
                        'is_finished': 'True', 
-                       username:'13051997327'
+                       username:name
                     },
                     headers:{"Content-Type": "application/json"}
                 }).then(function(response){
-                    console.log(response)
+                    //console.log(response)
                     var res = response.data
-                    console.log(res)
+                    //console.log(res)
                     if (res.error_num == 0) {
                         _this.projects = res['list']
                         for(var i = 0; i < res['list'].length; i++){
                              _this.projects[i] = res['list'][i].fields
                         }
-                        console.log(_this.projects)
+                        //console.log(_this.projects)
                     } 
                     else {
                         _this.$message.error('查询项目失败')
-                        console.log(res['msg'])
+                        //console.log(res['msg'])
                     }
                 }).catch(function(err){
-                    console.log(err);
+                    //console.log(err);
                 });
             },
         },
@@ -125,21 +125,7 @@
         data () {
             return {
                 input: '',
-                projects: [{create_time: '2016-05-03',
-                    project_leader: '王小虎',
-                    client_name:'王小五',
-                    project_name: '上海',
-                    user: '普陀区',
-                    rate: '上海市',
-                    project_description: 200333},],
-                newData: [{
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    pjNum: 'asdfghjkl',
-                    pjHead: '普陀区',
-                    grade: '上海市',
-                    explain: 2003332
-                },],
+                projects: [],
                 currentPage:1,
                 pagesize:5,
                 search:''

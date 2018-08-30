@@ -22,7 +22,7 @@
             <el-table-column
                 prop="client_name"
                 label="客户姓名"
-                width="270">
+                width="120">
             </el-table-column>
             <el-table-column
                 prop="project_leader"

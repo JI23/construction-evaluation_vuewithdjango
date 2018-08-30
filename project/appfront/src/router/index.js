@@ -19,8 +19,8 @@ import Feedback_user from "../components/admin/Function/Feedback_user.vue";
 import View_refer from "../components/admin/Function/View_refer.vue";
 
 //审核用户
-import detail_user from "../components/admin/Function/user/detail_user.vue";
-import audit_list from "../components/admin/Function/user/audit_list.vue";
+import detail_user from "../components/admin/Function/audit_user/detail_user.vue";
+import audit_list from "../components/admin/Function/audit_user/audit_list.vue";
 
 //查看用户
 import normal from "../components/admin/Function/view_user/normal";
@@ -28,8 +28,8 @@ import abnormal from "../components/admin/Function/view_user/abnormal";
 import view_detail from "../components/admin/Function/view_user/view_detail";
 
 //查看反馈信息
-import feedback_list from "../components/admin/Function/feedback/feedback_list";
-import feedback_detail from "../components/admin/Function/feedback/feedback_detail";
+import feedback_list from "../components/admin/Function/feedback_user/feedback_list";
+import feedback_detail from "../components/admin/Function/feedback_user/feedback_detail";
 
 
 //个人中心的二级页面
@@ -69,7 +69,6 @@ import detail from "../components/User/Function/viewpj/detail.vue";
 import viewdb from "../components/User/Function/refer/viewdb.vue";
 import newdb from "../components/User/Function/refer/newdb/newdb.vue";
 //新建易损性数据库
-import uploadXML from "../components/User/Function/refer/newdb/uploadXML.vue";
 import general_info from "../components/User/Function/refer/newdb/general_info";
 import statenum from "../components/User/Function/refer/newdb/statenum";
 import consequence from "../components/User/Function/refer/newdb/consequence";
@@ -206,11 +205,6 @@ export default new Router({
               path:'/refer/viewdb',
               name:'viewdb',
               component:viewdb
-            },
-            {
-              path:'/refer/newdb/uploadXML',
-              name:'uploadXML',
-              component:uploadXML
             },
             {
               path:'/refer/newdb/newdb',
