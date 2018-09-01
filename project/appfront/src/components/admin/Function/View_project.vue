@@ -74,31 +74,34 @@
             delete: function(){
                 //给后台发送删除项目的对应ID
             },
-            showProjects(){/*
+            showProjects(){
                 let _this = this;
                 this.$ajax({
                     method:'get',
-                    url:'',
+                    url:'show_projects',
                     params: {
-                       
+                       'is_finished': 'True', 
+                       'username': '123456'
                     },
+                    headers:{"Content-Type": "application/json"}
                 }).then(function(response){
-                    console.log(response)
+                    //console.log(response)
                     var res = response.data
                     console.log(res)
                     if (res.error_num == 0) {
                         _this.projects = res['list']
                         for(var i = 0; i < res['list'].length; i++){
-                            _this.projects[i] = res['list'][i].fields
+                             _this.projects[i] = res['list'][i].fields
                         }
+                        //console.log(_this.projects)
                     } 
                     else {
                         _this.$message.error('查询项目失败')
-                        console.log(res['msg'])
+                        //console.log(res['msg'])
                     }
                 }).catch(function(err){
                     console.log(err);
-                });*/
+                });
             },
         },
 

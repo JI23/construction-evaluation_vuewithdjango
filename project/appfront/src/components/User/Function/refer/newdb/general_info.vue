@@ -12,10 +12,17 @@
     export default {
         data() {
             return {
-                activeName: 'generalinfo'
+                activeName: ''
             }
         },
 
+        watch:{
+            "$route": "get_url"
+        },
+
+        beforeMount(){
+            this.get_url()
+        },
         methods: {
             handleClick(tab, event) {
                 //console.log(tab, event);
@@ -25,6 +32,14 @@
                 else if(tab.name === "notes"){
                     this.$router.push({name:'notes'});
                 }
+            },
+            get_url(){
+                let _this = this
+                console.log(_this.activeName)
+                //console.log(this.$route.path)
+                var path1 = this.$route.path.split("/")
+                console.log(path1)
+                _this.activeName = path1[4]
             }
         }
     }

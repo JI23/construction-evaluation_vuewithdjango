@@ -21,9 +21,17 @@
         data() {
             return {
                 input: '',
-                activeName: 'success',
+                activeName: '',
                 isRouteAlive: true
             }
+        },
+
+        beforeMount(){
+            this.get_url()
+        },
+
+        watch:{
+            "$route": "get_url"
         },
 
         methods: {
@@ -47,6 +55,16 @@
                     this.isRouteAlive = true
                 })
             },
+            get_url(){
+                let _this = this
+                //console.log(_this.activename)
+                //console.log(this.$route.path)
+                var path1 = this.$route.path.split("/")
+                console.log('!')
+                console.log(path1[2])
+                console.log('!')
+                _this.activeName = path1[2]
+            }
         }
   }
 </script>

@@ -59,16 +59,16 @@
         data() {
             return {
                 options1: [{
-                    value: '选项1',
+                    value: 'N/A',
                     label: 'N/A'
                 }, {
-                    value: '选项2',
+                    value: 'Marginal',
                     label: 'Marginal'
                 }, {
-                    value: '选项3',
+                    value: 'Average',
                     label: 'Average'
                 }, {
-                    value: '选项4',
+                    value: 'Superior',
                     label: 'Superior'
                 }],
                 data: '',

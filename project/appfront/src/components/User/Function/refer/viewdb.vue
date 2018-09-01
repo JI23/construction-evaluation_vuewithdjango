@@ -2,24 +2,14 @@
 <template>
     <div>
         <el-main>
-            <el-select v-model="value4" clearable placeholder="选择易损性数据库"><!--value4为选中内容 -->
+            <el-select @change="change_db" v-model="value4" placeholder="选择易损性数据库"><!--value4为选中内容 -->
                 <el-option
                     v-for="item in options"
                     :key="item.value"
                     :value="item.label">
                 </el-option>
               </el-select>
-            <el-button style="float: right" round type="info" @click="dialogVisible = true">新建易损性数据库</el-button>
-            <el-dialog
-                title="新建易损性数据库"
-                :visible.sync="dialogVisible"
-                width="30%"
-                :before-close="handleClose">
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="upload_xml">上传xml文件</el-button>
-                    <el-button type="primary" @click="write">手动填写</el-button>
-                </span>
-            </el-dialog>
+            <el-button style="float: right" round type="info" @click="write">新建易损性数据库</el-button>
             <div style="height:380px; overflow:scroll; position:relative; top:20px">
                 <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
             </div>
@@ -31,27 +21,26 @@
     export default {
         data() {
             return {
-                dialogVisible: false,
                 options: [{
-                    value: '选项1',
+                    value: 'DB_Common',
                     label: 'DB_Common'
                 }, {
-                    value: '选项2',
+                    value: 'DB_School',
                     label: 'DB_School'
                 }, {
-                    value: '选项3',
+                    value: 'DB_Hospital',
                     label: 'DB_Hospital'
                 }, {
-                    value: '选项4',
+                    value: 'DB_User',
                     label: 'DB_User'
                 }, {
-                    value: '选项5',
+                    value: 'DB_Office',
                     label: 'DB_Office'
                 }, {
-                    value: '选项6',
+                    value: 'DB_FEMA',
                     label: 'DB_FEMA'
                 }],
-                value4: '',
+                value4: 'DB_Common',
                 data: [{
                     label: 'A - Substructure',
                     children: [{
@@ -71,10 +60,11 @@
             }
         },
 
+        beforeMount(){
+            this.change_view()
+        },
+
         methods: {
-            newdb(){
-                this.$router.push({name:'newdb'});
-            },
             handleNodeClick(data,node){
                 //console.log(data);
                 if(node.level > 3){
@@ -93,15 +83,28 @@
                 .catch(_ => {});
             },
 
-            upload_xml(){
-                this.dialogVisible = false
-                this.$router.push({name:'uploadXML'});
-            },
-
             write(){
-                this.dialogVisible = false;
                 this.$router.push({name:'newdb'});
+            },
+            change_db(){
+                this.change_view()
+            },
+            change_view(){
+                //获取数据库信息并显示
+                this.$ajax({
+                    method:'get',
+                    url:'',
+                    params:{
+                        temp: this.value4
+                    },
+                }).then(function(response){
+                    var res = response.data
+                }).catch(function(response){
+                    console.log((response))
+                })
             }
+
+
         }
     }
 </script>

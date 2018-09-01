@@ -22,7 +22,7 @@
             <el-table-column
                 prop="client_name"
                 label="客户姓名"
-                width="270">
+                width="120">
             </el-table-column>
             <el-table-column
                 prop="project_leader"
@@ -188,20 +188,13 @@
                     method:'get',
                     url:'step0-delete',
                     params:{
-                        project:project,
-                        username:username,
+                        project:row.id,
+                        username:username
                     }
                 }).then(function(response){
                     //判断后弹窗
-                    //this.reload()
-                    var res=response.data
-                    if (res.error_num==0){
-                        
-                        console.log(res['msg'])
-                    }
-                    else{
-                        console.log(res['msg'])
-                    }
+                    var res = response.data
+                    console.log(res['msg'])
                 }).catch(function(err){
                     console.log(err)
                 })

@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div>
         <el-row>
             <el-button size="small" class='btn' @click="next">下一步</el-button>
             <el-button size="small" class='btn' @click="back">上一步</el-button>
