@@ -44,8 +44,10 @@ export default {
                         var res = response.data
                         console.log(res)
                         if (res['error_num'] == 0) {
+                            localStorage.clear()
                             console.log(res['msg'])
                             localStorage.setItem('phone', res['username'])
+                            localStorage.setItem('project',0)
                             //localStorage.setItem('password', res['password'])
                             console.log(localStorage.getItem('phone')) 
                             //console.log(localStorage.getItem('password'))

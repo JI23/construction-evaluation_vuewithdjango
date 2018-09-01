@@ -4,7 +4,7 @@
             <el-tree  :expand-on-click-node="false" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
         </el-card>
         <el-card style="width:68%;">
-            <router-view></router-view>
+            <router-view v-if="isRouteAlive"></router-view>
         </el-card>
     </div>
 </template>
@@ -13,6 +13,7 @@
     export default {
         data() {
             return {
+                isRouteAlive:true,
                 contentHasSave: false,//用于判断是否有修改
                 data: [{  
                     label: 'General Info',
@@ -21,41 +22,60 @@
                         children: [{
                             label: 'Damage State 1',
                             children: [{
-                                label: 'Consequence Functions'
+                                label: 'Consequence Functions 1'
                             }],
                         }]
                     }],
                 }, {
                     label: 'Add Damage State'
                 }],
+                data_temp: [{
+                    label: 'Damage State 1',
+                    children: [{
+                        label: 'Consequence Functions'
+                    }],
+                }]
             }
         },
 
         methods: {
+            reload(){
+                this.isRouteAlive = false
+                this.$nextTick(function(){
+                    this.isRouteAlive = true
+                })
+            },
             handleNodeClick(data,node) {
-                console.log(data.$treeNodeId);
+                //console.log(data.$treeNodeId);
                 if(data.label === 'General Info'){
                     this.$router.push({name:'general_info'});
                 }
                 else if(data.label === 'Damage State Type'){
                     this.$router.push({name:'damage_state'});
                 }
-                else if(data.label === 'Consequence Functions'){
+                else if(data.label.substring(0,21) === 'Consequence Functions'){
                     this.$router.push({name:'consequence'});
                     console.log(data)
-                    localStorage.setItem("label",JSON.stringify(data.label));
+                    localStorage.setItem("functionnum",JSON.stringify(data.label));
+                    this.reload()
                 }
                 else if(data.label === 'Add Damage State'){
                     var temp = this.data[0].children[0].children.length+1;
-                    this.data[0].children[0].children[temp-1] = Object.assign({},this.data[0].children[0].children[0]);
-                    this.data[0].children[0].children[temp-1].label = 'Damage Step'+temp;
+                    this.data[0].children[0].children[temp-1] = Object.assign({},this.data_temp[0]);
+                    this.data[0].children[0].children[temp-1].label = 'Damage State '+temp;
+                    //console.log(this.data[0].children[0].children[temp-1].children[0].label)
+                    //console.log('!')
+                    this.data[0].children[0].children[temp-1].children[0].label = 'Consequence Functions '+temp;
                     this.data = JSON.parse(JSON.stringify(this.data));
                     //console.log(this.data[0].children[0].children[2]);
                     //console.log(this.data[0].children[0].children);
                 }
                 else{
+                    //this.reload()
+                    //console.log(data.label.substring(0,20))
+                    localStorage.setItem("statenum",JSON.stringify(data.label));
                     this.$router.push({name:'statenum'});
-                    localStorage.setItem("label",JSON.stringify(data.label));
+                    this.reload()
                 }
             },
         },

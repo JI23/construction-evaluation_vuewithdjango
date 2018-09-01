@@ -79,11 +79,13 @@
                         <el-upload
                             class="upload-demo"
                             ref="upload"
-                            action="https://jsonplaceholder.typicode.com/posts/"
+                            action="http://localhost:8000/api/step5-save-wave_file"
+                            :data='upload_data'
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :file-list="fileList"
-                            :auto-upload="false">
+                            :auto-upload="false"
+                            name='test'>
                             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                             <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                         </el-upload>
@@ -177,7 +179,9 @@ export default {
                 params:{
                     earthquake_info:this.earthquake_info,
                     project:project,
+                    test:this.test,
                     number:this.number,
+                    username:localStorage.getItem('phone'),
                 },
             })
             .then(function(response){
@@ -263,6 +267,11 @@ export default {
     },
     data(){
         return{
+            upload_data:{
+                username:localStorage.getItem('phone'),
+                project:1,//localStorage.getItem('project')
+                //wave_no:row.earthquake_no,
+            },
             fileList: [],
             defense_intensity:'',
             defense_in_option:[{

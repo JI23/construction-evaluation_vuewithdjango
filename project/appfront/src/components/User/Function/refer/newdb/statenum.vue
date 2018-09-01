@@ -15,11 +15,13 @@
         <div class="wrapper9">
             <el-upload
                 class="upload-demo"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="http://localhost:8000/api/savegen_image"
+                :data='image_data'
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
                 :file-list="fileList2"
-                list-type="picture">
+                list-type="picture"
+                name='image'>
                 <el-button @click="addone" v-if="temp < 2" size="small" type="primary">点击上传</el-button>
                 <el-button disabled v-if="temp >= 2" size="small" type="primary">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -33,6 +35,10 @@
     export default {
         data() {
             return {
+                image_data:{
+                    path:localStorage.getItem('path'),
+                    statenum:localStorage.getItem('statenum'),
+                },
                 fileList2: [],
                 data: [{
                 }],
@@ -41,6 +47,7 @@
                 median: '',
                 dispersion: '',
                 temp: '0',
+                
             }
         },
 
@@ -56,13 +63,44 @@
 
         methods: {
             savegen(){
+                let _this=this;
                 var statenum_info = {
                     name: this.name, 
                     median: this.median, 
                     dispersion: this.dispersion,
                     description: this.description,
+                    DamageImageName:'null',
                 };
                 localStorage.setItem("statenum_info",JSON.stringify(statenum_info));
+                this.$ajax({
+                method:'get',
+                url:'refer_check_statenum',
+                params:{
+                    username:localStorage.getItem('phone'),
+                    path:localStorage.getItem('path'),
+                    statenum:localStorage.getItem('statenum'),
+                    statenum_info:statenum_info
+                },
+            })
+            .then(function(response){
+                console.log(response)
+                var res = response.data
+                console.log(res)
+                if (res.error_num == 0) {
+                    console.log(res['msg'])
+                    console.log(res['DamageImageName'])
+                    _this.$message.success(res['msg'])
+                    statenum_info['DamageImageName']=res['DamageImageName']
+                    localStorage.setItem("statenum_info",JSON.stringify(statenum_info));
+                } 
+                else {
+                    _this.$message.error(res['msg'])
+                    console.log(res['msg'])
+                }
+            })
+            .catch(function(err){
+                    console.log(err);
+                    });
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);

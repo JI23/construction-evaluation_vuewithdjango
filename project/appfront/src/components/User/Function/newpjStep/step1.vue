@@ -94,6 +94,10 @@ export default {
         save1(){
             let _this=this;
             var username=localStorage.getItem('phone')
+            localStorage.setItem('project_name', this.project_name)
+            localStorage.setItem('project_leader', this.project_leader)
+            localStorage.setItem('project_description', this.project_description)
+            localStorage.setItem('client_name', this.client_name)
             this.$ajax({
                 method:'get',
                 url:'step1',
@@ -102,7 +106,8 @@ export default {
                     project_name:this.project_name,
                     client_name:this.client_name,
                     project_leader:this.project_leader,
-                    project_description:this.project_description
+                    project_description:this.project_description,
+                    project:localStorage.getItem('project')
                 },
                 headers:{"Content-Type": "application/json"}
             })
@@ -112,10 +117,6 @@ export default {
                         console.log(res)
                         if (res['error_num'] == 0) {
                             console.log(res['msg'])
-                            localStorage.setItem('project_name', res['project_name'])
-                            localStorage.setItem('project_leader', res['project_leader'])
-                            localStorage.setItem('project_description', res['project_description'])
-                            localStorage.setItem('client_name', res['client_name'])
                             console.log(localStorage.getItem('project_name'))
                             console.log(res['project_leader'])
                             console.log(res['project_description'])

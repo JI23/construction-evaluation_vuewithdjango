@@ -16,8 +16,8 @@
         </div>
         <div class="wrapper4">
             <el-col >
-                <span class="lebal">项目编号</span>
-                    <el-select size="mini" v-model="value0" placeholder="请选择">
+                <span class="lebal">CurveType</span>
+                    <el-select size="mini" v-model="CurveType" placeholder="请选择">
                         <el-option
                             v-for="item in options0"
                             :key="item.value"
@@ -58,7 +58,7 @@
                     value: '选项6',
                     label: 'DB_FEMA'
                 }],
-                value0:'',
+                CurveType:'',
                 canvasId: 'myCanvas',
                 type: 'line',
                 data: [
@@ -75,14 +75,44 @@
 
         methods: {
             save_next(){
-                var re_cost = {
+                let _this=this;
+                var re_time = {
                     l_Quantity: this.l_Quantity, 
                     aver_re_l: this.aver_re_l,
                     u_Quantity: this.u_Quantity,
                     aver_re_u: this.aver_re_u,
+                    COV:this.COV,
+                    CurveType:this.CurveType
                 };
-                localStorage.setItem("re_cost",JSON.stringify(re_cost));
-                this.$router.push({name:'re_time'});
+                localStorage.setItem("re_time",JSON.stringify(re_time));
+                this.$ajax({
+                method:'get',
+                url:'refer_check_re_costAndTime',
+                params:{
+                    re_cost:re_time,
+                    path:localStorage.getItem('path2'),
+                    statenum:localStorage.getItem('statenum'),
+                    flag:'time',
+                },
+            })
+            .then(function(response){
+                console.log(response)
+                var res = response.data
+                console.log(res)
+                if (res.error_num == 0) {
+                    console.log(res['msg'])
+                    _this.$message.success(res['msg'])
+                    _this.$router.push({name:'others'});
+                } 
+                else {
+                    _this.$message.error(res['msg'])
+                    console.log(res['msg'])
+                }
+            })
+            .catch(function(err){
+                    console.log(err);
+                    });
+                
             },
         },
 

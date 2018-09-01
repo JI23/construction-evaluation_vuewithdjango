@@ -109,35 +109,33 @@ class DB_part(models.Model):
     #主键由django自行生成
     #指向User的外键，一个user对应多个自定义易损件,对系统给的易损件，user指向一个特定的superuser
     user=models.ForeignKey(User_Info,on_delete=models.CASCADE,verbose_name='用户',default=None)
+    #是否是用户自定义
+    user_defined=models.BooleanField(default=False,verbose_name='用户自定义')
     #如BE.F.01.01，必须遵循该格式
     part_id=models.CharField(max_length=20,blank=False,verbose_name='易损件id')
+    #first & second
+    first=models.CharField(max_length=30,verbose_name='第一层分类信息')
+    second=models.CharField(max_length=50,verbose_name='第二层分类信息')
     #可以是任意字符串
-    part_name=models.CharField(max_length=100,blank=False,verbose_name='易损件名称')
+    part_name=models.CharField(max_length=400,blank=False,verbose_name='易损件名称')
     #如单片玻璃幕墙...
-    description=models.CharField(max_length=300,blank=False,verbose_name='易损件描述')
+    description=models.CharField(max_length=570,blank=False,verbose_name='易损件描述')
     #基本单位，如1个，3.3m2等
     basic_unit=models.CharField(max_length=10,default='1个',verbose_name='基本单位')
     #易损件单价，默认为0，0.00-999999.99
     cost=models.DecimalField(max_digits=8, decimal_places=2,blank=False,verbose_name='易损件单价',default=0.00)
-    #EDP类型，分层间位移角和楼层加速度
-    EDP_type_choice=(
-        ('S','Story Drift Ratio'),#层间位移角
-        ('A','Acceleration'),#楼层加速度
-    )
-    EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S',verbose_name='EDP类型')
     #数据来源
     data_resource=models.CharField(max_length=45,blank=False,default='《建筑抗震韧性评价标准》编委会',verbose_name='数据来源')
     #是否是官方认证
     is_formal=models.BooleanField(default=True,verbose_name='官方认证')
-    #是否是用户自定义
-    user_defined=models.BooleanField(default=False,verbose_name='用户自定义')
     #易损件的场地类别
     site_classification_choice=(
         ('h','hospital'),
         ('o','office'),
         ('s','school'),
         ('c','common'),
-        ('u','user_defined')
+        ('u','user_defined'),
+        ('f','FEMA')
     )
     part_type=models.CharField(max_length=1,choices=site_classification_choice,default='c',verbose_name='场地类别')
     #创建时间
@@ -146,58 +144,54 @@ class DB_part(models.Model):
     damage_state_number=models.SmallIntegerField(default=0,verbose_name='损伤数量')
     #与该易损件相关的损伤xml文件
     xml=models.FileField(upload_to=upload_to,blank=True,default=None,verbose_name='xml文件')
+    
+    #EDP
+    #EDP类型，分层间位移角和楼层加速度
+    EDP_type_choice=(
+        ('S','Story Drift Ratio'),#层间位移角
+        ('A','Acceleration'),#楼层加速度
+    )
+    EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S',verbose_name='EDP类型')
+    '''
+    #correlation
+    correlation=models.BooleanField(default=True,verbose_name='Correlation')
+    #directional
+    directional=models.BooleanField(default=True,verbose_name='Directional')
+    #默认单位
+    default_units=models.CharField(max_length=25,verbose_name='默认单位')
+    #Dimension
+    dimension=models.CharField(max_length=5,verbose_name='Dimension')
+    
+    
+    #Rating
+    #DataQuality
+    DataQuality=models.CharField(max_length=1,default='1',verbose_name='DataQuality')
+    #DataRelevance
+    DataRelevance=models.CharField(max_length=1,default='1',verbose_name='DataRelevance')
+    #Documentation
+    Documentation=models.CharField(max_length=1,default='1',verbose_name='Documentation')
+    #Rationality
+    Rationality=models.CharField(max_length=1,default='1',verbose_name='Rationality')
+    
+    
+    #Approved
+    Approved=models.BooleanField(default=True,verbose_name='Approved')
+    #Incomplete
+    Incomplete=models.BooleanField(default=True,verbose_name='Incomplete')
+    #Notes
+    #Notes=models.CharField(max_length=200,blank=True,default=None,verbose_name='Notes')
+    #UseEDPValueOfFloorAbove
+    UseEDPValueOfFloorAbove=models.BooleanField(default=False,verbose_name='UseEDPValueOfFloorAbove')
+    #DSGroupType
+    DSGroupType=models.CharField(max_length=25,verbose_name='DSGroupType')
+    '''
     class Meta:
-        unique_together=('part_id','part_type')
+        unique_together=('part_id','part_type','user')
         verbose_name='易损件'
         verbose_name_plural='易损件数据库'
     def __str__(self):
         return self.part_id
 
-class Damage_state_test(models.Model):
-    '''易损件损伤详情'''
-    #主键由django自行生成
-    class Meta:
-        verbose_name='易损件损伤临时'
-        verbose_name_plural='易损件损伤详情临时'
-        unique_together=('DB_part','damage_id')
-    id=models.CharField(max_length=3,primary_key=True)
-    DB_part=models.CharField(max_length=14,verbose_name='易损件',default='')
-    #损伤编号，一个自定义易损件对应多个易损件损伤
-    damage_id=models.SmallIntegerField(verbose_name='损伤编号')
-    #损伤状态
-    damage_state=models.CharField(max_length=45,verbose_name='损伤状态',blank=True)
-    #损伤状态描述
-    damage_description=models.CharField(max_length=300,verbose_name='损伤状态描述')
-    #中位值
-    median=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='中位值')
-    #方差
-    variance=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='方差')
-    #损失参数
-    lost_parameter=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='损失参数')
-    #修复系数
-    rehabilitation_coeffcient=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='修复系数')
-    #最小工程量折减数量(修复费用)
-    min_rehab_cost=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='最小工程量折减数量(修复费用)')
-    #工程量折减系数(修复费用)
-    min_lost_cost=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='工程量折减系数(修复费用)')
-    #最大工程量折减数量(修复费用)
-    max_rehab_cost=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='最大工程量折减数量(修复费用)')
-    #工程量折减系数(修复费用)
-    max_lost_cost=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='工程量折减系数(修复费用)')
-    #费用COV
-    cov_cost=models.DecimalField(max_digits=6,decimal_places=4,blank=True,verbose_name='费用COV')
-    #修复时间(人*天)
-    repair_people_day=models.IntegerField(default=0,blank=True,verbose_name='修复时间(人*天)')
-    #最小工程量折减数量(修复时间)
-    min_rehab_time=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='最小工程量折减数量(修复时间)')
-    #工程量折减系数(修复时间)
-    min_lost_time=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='工程量折减系数(修复时间)')
-    #最大工程量折减数量(修复时间)
-    max_rehab_time=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='最大工程量折减数量(修复时间)')
-    #工程量折减系数(修复时间)
-    max_lost_time=models.DecimalField(max_digits=6, decimal_places=4,blank=True,verbose_name='工程量折减系数(修复时间)')
-    #时间COV
-    cov_time=models.DecimalField(max_digits=6,decimal_places=4,blank=True,verbose_name='时间COV')
 
 class Damage_state_detail(models.Model):
     '''易损件损伤详情'''
@@ -252,7 +246,7 @@ class Project(models.Model):
     user=models.ForeignKey(User_Info,on_delete=models.CASCADE,verbose_name='用户')#指向User的外键，一个user对应多个project
     class Meta:
         #联合主键，但是django会自己产生一个自增长的主键
-        #unique_together=("user","project_id")
+        unique_together=("user","project_name")
         verbose_name='项目'
         verbose_name_plural='项目'
     #项目名称

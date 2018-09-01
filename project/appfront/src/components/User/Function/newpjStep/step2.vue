@@ -211,15 +211,8 @@ export default {
                 method:'get',
                 url:'step2',
                 params:{
-<<<<<<< HEAD
+                    project:localStorage.getItem('project'),
                     username:username,
-=======
-<<<<<<< HEAD
-                    username:username,
-=======
-                    username:'13051997327',
->>>>>>> upstream/master
->>>>>>> upstream/master
                     project:project,
                     project_name:project_name,
                     project_leader:project_leader,

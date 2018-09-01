@@ -65,16 +65,54 @@ def step5(request):
     return JsonResponse(response)
 
 import ast
+import json
+import os
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def save_wave_file(request):
+    print('save_wave_file')
+    num=request.POST['num']
+    print(num)
+    response={}
+    try:
+        print(request.FILES)
+        f=request.FILES.get('test')
+        username=request.POST['username']
+        project=request.POST['project']
+        wave_no=1 #request.POST['wave_no']
+        print(username)
+        print(project)
+        #print(wave_no)
+        print(f.name)
+        d='media/wave_file/'+username+'/'+project+'/'+wave_no+'/'
+        folder=os.path.exists(d)
+        if not folder:
+            os.makedirs(d)
+            print('创建文件夹成功')
+        else:
+            for files in os.listdir(d):
+                filesname=files.split('/')[-1]
+                if filesname==f.name:
+                    os.remove('media/wave_file/'+username+'/'+project+'/'+wave_no+'/'+f.name)
+                    print('删除同名文件成功')          
+        with open(d+'/'+f.name,'wb+') as dest:
+            for chunk in f.chunks():      # 分块写入文件
+                dest.write(chunk)
+        response['error_num']=0
+        response['msg']='文件获取并保存成功'
+    except Exception as e:
+        print (str(e))
+    return JsonResponse(response)
 def save_waves(request):
     response={}
     try:  
         #获取表单内容
-        #print(request)
-        print(request.FILES)
+        print(request)
         project=request.GET['project']
         wave_list=request.GET.getlist('earthquake_info[]',[])
+        username=request.GET['username']
         print(wave_list)
-        number=int(request.GET['number'])
+        number=request.GET['number']
     except Exception as e:
         print (str(e))
         response['msg']='请正确填写数据'
@@ -92,11 +130,8 @@ def save_waves(request):
             return JsonResponse(response) 
         else:
             try:
-                #print(a['earthquake_no'])
-                #print(type(a['earthquake_no']))
                 earthquake_no=int(a['earthquake_no'])
-                #print (type(earthquake_no))
-                if earthquake_no<=0 or earthquake_no>number:
+                if earthquake_no<=0 or earthquake_no>int(number):
                     #print(number+1)
                     response['msg']='地震波编号不能小于0或大于地震波数！' 
                     response['error_num']=1
@@ -122,23 +157,38 @@ def save_waves(request):
                 response['msg']='地震波峰值必须为实数！' 
                 response['error_num']=1
                 return JsonResponse(response) 
-         
+        
         if Earthquake_wave_detail.objects.filter(project=this_project,earthquake_wave_no=earthquake_no).exists():
             #更新数据库内容
             update=Earthquake_wave_detail.objects.get(project=this_project,earthquake_wave_no=earthquake_no)
             update.earthquake_wave_name=a['name']
             update.peak=peak
-            update.earthquake_wave_file=a['file']
+            d='media/wave_file/'+username+'/'+project+'/'+earthquake_no+'/'
+            folder=os.path.exists(d)
+            if not folder:
+                path='null'
+            else:
+                files=os.listdir(d)
+                path=d+files[0]
+            update.earthquake_wave_file=path
             update.save()
             response['msg']='地震波修改成功'
             response['error_num']=0 
         else:
             #对数据库内容进行新增
+            #地震波文件仅保存其目录
+            d='media/wave_file/'+username+'/'+project+'/'+earthquake_no+'/'
+            folder=os.path.exists(d)
+            if not folder:
+                path='null'
+            else:
+                files=os.listdir(d)
+                path=d+files[0]
             new=Earthquake_wave_detail(project=this_project,
                 earthquake_wave_no=earthquake_no,
                 earthquake_wave_name=a['name'],
                 peak=peak,
-                earthquake_wave_file=a['file'])
+                earthquake_wave_file=path)
             new.save()
             response['msg']='地震波信息新建成功'
             response['error_num']=0
