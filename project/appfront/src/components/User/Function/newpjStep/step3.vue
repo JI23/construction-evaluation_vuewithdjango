@@ -60,7 +60,7 @@
         :center=true
         :before-close="handleClose">
         <div class="block">
-            <el-select style="position:relative; top:-10px" v-model="value4" filterable placeholder="请选择">
+            <el-select @change="chooseId(1,2)" style="position:relative; top:-10px" v-model="value4" filterable placeholder="请选择">
                 <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -98,25 +98,25 @@
                 Non:null
             }],
             options: [{
-                    value: 'DB_Common',
+                    value: 'DB_common',
                     label: 'DB_Common'
                 }, {
-                    value: 'DB_School',
+                    value: 'DB_school',
                     label: 'DB_School'
                 }, {
-                    value: 'DB_Hospital',
+                    value: 'DB_hospital',
                     label: 'DB_Hospital'
                 }, {
-                    value: 'DB_User',
+                    value: 'DB_user',
                     label: 'DB_User'
                 }, {
-                    value: 'DB_Office',
+                    value: 'DB_office',
                     label: 'DB_Office'
                 }, {
-                    value: 'DB_FEMA',
+                    value: 'DB_fEMA',
                     label: 'DB_FEMA'
                 }],
-                value4:'DB_Common',
+                value4:'DB_common',
             data:[],
             data1:[]
             
@@ -142,7 +142,7 @@
             window.open('http://localhost:8080/#/refer/viewdb')
         },
         chooseId(index, rows){
-            this.dialogVisible = true;
+            this.dialogVisible = false;
             this.index = index;
             let _this=this
             this.$ajax({
@@ -158,8 +158,10 @@
                 //console.log('111')
                 var res=response.data
                 if(res.error_num==0){
-                    console.log(res['list'])
+                    /*console.log(res['list'])
                     console.log(res['detail'])
+                    console.log(res['first'])
+                    console.log(res['second'])
                     _this.data =  _this.data1
                     
                     var max=res['list'].length
@@ -182,7 +184,37 @@
                         temp[res['detail'][i].fields.DB_part-1] += 1
                     }
                     console.log('222')
-                    _this.$index=res['list'][0].fields.part_id
+                    _this.$index=res['list'][0].fields.part_id*/
+                    console.log(res['list'])
+                    var returnData = []
+                    for(var i = 0; i < res['first'].length; i++){
+                        var temp = {
+                            label: "",
+                            children: []
+                        }
+                        temp.label=res['first'][i]
+                        for(var j = 0; j < res['second'].length; j++){
+                            if(res['first'][i] === res['second'][j][0]){
+                                var item = {
+                                    label: res['second'][j][1],
+                                    children: []
+                                }
+                                for(var k = 0; k < res['list'].length; k++){
+                                    if(res['list'][k].fields.second === res['second'][j][1]){
+                                        var item1 = {
+                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description,
+                                            children:[]
+                                        }
+                                        item.children.push(item1)
+                                    }
+                                }
+                                temp.children.push(item)
+                            }
+                        }
+                        returnData.push(temp)
+                    }
+                    console.log(returnData)
+                    _this.data=returnData
                 }
                 else {
                     _this.$message.error(res['msg'])
@@ -194,11 +226,13 @@
                     console.log('!!')
                     console.log(_this.data)
                     });
+            this.dialogVisible = true
         },
         saveElements(){
             let _this=this;
             var floors=localStorage.getItem('floors')
             var project=localStorage.getItem('project')
+            console.log(this.tableData)
             this.$ajax({
                 method:'get',
                 url:'step3-save-elements',
@@ -248,7 +282,7 @@
          handleNodeClick(data,node){
               //console.log(data);
               console.log(this.choose_value)
-              if(node.level==1){
+              if(node.level==3){
                   console.log(data)
                   this.tableData[this.index].id = data.label.substr(0,10);
                   this.dialogVisible = false;   
