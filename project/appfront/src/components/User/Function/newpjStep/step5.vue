@@ -78,16 +78,16 @@
                     <template slot-scope="scope">
                         <el-upload
                             class="upload-demo"
-                            action="http://localhost:8000/api/show_projects"
-                            :data="upload_data"
+                            ref="upload"
+                            action="http://localhost:8000/api/step5-save-wave_file"
+                            :data='upload_data'
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
-                            :on-success="handleResponse"
-                            :file-list="fileList[scope.$index]"
-                            accept=".jpg"
-                            name="test"><!--这里是命名-->
-                            <el-button slot="trigger" size="small" type="primary" @click="get_num">选取文件</el-button>
-                            <!--<el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload(scope.$index)">上传到服务器</el-button>-->
+                            :file-list="fileList"
+                            :auto-upload="false"
+                            name='test'>
+                            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                         </el-upload>
                     </template>
                 </el-table-column>
@@ -180,6 +180,9 @@ export default {
                 params:{
                     earthquake_info:this.earthquake_info,
                     project:project,
+                    test:this.test,
+                    number:this.number,
+                    username:localStorage.getItem('phone'),
                 },
             })
             .then(function(response){
@@ -252,10 +255,9 @@ export default {
                 console.log(this.peak_acceleration)
             }
         },
-        submitUpload(index) {
-            console.log(index);
-            console.log('!')
+        submitUpload() {           
             this.$refs.upload.submit();
+            console.log(this.fileList);
         },
         handleRemove(file, fileList) {
             //发送请求后台删除文件
@@ -287,9 +289,10 @@ export default {
     data(){
         return{
             upload_data:{
-                'test1':'test'
+                username:localStorage.getItem('phone'),
+                project:1,//localStorage.getItem('project')
+                //wave_no:row.earthquake_no,
             },
-            test:'jpg',
             fileList: [],
             defense_intensity:'',
             defense_in_option:[{

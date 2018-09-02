@@ -253,7 +253,39 @@
                 };
                 localStorage.setItem("gen_info",JSON.stringify(gen_info));
                 console.log(localStorage.getItem('gen_info'))
-                this.$router.push({name:'notes'});
+                if(localStorage.getItem('part_id')==null){
+                    var part_id=0
+                }
+                else{ var part_id=localStorage.getItem('part_id')}
+                console.log(part_id)
+                let _this=this;
+                this.$ajax({
+                    method:'get',
+                    url:'savegen_gen_info',
+                    params: {
+                       gen_info:gen_info,
+                       username:localStorage.getItem('phone'),
+                       part_id:part_id,
+                    },
+                })
+                    .then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        if (res.error_num == 0) {
+                            console.log('111')
+                            _this.$message.success(res['msg'])
+                            _this.$router.push({name:'notes'});
+                        } 
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
+
+                
             },
             open() {
                 this.$alert('这是一段内容', '要求系数编辑', {

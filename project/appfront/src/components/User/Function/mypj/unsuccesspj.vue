@@ -206,44 +206,7 @@
                 })
             },
 
-            editpj: function(index,row){
-                //this.$router.push({name:'step1'})
-                localStorage.setItem("project",JSON.stringify(row.id));
-                let project = localStorage.getItem('project');
-                //console.log(project_name);
-                //掉用setp1进行编辑
-                //console.log(pjname)
-                var username=localStorage.getItem('phone')
-                this.$ajax({
-                    method:'get',
-                    url:'step0-edit',
-                    params:{
-                        username:username,
-                        project:project
-                    }}).then(function(response){
-                    //判断后弹窗
-                        var res = response.data
-                        //console.log(res['base_info'])
-                        //console.log(res['base_info'][0].fields.project_name)
-                        //var project_name=res['base_info'][0].fields.project_name
-                        //sessionStorage.removeItem('project_name')
-                        let project_name = JSON.stringify(res['base_info'][0].fields.project_name)
-                        sessionStorage.clear()
-                        sessionStorage.setItem('project_name', project_name)
-                        console.log('unsucess')
-                        console.log(project_name)
-                        //this.$router.push({name:'step1'})
-                    }).catch(function(err){
-                        console.log(err)
-                        //this.$router.push({name:'step1'})
-                    })
-                    //setTimeout(this.$router.push({name:'step1'}),3000)
-                    setTimeout(()=>{
-                        this.$router.push({name:'step1'})
-                    },1000)
-                //this.$router.push({name:'step1'})
-                //this.$router.go('/step1');
-                },
+            
             
             showProjects(){
                 let _this = this;
