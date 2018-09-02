@@ -60,7 +60,7 @@
         :center=true
         :before-close="handleClose">
         <div class="block">
-            <el-select @change="chooseId(1,2)" style="position:relative; top:-10px" v-model="value4" filterable placeholder="请选择">
+            <el-select @change="chooseId(temp1,temp2)" style="position:relative; top:-10px" v-model="value4" filterable placeholder="请选择">
                 <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -69,8 +69,8 @@
                 </el-option>
             </el-select>
         </div>
-        <el-scrollbar style='height:450px'>
-            <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
+        <el-scrollbar class = "el-scrollbar">
+            <el-tree class="el-tree" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -86,6 +86,8 @@
     export default {
       data() {
           return{
+            temp1:'',
+            temp2:'',
             choose_value:'',
             index: null,
             dialogVisible:false,
@@ -142,6 +144,8 @@
             window.open('http://localhost:8080/#/refer/viewdb')
         },
         chooseId(index, rows){
+            this.temp1 = index
+            this.temp2 = rows
             this.dialogVisible = false;
             this.index = index;
             let _this=this
@@ -305,10 +309,24 @@
 
 
 <style scoped>
-.el-table{
-    margin:20px 0;
-}
-.btn{
-        margin-top:12px;
+    .el-table{
+        margin:20px 0;
     }
+    .btn{
+            margin-top:12px;
+        }
+
+    .el-scrollbar{
+        height: 450px;
+    }
+
+    .el-scrollbar__wrap {
+        overflow-x: hidden;
+    }
+
+    .el-tree{
+        display:inline-block;
+    }
+
+
 </style>

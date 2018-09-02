@@ -8,10 +8,12 @@
                     :key="item.value"
                     :value="item.label">
                 </el-option>
-              </el-select>
+            </el-select>
             <el-button style="float: right" round type="info" @click="write">新建易损性数据库</el-button>
-            <div style="height:380px; overflow:scroll; position:relative; top:20px">
-                <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
+            <div style="height:380px; position:relative; top:20px">
+                <el-scrollbar class = "el-scrollbar">
+                    <el-tree class="el-tree" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
+                </el-scrollbar>
             </div>
         </el-main>
     </div>
@@ -22,41 +24,26 @@
         data() {
             return {
                 options: [{
-                    value: 'DB_Common',
+                    value: 'DB_common',
                     label: 'DB_Common'
                 }, {
-                    value: 'DB_School',
+                    value: 'DB_school',
                     label: 'DB_School'
                 }, {
-                    value: 'DB_Hospital',
+                    value: 'DB_hospital',
                     label: 'DB_Hospital'
                 }, {
-                    value: 'DB_User',
+                    value: 'DB_user',
                     label: 'DB_User'
                 }, {
-                    value: 'DB_Office',
+                    value: 'DB_office',
                     label: 'DB_Office'
                 }, {
-                    value: 'DB_FEMA',
+                    value: 'DB_fEMA',
                     label: 'DB_FEMA'
                 }],
-                value4: 'DB_Common',
-                data: [{
-                    label: 'A - Substructure',
-                    children: [{
-                        label: 'A10 - Foundtions',
-                        children:[{
-                            label: 'A101 - Standard Foundations',
-                            children: [{
-                                label: 'A1011 - Wall Foundations',
-                            },{
-                                label: 'A1012 - Wall Foundations',
-                            }]
-                        },{
-                            label: 'A102 - Special Foundations'
-                        }]   
-                    }],
-                  }]
+                value4: 'DB_fema',
+                data: []
             }
         },
 
@@ -67,7 +54,7 @@
         methods: {
             handleNodeClick(data,node){
                 //console.log(data);
-                if(node.level > 3){
+                if(node.level == 3){
                     this.$router.push({name:'generalinfo'});
                     console.log(node);
                     localStorage.setItem("label",JSON.stringify(data.label));
@@ -90,21 +77,75 @@
                 this.change_view()
             },
             change_view(){
-                //获取数据库信息并显示
+                let _this=this
                 this.$ajax({
                     method:'get',
-                    url:'',
+                    url:'step3-get-all-parts',
                     params:{
-                        temp: this.value4
+                        value: this.value4
                     },
+                    headers:{"Content-Type": "application/json"}
                 }).then(function(response){
-                    var res = response.data
-                }).catch(function(response){
-                    console.log((response))
-                })
-            }
-
-
+                    //console.log(response)
+                    //console.log('111')
+                    var res=response.data
+                    if(res.error_num==0){
+                        //console.log(res['list'])
+                        var returnData = []
+                        for(var i = 0; i < res['first'].length; i++){
+                            var temp = {
+                                label: "",
+                                children: []
+                            }
+                            temp.label=res['first'][i]
+                            for(var j = 0; j < res['second'].length; j++){
+                                if(res['first'][i] === res['second'][j][0]){
+                                    var item = {
+                                        label: res['second'][j][1],
+                                        children: []
+                                    }
+                                    for(var k = 0; k < res['list'].length; k++){
+                                        if(res['list'][k].fields.second === res['second'][j][1]){
+                                            var item1 = {
+                                                label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description,
+                                                children:[]
+                                            }
+                                            item.children.push(item1)
+                                        }
+                                    }
+                                    temp.children.push(item)
+                                }
+                            }
+                            returnData.push(temp)
+                        }
+                        console.log(returnData)
+                        _this.data=returnData
+                    }
+                    else {
+                        _this.$message.error(res['msg'])
+                        console.log(res['msg'])
+                    }
+                }).catch(function(err){
+                    console.log(err);
+                    console.log('!!')
+                    console.log(_this.data)
+                });
+            },
         }
     }
 </script>
+
+<style scoped>
+    .el-scrollbar{
+        height: 100%
+    }
+
+    .el-scrollbar__wrap {
+        overflow-x: hidden;
+    }
+
+    .el-tree{
+        display:inline-block;
+    }
+
+</style>

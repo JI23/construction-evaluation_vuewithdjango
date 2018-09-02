@@ -52,8 +52,27 @@
             });*/
             const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
             if (answer) {
+                sessionStorage.clear();
+                localStorage.setItem('project','0');
+                localStorage.removeItem('project_name');
+                localStorage.removeItem('project_leader');
+                localStorage.removeItem('project_description');
+                localStorage.removeItem('area');
+                localStorage.removeItem('client_name');
+                localStorage.removeItem('floors');
+                localStorage.removeItem('height');
+                //localStorage.clear()
                 next()
             } else {
+                sessionStorage.clear()
+                localStorage.removeItem('processs');
+                localStorage.removeItem('processs_name');
+                localStorage.removeItem('processs_leader');
+                localStorage.removeItem('processs_description');
+                localStorage.removeItem('area');
+                localStorage.removeItem('client_name');
+                localStorage.removeItem('floors');
+                localStorage.removeItem('height');
                 next(false)
             }
         },
@@ -82,7 +101,7 @@
             .catch(action => {
                 if(action === 'cancel'){
                     this.$router.push({name:'step1'})
-                    //清除缓存
+                    sessionStorage.clear()
                 }
                 this.$message({
                 type: 'info',

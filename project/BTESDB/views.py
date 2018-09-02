@@ -32,6 +32,24 @@ def logout(request):
     auth.logout(request)
     return render(request,'index.html')
 @csrf_exempt
+
+def brief_projects(request):
+    response = {}
+    try:
+        un_projects = Project.objects.filter(is_finished=0).count()
+        ed_projects = Project.objects.filter(is_finished=1).count() 
+        all = un_projects+ed_projects
+        response['all']  = all
+        response['success'] = ed_projects
+        response['unsuccess'] = un_projects
+        response['msg'] = 'success'
+        response['error_num'] = 0
+    except  Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = 1
+    return JsonResponse(response)
+
+
 def show_projects(request):
     response = {}
     try:

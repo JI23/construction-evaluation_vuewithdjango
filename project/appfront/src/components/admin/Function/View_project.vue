@@ -10,27 +10,27 @@
                 width="150">
             </el-table-column>
             <el-table-column
-                prop="pj_Name"
+                prop="project_name"
                 label="项目名"
                 width="150">
             </el-table-column>
             <el-table-column
-                prop="grade"
+                prop="rate"
                 label="等级"
                 width="150">
             </el-table-column>
             <el-table-column
-                prop="create_Name"
+                prop="client_name"
                 label="创建者姓名"
                 width="150">
             </el-table-column>
             <el-table-column
-                prop="create_Com"
+                prop="user"
                 label="创建者所属公司"
                 width="150">
             </el-table-column>
             <el-table-column
-                prop="project_Leader"
+                prop="project_leader"
                 label="项目负责人"
                 width="150">
             </el-table-column>
@@ -78,10 +78,8 @@
                 let _this = this;
                 this.$ajax({
                     method:'get',
-                    url:'show_projects',
+                    url:'show_projects_all',
                     params: {
-                       'is_finished': 'True', 
-                       'username': '123456'
                     },
                     headers:{"Content-Type": "application/json"}
                 }).then(function(response){
@@ -112,11 +110,11 @@
             return {
                 projects: [{
                     create_time: '2016-05-03',
-                    pj_Name:'王小五',
-                    grade: '普陀区',
-                    create_Name: 200333,
-                    create_Com: 'aaa',
-                    project_Leader: 'asa',
+                    project_name:'王小五',
+                    rate: '普陀区',
+                    client_name: 200333,
+                    user: 'aaa',
+                    project_leader: 'asa',
                     },],
                 currentPage:1,
                 pagesize:5,

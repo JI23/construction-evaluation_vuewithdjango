@@ -3,6 +3,9 @@ from . import views,step0,step1,step2,step3
 from . import step5,step6,user_login,register
 from . import savegen,refer_check
 from . import rate
+
+from . import admin_view
+
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
@@ -20,6 +23,7 @@ urlpatterns = [
     url(r'step6$', step6.step6 ),
     url(r'rate$', rate.rate ),
     url(r'show_projects$', views.show_projects, ),
+    url(r'brief_projects$', views.brief_projects, ),
     url(r'login$', user_login.login ),
     url(r'user_register$', register.user_register ),
     url(r'savegen$', savegen.savegen ),
@@ -30,4 +34,6 @@ urlpatterns = [
     url(r'refer_check_re_info$', refer_check.refer_check_re_info ),
     url(r'refer_check_re_costAndTime$', refer_check.refer_check_re_costAndTime),
     
+
+    url(r'show_projects_all$', admin_view.show_projects_all ),
     ]

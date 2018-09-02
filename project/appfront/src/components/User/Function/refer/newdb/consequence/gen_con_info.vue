@@ -26,31 +26,31 @@
                 };
                 localStorage.setItem("re_info",JSON.stringify(re_info));
                 this.$ajax({
-                method:'get',
-                url:'refer_check_re_info',
-                params:{
-                    re_info:this.re_info,
-                    path:localStorage.getItem('path2'),
-                    statenum:localStorage.getItem('statenum')
-                },
-            })
-            .then(function(response){
-                console.log(response)
-                var res = response.data
-                console.log(res)
-                if (res.error_num == 0) {
-                    console.log(res['msg'])
-                    _this.$message.success(res['msg'])
-                    _this.$router.push({name:'re_cost'});
-                } 
-                else {
-                    _this.$message.error(res['msg'])
-                    console.log(res['msg'])
-                }
-            })
-            .catch(function(err){
+                    method:'get',
+                    url:'refer_check_re_info',
+                    params:{
+                        re_info:this.re_info,
+                        path:localStorage.getItem('path2'),
+                        statenum:localStorage.getItem('statenum')
+                    },
+                })
+                .then(function(response){
+                    console.log(response)
+                    var res = response.data
+                    console.log(res)
+                    if (res.error_num == 0) {
+                        console.log(res['msg'])
+                        _this.$message.success(res['msg'])
+                        _this.$router.push({name:'re_cost'});
+                    } 
+                    else {
+                        _this.$message.error(res['msg'])
+                        console.log(res['msg'])
+                    }
+                })
+                .catch(function(err){
                     console.log(err);
-                    });
+                });
                 
             },
         }
