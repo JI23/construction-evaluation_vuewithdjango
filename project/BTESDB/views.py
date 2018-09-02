@@ -39,6 +39,7 @@ def show_projects(request):
         #print (request)
         is_finished=request.GET['is_finished']
         username=request.GET['username']
+        #search_name=request.GET['input']
         print (is_finished)
         this_user=User_Info.objects.get(username=username)
         if is_finished=='False':

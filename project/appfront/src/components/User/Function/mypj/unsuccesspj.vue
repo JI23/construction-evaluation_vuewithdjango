@@ -211,27 +211,14 @@
             showProjects(){
                 let _this = this;
                 var username=localStorage.getItem('phone');
-                /*_this.$http.get('http://localhost:8000/api/show_projects')
-                    .then((response) => {
-                        var res = JSON.parse(response.bodyText)
-                        console.log(res)
-                        if (res.error_num == 0) {
-                            _this.projects = res['list']
-                        } 
-                        else {
-                            _this.$message.error('查询项目失败')
-                            console.log(res['msg'])
-                        }
-                    })
-                    .catch(function(error){
-                        console.log(error)
-                    })*/
+                _this.input=localStorage.getItem('input')
                 this.$ajax({
                     method:'get',
                     url:'show_projects',
                     params: {
                         'username': username,
                         'is_finished': 'False', 
+                        'input':_this.input
                     },
                 })
                     .then(function(response){
@@ -292,7 +279,8 @@
                     project_description: 200333},],
                 currentPage:1,
                 pagesize:5,
-                isRouteAlive: true
+                isRouteAlive: true,
+                input:''
             }
         } 
     }

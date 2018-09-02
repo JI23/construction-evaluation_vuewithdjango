@@ -87,13 +87,16 @@
             showProjects(){
                 let _this = this;
                 var name=localStorage.getItem('phone')
-                console.log(name)
+                //console.log(name)
+                _this.input=localStorage.getItem('input')
+                //console.log(_this.input)
                 this.$ajax({
                     method:'get',
                     url:'show_projects',
                     params: {
                        'is_finished': 'True', 
-                       username:name
+                       username:name,
+                       input: this.input
                     },
                     headers:{"Content-Type": "application/json"}
                 }).then(function(response){

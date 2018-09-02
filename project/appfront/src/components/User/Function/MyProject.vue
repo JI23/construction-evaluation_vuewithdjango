@@ -8,7 +8,7 @@
                     <el-tab-pane label="未完成项目" name="unsuccesspj"></el-tab-pane>
                 </el-tabs>
                 <el-button style="float: right; top:-60px; position:relative;" @click="search">搜索</el-button>
-                <el-input @keyup.enter="search()" style="width:150px ; float: right; top:-60px;left:-10px" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input"></el-input>
+                <el-input @keyup.enter="search()" style="width:150px ; float: right; top:-60px;left:-10px" placeholder="请输入项目编号进行搜索" prefix-icon="el-icon-search" v-model="input"></el-input>
             </el-form>    
         </el-row><!--enter有问题-->
         <br>
@@ -53,12 +53,12 @@
                 }
             },
             search(){
-                //this.reload();
-                //this.$router.push({name:this.$router.name});
-                //localStorage.setItem("input",JSON.stringify(this.input));
-                //this.reload();
+                this.reload();
+                this.$router.push({name:this.$router.name});
+                localStorage.setItem("input",JSON.stringify(this.input));
+                this.reload();
                 //c//onsole.log(this.$router.name+'!!!')
-                this.$router.push({name:'step1'})
+                //this.$router.push({name:'step1'})
             },
             reload(){
                 this.isRouteAlive = false
