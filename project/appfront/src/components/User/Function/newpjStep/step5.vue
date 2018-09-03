@@ -28,7 +28,7 @@
             </el-col>
             <el-col :span='8'>
                 <span class="lebal">地震波数</span>
-                <el-input style="width:90%" v-model="number" placeholder="请输入内容"></el-input>
+                <el-input @change="set_num" style="width:90%" v-model="number" placeholder="请输入内容"></el-input>
                 <span class="lebal">地震分组</span>
                 <el-select style="width:90%" v-model="group" placeholder="请选择">
                     <el-option
@@ -79,17 +79,19 @@
                         <el-upload
                             class="upload-demo"
                             ref="upload"
-                            action="https://jsonplaceholder.typicode.com/posts/"
+                            action="http://localhost:8000/api/step5-save-wave_file"
+                            :data='upload_data'
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :file-list="fileList"
-                            :auto-upload="false">
+                            :auto-upload="false"
+                            name='test'>
                             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                             <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                         </el-upload>
                     </template>
                 </el-table-column>
-                <el-table-column
+                <!--<el-table-column
                     fixed="right"
                     label="操作"
                     width="120">
@@ -101,9 +103,9 @@
                         移除
                         </el-button>
                     </template>
-                </el-table-column>
+                </el-table-column>-->
             </el-table> 
-            <el-button @click="newEarthquake">新增地震波</el-button>
+            <!--<el-button @click="newEarthquake">新增地震波</el-button>-->
             <el-button @click="saveWaves">保存所有地震波</el-button>
         </el-col>
     </div>
@@ -158,15 +160,16 @@ export default {
         //     this.earthquake_info = JSON.parse(earthquake_info)
         // }
     },
+
     methods:{
-        newEarthquake(){
+        /*newEarthquake(){
             this.earthquake_info.push({
                 earthquake_no: '',
                 name: '',
                 peak:'',
                 file:''
             })        
-        },
+        },*/
         saveWaves(){
             let _this=this;
             var project=localStorage.getItem('project')
@@ -177,6 +180,9 @@ export default {
                 params:{
                     earthquake_info:this.earthquake_info,
                     project:project,
+                    test:this.test,
+                    number:this.number,
+                    username:localStorage.getItem('phone'),
                 },
             })
             .then(function(response){
@@ -229,9 +235,10 @@ export default {
                     console.log(err);
                     });
         },
+        /*
         deleteRow(index, rows) {
             rows.splice(index, 1);
-        },
+        },*/
         next(){
             this.$emit('next','');
         },
@@ -248,20 +255,44 @@ export default {
                 console.log(this.peak_acceleration)
             }
         },
-        submitUpload() {
-            //console.log(this.fileList);
+        submitUpload() {           
             this.$refs.upload.submit();
+            console.log(this.fileList);
         },
         handleRemove(file, fileList) {
+            //发送请求后台删除文件
             console.log(file, fileList);
         },
-        handlePreview(file) {
-            console.log(this.fileList);
-            console.log(file);
+        handlePreview(file, fileList) {
+            console.log(file, fileList);
+        },
+        handleResponse(response, file, fileList){
+            console.log(response)
+        },
+        get_num(index){
+            //localStorage.setItem('index',index)
+        },
+        set_num(){
+            for(var i = 0; i < this.number-1; i++){
+                //this.earthquake_info[i]=temp
+                this.earthquake_info.push({
+                    earthquake_no: '',
+                    name: '',
+                    peak:'',
+                    file:''
+                })    
+            }
+            console.log(this.earthquake_info)
+
         }
     },
     data(){
         return{
+            upload_data:{
+                username:localStorage.getItem('phone'),
+                project:1,//localStorage.getItem('project')
+                //wave_no:row.earthquake_no,
+            },
             fileList: [],
             defense_intensity:'',
             defense_in_option:[{

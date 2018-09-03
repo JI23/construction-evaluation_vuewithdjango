@@ -251,6 +251,10 @@ export default {
                 method:'get',
                 url:'step2',
                 params:{
+<<<<<<< HEAD
+=======
+                    project:localStorage.getItem('project'),
+>>>>>>> upstream/master
                     username:username,
                     project:project,
                     project_name:project_name,

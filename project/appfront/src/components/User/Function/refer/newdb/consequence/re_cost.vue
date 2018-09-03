@@ -3,21 +3,21 @@
         <div class="wrapper4" >
             <el-col>
               <span class="lebal">Lower Quantity</span>
-              <el-input size="mini" style="width:100%" v-model="l_Quantity" placeholder="请输入内容"></el-input>
+              <el-input @change="re_draw" size="mini" style="width:100%" v-model="l_Quantity" placeholder="请输入内容"></el-input>
               <span class="lebal">Average Repair Cost for Lower Quantity of</span>
-              <el-input  size="mini" style="width:100%" v-model="aver_re_l" placeholder="请输入内容"></el-input>
+              <el-input @change="re_draw" size="mini" style="width:100%" v-model="aver_re_l" placeholder="请输入内容"></el-input>
               <span class="lebal">Upper Quantity</span>
-              <el-input  size="mini" style="width:100%" v-model="u_Quantity" placeholder="请输入内容"></el-input>
+              <el-input @change="re_draw" size="mini" style="width:100%" v-model="u_Quantity" placeholder="请输入内容"></el-input>
               <span class="lebal">Average Repair Cost for Upper Quantity of</span>
-              <el-input size="mini" style="width:100%" v-model="aver_re_u" placeholder="请输入内容"></el-input>
+              <el-input @change="re_draw" size="mini" style="width:100%" v-model="aver_re_u" placeholder="请输入内容"></el-input>
               <span class="lebal">COV</span>
-              <el-input size="mini" style="width:100%" v-model="COV" placeholder="请输入内容"></el-input>
+              <el-input @change="re_draw" size="mini" style="width:100%" v-model="COV" placeholder="请输入内容"></el-input>
           </el-col>
         </div>
         <div class="wrapper4">
             <el-col >
-                <span class="lebal">项目编号</span>
-                    <el-select size="mini" v-model="value0" placeholder="请选择">
+                <span class="lebal">CurveType</span>
+                    <el-select size="mini" v-model="CurveType" placeholder="请选择">
                         <el-option
                             v-for="item in options0"
                             :key="item.value"
@@ -27,17 +27,19 @@
                     </el-select>
             </el-col>
             <!--<div id="container" style="max-width:800px;height:400px"></div>-->
-            <schart class="wrapper" :canvasId="canvasId" :type="type" :data="data" :options="options"></schart>
+            <!--<schart class="wrapper" :canvasId="canvasId" :type="type" :data="data" :options="options"></schart>-->
+            <div id="container" style="max-width:800px;height:400px"></div>
             <el-button style="display:block;margin:0 auto; position:relative; top: 15px" @click="save_next">下一步</el-button>
         </div>
     </div>
 </template>
 
 <script>
-    import Schart from 'vue-schart';
+    import Highcharts from "Highcharts"
     export default {
         data() {
             return {
+                test: null,
                 chart: null,
                 COV: '',
                 l_Quantity: '',
@@ -60,7 +62,7 @@
                     value: '选项6',
                     label: 'DB_FEMA'
                 }],
-                value0:'',
+                CurveType:'',
                 canvasId: 'myCanvas',
                 type: 'line',
                 data: [
@@ -77,19 +79,105 @@
 
         methods: {
             save_next(){
+                let _this=this;
                 var re_cost = {
                     l_Quantity: this.l_Quantity, 
                     aver_re_l: this.aver_re_l,
                     u_Quantity: this.u_Quantity,
                     aver_re_u: this.aver_re_u,
+                    COV:this.COV,
+                    CurveType:this.CurveType,
                 };
                 localStorage.setItem("re_cost",JSON.stringify(re_cost));
-                this.$router.push({name:'re_time'});
+                this.$ajax({
+                method:'get',
+                url:'refer_check_re_costAndTime',
+                params:{
+                    re_cost:re_cost,
+                    path:localStorage.getItem('path2'),
+                    statenum:localStorage.getItem('statenum'),
+                    flag:'cost',
+                },
+            })
+            .then(function(response){
+                console.log(response)
+                var res = response.data
+                console.log(res)
+                if (res.error_num == 0) {
+                    console.log(res['msg'])
+                    _this.$message.success(res['msg'])
+                    _this.$router.push({name:'re_time'});
+                } 
+                else {
+                    _this.$message.error(res['msg'])
+                    console.log(res['msg'])
+                }
+            })
+            .catch(function(err){
+                    console.log(err);
+                    });
             },
+//实现更新图表
+            re_draw(){
+                //console.log(this.chart)
+                this.test.series[0].update({
+                    data: [29.9, 71.5, 306.4, 429.2, 144.0, 176.0, 135.6, 248.5, 216.4, 194.1, 95.6, 54.4]
+                });
+            }
         },
 
-        components:{
-            Schart
+        mounted() {
+            var chart = Highcharts.chart('container', {
+                title: {
+                    text: 'Damage State Group'
+                },
+                subtitle: {
+                // text: '数据来源：thesolarfoundation.com'
+                },
+                yAxis: {
+                    title: {
+                        text: 'P(D>DS | Story Drift Ratio)'
+                    }
+                },
+                xAxis: {
+                    title: {
+                        text: 'Story Drift Ratio(rad)'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 0,
+                        pointInterval: 0.02
+                    }
+                },
+                series: [{
+                    name: 'hhh',
+                    data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+            this.test = chart
         }
     }
 </script>

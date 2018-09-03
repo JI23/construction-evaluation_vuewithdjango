@@ -59,16 +59,16 @@
         data() {
             return {
                 options1: [{
-                    value: '选项1',
+                    value: 'N/A',
                     label: 'N/A'
                 }, {
-                    value: '选项2',
+                    value: 'Marginal',
                     label: 'Marginal'
                 }, {
-                    value: '选项3',
+                    value: 'Average',
                     label: 'Average'
                 }, {
-                    value: '选项4',
+                    value: 'Superior',
                     label: 'Superior'
                 }],
                 data: '',
@@ -82,6 +82,7 @@
 
         methods: {
             savegen() {//保存当前页面内容
+                let _this=this;
                 var notes_info = {
                     data: this.data, 
                     relevance: this.relevance, 
@@ -96,6 +97,11 @@
                 console.log(gen_info)
                 console.log(localStorage.getItem('notes_info'))
                 console.log(username)
+                if(localStorage.getItem('part_id')==null){
+                    var part_id=0
+                }
+                else{ var part_id=localStorage.getItem('part_id')}
+                console.log(part_id)
                 //提交给后台若成功则弹窗提示并跳转至下一部分
                 //记得删除localStorage内容
                 this.$ajax({
@@ -105,13 +111,20 @@
                        gen_info:gen_info,
                        notes_info:JSON.stringify(notes_info),
                        username:username,
+                       part_id:part_id,
                     },
                 })
                     .then(function(response){
                         console.log(response)
                         var res = response.data
                         if (res.error_num == 0) {
+                            localStorage.setItem('path',res['path'])
+                            console.log(res['path'])
+                            console.log(res['path2'])
+                            localStorage.setItem('path2',res['path2'])
+                            localStorage.setItem('part_id',res['part_id'])
                             console.log('111')
+                            _this.$message.success(res['msg'])
                         } 
                         else {
                             _this.$message.error(res['msg'])

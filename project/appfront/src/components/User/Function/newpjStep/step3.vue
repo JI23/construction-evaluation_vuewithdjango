@@ -51,11 +51,12 @@
         </el-table> 
         <el-button @click="newComponent">新增结构构件</el-button>
         <el-button @click="saveElements">保存所有结构构件</el-button>
-        
+        <el-button @click="view_db">查看易损性数据库详情</el-button>
         <el-dialog
-        title="提示"
+        title="选择易损性数据库"
         :visible.sync="dialogVisible"
         width="50%"
+<<<<<<< HEAD
         :before-close="handleClose"
          >
         <span>这是一段信息</span>
@@ -72,6 +73,28 @@
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
         </span>
+=======
+        top=10px
+        :center=true
+        :before-close="handleClose">
+        <div class="block">
+            <el-select @change="chooseId(temp1,temp2)" style="position:relative; top:-10px" v-model="value4" filterable placeholder="请选择">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
+        <el-scrollbar class = "el-scrollbar">
+            <el-tree class="el-tree" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-scrollbar>
+>>>>>>> upstream/master
         </el-dialog>
     </div>
     
@@ -82,6 +105,8 @@
     export default {
       data() {
           return{
+            temp1:'',
+            temp2:'',
             choose_value:'',
             index: null,
             dialogVisible:false,
@@ -94,29 +119,25 @@
                 Non:null
             }],
             options: [{
-                value: 'hhh',
-                label: 'General Info',
-                children: [{
-                    value: 'hhh',
-                    label: 'Damage State Type',
-                    children: [{
-                        value: 'hhh',
-                        label: 'Damage State 1',
-                    }]
+                    value: 'DB_common',
+                    label: 'DB_Common'
+                }, {
+                    value: 'DB_school',
+                    label: 'DB_School'
+                }, {
+                    value: 'DB_hospital',
+                    label: 'DB_Hospital'
+                }, {
+                    value: 'DB_user',
+                    label: 'DB_User'
+                }, {
+                    value: 'DB_office',
+                    label: 'DB_Office'
+                }, {
+                    value: 'DB_fEMA',
+                    label: 'DB_FEMA'
                 }],
-            }],
-            /*data2: [{
-                    label: 'General Info123456',
-                    children: [{
-                        label: 'Damage State Type',
-                        children: [{
-                            label: 'Damage State 1',
-                            children: [{
-                                label: 'A1101 Consequence Functions'
-                            }]
-                        }]
-                    }],
-                  }],*/
+                value4:'DB_common',
             data:[],
             data1:[]
             
@@ -138,13 +159,21 @@
         }
     },
     methods: {
+        view_db(){
+            window.open('http://localhost:8080/#/refer/viewdb')
+        },
         chooseId(index, rows){
-            this.dialogVisible = true;
+            this.temp1 = index
+            this.temp2 = rows
+            this.dialogVisible = false;
             this.index = index;
             let _this=this
             this.$ajax({
                 method:'get',
                 url:'step3-get-all-parts',
+                params:{
+                    value: this.value4
+                },
                 headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
@@ -152,8 +181,10 @@
                 //console.log('111')
                 var res=response.data
                 if(res.error_num==0){
-                    console.log(res['list'])
+                    /*console.log(res['list'])
                     console.log(res['detail'])
+                    console.log(res['first'])
+                    console.log(res['second'])
                     _this.data =  _this.data1
                     
                     var max=res['list'].length
@@ -171,24 +202,42 @@
                     
                     console.log('111')
                     for(var i = 0; i < res['detail'].length; i++){
-                        //_this.data =  _this.data1
-                        //console.log(res['detail'][i].fields.DB_part_id-1+'!!!')
-                        
                         const newchild={label: res['detail'][i].fields.DB_part+res['detail'][i].fields.damage_id+res['detail'][i].fields.damage_description, children:[]}
                         _this.data[res['detail'][i].fields.DB_part-1].children[temp[res['detail'][i].fields.DB_part-1]] = newchild
                         temp[res['detail'][i].fields.DB_part-1] += 1
                     }
                     console.log('222')
-                    //const newchild={label:'test',children:[]}
-                    //_this.data =  _this.data1
-                    //_this.data[1]=newchild
-                    
-                    //_this.data[0].label=res['list'][0].fields.part_id
-                    //console.log(_this.data[0].label)
-                    
-                    
-                    //console.log(_this.data.label=res['list'][0].fields.part_id)
-                    _this.$index=res['list'][0].fields.part_id
+                    _this.$index=res['list'][0].fields.part_id*/
+                    console.log(res['list'])
+                    var returnData = []
+                    for(var i = 0; i < res['first'].length; i++){
+                        var temp = {
+                            label: "",
+                            children: []
+                        }
+                        temp.label=res['first'][i]
+                        for(var j = 0; j < res['second'].length; j++){
+                            if(res['first'][i] === res['second'][j][0]){
+                                var item = {
+                                    label: res['second'][j][1],
+                                    children: []
+                                }
+                                for(var k = 0; k < res['list'].length; k++){
+                                    if(res['list'][k].fields.second === res['second'][j][1]){
+                                        var item1 = {
+                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description,
+                                            children:[]
+                                        }
+                                        item.children.push(item1)
+                                    }
+                                }
+                                temp.children.push(item)
+                            }
+                        }
+                        returnData.push(temp)
+                    }
+                    console.log(returnData)
+                    _this.data=returnData
                 }
                 else {
                     _this.$message.error(res['msg'])
@@ -200,11 +249,13 @@
                     console.log('!!')
                     console.log(_this.data)
                     });
+            this.dialogVisible = true
         },
         saveElements(){
             let _this=this;
             var floors=localStorage.getItem('floors')
             var project=localStorage.getItem('project')
+            console.log(this.tableData)
             this.$ajax({
                 method:'get',
                 url:'step3-save-elements',
@@ -254,7 +305,7 @@
          handleNodeClick(data,node){
               //console.log(data);
               console.log(this.choose_value)
-              if(node.level==1){
+              if(node.level==3){
                   console.log(data)
                   this.tableData[this.index].id = data.label.substr(0,10);
                   this.dialogVisible = false;   
@@ -277,10 +328,24 @@
 
 
 <style scoped>
-.el-table{
-    margin:20px 0;
-}
-.btn{
-        margin-top:12px;
+    .el-table{
+        margin:20px 0;
     }
+    .btn{
+            margin-top:12px;
+        }
+
+    .el-scrollbar{
+        height: 450px;
+    }
+
+    .el-scrollbar__wrap {
+        overflow-x: hidden;
+    }
+
+    .el-tree{
+        display:inline-block;
+    }
+
+
 </style>

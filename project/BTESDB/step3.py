@@ -12,9 +12,25 @@ def get_all_parts(request):
     response={}
     try:
         ctime=time.time()
-        part_list = DB_part.objects.all()
+        #part_list = DB_part.objects.all()
+        temp=request.GET['value'][3]
+        print(temp)
+        part_list = DB_part.objects.filter(part_type=temp)
         detail_list= Damage_state_detail.objects.all()
         print(detail_list)
+
+        second_first=DB_part.objects.filter(part_type=temp).values_list('first','second').distinct()
+        second_first=list(second_first)
+        print(second_first)
+        response['second']=second_first
+
+        first=DB_part.objects.filter(part_type=temp).values_list('first',flat=True).distinct()
+        print (first)
+        print(type(first))
+        first=list(first)
+        print(first)
+        response['first']=first
+
         response['msg']='success'
         response['ctime']=ctime
         response['error_num']=0

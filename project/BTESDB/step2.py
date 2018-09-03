@@ -31,6 +31,7 @@ def step2(request):
         #timezone.now().strftime("%Y-%m-%d")
         #x=datetime.strptime('2012-12-12','%Y-%m-%d')
         #print (x<create_time)
+        project=request.GET['project']
         username=request.GET['username']
         material=request.GET['material']
         structure_type=request.GET['structure_type']
@@ -134,9 +135,9 @@ def step2(request):
         #获取user外键
         this_user=User_Info.objects.get(username=username)
         print(3.3)
-        if Project.objects.filter(user=this_user,project_name=project_name).exists():
-            update=Project.objects.get(user=this_user,project_name=project_name)
-            #对数据进行更新
+        if Project.objects.filter(user=this_user,project_name=project_name).exists() and project!=0:
+            update=Project.objects.get(id=project)
+            print('对数据进行更新')
             update.client_name=client_name
             update.project_description=project_description
             update.project_leader=project_leader
