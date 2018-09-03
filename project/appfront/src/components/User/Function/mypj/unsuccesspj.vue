@@ -44,17 +44,11 @@
                 fixed="right"
                 label="操作"
                 width="130">
-<<<<<<< HEAD
             <template slot-scope="{row,$index}">
                 <el-button @click="editpj($index,row)" type="text" size="small">编辑</el-button>
                 <!-- <el-button @click="deletepj(scope.row)" type="text" size="small">删除</el-button> -->
                 <el-button @click="deletepj($index,row)" type="text" size="small">删除</el-button>
 
-=======
-            <template slot-scope="scope">
-                <el-button @click="editpj(index,scope.row)" type="text" size="small">编辑</el-button>
-                <el-button @click="deletepj(scope.row)" type="text" size="small">删除</el-button>
->>>>>>> upstream/master
             </template>
             </el-table-column>
         </el-table>
@@ -281,7 +275,6 @@
                     method:'get',
                     url:'step0-delete',
                     params:{
-<<<<<<< HEAD
                         project:project,
                         username:username,
                     }
@@ -296,15 +289,6 @@
                     else{
                         console.log(res['msg'])
                     }
-=======
-                        project:row.id,
-                        username:username
-                    }
-                }).then(function(response){
-                    //判断后弹窗
-                    var res = response.data
-                    console.log(res['msg'])
->>>>>>> upstream/master
                 }).catch(function(err){
                     console.log(err)
                 })
@@ -316,7 +300,6 @@
                 })
             },
 
-<<<<<<< HEAD
             // editpj: function(index,row){
             //     //this.$router.push({name:'step1'})
             //     localStorage.setItem("project",JSON.stringify(row.id));
@@ -355,9 +338,6 @@
             //     //this.$router.push({name:'step1'})
             //     //this.$router.go('/step1');
             //     },
-=======
-            
->>>>>>> upstream/master
             
             showProjects(){
                 let _this = this;

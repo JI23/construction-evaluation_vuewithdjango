@@ -91,8 +91,6 @@ def Judge(a):
     if a=='true' or a=='1' or a==1:
         b=1
     return b
-<<<<<<< HEAD
-=======
 def classify_first(name):
     if name=='BE':
         return 'BE — 外部建筑构架'
@@ -188,7 +186,6 @@ def get_datetime(dt):
     return dt
 
 
->>>>>>> upstream/master
 import xml.etree.ElementTree as ET
 import os
 
@@ -211,7 +208,6 @@ def upload(request):
             name.pop()
             name='.'.join(name)
             #name='.'.join(name.split('.')[0:4])
-<<<<<<< HEAD
             print (name)
             
             d={}#每个part_id对应一条字典信息
@@ -327,13 +323,6 @@ def upload_db_part(request):
             print (name)
 
             d={}#每个part_id对应一条字典信息
-=======
-            print (name)
-            
-            d={}#每个part_id对应一条字典信息
-            x=[]
-            
->>>>>>> upstream/master
             tree=ET.ElementTree(file=xml)
             root=tree.getroot()
             d[root.tag]=root.attrib
@@ -342,21 +331,11 @@ def upload_db_part(request):
                 d[child_of_root.tag]=child_of_root.text
                 for child2 in child_of_root:
                     d[child2.tag]=child2.text
-<<<<<<< HEAD
-            print (d)
-            try:
-                this_part=DB_part.objects.get(part_id=name)
-                #this_part.delete()
-                continue
-            except Exception as e:
-                print (str(e))
-=======
                     if child2.tag=='DamageState':
                         x.append(child2)
             damage_state_number=len(x)
             print (d)
             print(damage_state_number)
->>>>>>> upstream/master
 
             
 
@@ -449,7 +428,6 @@ def upload_db_part(request):
             DSGroupType=d['DSGroupType'],
             '''
             
-<<<<<<< HEAD
             new=DB_part(user=this_user,
             part_id=get.part_id,
             part_name=get.Name,
@@ -467,10 +445,4 @@ def upload_db_part(request):
         
     return render(request,'upload.html')
 
-=======
-    return render(request,'upload.html')
-
-
-
->>>>>>> upstream/master
     

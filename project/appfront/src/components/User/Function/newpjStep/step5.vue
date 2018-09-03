@@ -79,7 +79,7 @@
                         <el-upload
                             class="upload-demo"
                             ref="upload"
-                            action="http://localhost:8000/api/step5-save-wave_file"
+                            action="step5-save-wave_file"
                             :data='upload_data'
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
@@ -261,6 +261,15 @@ export default {
         },
         handleRemove(file, fileList) {
             //发送请求后台删除文件
+            this.$ajax({
+                method: 'get',
+                url: '',
+                params: ''
+            }).then(function(response){
+
+            }).catch(function(response){
+
+            })
             console.log(file, fileList);
         },
         handlePreview(file, fileList) {
@@ -273,6 +282,12 @@ export default {
             //localStorage.setItem('index',index)
         },
         set_num(){
+            this.earthquake_info = [{
+                earthquake_no: '',
+                name: '',
+                peak:'',
+                file:'',
+            }]
             for(var i = 0; i < this.number-1; i++){
                 //this.earthquake_info[i]=temp
                 this.earthquake_info.push({

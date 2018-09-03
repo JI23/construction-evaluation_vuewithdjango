@@ -56,24 +56,6 @@
         title="选择易损性数据库"
         :visible.sync="dialogVisible"
         width="50%"
-<<<<<<< HEAD
-        :before-close="handleClose"
-         >
-        <span>这是一段信息</span>
-        <div class="block">
-            <el-cascader
-                placeholder="试试搜索：指南"
-                :options="options"
-                filterable
-                @change="changed"
-            ></el-cascader>
-        </div >
-        <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
-=======
         top=10px
         :center=true
         :before-close="handleClose">
@@ -94,7 +76,6 @@
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
             </span>
         </el-scrollbar>
->>>>>>> upstream/master
         </el-dialog>
     </div>
     

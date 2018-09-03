@@ -124,53 +124,10 @@ class DB_part(models.Model):
     basic_unit=models.CharField(max_length=10,default='1个',verbose_name='基本单位')
     #易损件单价，默认为0，0.00-999999.99
     cost=models.DecimalField(max_digits=8, decimal_places=2,blank=False,verbose_name='易损件单价',default=0.00)
-<<<<<<< HEAD
-    #correlation
-    correlation=models.BooleanField(default=True,verbose_name='Correlation')
-    #directional
-    directional=models.BooleanField(default=True,verbose_name='Directional')
-    
-    #EDP
-    #EDP类型，分层间位移角和楼层加速度
-    EDP_type_choice=(
-        ('S','Story Drift Ratio'),#层间位移角
-        ('A','Acceleration'),#楼层加速度
-    )
-    EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S',verbose_name='EDP类型')
-    #默认单位
-    default_units=models.CharField(max_length=25,verbose_name='默认单位')
-    #Dimension
-    dimension=models.CharField(max_length=5,verbose_name='Dimension')
-    #是否是用户自定义
-    user_defined=models.BooleanField(default=False,verbose_name='用户自定义')
-    
-    #Rating
-    #DataQuality
-    DataQuality=models.CharField(max_length=1,default='1',verbose_name='DataQuality')
-    #DataRelevance
-    DataRelevance=models.CharField(max_length=1,default='1',verbose_name='DataRelevance')
-    #Documentation
-    Documentation=models.CharField(max_length=1,default='1',verbose_name='Documentation')
-    #Rationality
-    Rationality=models.CharField(max_length=1,default='1',verbose_name='Rationality')
-    
-=======
->>>>>>> upstream/master
     #数据来源
     data_resource=models.CharField(max_length=45,blank=False,default='《建筑抗震韧性评价标准》编委会',verbose_name='数据来源')
     #是否是官方认证
     is_formal=models.BooleanField(default=True,verbose_name='官方认证')
-<<<<<<< HEAD
-    #Approved
-    Approved=models.BooleanField(default=True,verbose_name='Approved')
-    #Incomplete
-    Incomplete=models.BooleanField(default=True,verbose_name='Incomplete')
-    #Notes
-    #Notes=models.CharField(max_length=200,blank=True,default=None,verbose_name='Notes')
-    #UseEDPValueOfFloorAbove
-    UseEDPValueOfFloorAbove=models.BooleanField(default=False,verbose_name='UseEDPValueOfFloorAbove')
-=======
->>>>>>> upstream/master
     #易损件的场地类别
     site_classification_choice=(
         ('h','hospital'),
