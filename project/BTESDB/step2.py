@@ -202,9 +202,10 @@ def saveFloor(request):
     this_project=Project.objects.get(id=project)
     
     for item in floor_list:
-        #将string转化为dict
+        #将string转化为dictlen(str(a['floor_no']))==0:
         a=ast.literal_eval(item)
-        if len(a['floor_no'])==0:
+        if len(str(a['floor_no']))==0:
+         #if len(a['floor_no'])==0:
             response['msg']='楼层编号不能为空！' 
             response['error_num']=1
             return JsonResponse(response)

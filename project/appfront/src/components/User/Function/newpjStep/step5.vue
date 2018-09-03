@@ -155,10 +155,10 @@ export default {
         if (earthquake_level != null) {
             this.earthquake_level = JSON.parse(earthquake_level)
         }
-        let earthquake_info = sessionStorage.getItem('earthquake_info')
-        if (earthquake_info != null) {
-            this.earthquake_info = JSON.parse(earthquake_info)
-        }
+        // let earthquake_info = sessionStorage.getItem('earthquake_info')
+        // if (earthquake_info != null) {
+        //     this.earthquake_info = JSON.parse(earthquake_info)
+        // }
     },
 
     methods:{

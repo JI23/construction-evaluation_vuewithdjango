@@ -44,9 +44,17 @@
                 fixed="right"
                 label="操作"
                 width="130">
+<<<<<<< HEAD
+            <template slot-scope="{row,$index}">
+                <el-button @click="editpj($index,row)" type="text" size="small">编辑</el-button>
+                <!-- <el-button @click="deletepj(scope.row)" type="text" size="small">删除</el-button> -->
+                <el-button @click="deletepj($index,row)" type="text" size="small">删除</el-button>
+
+=======
             <template slot-scope="scope">
                 <el-button @click="editpj(index,scope.row)" type="text" size="small">编辑</el-button>
                 <el-button @click="deletepj(scope.row)" type="text" size="small">删除</el-button>
+>>>>>>> upstream/master
             </template>
             </el-table-column>
         </el-table>
@@ -72,6 +80,13 @@
         },
 
         methods:{
+        //                 dateFormat:function(row, column) {
+        //        var date = row[column.property];
+        //   if (date == undefined) {
+        //      return "";
+        //   }
+        //   return moment(date).format("YYYY-MM-DD HH:mm:ss");
+        //     },
             handleSizeChange: function (size) {
                 this.pagesize = size;
             },
@@ -108,19 +123,82 @@
                     let height = JSON.stringify(res['base_info'][0].fields.height)
                     let area = JSON.stringify(res['base_info'][0].fields.area)
                     let cost_per_squaremeter = JSON.stringify(res['base_info'][0].fields.cost_per_squaremeter)
-                    let Floor_info=JSON.stringify(res['floor_info'])
-                    
-                    // console.log(res['floor_info'][0].fields)
-                    // for(var i = 0; i < res['floor_info'].length; i++){
-                    //             // Floor_info_session[i].floor_no=JSON.stringify(res['floor_info'][i].fields.floor_no),
-                    //             // Floor_info_session[i].floor_height=JSON.stringify(res['floor_info'][i].fields.floor_height),
-                    //             // Floor_info_session[i].floor_area=JSON.stringify(res['floor_info'][i].fields.floor_area),
-                    //             // Floor_info_session[i].influence_coefficient=JSON.stringify(res['floor_info'][i].fields.influence_coefficient),
-                    //             // Floor_info_session[i].population_density=JSON.stringify(res['floor_info'][i].fields.population_density)
-                    //             Floor_info[i]=JSON.stringify(res['floor_info'][i].fields)
-                    //         }
-                    console.log('aaaaaaaaaaaaaaaaaaaa')
-                    console.log(Floor_info)
+                    let Floor_info=res['floor_info']
+                    //console.log(res['floor_info'][0].fields)
+                    for(var i = 0; i < res['floor_info'].length; i++){
+                                delete res['floor_info'][i].fields.project //删掉返回的project属性
+                                Floor_info[i]=res['floor_info'][i].fields
+                    } 
+                    Floor_info=JSON.stringify(Floor_info)
+                    //step3
+                    let structure_element=new Array
+                    let j=0
+                    for(var i = 0; i < res['element_info'].length; i++){
+                                if(res['element_info'][i].fields.element_type=='s')
+                                {
+                                    delete res['element_info'][i].fields.project 
+                                    delete res['element_info'][i].fields.element_type
+                                    //delete res['element_info'][i].fields.element
+                                    structure_element[j]=res['element_info'][i].fields
+                                    j++
+                                }
+                    } 
+                    structure_element=JSON.stringify(structure_element)
+                    console.log('step3')
+                    console.log(structure_element)
+                    //step4
+                    let non_structure_element=new Array
+                    let k=0
+                    for(var i = 0; i < res['element_info'].length; i++){
+                                if(res['element_info'][i].fields.element_type=='n')
+                                {
+                                    delete res['element_info'][i].fields.project 
+                                    delete res['element_info'][i].fields.element_type
+                                    non_structure_element[k]=res['element_info'][i].fields
+                                    k++
+                                }
+                    } 
+                    non_structure_element=JSON.stringify(non_structure_element)
+                    console.log('step4')
+                    console.log(non_structure_element)
+                    //step5
+                    let defense_intensity_temp=res['earthquake_info'][0].fields.defense_intensity
+                    console.log('step5')
+                    console.log(defense_intensity_temp)
+                    var defense_intensity
+                    if(defense_intensity_temp==1.0)
+                        defense_intensity=1
+                    else if(defense_intensity_temp==2.0)
+                        defense_intensity=2
+                    else if(defense_intensity_temp==3.0)
+                        defense_intensity=3
+                    else if(defense_intensity_temp==4.0)
+                        defense_intensity=4
+                    else if(defense_intensity_temp==5.0)
+                        defense_intensity=5
+                    else if(defense_intensity_temp==6.0)
+                        defense_intensity=6
+                    let site_type=JSON.stringify(res['earthquake_info'][0].fields.site_type)
+                    let number=JSON.stringify(res['earthquake_info'][0].fields.number)
+                    let group=JSON.stringify(res['earthquake_info'][0].fields.group)
+                    //let peak_acceleration=JSON.stringify(res['earthquake_info'][0].fields.peak_acceleration)
+                    //console.log(res['earthquake_info'][0].fields.earthquake_level)
+                    let earthquake_level=res['earthquake_info'][0].fields.earthquake_level
+                    console.log(444)
+                    console.log(earthquake_level)
+                    //step6
+                    let structure_response=res['structure_response']
+                    // structure_response[0]=JSON.stringify(res['structure_response'][0].fields)
+                    // structure_response[0]=JSON.stringify(res['structure_response'][0].fields)
+                    for(var i = 0; i < res['structure_response'].length; i++){
+                                delete res['structure_response'][i].fields.project //删掉返回的project属性
+                                structure_response[i]=res['structure_response'][i].fields
+                    }
+                    console.log('step6')
+                    console.log(structure_response)
+                    //let structure_response=JSON.stringify(res['structure_response'][0].fields)
+                    //console.log(structure_response)
+
                     sessionStorage.clear()
                     //step1的
                     sessionStorage.setItem('project_name', project_name)
@@ -136,6 +214,21 @@
                     sessionStorage.setItem('area', area)
                     sessionStorage.setItem('cost_per_squaremeter', cost_per_squaremeter)
                     sessionStorage.setItem('Floor_info', Floor_info)
+                    console.log('bbbbbbbbbbbbbbbbbbbb')
+                    //step3
+                    sessionStorage.setItem('structure_element', structure_element)
+                    //step4
+                    sessionStorage.setItem('non_structure_element',non_structure_element)
+                    //step5
+                    sessionStorage.setItem('defense_intensity',JSON.stringify(defense_intensity))
+                    sessionStorage.setItem('site_type',site_type)
+                    sessionStorage.setItem('number',number)
+                    sessionStorage.setItem('group',group)
+                    //sessionStorage.setItem('peak_acceleration',peak_acceleration)
+                    sessionStorage.setItem('earthquake_level',earthquake_level)
+                    //step6
+                    sessionStorage.setItem('structure_response',JSON.stringify(structure_response))
+
                 }).catch(function(err){
                     console.log(err)
                 })
@@ -180,7 +273,7 @@
                 //掉用setp1进行编辑
                 //console.log("!!!")
             },*/
-            deletepj: function(row){//未连接
+            deletepj: function(index,row){//未连接
                 console.log('111')
                 var username=localStorage.getItem('phone')
                 var project=row.id
@@ -188,6 +281,22 @@
                     method:'get',
                     url:'step0-delete',
                     params:{
+<<<<<<< HEAD
+                        project:project,
+                        username:username,
+                    }
+                }).then(function(response){
+                    //判断后弹窗
+                    //this.reload()
+                    var res=response.data
+                    if (res.error_num==0){
+                        console.log(2222)
+                        console.log(res['msg'])
+                    }
+                    else{
+                        console.log(res['msg'])
+                    }
+=======
                         project:row.id,
                         username:username
                     }
@@ -195,6 +304,7 @@
                     //判断后弹窗
                     var res = response.data
                     console.log(res['msg'])
+>>>>>>> upstream/master
                 }).catch(function(err){
                     console.log(err)
                 })
@@ -206,7 +316,48 @@
                 })
             },
 
+<<<<<<< HEAD
+            // editpj: function(index,row){
+            //     //this.$router.push({name:'step1'})
+            //     localStorage.setItem("project",JSON.stringify(row.id));
+            //     let project = localStorage.getItem('project');
+            //     //console.log(project_name);
+            //     //掉用setp1进行编辑
+            //     //console.log(pjname)
+            //     var username=localStorage.getItem('phone')
+            //     this.$ajax({
+            //         method:'get',
+            //         url:'step0-edit',
+            //         params:{
+            //             username:username,
+            //             project:project
+            //         }}).then(function(response){
+            //         //判断后弹窗
+            //             var res = response.data
+            //             //console.log(res['base_info'])
+            //             //console.log(res['base_info'][0].fields.project_name)
+            //             //var project_name=res['base_info'][0].fields.project_name
+            //             //sessionStorage.removeItem('project_name')
+            //             let project_name = JSON.stringify(res['base_info'][0].fields.project_name)
+            //             sessionStorage.clear()
+            //             sessionStorage.setItem('project_name', project_name)
+            //             console.log('unsucess')
+            //             console.log(project_name)
+            //             //this.$router.push({name:'step1'})
+            //         }).catch(function(err){
+            //             console.log(err)
+            //             //this.$router.push({name:'step1'})
+            //         })
+            //         //setTimeout(this.$router.push({name:'step1'}),3000)
+            //         setTimeout(()=>{
+            //             this.$router.push({name:'step1'})
+            //         },1000)
+            //     //this.$router.push({name:'step1'})
+            //     //this.$router.go('/step1');
+            //     },
+=======
             
+>>>>>>> upstream/master
             
             showProjects(){
                 let _this = this;

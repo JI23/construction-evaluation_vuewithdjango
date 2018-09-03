@@ -86,6 +86,11 @@ export default {
         let area = JSON.stringify(this.area)
         let cost_per_squaremeter = JSON.stringify(this.cost_per_squaremeter)
         let Floor_info = JSON.stringify(this.Floor_info)
+        // let floor_no = JSON.stringify(this.floor_no)
+        // let floor_height = JSON.stringify(this.floor_height)
+        // let floor_area = JSON.stringify(this.floor_area)
+        // let influence_coefficient = JSON.stringify(this.influence_coefficient)
+        // let population_density = JSON.stringify(this.population_density)
         sessionStorage.setItem('material', material)
         sessionStorage.setItem('structure_type', structure_type)
         sessionStorage.setItem('figure_time', figure_time)
@@ -94,6 +99,11 @@ export default {
         sessionStorage.setItem('area', area)
         sessionStorage.setItem('cost_per_squaremeter', cost_per_squaremeter)
         sessionStorage.setItem('Floor_info', Floor_info)
+        // sessionStorage.setItem('floor_no', floor_no)
+        // sessionStorage.setItem('floor_height', floor_height)
+        // sessionStorage.setItem('floor_area', floor_area)
+        // sessionStorage.setItem('influence_coefficient', influence_coefficient)
+        // sessionStorage.setItem('population_density', population_density)
 
     //  }
     //   else{
@@ -114,9 +124,18 @@ export default {
         let height = sessionStorage.getItem('height')
         let area = sessionStorage.getItem('area')
         let cost_per_squaremeter = sessionStorage.getItem('cost_per_squaremeter')
-        let Floor_info = sessionStorage.getItem('Floor_info')
+        let Floor_info = (sessionStorage.getItem('Floor_info'))
+        //let Floor_info_test= JSON.prase(Floor_info)
+        console.log(999999999999)
+        console.log(Floor_info)
+        // let floor_no = sessionStorage.getItem('floor_no')
+        // let floor_height = sessionStorage.getItem('floor_height')
+        // let floor_area = sessionStorage.getItem('floor_area')
+        // let influence_coefficient = sessionStorage.getItem('influence_coefficient')
+        // let population_density = sessionStorage.getItem('population_density')
+
         console.log('step2')
-        //console.log(Floor_info)
+        
         if (material != null) {
             this.material = JSON.parse(material)
         }
@@ -138,9 +157,30 @@ export default {
         if (cost_per_squaremeter != null) {
             this.cost_per_squaremeter = JSON.parse(cost_per_squaremeter)
         }
-        if (Floor_info != null) {
+        if (Floor_info!=null) {
             this.Floor_info = JSON.parse(Floor_info) 
         }
+        
+        // if (floor_no != null) {
+        //     console.log(floor_no)
+        //     this.floor_no = JSON.parse(floor_no) 
+        // }
+        // if (floor_height != null) {
+        //     console.log(floor_height)
+        //     this.floor_height = JSON.parse(floor_height) 
+        // }
+        // if (floor_area != null) {
+        //     console.log(floor_area)
+        //     this.floor_area = JSON.parse(floor_area) 
+        // }
+        // if (influence_coefficient != null) {
+        //     console.log(influence_coefficient)
+        //     this.influence_coefficient = JSON.parse(influence_coefficient) 
+        // }
+        // if (population_density != null) {
+        //     console.log(population_density)
+        //     this.population_density = JSON.parse(population_density) 
+        // }
     },
 
     
@@ -211,7 +251,10 @@ export default {
                 method:'get',
                 url:'step2',
                 params:{
+<<<<<<< HEAD
+=======
                     project:localStorage.getItem('project'),
+>>>>>>> upstream/master
                     username:username,
                     project:project,
                     project_name:project_name,

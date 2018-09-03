@@ -35,7 +35,7 @@ def edit(request):
             response['floor_info']=(json.loads(serializers.serialize("json", floor_info)))
         else:
             print('mmmmmm')
-            response['floor_info']=''
+            response['floor_info']=(json.loads(serializers.serialize("json", floor_info)))
 
         element_info=Element.objects.filter(project=project)
         if element_info.exists():

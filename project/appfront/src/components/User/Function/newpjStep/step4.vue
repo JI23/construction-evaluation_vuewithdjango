@@ -141,12 +141,14 @@
         saveElements(){
             let _this=this;
             var project=localStorage.getItem('project')
+            var floors=localStorage.getItem('floors')
             this.$ajax({
                 method:'get',
                 url:'step3-save-elements',
                 params:{
                     is_structure:'False',
                     project:project,
+                    floors:floors,
                     tableData:this.tableData,
                 },
                 headers:{"Content-Type": "application/json"}
@@ -191,7 +193,7 @@
               //console.log(data);
               if(node.level == 1){
                   console.log(data)
-                  this.tableData[this.index].id = data.label.substr(0,5);
+                  this.tableData[this.index].id = data.label.substr(0,10);
                   this.dialogVisible = false;   
               }
           },

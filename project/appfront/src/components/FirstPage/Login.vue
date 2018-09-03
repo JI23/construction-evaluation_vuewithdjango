@@ -6,7 +6,7 @@
             <el-input v-model="LoginLabel.phone" placeholder="请输入手机号"></el-input>
             </el-form-item>
             <el-form-item label="密　码">
-            <el-input v-model="LoginLabel.password" type="password"  placeholder="请输入密码"></el-input>
+            <el-input v-model="LoginLabel.password" type="password" @keyup.enter.native="login" placeholder="请输入密码"></el-input>
             </el-form-item>
         </el-form>
         <el-button @click="gotoRegister" type="text" size="small">没有账号？立即注册</el-button>
@@ -46,6 +46,7 @@ export default {
                         if (res['error_num'] == 0) {
                             localStorage.clear()
                             console.log(res['msg'])
+                            localStorage.clear()
                             localStorage.setItem('phone', res['username'])
                             localStorage.setItem('project',0)
                             //localStorage.setItem('password', res['password'])
