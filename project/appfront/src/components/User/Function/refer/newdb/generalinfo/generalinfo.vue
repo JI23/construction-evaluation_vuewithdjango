@@ -22,7 +22,7 @@
                     <el-button size="mini" @click="dialogFormVisible = true">添加</el-button>
                     <el-dialog title="要求系数" :visible.sync="dialogFormVisible">
                         <el-form :model="form">
-                            <el-form-item label="type name" :label-width="formLabelWidth">
+                            <el-form-item label="type_name" :label-width="formLabelWidth">
                                 <el-input v-model="typename" placeholder="请输入内容"></el-input>
                             </el-form-item>
                             <span style="position:relative; left:20px;">default units</span>
@@ -256,36 +256,38 @@
                 if(localStorage.getItem('part_id')==null){
                     var part_id=0
                 }
-                else{ var part_id=localStorage.getItem('part_id')}
+                else{ 
+                    var part_id=localStorage.getItem('part_id')
+                }
                 console.log(part_id)
+                console.log('!!!!')
                 let _this=this;
                 this.$ajax({
                     method:'get',
                     url:'savegen_gen_info',
                     params: {
-                       gen_info:gen_info,
-                       username:localStorage.getItem('phone'),
-                       part_id:part_id,
+                       'gen_info':gen_info,
+                       'username':localStorage.getItem('phone'),
+                       'part_id':part_id,
                     },
-                })
-                    .then(function(response){
-                        console.log(response)
-                        var res = response.data
-                        if (res.error_num == 0) {
-                            console.log('111')
-                            _this.$message.success(res['msg'])
-                            _this.$router.push({name:'notes'});
-                        } 
-                        else {
-                            _this.$message.error(res['msg'])
-                            console.log(res['msg'])
-                        }
-                    })
-                    .catch(function(err){
-                        console.log(err);
-                    });
-
-                
+                }).then(function(response){
+                    console.log(response)
+                    console.log('!')
+                    var res = response.data
+                    console.log(res)
+                    if (res['error_num'] == 0) {
+                        console.log('111')
+                        _this.$message.success(res['msg'])
+                        this.$router.push({name:'notes'});
+                    } 
+                    else {
+                        _this.$message.error(res['msg'])
+                        console.log(res['msg'])
+                    }
+                }).catch(function(err){
+                    console.log(err);
+                    console.log('222')
+                });    
             },
             open() {
                 this.$alert('这是一段内容', '要求系数编辑', {

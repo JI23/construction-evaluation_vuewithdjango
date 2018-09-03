@@ -13,15 +13,15 @@ from datetime import datetime
 
 def savegen_gen_info(request):
     response={}
-
+    print('333')
     part_id=request.GET['part_id']
-    print(part_id)
+    #print(part_id)
     gen_info=request.GET['gen_info']
-    print(type(gen_info))
-    print(gen_info)   
+    #print(type(gen_info))
+    #print(gen_info)   
     #将string转化为dict
     gen_info=ast.literal_eval(gen_info)
-    print(type(gen_info))
+    #print(type(gen_info))
 
     username=request.GET['username']
     this_user=User_Info.objects.get(username=username)
@@ -41,12 +41,12 @@ def savegen_gen_info(request):
     
 
     if DB_part.objects.filter(id=part_id).exists():
-        print('数据库中已存在')
+        #print('数据库中已存在')
         this_part=DB_part.objects.get(id=part_id)
         path='user_defined/'+username+'/'+gen_info['id']+'/'+gen_info['id']+'.xml'
 
-        print (os.getcwd())
-        print (os.listdir('./media/user_defined/'+username+'/'))
+        #print (os.getcwd())
+        #print (os.listdir('./media/user_defined/'+username+'/'))
         old_path=r'./media/user_defined/'+username+r'/'
         if this_part.part_id!=gen_info['id']:
             if this_part.part_id in os.listdir(old_path):
@@ -54,7 +54,7 @@ def savegen_gen_info(request):
             if this_part.part_id+'.xml' in os.listdir(old_path+gen_info['id']+r'/'):
                 os.rename(old_path+gen_info['id']+r'/'+this_part.part_id+'.xml',
                 old_path+gen_info['id']+r'/'+gen_info['id']+'.xml')
-            print('文件及文件夹名修改成功')
+            #print('文件及文件夹名修改成功')
         this_part.part_id=gen_info['id']
         this_part.part_name=gen_info['name']
         this_part.EDP_type='A'
@@ -64,13 +64,15 @@ def savegen_gen_info(request):
             #修改数据库内容并去修改xml
             this_part.save()
             path='user_defined/'+username+'/'+gen_info['id']+'/'+gen_info['id']+'.xml'
-            print(path)
+            #print(path)
             update_gen(path,gen_info)
-            print('xml修改完毕')
+            #print('xml修改完毕')
             response['error_num']=0
             response['msg']='修改成功'
+            print('!!!!!!!!!!!!!!!')
         except Exception as e:
-            print(str(e))
+            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            #print(str(e))
             response['error_num']=1
             response['msg']=str(e)
     return JsonResponse(response)

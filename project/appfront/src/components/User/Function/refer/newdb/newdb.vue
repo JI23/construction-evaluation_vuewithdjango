@@ -103,6 +103,10 @@
             });*/
             const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
             if (answer) {
+                localStorage.removeItem('functionnum')
+                localStorage.removeItem('gen_info')
+                localStorage.removeItem('pjNum')
+                localStorage.removeItem('re_info')
                 next()
             } else {
                 next(false)
