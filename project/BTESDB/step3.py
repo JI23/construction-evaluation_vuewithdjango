@@ -38,9 +38,13 @@ def save_elements(request):
     #获取表单内容
     try:
         project=request.GET['project']
-        floors=int(request.GET['floors'])   
+        print(1)
+        floors=int(request.GET['floors'])
+        print(2)   
         element_list=request.GET.getlist('tableData[]',[])
+        print(3)
         is_structure=request.GET['is_structure']
+        print(4)
     except Exception:
         response['msg']='请完整填写构件信息'
         response['error_num']=1
@@ -59,28 +63,35 @@ def save_elements(request):
     for item in element_list:
         #将string转化为dict
         a=ast.literal_eval(item)
-
+        print(a)
         this_part=DB_part.objects.get(part_id=a['id'])
         start_floor=a['start_floor']
+        print(start_floor)
+        print(type(start_floor))
         stop_floor=a['stop_floor']
+        X=a['X']
+        Y=a['Y']
+        Non=a['Non']
 
-        if len(start_floor)==0:
+        if len(str(start_floor))==0:
             response['msg']='起始楼层不能为空！' 
             response['error_num']=1
             return JsonResponse(response)
         else:   
             try:
+                print('int')
                 start_floor=int(start_floor)
                 if start_floor>=floors:
-                    response['msg']='起始楼层最大为'+(floors-1)
+                    response['msg']='起始楼层最大为'+str(floors-1)
                     response['error_num']=1
                     return JsonResponse(response)
-            except Exception:
+            except Exception as e:
+                print(str(e))
                 response['msg']='起始楼层必须为整数'
                 response['error_num']=1
                 return JsonResponse(response)
             
-        if len(stop_floor)==0:
+        if len(str(stop_floor))==0:
             response['msg']='终止楼层不能为空！' 
             response['error_num']=1
             return JsonResponse(response)
@@ -88,7 +99,7 @@ def save_elements(request):
             try:
                 stop_floor=int(stop_floor)
                 if stop_floor>floors:
-                    response['msg']='终止楼层最大为'+floors
+                    response['msg']='终止楼层最大为'+str(floors)
                     response['error_num']=1
                     return JsonResponse(response)
             except Exception:
@@ -100,7 +111,10 @@ def save_elements(request):
             element_type=element_type,
             element=this_part,
             start_floor=start_floor,
-            stop_floor=stop_floor)
+            stop_floor=stop_floor,
+            X=X,
+            Y=Y,
+            Non=Non)
         new.save()
 
     response['msg']='构件信息存储成功'

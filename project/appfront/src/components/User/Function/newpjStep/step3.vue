@@ -56,7 +56,8 @@
         title="提示"
         :visible.sync="dialogVisible"
         width="50%"
-        :before-close="handleClose">
+        :before-close="handleClose"
+         >
         <span>这是一段信息</span>
         <div class="block">
             <el-cascader
@@ -65,7 +66,7 @@
                 filterable
                 @change="changed"
             ></el-cascader>
-        </div>
+        </div >
         <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
         <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
@@ -122,16 +123,16 @@
         };
     },
     beforeRouteLeave(to, from, next){
-    //  if (to.name == 'step2') {
-        //let id = JSON.stringify(this.id)
-        //sessionStorage.setItem('id', id)
         let structure_element = JSON.stringify(this.tableData)
         sessionStorage.setItem('structure_element', structure_element)
-      next()
+        console.log('leave3')
+        console.log(structure_element)
+        next()
     },
     created(){
       //从localStorage中读取条件并赋值给查询表单
         let tableData = sessionStorage.getItem('structure_element')
+        console.log(tableData)
         if (tableData != null) {
             this.tableData = JSON.parse(tableData)
         }

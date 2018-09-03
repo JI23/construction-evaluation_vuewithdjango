@@ -69,6 +69,7 @@ export default {
         let project_name = sessionStorage.getItem('project_name')
         console.log(project_name)
         let client_name = sessionStorage.getItem('client_name')
+        console.log(client_name)
         let project_leader = sessionStorage.getItem('project_leader')
         let project_description = sessionStorage.getItem('project_description')
         if (project_name != null) {
