@@ -288,7 +288,8 @@
               console.log(this.choose_value)
               if(node.level==3){
                   console.log(data)
-                  this.tableData[this.index].id = data.label.substr(0,10);
+                  var temp = data.label.split(' ')
+                  this.tableData[this.index].id = temp[0];
                   this.dialogVisible = false;   
               }
           },

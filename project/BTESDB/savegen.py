@@ -75,6 +75,9 @@ def savegen_gen_info(request):
             #print(str(e))
             response['error_num']=1
             response['msg']=str(e)
+    else:
+        response['error_num']=0
+        response['msg']='success'
     return JsonResponse(response)
 
 def update_gen(path,gen_info):
@@ -135,8 +138,6 @@ def savegen(request):
 
     username=request.GET['username']
    
-
-    
     this_user=User_Info.objects.get(username=username)
     path='user_defined/'+username+'/'+gen_info['id']+'/'+gen_info['id']+'.xml'
     if DB_part.objects.filter(id=part_id).exists():
@@ -208,7 +209,8 @@ def addDBpart(gen_info,notes_info,username):
     Rationality=ET.SubElement(Ratings,'Rationality');Rationality.text=notes_info['rationality']
 
     Official=ET.SubElement(root,'Official');Official.text='false'
-    DateCreated=ET.SubElement(root,'DateCreated');DateCreated.text=datetime.now()
+    DateCreated=ET.SubElement(root,'DateCreated')
+    DateCreated.text=datetime.now().strftime("%Y-%m-%D %H:%M:%S")
     Approved=ET.SubElement(root,'Approved');Approved.text=gen_info['value2']
     Incomplete=ET.SubElement(root,'Incomplete');Incomplete.text='false'
     Notes=ET.SubElement(root,'Notes');Notes.text=notes_info['notes']
@@ -227,6 +229,7 @@ def addDBpart(gen_info,notes_info,username):
 	    os.makedirs(d)            #makedirs 创建文件时如果路径不存在会创建这个路径
 	    print ('创建文件夹成功')
     tree.write(path)
+    print ('akgskfasfshFSLKAHF')
 
 def savegen_num(request):
     print('savegen_num')

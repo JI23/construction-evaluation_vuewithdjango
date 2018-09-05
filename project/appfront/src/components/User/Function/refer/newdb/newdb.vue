@@ -4,7 +4,7 @@
             <el-tree  :expand-on-click-node="false" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
         </el-card>
         <el-card style="width:68%;">
-            <router-view v-if="isRouteAlive"></router-view>
+                <router-view @check="check" v-if="isRouteAlive"></router-view>
         </el-card>
     </div>
 </template>
@@ -38,12 +38,39 @@
             }
         },
 
+        created(){
+            let _this = this
+            var temp = sessionStorage.getItem('temp')
+            for(var i = 0; i < temp-1; i++){
+                this.data[0].children[0].children[i+1] = Object.assign({},this.data_temp[0]);
+                this.data[0].children[0].children[i+1].label = 'Damage State '+(i+2);
+                //console.log(this.data[0].children[0].children[temp-1].children[0].label)
+                //console.log('!')
+                this.data[0].children[0].children[i+1].children[0].label = 'Consequence Functions '+(i+2);
+                this.data = JSON.parse(JSON.stringify(this.data));
+            }
+            console.log(_this.data)
+            console.log('!!!!')
+        },
+
         methods: {
             reload(){
                 this.isRouteAlive = false
                 this.$nextTick(function(){
                     this.isRouteAlive = true
                 })
+            },
+            check(){
+                this.$emit('check','');
+            },
+            check(){
+                var temp = sessionStorage.getItem(check)
+                if(temp === 'DB_User'){
+                    return false
+                }
+                else{
+                    return true
+                }
             },
             handleNodeClick(data,node) {
                 //console.log(data.$treeNodeId);
@@ -83,30 +110,14 @@
         
 
         beforeRouteLeave (to, from , next) {
-            /*next(false)
-            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
-                next()
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-                next(false)          
-            });*/
             const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
             if (answer) {
-                localStorage.removeItem('functionnum')
-                localStorage.removeItem('gen_info')
-                localStorage.removeItem('pjNum')
-                localStorage.removeItem('re_info')
+                var temp1 = localStorage.getItem('project')
+                var temp2 = localStorage.getItem('phone')
+                localStorage.clear()
+                sessionStorage.clear()
+                localStorage.setItem('project',temp1)
+                localStorage.setItem('phone',temp2)
                 next()
             } else {
                 next(false)

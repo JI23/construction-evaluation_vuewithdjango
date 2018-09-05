@@ -78,9 +78,41 @@
                 author: '',
                 notes: '',
             }
-          },
+        },
+
+        beforeRouteLeave(to, from, next){
+            var notes_info = {
+                data: this.data, 
+                relevance: this.relevance, 
+                quality: this.quality,
+                rationality: this.rationality,
+                author: this.author,
+                notes: this.notes,
+            };
+            sessionStorage.setItem("notes_info",JSON.stringify(notes_info));
+            next()
+        },
+
+        created(){
+            try{
+                var notes_info=JSON.parse(sessionStorage.getItem("notes_info"))
+                this.data = notes_info['data']
+                this.relevance = notes_info['relevance']
+                this.quality = notes_info['quality']
+                this.rationality = notes_info['rationality']
+                this.author = notes_info['author']
+                this.notes = notes_info['notes']
+            }
+            catch(err){
+                //console.log(err)
+            }
+        },
+
 
         methods: {
+            check(){
+                this.$emit('check','');
+            },
             savegen() {//保存当前页面内容
                 let _this=this;
                 var notes_info = {
@@ -125,6 +157,8 @@
                             localStorage.setItem('part_id',res['part_id'])
                             console.log('111')
                             _this.$message.success(res['msg'])
+                            _this.$router.push({name:'statenum'});
+                            localStorage.setItem("statenum","Damage State 1");
                         } 
                         else {
                             _this.$message.error(res['msg'])

@@ -19,7 +19,8 @@
                 :data='image_data'
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
-                :file-list="fileList2"
+                :before-upload="test"
+                :file-list="fileList"
                 list-type="picture"
                 name='image'>
                 <el-button @click="addone" v-if="temp < 2" size="small" type="primary">点击上传</el-button>
@@ -39,7 +40,7 @@
                     path:localStorage.getItem('path'),
                     statenum:localStorage.getItem('statenum'),
                 },
-                fileList2: [],
+                fileList: [],
                 data: [{
                 }],
                 description: '',
@@ -47,7 +48,7 @@
                 median: '',
                 dispersion: '',
                 temp: '0',
-                
+                DamageImageName:''
             }
         },
 
@@ -61,7 +62,47 @@
             localStorage.removeItem("label");
         },
 
+        beforeRouteLeave(to, from, next){
+            console.log(this.fileList)
+            var statenum_info = {
+                name: this.name, 
+                median: this.median, 
+                dispersion: this.dispersion,
+                description: this.description,
+                DamageImageName:this.DamageImageName,
+            };
+            var temp = localStorage.getItem("statenum")
+            sessionStorage.setItem(temp,JSON.stringify(statenum_info));
+            next()
+        },
+
+        created(){
+            var temp = localStorage.getItem("statenum")
+            try{
+                var statenum_info=JSON.parse(sessionStorage.getItem(temp))
+                this.name = statenum_info['name']
+                this.median = statenum_info['median']
+                this.dispersion = statenum_info['dispersion']
+                this.description = statenum_info['description']
+                var item = {
+                    name: statenum_info['DamageImageName']
+                }
+                this.DamageImageName = statenum_info['DamageImageName']
+                this.fileList.push(item)
+                console.log('111')
+                console.log(this.fileList)
+                console.log('111')
+            }
+            catch(err){
+                console.log(err)
+            }
+        },
+
+
         methods: {
+            check(){
+                this.$emit('check','');
+            },
             savegen(){
                 let _this=this;
                 var statenum_info = {
@@ -69,7 +110,7 @@
                     median: this.median, 
                     dispersion: this.dispersion,
                     description: this.description,
-                    DamageImageName:'null',
+                    DamageImageName:this.DamageImageName,
                 };
                 localStorage.setItem("statenum_info",JSON.stringify(statenum_info));
                 this.$ajax({
@@ -112,6 +153,10 @@
             addone(){
                 this.temp++
                 console.log(this.temp)
+            },
+            test(file){
+                console.log(file.name)
+                this.DamageImageName = file.name
             }
         }
   }

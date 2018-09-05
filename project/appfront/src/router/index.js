@@ -211,6 +211,9 @@ export default new Router({
               name:'newdb',
               component:newdb,
               redirect: '/refer/newdb/general_info',
+              meta: {
+                keepAlive: true // 需要被缓存
+              },
               children:[
                 {
                   path:'/refer/newdb/consequence',
@@ -249,7 +252,10 @@ export default new Router({
                     {
                       path:'/refer/newdb/generalinfo/generalinfo',
                       name:'generalinfo',
-                      component:generalinfo
+                      component:generalinfo,
+                      //meta: {
+                      //  keepAlive: true // 需要被缓存
+                      //},
                     },
                     {
                       path:'/refer/newdb/generalinfo/notes',

@@ -29,7 +29,7 @@
             <!--<div id="container" style="max-width:800px;height:400px"></div>-->
             <!--<schart class="wrapper" :canvasId="canvasId" :type="type" :data="data" :options="options"></schart>-->
             <div id="container" style="max-width:800px;height:400px"></div>
-            <el-button style="display:block;margin:0 auto; position:relative; top: 15px" @click="save_next">下一步</el-button>
+            <el-button style="display:block;margin:0 auto; position:relative; top: -30px" @click="save_next">下一步</el-button>
         </div>
     </div>
 </template>
@@ -77,7 +77,43 @@
             }
         },
 
+        beforeRouteLeave(to, from, next){
+            var re_cost = {
+                l_Quantity: this.l_Quantity, 
+                aver_re_l: this.aver_re_l,
+                u_Quantity: this.u_Quantity,
+                aver_re_u: this.aver_re_u,
+                COV:this.COV,
+                CurveType:this.CurveType
+            };
+            var temp = localStorage.getItem("functionnum")+"_cost"
+            sessionStorage.setItem(temp,JSON.stringify(re_cost));
+            next()
+        },
+
+        created(){
+            var temp = localStorage.getItem("functionnum")+"_cost"
+            try{
+                var re_cost=JSON.parse(sessionStorage.getItem(temp))
+                this.l_Quantity = re_cost['l_Quantity']
+                this.aver_re_l = re_cost['aver_re_l']
+                this.u_Quantity = re_cost['u_Quantity']
+                this.aver_re_u = re_cost['aver_re_u']
+                this.COV = re_cost['COV']
+                this.CurveType = re_cost['CurveType']
+                
+            }
+            catch(err){
+                //console.log(err)
+            }
+        },
+
+
+
         methods: {
+            check(){
+                this.$emit('check','');
+            },
             save_next(){
                 let _this=this;
                 var re_cost = {

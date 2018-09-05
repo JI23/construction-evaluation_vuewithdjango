@@ -105,6 +105,8 @@
                     //判断后弹窗
                     var res = response.data
                     //step1
+                    console.log('unsuccessful.vue')
+                    console.log(res['base_info'][0].fields)
                     let project_name = JSON.stringify(res['base_info'][0].fields.project_name)
                     let client_name = JSON.stringify(res['base_info'][0].fields.client_name)
                     let project_leader = JSON.stringify(res['base_info'][0].fields.project_leader)
@@ -118,44 +120,46 @@
                     let area = JSON.stringify(res['base_info'][0].fields.area)
                     let cost_per_squaremeter = JSON.stringify(res['base_info'][0].fields.cost_per_squaremeter)
                     let Floor_info=res['floor_info']
-                    //console.log(res['floor_info'][0].fields)
+                    console.log('!!!!!!!!!!!!')
                     for(var i = 0; i < res['floor_info'].length; i++){
                                 delete res['floor_info'][i].fields.project //删掉返回的project属性
                                 Floor_info[i]=res['floor_info'][i].fields
                     } 
                     Floor_info=JSON.stringify(Floor_info)
-                    //step3
-                    let structure_element=new Array
-                    let j=0
-                    for(var i = 0; i < res['element_info'].length; i++){
-                                if(res['element_info'][i].fields.element_type=='s')
-                                {
-                                    delete res['element_info'][i].fields.project 
-                                    delete res['element_info'][i].fields.element_type
-                                    //delete res['element_info'][i].fields.element
-                                    structure_element[j]=res['element_info'][i].fields
-                                    j++
-                                }
-                    } 
-                    structure_element=JSON.stringify(structure_element)
-                    console.log('step3')
-                    console.log(structure_element)
-                    //step4
-                    let non_structure_element=new Array
-                    let k=0
-                    for(var i = 0; i < res['element_info'].length; i++){
-                                if(res['element_info'][i].fields.element_type=='n')
-                                {
-                                    delete res['element_info'][i].fields.project 
-                                    delete res['element_info'][i].fields.element_type
-                                    non_structure_element[k]=res['element_info'][i].fields
-                                    k++
-                                }
-                    } 
-                    non_structure_element=JSON.stringify(non_structure_element)
-                    console.log('step4')
-                    console.log(non_structure_element)
+                    // //step3
+                    // let structure_element=new Array
+                    // let j=0
+                    // for(var i = 0; i < res['element_info'].length; i++){
+                    //             if(res['element_info'][i].fields.element_type=='s')
+                    //             {
+                    //                 delete res['element_info'][i].fields.project 
+                    //                 delete res['element_info'][i].fields.element_type
+                    //                 //delete res['element_info'][i].fields.element
+                    //                 structure_element[j]=res['element_info'][i].fields
+                    //                 j++
+                    //             }
+                    // } 
+                    // structure_element=JSON.stringify(structure_element)
+                    // console.log('step3')
+                    // console.log(structure_element)
+                    // //step4
+                    // let non_structure_element=new Array
+                    // let k=0
+                    // for(var i = 0; i < res['element_info'].length; i++){
+                    //             if(res['element_info'][i].fields.element_type=='n')
+                    //             {
+                    //                 delete res['element_info'][i].fields.project 
+                    //                 delete res['element_info'][i].fields.element_type
+                    //                 non_structure_element[k]=res['element_info'][i].fields
+                    //                 k++
+                    //             }
+                    // } 
+                    // non_structure_element=JSON.stringify(non_structure_element)
+                    // console.log('step4')
+                    // console.log(non_structure_element)
                     //step5
+                    console.log(res['earthquake_info'])
+                    
                     let defense_intensity_temp=res['earthquake_info'][0].fields.defense_intensity
                     console.log('step5')
                     console.log(defense_intensity_temp)
@@ -196,6 +200,8 @@
                     sessionStorage.clear()
                     //step1的
                     sessionStorage.setItem('project_name', project_name)
+                    console.log('step1的project——name')
+                    console.log(project_name)
                     sessionStorage.setItem('client_name', client_name)
                     sessionStorage.setItem('project_leader', project_leader)
                     sessionStorage.setItem('project_description', project_description)
@@ -209,10 +215,10 @@
                     sessionStorage.setItem('cost_per_squaremeter', cost_per_squaremeter)
                     sessionStorage.setItem('Floor_info', Floor_info)
                     console.log('bbbbbbbbbbbbbbbbbbbb')
-                    //step3
-                    sessionStorage.setItem('structure_element', structure_element)
-                    //step4
-                    sessionStorage.setItem('non_structure_element',non_structure_element)
+                    // //step3
+                    // sessionStorage.setItem('structure_element', structure_element)
+                    // //step4
+                    // sessionStorage.setItem('non_structure_element',non_structure_element)
                     //step5
                     sessionStorage.setItem('defense_intensity',JSON.stringify(defense_intensity))
                     sessionStorage.setItem('site_type',site_type)
@@ -299,46 +305,6 @@
                     this.isRouteAlive = true
                 })
             },
-
-            // editpj: function(index,row){
-            //     //this.$router.push({name:'step1'})
-            //     localStorage.setItem("project",JSON.stringify(row.id));
-            //     let project = localStorage.getItem('project');
-            //     //console.log(project_name);
-            //     //掉用setp1进行编辑
-            //     //console.log(pjname)
-            //     var username=localStorage.getItem('phone')
-            //     this.$ajax({
-            //         method:'get',
-            //         url:'step0-edit',
-            //         params:{
-            //             username:username,
-            //             project:project
-            //         }}).then(function(response){
-            //         //判断后弹窗
-            //             var res = response.data
-            //             //console.log(res['base_info'])
-            //             //console.log(res['base_info'][0].fields.project_name)
-            //             //var project_name=res['base_info'][0].fields.project_name
-            //             //sessionStorage.removeItem('project_name')
-            //             let project_name = JSON.stringify(res['base_info'][0].fields.project_name)
-            //             sessionStorage.clear()
-            //             sessionStorage.setItem('project_name', project_name)
-            //             console.log('unsucess')
-            //             console.log(project_name)
-            //             //this.$router.push({name:'step1'})
-            //         }).catch(function(err){
-            //             console.log(err)
-            //             //this.$router.push({name:'step1'})
-            //         })
-            //         //setTimeout(this.$router.push({name:'step1'}),3000)
-            //         setTimeout(()=>{
-            //             this.$router.push({name:'step1'})
-            //         },1000)
-            //     //this.$router.push({name:'step1'})
-            //     //this.$router.go('/step1');
-            //     },
-            
             showProjects(){
                 let _this = this;
                 var username=localStorage.getItem('phone');
@@ -401,13 +367,7 @@
 
         data () {
             return {
-                projects: [{create_time: '2016-05-03',
-                    project_leader: '王小虎',
-                    client_name:'王小五',
-                    project_name: '上海',
-                    id: 12,
-                    rate: '上海市',
-                    project_description: 200333},],
+                projects: [],
                 currentPage:1,
                 pagesize:5,
                 isRouteAlive: true,

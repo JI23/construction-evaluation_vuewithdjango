@@ -58,7 +58,11 @@
                 var path1 = this.$route.path.split("/")
                 console.log(path1)
                 _this.activeName = path1[4]
-            }
+            },
+
+            check(){
+                this.$emit('check','');
+            },
             
         }
     }

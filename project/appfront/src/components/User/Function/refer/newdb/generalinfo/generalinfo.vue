@@ -201,6 +201,50 @@
             }
         },
 
+        beforeRouteLeave(to, from, next){
+            var gen_info = {
+                name: this.name, 
+                id: this.id, 
+                //req_coe: this.req_coe,
+                //cus_name: this.cus_name,
+                description:this.description,
+                demand_Para:this.demand_Para,
+                value1: this.value1,
+                value2: this.value2,
+                choose1: this.choose1,
+                choose2: this.choose2,
+                typename: this.typename,
+                DP_Dimension: this.DP_Dimension,
+                units: this.units,
+            };
+            console.log(gen_info)
+            sessionStorage.setItem("gen_info",JSON.stringify(gen_info));
+            next()
+        },
+
+        created(){
+            try{
+                var gen_info=JSON.parse(sessionStorage.getItem("gen_info"))
+                console.log(gen_info)
+                this.name = gen_info['name']
+                this.id = gen_info['id'] 
+                //req_coe: this.req_coe,
+                //cus_name: this.cus_name,
+                this.description = gen_info['description']
+                this.demand_Para = gen_info['demand_Para']
+                this.value1 = gen_info['value1']
+                this.value2 = gen_info['value2']
+                this.choose1 = gen_info['choose1']
+                this.choose2 = gen_info['choose2']
+                this.typename = gen_info['typename']
+                this.DP_Dimension = gen_info['DP_Dimension']
+                this.units = gen_info['units']
+            }
+            catch(err){
+                //console.log(err)
+            }
+        },
+
         mounted: function () {
             var vm = this
             // 用$on事件来接收参数
@@ -213,6 +257,9 @@
 
 
         methods: {
+            check(){
+                this.$emit('check','');
+            },
             saveReq_Coe(){
                 this.dialogFormVisible = false;
                 //post数据去后台提交新建请求或修改
@@ -275,10 +322,11 @@
                     console.log('!')
                     var res = response.data
                     console.log(res)
+                    console.log('!')
                     if (res['error_num'] == 0) {
                         console.log('111')
                         _this.$message.success(res['msg'])
-                        this.$router.push({name:'notes'});
+                        _this.$router.push({name:'notes'});
                     } 
                     else {
                         _this.$message.error(res['msg'])
