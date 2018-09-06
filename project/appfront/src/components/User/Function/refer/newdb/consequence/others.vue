@@ -52,7 +52,47 @@
             }
         },
 
+        beforeRouteLeave(to, from, next){
+            var others = {
+                UseCasualty: this.UseCasualty, 
+                RedTagMedian: this.RedTagMedian,
+                RedTagBeta: this.RedTagBeta,
+                AffectedDeathRate: this.AffectedDeathRate,
+                AffectedDeathRateBeta: this.AffectedDeathRateBeta,
+                AffectedFloorArea: this.AffectedFloorArea,
+                AffectedInjuryRate: this.AffectedInjuryRate,
+                AffectedInjuryRateBeta: this.AffectedInjuryRateBeta,
+                LongLeadFlag: this.LongLeadFlag,
+            };
+            var temp = localStorage.getItem("functionnum")+"_others"
+            sessionStorage.setItem(temp,JSON.stringify(others));
+            next()
+        },
+
+        created(){
+            var temp = localStorage.getItem("functionnum")+"_others"
+            try{
+                var others=JSON.parse(sessionStorage.getItem(temp))
+                this.UseCasualty = others['UseCasualty']
+                this.RedTagMedian = others['RedTagMedian']
+                this.RedTagBeta = others['RedTagBeta']
+                this.AffectedDeathRate = others['AffectedDeathRate']
+                this.AffectedDeathRateBeta = others['AffectedDeathRateBeta']
+                this.AffectedFloorArea = others['AffectedFloorArea']
+                this.AffectedInjuryRate = others['AffectedInjuryRate']
+                this.AffectedInjuryRateBeta = others['AffectedInjuryRateBeta']
+                this.LongLeadFlag = others['LongLeadFlag']
+            }
+            catch(err){
+                //console.log(err)
+            }
+        },
+
+
         methods:{
+            check(){
+                this.$emit('check','');
+            },
             changed(){
               //console.log('1')
               this.temp = !this.temp 
@@ -99,7 +139,7 @@
                 if (res.error_num == 0) {
                     console.log(res['msg'])
                     _this.$message.success(res['msg'])
-                    _this.$router.push({name:'re_cost'});
+                    //_this.$router.push({name:'re_cost'});
                 } 
                 else {
                     _this.$message.error(res['msg'])

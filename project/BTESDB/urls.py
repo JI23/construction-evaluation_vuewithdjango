@@ -1,7 +1,7 @@
 from django.contrib import admin
 from . import views,step0,step1,step2,step3
 from . import step5,step6,user_login,register
-from . import savegen,refer_check
+from . import savegen,refer_check,get_detail
 from . import rate
 
 from . import admin_view
@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'refer_check_statenum$', refer_check.refer_check_statenum ),
     url(r'refer_check_re_info$', refer_check.refer_check_re_info ),
     url(r'refer_check_re_costAndTime$', refer_check.refer_check_re_costAndTime),
+    url(r'get_detail$', get_detail.get_detail),
     
 
     url(r'show_projects_all$', admin_view.show_projects_all ),

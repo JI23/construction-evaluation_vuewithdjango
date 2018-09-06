@@ -24,6 +24,9 @@
             this.get_url()
         },
         methods: {
+            check(){
+                this.$emit('check','');
+            },
             handleClick(tab, event) {
                 //console.log(tab, event);
                 if(tab.name === "generalinfo"){

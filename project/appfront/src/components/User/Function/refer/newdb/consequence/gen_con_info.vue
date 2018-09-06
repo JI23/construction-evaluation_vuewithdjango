@@ -18,7 +18,31 @@
             }
         },
 
+        beforeRouteLeave(to, from, next){
+            var re_info = {
+                reInfo: this.re_info, 
+            };
+            var temp = localStorage.getItem("functionnum")+"_re"
+            sessionStorage.setItem(temp,JSON.stringify(re_info));
+            next()
+        },
+
+        created(){
+            var temp = localStorage.getItem("functionnum")+"_re"
+            try{
+                var re_info=JSON.parse(sessionStorage.getItem(temp))
+                this.re_info = re_info['reInfo']
+                
+            }
+            catch(err){
+                //console.log(err)
+            }
+        },
+
         methods: {
+            check(){
+                this.$emit('check','');
+            },
             save_next(){
                 let _this=this;
                 var re_info = {

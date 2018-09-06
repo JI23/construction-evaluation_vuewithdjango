@@ -78,15 +78,14 @@
                     <template slot-scope="scope">
                         <el-upload
                             class="upload-demo"
-                            ref="upload"
                             action="http://localhost:8000/api/step5-save-wave_file"
                             :data='upload_data'
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
-                            :file-list="fileList"
-                            :auto-upload="false"
+                            :on-success="handleResponse"
+                            :file-list="fileList[scope.$index]"
                             name='test'>
-                            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                            <el-button slot="trigger" size="small" type="primary" @click="get_num(scope.$index)">选取文件</el-button>
                             <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                         </el-upload>
                     </template>
@@ -126,7 +125,13 @@ export default {
         let earthquake_level = JSON.stringify(this.earthquake_level)
         localStorage.setItem('earthquake_level', earthquake_level)
         let earthquake_info = JSON.stringify(this.earthquake_info)
+<<<<<<< HEAD
         localStorage.setItem('earthquake_info', earthquake_info)
+=======
+        sessionStorage.setItem('earthquake_info', earthquake_info)
+        console.log(this.fileList)
+        console.log('12345')
+>>>>>>> upstream/master
         next()
     },
     created(){
@@ -155,10 +160,22 @@ export default {
         if (earthquake_level != null) {
             this.earthquake_level = JSON.parse(earthquake_level)
         }
+<<<<<<< HEAD
         // let earthquake_info = localStorage.getItem('earthquake_info')
         // if (earthquake_info != null) {
         //     this.earthquake_info = JSON.parse(earthquake_info)
         // }
+=======
+         let earthquake_info = sessionStorage.getItem('earthquake_info')
+        if (earthquake_info != null) {
+             this.earthquake_info = JSON.parse(earthquake_info)
+        }
+        //上传文件部分改动this.fileList,格式为
+        var item = {
+            name: 'hhh'
+        }
+        //this.fileList.push(item)
+>>>>>>> upstream/master
     },
 
     methods:{
@@ -261,6 +278,15 @@ export default {
         },
         handleRemove(file, fileList) {
             //发送请求后台删除文件
+            this.$ajax({
+                method: 'get',
+                url: '',
+                params: ''
+            }).then(function(response){
+
+            }).catch(function(response){
+
+            })
             console.log(file, fileList);
         },
         handlePreview(file, fileList) {
@@ -270,9 +296,15 @@ export default {
             console.log(response)
         },
         get_num(index){
-            //localStorage.setItem('index',index)
+            localStorage.setItem('index',index)
         },
         set_num(){
+            this.earthquake_info = [{
+                earthquake_no: '',
+                name: '',
+                peak:'',
+                file:'',
+            }]
             for(var i = 0; i < this.number-1; i++){
                 //this.earthquake_info[i]=temp
                 this.earthquake_info.push({
@@ -292,8 +324,10 @@ export default {
                 username:localStorage.getItem('phone'),
                 project:1,//localStorage.getItem('project')
                 //wave_no:row.earthquake_no,
+                num:1,
             },
             fileList: [],
+            test:"test",
             defense_intensity:'',
             defense_in_option:[{
                     value: 1,
