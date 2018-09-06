@@ -98,12 +98,12 @@
     },
     beforeRouteLeave(to, from, next){
         let non_structure_element = JSON.stringify(this.tableData)
-        sessionStorage.setItem('non_structure_element', non_structure_element)
+        localStorage.setItem('non_structure_element', non_structure_element)
         next()
     },
     created(){
       //从localStorage中读取条件并赋值给查询表单
-        let tableData = sessionStorage.getItem('non_structure_element')
+        let tableData = localStorage.getItem('non_structure_element')
         if (tableData != null) {
             this.tableData = JSON.parse(tableData)
         }

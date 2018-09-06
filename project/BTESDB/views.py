@@ -32,24 +32,6 @@ def logout(request):
     auth.logout(request)
     return render(request,'index.html')
 @csrf_exempt
-
-def brief_projects(request):
-    response = {}
-    try:
-        un_projects = Project.objects.filter(is_finished=0).count()
-        ed_projects = Project.objects.filter(is_finished=1).count() 
-        all = un_projects+ed_projects
-        response['all']  = all
-        response['success'] = ed_projects
-        response['unsuccess'] = un_projects
-        response['msg'] = 'success'
-        response['error_num'] = 0
-    except  Exception as e:
-        response['msg'] = str(e)
-        response['error_num'] = 1
-    return JsonResponse(response)
-
-
 def show_projects(request):
     response = {}
     try:
@@ -57,7 +39,6 @@ def show_projects(request):
         #print (request)
         is_finished=request.GET['is_finished']
         username=request.GET['username']
-        #search_name=request.GET['input']
         print (is_finished)
         this_user=User_Info.objects.get(username=username)
         if is_finished=='False':
@@ -91,8 +72,6 @@ def Judge(a):
     if a=='true' or a=='1' or a==1:
         b=1
     return b
-<<<<<<< HEAD
-=======
 def classify_first(name):
     if name=='BE':
         return 'BE — 外部建筑构架'
@@ -188,7 +167,6 @@ def get_datetime(dt):
     return dt
 
 
->>>>>>> upstream/master
 import xml.etree.ElementTree as ET
 import os
 
@@ -208,10 +186,12 @@ def upload(request):
             elif t=='fema':
                 first=classify_FEMA1(name[0][0])
                 second=classify_FEMA2(name[0])
+            print(first)
+            print(len(first))
+            print(second)
             name.pop()
             name='.'.join(name)
             #name='.'.join(name.split('.')[0:4])
-<<<<<<< HEAD
             print (name)
             
             d={}#每个part_id对应一条字典信息
@@ -230,133 +210,6 @@ def upload(request):
             damage_state_number=len(x)
             print (d)
             print(damage_state_number)
-
-            if d['TypeName']=='Acceleration':
-                EDP_type='A'
-            else:
-                EDP_type='S'
-            if d['Notes']==None:
-                d['Notes']='None'
-            if ('Cost' in d.keys()) ==False:
-                d['Cost']=0.0
-            elif d['Cost']==None:
-                d['Cost']=0.0
-            if d['Author']==None:
-                d['Author']='None'
-
-            this_user=User_Info.objects.get(id=1)
-
-            new=DB_part(user=this_user,
-            part_id=d['ID'],
-            description=d['Description'],
-            basic_unit=d['BasicUnit'],
-            cost=d['Cost'],
-            part_name=d['Name'],
-            data_resource=d['Author'],
-            correlation=Judge(d['Correlation']),
-            directional=Judge(d['Directional']),
-            EDP_type=EDP_type,
-            default_units=d['DefaultUnits'],
-            user_defined=Judge(d['UserDefined']),
-            DataQuality=Rating(d['DataQuality']),
-            DataRelevance=Rating(d['DataRelevance']),
-            Documentation=Rating(d['Documentation']),
-            Rationality=Rating(d['Rationality']),
-            is_formal=Judge(d['Official']),
-            create_date=d['DateCreated'],
-            Approved=Judge(d['Approved']),
-            Incomplete=Judge(d['Incomplete']),
-            #Notes=d['Notes'],
-            UseEDPValueOfFloorAbove=Judge(d['UseEDPValueOfFloorAbove']),
-            DSGroupType=d['DSGroupType'],
-            damage_state_number=damage_state_number,
-            part_type=t[0],                     
-            xml=xml)
-            try:
-                this_part=DB_part.objects.get(part_id=name)
-                path="media/"+t+"/"
-                dest="media/"+t+"/"+name+'/'+item.name
-                print(dest)
-                if os.path.exists(dest):
-                    for each in os.listdir(path):
-                        if each.name.endwith('.xml'):
-                            os.remove(dest)
-                    print('删除成功')
-                this_part.description=d['Description']
-                this_part.basic_unit=d['BasicUnit']
-                this_part.cost=d['Cost']
-                this_part.part_name=d['Name']
-                this_part.data_resource=d['Author']
-                this_part.correlation=Judge(d['Correlation'])
-                this_part.directional=Judge(d['Directional'])
-                this_part.EDP_type=EDP_type
-                this_part.default_units=d['DefaultUnits']
-                this_part.user_defined=Judge(d['UserDefined'])
-                this_part.DataQuality=Rating(d['DataQuality'])
-                this_part.DataRelevance=Rating(d['DataRelevance'])
-                this_part.Documentation=Rating(d['Documentation'])
-                this_part.Rationality=Rating(d['Rationality'])
-                this_part.is_formal=Judge(d['Official'])
-                this_part.create_date=d['DateCreated']
-                this_part.Approved=Judge(d['Approved'])
-                this_part.Incomplete=Judge(d['Incomplete'])
-                #this_part.Notes=d['Notes']
-                this_part.UseEDPValueOfFloorAbove=Judge(d['UseEDPValueOfFloorAbove'])
-                this_part.DSGroupType=d['DSGroupType']
-                this_part.damage_state_number=damage_state_number
-                this_part.part_type=t[0]                   
-                this_part.xml=xml
-                this_part.save()
-                print('更新成功')
-                continue
-            except Exception as e:
-                print (str(e))
-            new.save()
-    return render(request,'upload.html')
-
-def upload_db_part(request):  
-    if request.method=='POST':
-        xmls=request.FILES.getlist('xml',[])
-        for item in xmls:
-            xml=item
-            name=item.name
-            name=name.split('.')
-            name.pop()
-            name='.'.join(name)
-            #name='.'.join(name.split('.')[0:4])
-            print (name)
-
-            d={}#每个part_id对应一条字典信息
-=======
-            print (name)
-            
-            d={}#每个part_id对应一条字典信息
-            x=[]
-            
->>>>>>> upstream/master
-            tree=ET.ElementTree(file=xml)
-            root=tree.getroot()
-            d[root.tag]=root.attrib
-
-            for child_of_root in root:
-                d[child_of_root.tag]=child_of_root.text
-                for child2 in child_of_root:
-                    d[child2.tag]=child2.text
-<<<<<<< HEAD
-            print (d)
-            try:
-                this_part=DB_part.objects.get(part_id=name)
-                #this_part.delete()
-                continue
-            except Exception as e:
-                print (str(e))
-=======
-                    if child2.tag=='DamageState':
-                        x.append(child2)
-            damage_state_number=len(x)
-            print (d)
-            print(damage_state_number)
->>>>>>> upstream/master
 
             
 
@@ -387,6 +240,8 @@ def upload_db_part(request):
                             os.remove(path+name+'/'+each)
                             print('删除成功')
                 this_part.description=d['Description']
+                this_part.first=first
+                this_part.second=second
                 this_part.basic_unit=d['BasicUnit']
                 this_part.cost=d['Cost']
                 this_part.part_name=d['Name']
@@ -449,28 +304,8 @@ def upload_db_part(request):
             DSGroupType=d['DSGroupType'],
             '''
             
-<<<<<<< HEAD
-            new=DB_part(user=this_user,
-            part_id=get.part_id,
-            part_name=get.Name,
-            EDP_type=EDP_type,
-            data_resource=get.Author,
-            is_formal=is_formal,
-            part_type=get.part_type,
-            description=get.Description,
-            user_defined=get.user_defined,
-            xml=xml
-            )
-            new.save()
-
-        return HttpResponse('成功')
-        
-    return render(request,'upload.html')
-
-=======
     return render(request,'upload.html')
 
 
 
->>>>>>> upstream/master
     

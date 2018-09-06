@@ -40,14 +40,14 @@ export default {
     },
     beforeRouteLeave(to, from, next){
     //  if (to.name == 'step2') {
-        let project_name = JSON.stringify(this.project_name)
-        let client_name = JSON.stringify(this.client_name)
-        let project_leader = JSON.stringify(this.project_leader)
-        let project_description = JSON.stringify(this.project_description)
-        sessionStorage.setItem('project_name', project_name)
-        sessionStorage.setItem('client_name', client_name)
-        sessionStorage.setItem('project_leader', project_leader)
-        sessionStorage.setItem('project_description', project_description)
+        let project_name = this.project_name
+        let client_name = this.client_name
+        let project_leader = this.project_leader
+        let project_description = this.project_description
+        localStorage.setItem('project_name', project_name)
+        localStorage.setItem('client_name', client_name)
+        localStorage.setItem('project_leader', project_leader)
+        localStorage.setItem('project_description', project_description)
     //  }
     //   else{
     //     localStorage.removeItem('project_name')
@@ -60,29 +60,29 @@ export default {
     },
     // beforeCreate()
     // {
-    //     let project_name = sessionStorage.getItem('project_name')
+    //     let project_name = localStorage.getItem('project_name')
     //     console.log('beforecreated')
     // },
     created(){
       //从localStorage中读取条件并赋值给查询表单
       
-        let project_name = sessionStorage.getItem('project_name')
+        let project_name = localStorage.getItem('project_name')
         console.log(project_name)
-        let client_name = sessionStorage.getItem('client_name')
+        let client_name = localStorage.getItem('client_name')
         console.log(client_name)
-        let project_leader = sessionStorage.getItem('project_leader')
-        let project_description = sessionStorage.getItem('project_description')
+        let project_leader = localStorage.getItem('project_leader')
+        let project_description = localStorage.getItem('project_description')
         if (project_name != null) {
-            this.project_name = JSON.parse(project_name)
+            this.project_name =project_name
         }
         if (client_name != null) {
-            this.client_name = JSON.parse(client_name)
+            this.client_name = client_name
         }
         if (project_leader != null) {
-            this.project_leader = JSON.parse(project_leader)
+            this.project_leader = project_leader
         }
         if (project_description != null) {
-            this.project_description = JSON.parse(project_description)
+            this.project_description = project_description
         }
     },
     methods:{

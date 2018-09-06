@@ -55,15 +55,17 @@
 export default {
     beforeRouteLeave(to, from, next){
         let structure_response = JSON.stringify(this.data)
-        sessionStorage.setItem('structure_response', structure_response)
+        localStorage.setItem('structure_response', structure_response)
         next()
     },
     created(){
       //从localStorage中读取条件并赋值给查询表单
-        let data = sessionStorage.getItem('structure_response')
-        if (data != null) {
-            this.data = JSON.parse(data)
+        let data = JSON.parse(localStorage.getItem('structure_response'))
+        console.log('step6.vue')
+        if (data != '') {
+            this.data = data
         }
+        
     },
     methods:{
         next(){
