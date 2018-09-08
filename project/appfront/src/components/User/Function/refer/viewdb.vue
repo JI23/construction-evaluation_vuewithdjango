@@ -152,7 +152,7 @@
                         //console.log('!！！！！！')
                         //console.log(this.value4)
                         //console.log('!！！！！！')
-                        sessionStorage.setItem('check',JSON.stringify(value))
+                        sessionStorage.setItem('check',value)
                     }).catch(function(response){
                         console.log(response)
                     })
