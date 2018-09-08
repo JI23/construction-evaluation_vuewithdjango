@@ -52,23 +52,43 @@
             });*/
             const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
             if (answer) {
-                sessionStorage.clear();
+                //sessionStorage.clear();
+                //localStorage.clear();
                 localStorage.setItem('project','0');
-                localStorage.removeItem('project_name');
-                localStorage.removeItem('project_leader');
-                localStorage.removeItem('project_description');
-                localStorage.removeItem('area');
-                localStorage.removeItem('client_name');
-                localStorage.removeItem('floors');
-                localStorage.removeItem('height');
+                    localStorage.removeItem('project_name')
+                    localStorage.removeItem('project_leader')
+                    localStorage.removeItem('project_description')
+                    localStorage.removeItem('client_name')
+
+                    localStorage.removeItem('material')
+                    localStorage.removeItem('structure_type')
+                    localStorage.removeItem('figure_time')
+                    localStorage.removeItem('floors')
+                    localStorage.removeItem('height')
+                    localStorage.removeItem('area')
+                    localStorage.removeItem('cost_per_squaremeter')
+                    localStorage.removeItem('Floor_info')
+
+                    localStorage.removeItem('structure_element')
+
+                    localStorage.removeItem('non_structure_element')
+
+                    localStorage.removeItem('defense_intensity')
+                    localStorage.removeItem('site_type')
+                    localStorage.removeItem('number')
+                    localStorage.removeItem('group')
+                    localStorage.removeItem('peak_acceleration')
+                    localStorage.removeItem('earthquake_level')
+
+                    localStorage.removeItem('structure_response')
                 //localStorage.clear()
                 next()
             } else {
-                sessionStorage.clear()
-                localStorage.removeItem('processs');
-                localStorage.removeItem('processs_name');
-                localStorage.removeItem('processs_leader');
-                localStorage.removeItem('processs_description');
+                //sessionStorage.clear()
+                localStorage.removeItem('project');
+                localStorage.removeItem('project_name');
+                localStorage.removeItem('project_leader');
+                localStorage.removeItem('project_description');
                 localStorage.removeItem('area');
                 localStorage.removeItem('client_name');
                 localStorage.removeItem('floors');
@@ -85,7 +105,7 @@
             _this.active = path1
         },
         createNew(){
-            this.$confirm('当前项目可能为保存，是否保存当前项目？', '确认信息', {
+            this.$confirm('当前项目可能未保存，是否保存当前项目？', '确认信息', {
             distinguishCancelAndClose: true,
             confirmButtonText: '保存',
             cancelButtonText: '放弃修改'
@@ -101,7 +121,36 @@
             .catch(action => {
                 if(action === 'cancel'){
                     this.$router.push({name:'step1'})
-                    sessionStorage.clear()
+                    //sessionStorage.clear()
+                    //localStorage.clear();
+                    localStorage.setItem('project','0');
+                    localStorage.removeItem('project_name')
+                    localStorage.removeItem('project_leader')
+                    localStorage.removeItem('project_description')
+                    localStorage.removeItem('client_name')
+
+                    localStorage.removeItem('material')
+                    localStorage.removeItem('structure_type')
+                    localStorage.removeItem('figure_time')
+                    localStorage.removeItem('floors')
+                    localStorage.removeItem('height')
+                    localStorage.removeItem('area')
+                    localStorage.removeItem('cost_per_squaremeter')
+                    localStorage.removeItem('Floor_info')
+
+                    localStorage.removeItem('structure_element')
+
+                    localStorage.removeItem('non_structure_element')
+
+                    localStorage.removeItem('defense_intensity')
+                    localStorage.removeItem('site_type')
+                    localStorage.removeItem('number')
+                    localStorage.removeItem('group')
+                    localStorage.removeItem('peak_acceleration')
+                    localStorage.removeItem('earthquake_level')
+
+                    localStorage.removeItem('structure_response')
+
                 }
                 this.$message({
                 type: 'info',

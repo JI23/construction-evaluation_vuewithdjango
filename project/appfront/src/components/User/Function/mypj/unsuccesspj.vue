@@ -105,26 +105,75 @@
                     //判断后弹窗
                     var res = response.data
                     //step1
+<<<<<<< HEAD
+                    let project_name = res['base_info'][0].fields.project_name
+                    let client_name = res['base_info'][0].fields.client_name
+                    let project_leader = res['base_info'][0].fields.project_leader
+                    let project_description = res['base_info'][0].fields.project_description
+=======
                     console.log('unsuccessful.vue')
                     console.log(res['base_info'][0].fields)
                     let project_name = JSON.stringify(res['base_info'][0].fields.project_name)
                     let client_name = JSON.stringify(res['base_info'][0].fields.client_name)
                     let project_leader = JSON.stringify(res['base_info'][0].fields.project_leader)
                     let project_description = JSON.stringify(res['base_info'][0].fields.project_description)
+>>>>>>> upstream/master
                     //step2
-                    let material = JSON.stringify(res['base_info'][0].fields.material)
-                    let structure_type = JSON.stringify(res['base_info'][0].fields.structure_type)
-                    let figure_time = JSON.stringify(res['base_info'][0].fields.figure_time)
-                    let floors = JSON.stringify(res['base_info'][0].fields.floor)
-                    let height = JSON.stringify(res['base_info'][0].fields.height)
-                    let area = JSON.stringify(res['base_info'][0].fields.area)
-                    let cost_per_squaremeter = JSON.stringify(res['base_info'][0].fields.cost_per_squaremeter)
+                    let material = res['base_info'][0].fields.material
+                    let structure_type = res['base_info'][0].fields.structure_type
+                    let figure_time = res['base_info'][0].fields.figure_time
+                    let floors = res['base_info'][0].fields.floor
+                    let height = res['base_info'][0].fields.height
+                    let area = res['base_info'][0].fields.area
+                    let cost_per_squaremeter = res['base_info'][0].fields.cost_per_squaremeter
                     let Floor_info=res['floor_info']
+<<<<<<< HEAD
+=======
                     console.log('!!!!!!!!!!!!')
+>>>>>>> upstream/master
                     for(var i = 0; i < res['floor_info'].length; i++){
                                 delete res['floor_info'][i].fields.project //删掉返回的project属性
                                 Floor_info[i]=res['floor_info'][i].fields
                     } 
+<<<<<<< HEAD
+                    //step3
+                    let structure_element=new Array
+                    let j=0
+                    for(var i = 0; i < res['element_info'].length; i++){
+                                if(res['element_info'][i].fields.element_type=='s')
+                                {
+                                    delete res['element_info'][i].fields.project 
+                                    delete res['element_info'][i].fields.element_type
+                                    //delete res['element_info'][i].fields.element
+                                    structure_element[j]=res['element_info'][i].fields
+                                    j++
+                                }
+                    } 
+                    structure_element=JSON.stringify(structure_element)
+                    console.log('step3')
+                    console.log(structure_element)
+                    //step4
+                    let non_structure_element=new Array
+                    let k=0
+                    for(var i = 0; i < res['element_info'].length; i++){
+                                if(res['element_info'][i].fields.element_type=='n')
+                                {
+                                    delete res['element_info'][i].fields.project 
+                                    delete res['element_info'][i].fields.element_type
+                                    non_structure_element[k]=res['element_info'][i].fields
+                                    k++
+                                }
+                    } 
+                    non_structure_element=JSON.stringify(non_structure_element)
+                    console.log('step4')
+                    console.log(non_structure_element)
+                    //step5
+                    var defense_intensity=''
+                    var site_type=''
+                    var number=''
+                    var group=''
+                    var earthquake_level=''
+=======
                     Floor_info=JSON.stringify(Floor_info)
                     // //step3
                     // let structure_element=new Array
@@ -161,44 +210,99 @@
                     console.log(res['earthquake_info'])
                     
                     let defense_intensity_temp=res['earthquake_info'][0].fields.defense_intensity
+>>>>>>> upstream/master
                     console.log('step5')
-                    console.log(defense_intensity_temp)
-                    var defense_intensity
-                    if(defense_intensity_temp==1.0)
-                        defense_intensity=1
-                    else if(defense_intensity_temp==2.0)
-                        defense_intensity=2
-                    else if(defense_intensity_temp==3.0)
-                        defense_intensity=3
-                    else if(defense_intensity_temp==4.0)
-                        defense_intensity=4
-                    else if(defense_intensity_temp==5.0)
-                        defense_intensity=5
-                    else if(defense_intensity_temp==6.0)
-                        defense_intensity=6
-                    let site_type=JSON.stringify(res['earthquake_info'][0].fields.site_type)
-                    let number=JSON.stringify(res['earthquake_info'][0].fields.number)
-                    let group=JSON.stringify(res['earthquake_info'][0].fields.group)
-                    //let peak_acceleration=JSON.stringify(res['earthquake_info'][0].fields.peak_acceleration)
-                    //console.log(res['earthquake_info'][0].fields.earthquake_level)
-                    let earthquake_level=res['earthquake_info'][0].fields.earthquake_level
-                    console.log(444)
-                    console.log(earthquake_level)
-                    //step6
-                    let structure_response=res['structure_response']
-                    // structure_response[0]=JSON.stringify(res['structure_response'][0].fields)
-                    // structure_response[0]=JSON.stringify(res['structure_response'][0].fields)
-                    for(var i = 0; i < res['structure_response'].length; i++){
-                                delete res['structure_response'][i].fields.project //删掉返回的project属性
-                                structure_response[i]=res['structure_response'][i].fields
+                    if(res['earthquake_info']!='')
+                    {
+                        console.log('earthquake_info!=null')
+                        let defense_intensity_temp=res['earthquake_info'][0].fields.defense_intensity
+                        console.log('step5')
+                        console.log(defense_intensity_temp)
+                        var defense_intensity
+                        if(defense_intensity_temp==1.0)
+                            defense_intensity=1
+                        else if(defense_intensity_temp==2.0)
+                            defense_intensity=2
+                        else if(defense_intensity_temp==3.0)
+                            defense_intensity=3
+                        else if(defense_intensity_temp==4.0)
+                            defense_intensity=4
+                        else if(defense_intensity_temp==5.0)
+                            defense_intensity=5
+                        else if(defense_intensity_temp==6.0)
+                            defense_intensity=6
+                        site_type=res['earthquake_info'][0].fields.site_type
+                        number=res['earthquake_info'][0].fields.number
+                        group=res['earthquake_info'][0].fields.group
+                        //let peak_acceleration=JSON.stringify(res['earthquake_info'][0].fields.peak_acceleration)
+                        //console.log(res['earthquake_info'][0].fields.earthquake_level)
+                        earthquake_level=res['earthquake_info'][0].fields.earthquake_level
                     }
+                    
+                    //step6
                     console.log('step6')
-                    console.log(structure_response)
-                    //let structure_response=JSON.stringify(res['structure_response'][0].fields)
-                    //console.log(structure_response)
+                    console.log(res['structure_response'])
+                    var structure_response=''
+                    if(res['structure_response']!='')
+                    {
+                        console.log('structure_response不为空')
+                        structure_response=res['structure_response']
+                        for(var i = 0; i < res['structure_response'].length; i++){
+                                    delete res['structure_response'][i].fields.project //删掉返回的project属性
+                                    structure_response[i]=res['structure_response'][i].fields
+                        }
+                    }
 
-                    sessionStorage.clear()
+                    
+                    localStorage.removeItem('project_name')
+                    localStorage.removeItem('project_leader')
+                    localStorage.removeItem('project_description')
+                    localStorage.removeItem('client_name')
+
+                    localStorage.removeItem('material')
+                    localStorage.removeItem('structure_type')
+                    localStorage.removeItem('figure_time')
+                    localStorage.removeItem('floors')
+                    localStorage.removeItem('height')
+                    localStorage.removeItem('area')
+                    localStorage.removeItem('cost_per_squaremeter')
+                    localStorage.removeItem('Floor_info')
+
+                    localStorage.removeItem('structure_element')
+
+                    localStorage.removeItem('non_structure_element')
+
+                    localStorage.removeItem('defense_intensity')
+                    localStorage.removeItem('site_type')
+                    localStorage.removeItem('number')
+                    localStorage.removeItem('group')
+                    localStorage.removeItem('peak_acceleration')
+                    localStorage.removeItem('earthquake_level')
+
+                    localStorage.removeItem('structure_response')
+
                     //step1的
+<<<<<<< HEAD
+                    localStorage.setItem('project_name', project_name)
+                    console.log('step1的project——name')
+                    console.log(project_name)
+                    localStorage.setItem('client_name', client_name)
+                    localStorage.setItem('project_leader', project_leader)
+                    localStorage.setItem('project_description', project_description)
+                    //step2的
+                    localStorage.setItem('material', material)
+                    localStorage.setItem('structure_type', structure_type)
+                    localStorage.setItem('figure_time', figure_time)
+                    localStorage.setItem('floors', floors)
+                    localStorage.setItem('height', height)
+                    localStorage.setItem('area', area)
+                    localStorage.setItem('cost_per_squaremeter', cost_per_squaremeter)
+                    localStorage.setItem('Floor_info', JSON.stringify(Floor_info))//亲测表格好像只有转换成字符型才能显示
+                    //step3
+                    localStorage.setItem('structure_element', structure_element)
+                    //step4
+                    localStorage.setItem('non_structure_element',non_structure_element)
+=======
                     sessionStorage.setItem('project_name', project_name)
                     console.log('step1的project——name')
                     console.log(project_name)
@@ -219,15 +323,16 @@
                     // sessionStorage.setItem('structure_element', structure_element)
                     // //step4
                     // sessionStorage.setItem('non_structure_element',non_structure_element)
+>>>>>>> upstream/master
                     //step5
-                    sessionStorage.setItem('defense_intensity',JSON.stringify(defense_intensity))
-                    sessionStorage.setItem('site_type',site_type)
-                    sessionStorage.setItem('number',number)
-                    sessionStorage.setItem('group',group)
-                    //sessionStorage.setItem('peak_acceleration',peak_acceleration)
-                    sessionStorage.setItem('earthquake_level',earthquake_level)
+                    localStorage.setItem('defense_intensity',JSON.stringify(defense_intensity))
+                    localStorage.setItem('site_type',JSON.stringify(site_type))
+                    localStorage.setItem('number',JSON.stringify(number))
+                    localStorage.setItem('group',JSON.stringify(group))
+                    //localStorage.setItem('peak_acceleration',peak_acceleration)
+                    localStorage.setItem('earthquake_level',JSON.stringify(earthquake_level))
                     //step6
-                    sessionStorage.setItem('structure_response',JSON.stringify(structure_response))
+                    localStorage.setItem('structure_response',JSON.stringify(structure_response))
 
                 }).catch(function(err){
                     console.log(err)
@@ -235,7 +340,7 @@
                 //这里延迟跳转，不知道为啥执行起来是先跳到step1再 console.log('unsucess')了
                 setTimeout(()=>{
                     this.$router.push({name:'step1'})
-                },100)
+                },300)
                  
             },
             

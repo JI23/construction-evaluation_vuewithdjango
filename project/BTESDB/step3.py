@@ -54,13 +54,13 @@ def save_elements(request):
     #获取表单内容
     try:
         project=request.GET['project']
-        print(1)
+        print(1111)
         floors=int(request.GET['floors'])
-        print(2)   
+        print(2222)   
         element_list=request.GET.getlist('tableData[]',[])
-        print(3)
+        print(3333)
         is_structure=request.GET['is_structure']
-        print(4)
+        print(4444)
     except Exception:
         response['msg']='请完整填写构件信息'
         response['error_num']=1

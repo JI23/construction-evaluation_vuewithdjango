@@ -114,7 +114,7 @@ class DB_part(models.Model):
     #如BE.F.01.01，必须遵循该格式
     part_id=models.CharField(max_length=20,blank=False,verbose_name='易损件id')
     #first & second
-    first=models.CharField(max_length=30,verbose_name='第一层分类信息')
+    first=models.CharField(max_length=50,verbose_name='第一层分类信息')
     second=models.CharField(max_length=50,verbose_name='第二层分类信息')
     #可以是任意字符串
     part_name=models.CharField(max_length=400,blank=False,verbose_name='易损件名称')

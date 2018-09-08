@@ -32,24 +32,6 @@ def logout(request):
     auth.logout(request)
     return render(request,'index.html')
 @csrf_exempt
-
-def brief_projects(request):
-    response = {}
-    try:
-        un_projects = Project.objects.filter(is_finished=0).count()
-        ed_projects = Project.objects.filter(is_finished=1).count() 
-        all = un_projects+ed_projects
-        response['all']  = all
-        response['success'] = ed_projects
-        response['unsuccess'] = un_projects
-        response['msg'] = 'success'
-        response['error_num'] = 0
-    except  Exception as e:
-        response['msg'] = str(e)
-        response['error_num'] = 1
-    return JsonResponse(response)
-
-
 def show_projects(request):
     response = {}
     try:
@@ -57,7 +39,6 @@ def show_projects(request):
         #print (request)
         is_finished=request.GET['is_finished']
         username=request.GET['username']
-        #search_name=request.GET['input']
         print (is_finished)
         this_user=User_Info.objects.get(username=username)
         if is_finished=='False':
@@ -205,6 +186,9 @@ def upload(request):
             elif t=='fema':
                 first=classify_FEMA1(name[0][0])
                 second=classify_FEMA2(name[0])
+            print(first)
+            print(len(first))
+            print(second)
             name.pop()
             name='.'.join(name)
             #name='.'.join(name.split('.')[0:4])
@@ -256,6 +240,8 @@ def upload(request):
                             os.remove(path+name+'/'+each)
                             print('删除成功')
                 this_part.description=d['Description']
+                this_part.first=first
+                this_part.second=second
                 this_part.basic_unit=d['BasicUnit']
                 this_part.cost=d['Cost']
                 this_part.part_name=d['Name']

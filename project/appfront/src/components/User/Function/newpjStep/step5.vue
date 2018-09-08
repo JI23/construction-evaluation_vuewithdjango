@@ -113,49 +113,59 @@
 export default {
     beforeRouteLeave(to, from, next){
         let defense_intensity = JSON.stringify(this.defense_intensity)
-        sessionStorage.setItem('defense_intensity', defense_intensity)
+        localStorage.setItem('defense_intensity', defense_intensity)
         let site_type = JSON.stringify(this.site_type)
-        sessionStorage.setItem('site_type', site_type)
+        localStorage.setItem('site_type', site_type)
         let number = JSON.stringify(this.number)
-        sessionStorage.setItem('number', number)
+        localStorage.setItem('number', number)
         let group = JSON.stringify(this.group)
-        sessionStorage.setItem('group', group)
+        localStorage.setItem('group', group)
         let peak_acceleration = JSON.stringify(this.peak_acceleration)
-        sessionStorage.setItem('peak_acceleration', peak_acceleration)
+        localStorage.setItem('peak_acceleration', peak_acceleration)
         let earthquake_level = JSON.stringify(this.earthquake_level)
-        sessionStorage.setItem('earthquake_level', earthquake_level)
+        localStorage.setItem('earthquake_level', earthquake_level)
         let earthquake_info = JSON.stringify(this.earthquake_info)
+<<<<<<< HEAD
+        localStorage.setItem('earthquake_info', earthquake_info)
+=======
         sessionStorage.setItem('earthquake_info', earthquake_info)
         console.log(this.fileList)
         console.log('12345')
+>>>>>>> upstream/master
         next()
     },
     created(){
       //从localStorage中读取条件并赋值给查询表单
-        let defense_intensity = sessionStorage.getItem('defense_intensity')
+        let defense_intensity = localStorage.getItem('defense_intensity')
         if (defense_intensity != null) {
             this.defense_intensity = JSON.parse(defense_intensity)
         }
-        let site_type = sessionStorage.getItem('site_type')
+        let site_type = localStorage.getItem('site_type')
         if (site_type != null) {
             this.site_type = JSON.parse(site_type)
         }
-        let number = sessionStorage.getItem('number')
+        let number = localStorage.getItem('number')
         if (number != null) {
             this.number = JSON.parse(number)
         }
-        let group = sessionStorage.getItem('group')
+        let group = localStorage.getItem('group')
         if (group != null) {
             this.group = JSON.parse(group)
         }
-        let peak_acceleration = sessionStorage.getItem('peak_acceleration')
-        if (peak_acceleration != null) {
-            this.peak_acceleration = JSON.parse(peak_acceleration)
-        }
-        let earthquake_level = sessionStorage.getItem('earthquake_level')
+        // let peak_acceleration = localStorage.getItem('peak_acceleration')
+        // if (peak_acceleration != null) {
+        //     this.peak_acceleration = JSON.parse(peak_acceleration)
+        // }
+        let earthquake_level = localStorage.getItem('earthquake_level')
         if (earthquake_level != null) {
             this.earthquake_level = JSON.parse(earthquake_level)
         }
+<<<<<<< HEAD
+        // let earthquake_info = localStorage.getItem('earthquake_info')
+        // if (earthquake_info != null) {
+        //     this.earthquake_info = JSON.parse(earthquake_info)
+        // }
+=======
          let earthquake_info = sessionStorage.getItem('earthquake_info')
         if (earthquake_info != null) {
              this.earthquake_info = JSON.parse(earthquake_info)
@@ -165,6 +175,7 @@ export default {
             name: 'hhh'
         }
         //this.fileList.push(item)
+>>>>>>> upstream/master
     },
 
     methods:{

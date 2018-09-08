@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'step6$', step6.step6 ),
     url(r'rate$', rate.rate ),
     url(r'show_projects$', views.show_projects, ),
-    url(r'brief_projects$', views.brief_projects, ),
+    #url(r'brief_projects$', views.brief_projects, ),
     url(r'login$', user_login.login ),
     url(r'user_register$', register.user_register ),
     url(r'savegen$', savegen.savegen ),

@@ -78,32 +78,32 @@
 export default {
     beforeRouteLeave(to, from, next){
     //  if (to.name == 'step2') {
-        let material = JSON.stringify(this.material)
-        let structure_type = JSON.stringify(this.structure_type)
-        let figure_time = JSON.stringify(this.figure_time)
-        let floors = JSON.stringify(this.floors)
-        let height = JSON.stringify(this.height)
-        let area = JSON.stringify(this.area)
-        let cost_per_squaremeter = JSON.stringify(this.cost_per_squaremeter)
+        let material = this.material
+        let structure_type = this.structure_type
+        let figure_time = this.figure_time
+        let floors = this.floors
+        let height = this.height
+        let area = this.area
+        let cost_per_squaremeter = this.cost_per_squaremeter
         let Floor_info = JSON.stringify(this.Floor_info)
         // let floor_no = JSON.stringify(this.floor_no)
         // let floor_height = JSON.stringify(this.floor_height)
         // let floor_area = JSON.stringify(this.floor_area)
         // let influence_coefficient = JSON.stringify(this.influence_coefficient)
         // let population_density = JSON.stringify(this.population_density)
-        sessionStorage.setItem('material', material)
-        sessionStorage.setItem('structure_type', structure_type)
-        sessionStorage.setItem('figure_time', figure_time)
-        sessionStorage.setItem('floors', floors)
-        sessionStorage.setItem('height', height)
-        sessionStorage.setItem('area', area)
-        sessionStorage.setItem('cost_per_squaremeter', cost_per_squaremeter)
-        sessionStorage.setItem('Floor_info', Floor_info)
-        // sessionStorage.setItem('floor_no', floor_no)
-        // sessionStorage.setItem('floor_height', floor_height)
-        // sessionStorage.setItem('floor_area', floor_area)
-        // sessionStorage.setItem('influence_coefficient', influence_coefficient)
-        // sessionStorage.setItem('population_density', population_density)
+        localStorage.setItem('material', material)
+        localStorage.setItem('structure_type', structure_type)
+        localStorage.setItem('figure_time', figure_time)
+        localStorage.setItem('floors', floors)
+        localStorage.setItem('height', height)
+        localStorage.setItem('area', area)
+        localStorage.setItem('cost_per_squaremeter', cost_per_squaremeter)
+        localStorage.setItem('Floor_info', Floor_info)
+        // localStorage.setItem('floor_no', floor_no)
+        // localStorage.setItem('floor_height', floor_height)
+        // localStorage.setItem('floor_area', floor_area)
+        // localStorage.setItem('influence_coefficient', influence_coefficient)
+        // localStorage.setItem('population_density', population_density)
 
     //  }
     //   else{
@@ -117,48 +117,48 @@ export default {
     },
     created(){
       //从localStorage中读取条件并赋值给查询表单
-        let material = sessionStorage.getItem('material')
-        let structure_type = sessionStorage.getItem('structure_type')
-        let figure_time = sessionStorage.getItem('figure_time')
-        let floors = sessionStorage.getItem('floors')
-        let height = sessionStorage.getItem('height')
-        let area = sessionStorage.getItem('area')
-        let cost_per_squaremeter = sessionStorage.getItem('cost_per_squaremeter')
-        let Floor_info = (sessionStorage.getItem('Floor_info'))
+        let material = localStorage.getItem('material')
+        let structure_type = localStorage.getItem('structure_type')
+        let figure_time = localStorage.getItem('figure_time')
+        let floors = localStorage.getItem('floors')
+        let height = localStorage.getItem('height')
+        let area = localStorage.getItem('area')
+        let cost_per_squaremeter = localStorage.getItem('cost_per_squaremeter')
+        let Floor_info = (localStorage.getItem('Floor_info'))
         //let Floor_info_test= JSON.prase(Floor_info)
         console.log(999999999999)
         console.log(Floor_info)
-        // let floor_no = sessionStorage.getItem('floor_no')
-        // let floor_height = sessionStorage.getItem('floor_height')
-        // let floor_area = sessionStorage.getItem('floor_area')
-        // let influence_coefficient = sessionStorage.getItem('influence_coefficient')
-        // let population_density = sessionStorage.getItem('population_density')
+        // let floor_no = localStorage.getItem('floor_no')
+        // let floor_height = localStorage.getItem('floor_height')
+        // let floor_area = localStorage.getItem('floor_area')
+        // let influence_coefficient = localStorage.getItem('influence_coefficient')
+        // let population_density = localStorage.getItem('population_density')
 
         console.log('step2')
         
         if (material != null) {
-            this.material = JSON.parse(material)
+            this.material = material
         }
         if (structure_type != null) {
-            this.structure_type = JSON.parse(structure_type)
+            this.structure_type = structure_type
         }
         if (figure_time != null) {
-            this.figure_time = JSON.parse(figure_time)
+            this.figure_time = figure_time
         }
         if (floors != null) {
-            this.floors = JSON.parse(floors)
+            this.floors = floors
         }
         if (height != null) {
-            this.height = JSON.parse(height)
+            this.height = height
         }
         if (area != null) {
-            this.area = JSON.parse(area)
+            this.area = area
         }
         if (cost_per_squaremeter != null) {
-            this.cost_per_squaremeter = JSON.parse(cost_per_squaremeter)
+            this.cost_per_squaremeter = cost_per_squaremeter
         }
         if (Floor_info!=null) {
-            this.Floor_info = JSON.parse(Floor_info) 
+            this.Floor_info = JSON.parse(Floor_info)
         }
         
         // if (floor_no != null) {
