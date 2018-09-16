@@ -127,13 +127,13 @@
     beforeRouteLeave(to, from, next){
         let structure_element = JSON.stringify(this.tableData)
         localStorage.setItem('structure_element', structure_element)
-        console.log('leave3')
         console.log(structure_element)
         next()
     },
     created(){
       //从localStorage中读取条件并赋值给查询表单
         let tableData = localStorage.getItem('structure_element')
+        console.log('step3.vue')
         console.log(tableData)
         if (tableData != null) {
             this.tableData = JSON.parse(tableData)
@@ -161,9 +161,7 @@
                 console.log(response)
                 //console.log('111')
                 var res=response.data
-                console.log(77777777)
                 console.log(res['first'])
-                console.log(88888888)
                 console.log(res['second'])
                 if(res.error_num==0){
                     /*console.log(res['list'])
@@ -221,7 +219,6 @@
                         }
                         returnData.push(temp)
                     }
-                    console.log(returnData)
                     _this.data=returnData
                 }
                 else {
@@ -257,6 +254,7 @@
                 if(res.error_num==0){
                     console.log(res['msg'])
                     _this.$message.success(res['msg'])
+                    //console.log(_this.tableData[0].id) id里存的确实是字符串形式啊
                 }
                 else {
                     _this.$message.error(res['msg'])

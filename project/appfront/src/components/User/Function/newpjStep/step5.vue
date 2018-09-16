@@ -125,13 +125,7 @@ export default {
         let earthquake_level = JSON.stringify(this.earthquake_level)
         localStorage.setItem('earthquake_level', earthquake_level)
         let earthquake_info = JSON.stringify(this.earthquake_info)
-<<<<<<< HEAD
         localStorage.setItem('earthquake_info', earthquake_info)
-=======
-        sessionStorage.setItem('earthquake_info', earthquake_info)
-        console.log(this.fileList)
-        console.log('12345')
->>>>>>> upstream/master
         next()
     },
     created(){
@@ -160,13 +154,7 @@ export default {
         if (earthquake_level != null) {
             this.earthquake_level = JSON.parse(earthquake_level)
         }
-<<<<<<< HEAD
-        // let earthquake_info = localStorage.getItem('earthquake_info')
-        // if (earthquake_info != null) {
-        //     this.earthquake_info = JSON.parse(earthquake_info)
-        // }
-=======
-         let earthquake_info = sessionStorage.getItem('earthquake_info')
+         let earthquake_info = localStorage.getItem('earthquake_info')
         if (earthquake_info != null) {
              this.earthquake_info = JSON.parse(earthquake_info)
         }
@@ -175,7 +163,6 @@ export default {
             name: 'hhh'
         }
         //this.fileList.push(item)
->>>>>>> upstream/master
     },
 
     methods:{
