@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import Index from "./../components/FirstPage/Index.vue";
 import Dashboard from "../components/User/Dashboard.vue";
 import Dashboard_admin from "../components/admin/Dashboard_admin.vue";
@@ -82,10 +82,9 @@ import others from "../components/User/Function/refer/newdb/consequence/others.v
 import re_cost from "../components/User/Function/refer/newdb/consequence/re_cost";
 import re_time from "../components/User/Function/refer/newdb/consequence/re_time";
 
-Vue.use(Router)
 
-export default new Router({
-  routes: [
+
+export const routes = [
     {
       path: '/',
       name: 'index',
@@ -422,6 +421,6 @@ export default new Router({
       ]
     }
   ]
-})
+
           
           
