@@ -406,12 +406,13 @@ class Structure_response(models.Model):
     EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S')
      #指向DB_type的外键，一个结构构件对应一个结构类型
     class Meta:
-        
+        unique_together=('project','direction','EDP_type')        
         verbose_name='结构响应'
         verbose_name_plural='结构响应' 
     #楼层数量决定表的宽度，地震数量决定表的长度
-    floor_no=models.SmallIntegerField(verbose_name='楼层编号')
-    earthquake_no=models.SmallIntegerField(verbose_name='地震波编号')
+    floor_no=models.SmallIntegerField(verbose_name='楼层数量')
+    earthquake_no=models.SmallIntegerField(verbose_name='地震波数量')
+    data=models.CharField(max_length=1024,verbose_name='序列化的数组')
 
 
 
