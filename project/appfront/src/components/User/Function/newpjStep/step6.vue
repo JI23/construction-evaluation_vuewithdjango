@@ -60,11 +60,19 @@ export default {
     },
     created(){
       //从localStorage中读取条件并赋值给查询表单
-        let data = JSON.parse(localStorage.getItem('structure_response'))
+        let data_temp=JSON.parse(localStorage.getItem('structure_response'))
+        console.log
+        if(data_temp==null||data_temp=='')
+            {
+                console.log('没有值')
+            }    
+        else
+            this.data=data_temp
+        //let data = JSON.parse(localStorage.getItem('structure_response'))
         console.log('step6.vue')
-        if (data != '') {
-            this.data = data
-        }
+        // if (data != '') {
+        //     this.data = data
+        // }
         
     },
     methods:{
