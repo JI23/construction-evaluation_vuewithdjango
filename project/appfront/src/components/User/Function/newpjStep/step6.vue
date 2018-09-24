@@ -136,6 +136,10 @@ export default {
                 params:{
                     data:this.data,
                     project:project,
+                    data1:this.data1,
+                    data2:this.data2,
+                    data3:this.data3,
+                    data4:this.data4,
                 },
             })
             .then(function(response){

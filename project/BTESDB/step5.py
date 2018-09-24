@@ -15,6 +15,7 @@ def step5(request):
         number=request.GET['number']       
         group=request.GET['group']
         earthquake_level=request.GET['earthquake_level']
+        peak_acceleration=request.GET['peak_acceleration']
     except Exception:
         response['msg']='请正确填写数据'
         response['error_num']=1
@@ -47,6 +48,7 @@ def step5(request):
         update.number=number
         update.group=group
         update.earthquake_level=earthquake_level
+        update.peak_acceleration=peak_acceleration
         update.save()
         response['msg']='修改成功'
         response['error_num']=0
@@ -58,6 +60,7 @@ def step5(request):
             site_type=site_type,
             number=number,
             group=group,
+            peak_acceleration=peak_acceleration,
             earthquake_level=earthquake_level)
         new.save()
         response['msg']='新建成功'
@@ -177,7 +180,7 @@ def save_waves(request):
         else:
             #对数据库内容进行新增
             #地震波文件仅保存其目录
-            d='media/wave_file/'+username+'/'+project+'/'+earthquake_no+'/'
+            d='media/wave_file/'+username+'/'+project+'/'+str(earthquake_no)+'/'
             folder=os.path.exists(d)
             if not folder:
                 path='null'

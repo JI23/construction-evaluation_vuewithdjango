@@ -141,7 +141,7 @@ class DB_part(models.Model):
     #创建时间
     create_date=models.DateTimeField(verbose_name='创建时间',auto_now_add=True)
     #DSGroupType
-    DSGroupType=models.CharField(max_length=25,verbose_name='DSGroupType')
+    #DSGroupType=models.CharField(max_length=25,verbose_name='DSGroupType')
     #损伤数量
     damage_state_number=models.SmallIntegerField(default=0,verbose_name='损伤数量')
     #与该易损件相关的损伤xml文件
@@ -368,7 +368,7 @@ class Earthquake_Info(models.Model):
     )
     earthquake_level=models.CharField(max_length=1,choices=earthquake_level_choice,default='S',verbose_name='地震水准')
     #峰值加速度,用if，else判断，由地震水准和设防烈度唯一确定
-    #peak_acceleration=models.DecimalField(max_digits=6,decimal_place=3,verbose_name='峰值加速度')
+    peak_acceleration=models.DecimalField(max_digits=6,decimal_place=3,verbose_name='峰值加速度')
 
 def upload_to2(instance,filename):
     return '/'.join(['wave_file',instance.project,instance.earthquake_wave_no,filename])
