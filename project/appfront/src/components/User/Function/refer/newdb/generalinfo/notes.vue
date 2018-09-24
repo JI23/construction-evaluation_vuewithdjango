@@ -3,7 +3,7 @@
         <div class="wrapper7" >
             <el-col>
                 <span class="lebal">Data quality</span>
-                <el-select v-model="data" placeholder="请选择">
+                <el-select v-bind:disabled="temp" v-model="data" placeholder="请选择">
                     <el-option
                         v-for="item in options1"
                         :key="item.value"
@@ -12,7 +12,7 @@
                     </el-option>
                 </el-select>
                 <span class="lebal">Data relevance</span>
-                <el-select v-model="relevance" placeholder="请选择">
+                <el-select v-bind:disabled="temp" v-model="relevance" placeholder="请选择">
                     <el-option
                         v-for="item in options1"
                         :key="item.value"
@@ -22,7 +22,7 @@
                 </el-select>
 
                 <span class="lebal">Documentation quality</span>
-                <el-select v-model="quality" placeholder="请选择">
+                <el-select v-bind:disabled="temp" v-model="quality" placeholder="请选择">
                     <el-option
                         v-for="item in options1"
                         :key="item.value"
@@ -32,7 +32,7 @@
                 </el-select>
 
                 <span class="lebal">Rationality</span>
-                <el-select v-model="rationality" placeholder="请选择">
+                <el-select v-bind:disabled="temp" v-model="rationality" placeholder="请选择">
                     <el-option
                         v-for="item in options1"
                         :key="item.value"
@@ -45,9 +45,9 @@
         <div class="wrapper7">
             <el-col>
                 <span class="lebal">作者</span>
-                <el-input  style="width:100%" v-model="author" placeholder="请输入内容"></el-input>
+                <el-input v-bind:disabled="temp" style="width:100%" v-model="author" placeholder="请输入内容"></el-input>
                 <span class="lebal">备注</span>
-                <el-input style="width:100%" type="textarea" :rows="6" placeholder="请输入内容" v-model="notes"></el-input><br><br>
+                <el-input v-bind:disabled="temp" style="width:100%" type="textarea" :rows="6" placeholder="请输入内容" v-model="notes"></el-input><br><br>
                 <el-button style="display:block;margin:0 auto" @click="savegen">保存</el-button>
             </el-col>
       </div>
@@ -58,6 +58,7 @@
     export default {
         data() {
             return {
+                temp:false,
                 options1: [{
                     value: 'N/A',
                     label: 'N/A'
@@ -81,19 +82,27 @@
         },
 
         beforeRouteLeave(to, from, next){
-            var notes_info = {
-                data: this.data, 
-                relevance: this.relevance, 
-                quality: this.quality,
-                rationality: this.rationality,
-                author: this.author,
-                notes: this.notes,
-            };
-            sessionStorage.setItem("notes_info",JSON.stringify(notes_info));
+            if(sessionStorage.getItem('check') === 'DB_User'){
+                var notes_info = {
+                    data: this.data, 
+                    relevance: this.relevance, 
+                    quality: this.quality,
+                    rationality: this.rationality,
+                    author: this.author,
+                    notes: this.notes,
+                };
+                sessionStorage.setItem("notes_info",JSON.stringify(notes_info));
+            }
             next()
         },
 
         created(){
+            if(sessionStorage.getItem('check') === 'DB_User'){
+                this.temp = false
+            }
+            else{
+                this.temp = true
+            }
             try{
                 var notes_info=JSON.parse(sessionStorage.getItem("notes_info"))
                 this.data = notes_info['data']
@@ -114,39 +123,39 @@
                 this.$emit('check','');
             },
             savegen() {//保存当前页面内容
-                let _this=this;
-                var notes_info = {
-                    data: this.data, 
-                    relevance: this.relevance, 
-                    quality: this.quality,
-                    rationality: this.rationality,
-                    author: this.author,
-                    notes: this.notes,
-                };
-                localStorage.setItem("notes_info",JSON.stringify(notes_info));
-                var gen_info=localStorage.getItem('gen_info')
-                var username=localStorage.getItem('phone')
-                console.log(gen_info)
-                console.log(localStorage.getItem('notes_info'))
-                console.log(username)
-                if(localStorage.getItem('part_id')==null){
-                    var part_id=0
-                }
-                else{ var part_id=localStorage.getItem('part_id')}
-                console.log(part_id)
-                //提交给后台若成功则弹窗提示并跳转至下一部分
-                //记得删除localStorage内容
-                this.$ajax({
-                    method:'get',
-                    url:'savegen',
-                    params: {
-                       gen_info:gen_info,
-                       notes_info:JSON.stringify(notes_info),
-                       username:username,
-                       part_id:part_id,
-                    },
-                })
-                    .then(function(response){
+                if(sessionStorage.getItem('check') === 'DB_User'){
+                    let _this=this;
+                    var notes_info = {
+                        data: this.data, 
+                        relevance: this.relevance, 
+                        quality: this.quality,
+                        rationality: this.rationality,
+                        author: this.author,
+                        notes: this.notes,
+                    };
+                    localStorage.setItem("notes_info",JSON.stringify(notes_info));
+                    var gen_info=localStorage.getItem('gen_info')
+                    var username=localStorage.getItem('phone')
+                    console.log(gen_info)
+                    console.log(localStorage.getItem('notes_info'))
+                    console.log(username)
+                    if(localStorage.getItem('part_id')==null){
+                        var part_id=0
+                    }
+                    else{ var part_id=localStorage.getItem('part_id')}
+                    console.log(part_id)
+                    //提交给后台若成功则弹窗提示并跳转至下一部分
+                    //记得删除localStorage内容
+                    this.$ajax({
+                        method:'get',
+                        url:'savegen',
+                        params: {
+                        gen_info:gen_info,
+                        notes_info:JSON.stringify(notes_info),
+                        username:username,
+                        part_id:part_id,
+                        },
+                    }).then(function(response){
                         console.log(response)
                         var res = response.data
                         if (res.error_num == 0) {
@@ -164,10 +173,13 @@
                             _this.$message.error(res['msg'])
                             console.log(res['msg'])
                         }
-                    })
-                    .catch(function(err){
+                    }).catch(function(err){
                         console.log(err);
                     });
+                }
+                this.$router.push({name:'statenum'});
+                localStorage.setItem("statenum","Damage State 1");
+                
             },
         }
     }

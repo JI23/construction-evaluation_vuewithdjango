@@ -20,6 +20,15 @@
             "$route": "get_url"
         },
 
+        created(){
+            if(sessionStorage.getItem('check') === 'DB_User'){
+
+            }
+            else{
+                this.$message('当前为系统数据库，不可编辑');
+            }
+        },
+
         beforeMount(){
             this.get_url()
         },

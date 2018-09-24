@@ -3,17 +3,18 @@
         <div class="wrapper9" >
             <el-col>
                 <span class="lebal">name</span>
-                <el-input style="width:100%" v-model="name" placeholder="请输入内容"></el-input>
+                <el-input v-bind:disabled="temp" style="width:100%" v-model="name" placeholder="请输入内容"></el-input>
                 <span class="lebal">median</span>
-                <el-input  style="width:100%" v-model="median" placeholder="请输入内容"></el-input>
+                <el-input v-bind:disabled="temp" style="width:100%" v-model="median" placeholder="请输入内容"></el-input>
                 <span class="lebal">dispersion</span>
-                <el-input  style="width:100%" v-model="dispersion" placeholder="请输入内容"></el-input>
+                <el-input v-bind:disabled="temp" style="width:100%" v-model="dispersion" placeholder="请输入内容"></el-input>
                 <span class="lebal">description</span>
-                <el-input style="width:100%" type="textarea" :rows="4" placeholder="请输入内容" v-model="description"></el-input>
+                <el-input v-bind:disabled="temp" style="width:100%" type="textarea" :rows="4" placeholder="请输入内容" v-model="description"></el-input>
             </el-col>
         </div>
         <div class="wrapper9">
             <el-upload
+                v-bind:disabled="temp"
                 class="upload-demo"
                 action="http://localhost:8000/api/savegen_image"
                 :data='image_data'
@@ -36,6 +37,7 @@
     export default {
         data() {
             return {
+                temp:false,
                 image_data:{
                     path:localStorage.getItem('path'),
                     statenum:localStorage.getItem('statenum'),
@@ -63,20 +65,28 @@
         },
 
         beforeRouteLeave(to, from, next){
-            console.log(this.fileList)
-            var statenum_info = {
-                name: this.name, 
-                median: this.median, 
-                dispersion: this.dispersion,
-                description: this.description,
-                DamageImageName:this.DamageImageName,
-            };
-            var temp = localStorage.getItem("statenum")
-            sessionStorage.setItem(temp,JSON.stringify(statenum_info));
+            if(sessionStorage.getItem('check') === 'DB_User'){
+                console.log(this.fileList)
+                var statenum_info = {
+                    name: this.name, 
+                    median: this.median, 
+                    dispersion: this.dispersion,
+                    description: this.description,
+                    DamageImageName:this.DamageImageName,
+                };
+                var temp = localStorage.getItem("statenum")
+                sessionStorage.setItem(temp,JSON.stringify(statenum_info));
+            }
             next()
         },
 
         created(){
+            if(sessionStorage.getItem('check') === 'DB_User'){
+                this.temp = false
+            }
+            else{
+                this.temp = true
+            }
             var temp = localStorage.getItem("statenum")
             try{
                 var statenum_info=JSON.parse(sessionStorage.getItem(temp))
@@ -100,48 +110,47 @@
 
 
         methods: {
-            check(){
-                this.$emit('check','');
-            },
             savegen(){
-                let _this=this;
-                var statenum_info = {
-                    name: this.name, 
-                    median: this.median, 
-                    dispersion: this.dispersion,
-                    description: this.description,
-                    DamageImageName:this.DamageImageName,
-                };
-                localStorage.setItem("statenum_info",JSON.stringify(statenum_info));
-                this.$ajax({
-                method:'get',
-                url:'refer_check_statenum',
-                params:{
-                    username:localStorage.getItem('phone'),
-                    path:localStorage.getItem('path'),
-                    statenum:localStorage.getItem('statenum'),
-                    statenum_info:statenum_info
-                },
-            })
-            .then(function(response){
-                console.log(response)
-                var res = response.data
-                console.log(res)
-                if (res.error_num == 0) {
-                    console.log(res['msg'])
-                    console.log(res['DamageImageName'])
-                    _this.$message.success(res['msg'])
-                    statenum_info['DamageImageName']=res['DamageImageName']
+                console.log(this.$refs.check)
+                this.$refs.check.disabled = true
+                if(sessionStorage.getItem('check') === 'DB_User'){
+                    let _this=this;
+                    var statenum_info = {
+                        name: this.name, 
+                        median: this.median, 
+                        dispersion: this.dispersion,
+                        description: this.description,
+                        DamageImageName:this.DamageImageName,
+                    };
                     localStorage.setItem("statenum_info",JSON.stringify(statenum_info));
-                } 
-                else {
-                    _this.$message.error(res['msg'])
-                    console.log(res['msg'])
-                }
-            })
-            .catch(function(err){
-                    console.log(err);
+                    this.$ajax({
+                        method:'get',
+                        url:'refer_check_statenum',
+                        params:{
+                            username:localStorage.getItem('phone'),
+                            path:localStorage.getItem('path'),
+                            statenum:localStorage.getItem('statenum'),
+                            statenum_info:statenum_info
+                        },
+                    }).then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        console.log(res)
+                        if (res.error_num == 0) {
+                            console.log(res['msg'])
+                            console.log(res['DamageImageName'])
+                            _this.$message.success(res['msg'])
+                            statenum_info['DamageImageName']=res['DamageImageName']
+                            localStorage.setItem("statenum_info",JSON.stringify(statenum_info));
+                        } 
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    }).catch(function(err){
+                        console.log(err);
                     });
+                }  
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
@@ -164,22 +173,23 @@
 
 
 <style scoped>
-  .wrapper9{
-    position:relative;/*相对定位:参考物*/
-    float:left;/*浮动:左浮动 与父元素的左端对齐 依次的往右端显示 一行显示不下就换行接着依次显示*/
-    top:10px;
-    width:43%;
-    height:350px;
-    margin:18px 20px;
-}
+    .wrapper9{
+        position:relative;/*相对定位:参考物*/
+        float:left;/*浮动:左浮动 与父元素的左端对齐 依次的往右端显示 一行显示不下就换行接着依次显示*/
+        top:10px;
+        width:43%;
+        height:350px;
+        margin:18px 20px;
+    }
 
 
 
-  .lebal{
-    position:relative;
-    display: inline-block;
-    padding:12px 0;
-    color: #333;
-  }
+
+    .lebal{
+        position:relative;
+        display: inline-block;
+        padding:12px 0;
+        color: #333;
+    }
 
 </style>

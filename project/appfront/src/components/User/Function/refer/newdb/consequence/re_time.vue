@@ -3,28 +3,28 @@
         <div class="wrapper4" >
             <el-col>
               <span class="lebal">Lower Quantity</span>
-              <el-input @change="re_draw" size="mini" style="width:100%" v-model="l_Quantity" placeholder="请输入内容"></el-input>
+              <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="l_Quantity" placeholder="请输入内容"></el-input>
               <span class="lebal">Average Repair Cost for Lower Quantity of</span>
-              <el-input @change="re_draw" size="mini" style="width:100%" v-model="aver_re_l" placeholder="请输入内容"></el-input>
+              <el-input v-bind:disabled="temp1"  @change="re_draw" size="mini" style="width:100%" v-model="aver_re_l" placeholder="请输入内容"></el-input>
               <span class="lebal">Upper Quantity</span>
-              <el-input @change="re_draw" size="mini" style="width:100%" v-model="u_Quantity" placeholder="请输入内容"></el-input>
+              <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="u_Quantity" placeholder="请输入内容"></el-input>
               <span class="lebal">Average Repair Cost for Upper Quantity of</span>
-              <el-input @change="re_draw" size="mini" style="width:100%" v-model="aver_re_u" placeholder="请输入内容"></el-input>
+              <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="aver_re_u" placeholder="请输入内容"></el-input>
               <span class="lebal">COV</span>
-              <el-input @change="re_draw" size="mini" style="width:100%" v-model="COV" placeholder="请输入内容"></el-input>
+              <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="COV" placeholder="请输入内容"></el-input>
           </el-col>
         </div>
         <div class="wrapper4">
             <el-col >
                 <span class="lebal">CurveType</span>
-                    <el-select size="mini" v-model="CurveType" placeholder="请选择">
-                        <el-option
-                            v-for="item in options0"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
+                 <el-select v-bind:disabled="temp1" size="mini" v-model="CurveType" placeholder="请选择">
+                    <el-option
+                        v-for="item in options0"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
             </el-col>
             <!--<div id="container" style="max-width:800px;height:400px"></div>-->
             <!--<schart class="wrapper" :canvasId="canvasId" :type="type" :data="data" :options="options"></schart>-->
@@ -39,6 +39,7 @@
     export default {
         data() {
             return {
+                temp1:false,
                 test: null,
                 chart: null,
                 COV: '',
@@ -94,6 +95,12 @@
         },
 
         created(){
+            if(sessionStorage.getItem('check') === 'DB_User'){
+                this.temp1 = false
+            }
+            else{
+                this.temp1 = true
+            }
             var temp = localStorage.getItem("functionnum")+"_time"
             try{
                 var re_time=JSON.parse(sessionStorage.getItem(temp))
@@ -114,43 +121,45 @@
                 this.$emit('check','');
             },
             save_next(){
-                let _this=this;
-                var re_time = {
-                    l_Quantity: this.l_Quantity, 
-                    aver_re_l: this.aver_re_l,
-                    u_Quantity: this.u_Quantity,
-                    aver_re_u: this.aver_re_u,
-                    COV:this.COV,
-                    CurveType:this.CurveType
-                };
-                localStorage.setItem("re_time",JSON.stringify(re_time));
-                this.$ajax({
-                method:'get',
-                url:'refer_check_re_costAndTime',
-                params:{
-                    re_cost:re_time,
-                    path:localStorage.getItem('path2'),
-                    statenum:localStorage.getItem('statenum'),
-                    flag:'time',
-                },
-            })
-            .then(function(response){
-                console.log(response)
-                var res = response.data
-                console.log(res)
-                if (res.error_num == 0) {
-                    console.log(res['msg'])
-                    _this.$message.success(res['msg'])
-                    _this.$router.push({name:'others'});
-                } 
-                else {
-                    _this.$message.error(res['msg'])
-                    console.log(res['msg'])
-                }
-            })
-            .catch(function(err){
-                    console.log(err);
+                if(sessionStorage.getItem('check') === 'DB_User'){
+                    let _this=this;
+                    var re_time = {
+                        l_Quantity: this.l_Quantity, 
+                        aver_re_l: this.aver_re_l,
+                        u_Quantity: this.u_Quantity,
+                        aver_re_u: this.aver_re_u,
+                        COV:this.COV,
+                        CurveType:this.CurveType
+                    };
+                    localStorage.setItem("re_time",JSON.stringify(re_time));
+                    this.$ajax({
+                        method:'get',
+                        url:'refer_check_re_costAndTime',
+                        params:{
+                            re_cost:re_time,
+                            path:localStorage.getItem('path2'),
+                            statenum:localStorage.getItem('statenum'),
+                            flag:'time',
+                        },
+                    }).then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        console.log(res)
+                        if (res.error_num == 0) {
+                            console.log(res['msg'])
+                            _this.$message.success(res['msg'])
+                            _this.$router.push({name:'others'});
+                        } 
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    }).catch(function(err){
+                        console.log(err);
                     });
+                }
+                this.$router.push({name:'others'});
+                
                 
             },
 //实现更新图表

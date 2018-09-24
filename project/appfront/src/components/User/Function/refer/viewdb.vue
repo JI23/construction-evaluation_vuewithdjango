@@ -59,6 +59,7 @@
                 let _this = this
                 var temp = data.label.split(" ")
                 var value = _this.value4
+                sessionStorage.setItem('check',value)
                 temp = temp[0]
                 if(node.level == 3){
                     this.$ajax({
@@ -152,7 +153,6 @@
                         //console.log('!！！！！！')
                         //console.log(this.value4)
                         //console.log('!！！！！！')
-                        sessionStorage.setItem('check',JSON.stringify(value))
                     }).catch(function(response){
                         console.log(response)
                     })
