@@ -136,6 +136,10 @@ export default {
                 params:{
                     data:this.data,
                     project:project,
+                    data1:this.data1,
+                    data2:this.data2,
+                    data3:this.data3,
+                    data4:this.data4,
                 },
             })
             .then(function(response){
@@ -262,11 +266,6 @@ export default {
             data4:[],
             data:[{
                 direction:'',
-                EDP_type:null,
-                floor_no:null,
-                earthquake_no:null
-            },{
-                direction:'Y',
                 EDP_type:null,
                 floor_no:null,
                 earthquake_no:null

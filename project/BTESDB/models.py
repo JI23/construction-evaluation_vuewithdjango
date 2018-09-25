@@ -141,7 +141,7 @@ class DB_part(models.Model):
     #创建时间
     create_date=models.DateTimeField(verbose_name='创建时间',auto_now_add=True)
     #DSGroupType
-    DSGroupType=models.CharField(max_length=25,verbose_name='DSGroupType')
+    #DSGroupType=models.CharField(max_length=25,verbose_name='DSGroupType')
     #损伤数量
     damage_state_number=models.SmallIntegerField(default=0,verbose_name='损伤数量')
     #与该易损件相关的损伤xml文件
@@ -368,7 +368,7 @@ class Earthquake_Info(models.Model):
     )
     earthquake_level=models.CharField(max_length=1,choices=earthquake_level_choice,default='S',verbose_name='地震水准')
     #峰值加速度,用if，else判断，由地震水准和设防烈度唯一确定
-    #peak_acceleration=models.DecimalField(max_digits=6,decimal_place=3,verbose_name='峰值加速度')
+    peak_acceleration=models.DecimalField(max_digits=6,decimal_places=3,verbose_name='峰值加速度')
 
 def upload_to2(instance,filename):
     return '/'.join(['wave_file',instance.project,instance.earthquake_wave_no,filename])
@@ -406,12 +406,13 @@ class Structure_response(models.Model):
     EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S')
      #指向DB_type的外键，一个结构构件对应一个结构类型
     class Meta:
-        
+        unique_together=('project','direction','EDP_type')        
         verbose_name='结构响应'
         verbose_name_plural='结构响应' 
     #楼层数量决定表的宽度，地震数量决定表的长度
-    floor_no=models.SmallIntegerField(verbose_name='楼层编号')
-    earthquake_no=models.SmallIntegerField(verbose_name='地震波编号')
+    floor_no=models.SmallIntegerField(verbose_name='楼层数量')
+    earthquake_no=models.SmallIntegerField(verbose_name='地震波数量')
+    data=models.CharField(max_length=1024,verbose_name='序列化的数组')
 
 
 
