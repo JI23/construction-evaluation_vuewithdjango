@@ -49,12 +49,15 @@
 export default {
     data(){
         return{
-            username:"邱俊基"
+            username:null
         }
     },
     methods:{
         goToIndex(){
             // 需要增加路由守卫
+
+            this.$store.dispatch("setUser",null)
+            localStorage.removeItem('phone')
             this.$router.push({name:'index'})
         },
         goToUserInfo(){
