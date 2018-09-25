@@ -88,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'BTESDB',
         'USER':'root',
-        'PASSWORD':'',
+        'PASSWORD':'1111',
         'HOST':'localhost',
         'PORT':3306,
     }
