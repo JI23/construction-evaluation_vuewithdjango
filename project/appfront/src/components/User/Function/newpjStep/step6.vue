@@ -269,11 +269,6 @@ export default {
                 EDP_type:null,
                 floor_no:null,
                 earthquake_no:null
-            },{
-                direction:'Y',
-                EDP_type:null,
-                floor_no:null,
-                earthquake_no:null
             }],
             EDP_option:[{
                 value:'1',

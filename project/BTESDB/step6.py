@@ -17,14 +17,15 @@ def step6(request):
         data2=request.GET.getlist('data2[]',[])
         data3=request.GET.getlist('data3[]',[])
         data4=request.GET.getlist('data4[]',[])
-        detail=list(data1,data2,data3,data4)
+        detail=[data1,data2,data3,data4]
 
         print(type(data_list),"::",data_list)
         print(type(data1),"::",data1)
         print(type(data2),"::",data2)
         print(type(data3),"::",data3)
         print(type(data4),"::",data4)
-    except Exception:
+    except Exception as e:
+        print (str(e))
         response['msg']='请完整填写结构响应信息！'
         response['error_num']=1
         return JsonResponse(response)
@@ -43,7 +44,7 @@ def step6(request):
             print(line)
             for j in range(earthquake_no):
                 key="earthquake"+str(j+1)
-                temp.append(line[key])
+                temp.append(int(line[key]))
                 print(line[key])
             data.append(temp)
         print(data)
