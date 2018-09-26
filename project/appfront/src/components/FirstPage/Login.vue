@@ -43,6 +43,7 @@ export default {
                         console.log(response)
                         var res = response.data
                         console.log(res)
+                        
                         if (res['error_num'] == 0) {
                             localStorage.clear()
                             console.log(res['msg'])
@@ -51,6 +52,8 @@ export default {
                             localStorage.setItem('project',0)
                             //localStorage.setItem('password', res['password'])
                             console.log(localStorage.getItem('phone')) 
+                            _this.$store.dispatch("setUser",res['username'])
+                            
                             //console.log(localStorage.getItem('password'))
                             _this.$router.push({name:'dashboard'});   //这里前面要加个_
                         } 
