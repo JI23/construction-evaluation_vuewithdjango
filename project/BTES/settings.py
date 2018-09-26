@@ -65,7 +65,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ['appfront/dist',],
-        # 'DIRS': ['templates',],
+        #'DIRS': ['templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'BTESDB',
         'USER':'root',
-        'PASSWORD':' ',
+        'PASSWORD':'',
         'HOST':'localhost',
         'PORT':3306,
     }

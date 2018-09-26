@@ -9,7 +9,7 @@ def rate(request):
     response={}
     try:
         #获取数据
-        project=1 #request.GET['project']
+        project=request.GET['project']
 
         ProjectInfo=Project.objects.get(id=project)
         ProjectInfoDict=model_to_dict(ProjectInfo)
@@ -38,6 +38,11 @@ def rate(request):
         NonStructureElementsList=list()
         for i in NonStructureElements:
             NSEDict=model_to_dict(i)
+            element_id=NSEDict['element']
+            this_DB_part=DB_part.objects.get(id=element_id)
+            this_DB_partDict=model_to_dict(this_DB_part)
+            this_DB_partDict.pop('id')
+            NSEDict.update(this_DB_partDict)
             print(NSEDict)
             NonStructureElementsList.append(NSEDict)
 
@@ -50,7 +55,7 @@ def rate(request):
         for i in EarthquakeWave:
             EarthquakeWaveDict=model_to_dict(i)
             print(EarthquakeWaveDict)
-            EarthquakeWaveList.append(EarthquakeWave)
+            EarthquakeWaveList.append(EarthquakeWaveDict)
 
         StructureResponse=Structure_response.objects.filter(project=project)
         StructureResponseList=list()
@@ -59,10 +64,14 @@ def rate(request):
             print(StructureResponseDict)
             StructureResponseList.append(StructureResponseDict)
         
-        xmlProject(ProjectInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,
+        result=xmlProject(ProjectInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,
         EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList)
+
         response['error_num']=0
-        response['msg']='项目xml文件新建成功'
+        response['msg']='项目xml文件新建成功!'+'\n 你的定级结果是：'+str(result)
+        ProjectInfo.is_finished=True
+        ProjectInfo.rate=result
+        ProjectInfo.save()
     except Exception as e:
         print(str(e))
         response['error_num']=1
@@ -99,6 +108,34 @@ def addStructuralElement(path,sNo,SEDict):
     XNumber=ET.SubElement(StructuralElement,'XNumber');XNumber.text=str(SEDict['X'])
     YNumber=ET.SubElement(StructuralElement,'YNumber');YNumber.text=str(SEDict['Y'])
     NonNumber=ET.SubElement(StructuralElement,'NonNumber');NonNumber.text=str(SEDict['Non'])
+    Cost=ET.SubElement(ElementID,'Cost')
+    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
+    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
+    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
+    DSNum=ET.SubElement(ElementID,'DSNum')
+    Direction=ET.SubElement(ElementID,'Direction')
+    #DS=ET.SubElement(ElementID,'DS')
+    #Num[s]=ET.SubElement(ElementID,'Num[s]')
+
+    xml_path=DB_part.objects.get(part_id=SEDict['part_id']).xml.path
+    tree1=ET.ElementTree(file=xml_path)
+    root1=tree1.getroot()
+
+    Cost1=root1.find('Cost')
+    Cost.text='1'#Cost1.text
+    EDPType=root1.find('EDPType')
+    EDP_kind1=EDPType.find('TypeName')
+    EDP_kind.text=EDP_kind1.text
+    UseEDPValueOfFloorAbove1=root1.find('UseEDPValueOfFloorAbove')
+    UseEDPValueOfFloorAbove.text=UseEDPValueOfFloorAbove1.text
+    #RepairWorkNumber1=root1.find('Directional')
+    RepairWorkNumber.text='3'
+    DamageStates=root1.find('DamageStates')
+    DSNum1=DamageStates.findall('DamageState')
+    DSNum.text=str(len(DSNum1))
+    
+    Direction1=root1.find('Directional')
+    Direction.text=Direction1.text
 
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
 
@@ -115,6 +152,34 @@ def addNonStructuralElement(path,nsNo,NSEDict):
     XNumber=ET.SubElement(NonStructuralElement,'XNumber');XNumber.text=str(NSEDict['X'])
     YNumber=ET.SubElement(NonStructuralElement,'YNumber');YNumber.text=str(NSEDict['Y'])
     NonNumber=ET.SubElement(NonStructuralElement,'NonNumber') ;NonNumber.text=str(NSEDict['Non'])
+    Cost=ET.SubElement(ElementID,'Cost')
+    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
+    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
+    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
+    DSNum=ET.SubElement(ElementID,'DSNum')
+    Direction=ET.SubElement(ElementID,'Direction')
+    #DS=ET.SubElement(ElementID,'DS')
+    #Num[s]=ET.SubElement(ElementID,'Num[s]')
+
+    xml_path=DB_part.objects.get(part_id=NSEDict['part_id']).xml.path
+    tree1=ET.ElementTree(file=xml_path)
+    root1=tree1.getroot()
+
+    Cost1=root1.find('Cost')
+    Cost.text='1'#Cost1.text
+    EDPType=root1.find('EDPType')
+    EDP_kind1=EDPType.find('TypeName')
+    EDP_kind.text=EDP_kind1.text
+    UseEDPValueOfFloorAbove1=root1.find('UseEDPValueOfFloorAbove')
+    UseEDPValueOfFloorAbove.text=UseEDPValueOfFloorAbove1.text
+    #RepairWorkNumber1=root1.find('Directional')
+    RepairWorkNumber.text='3'
+    DamageStates=root1.find('DamageStates')
+    DSNum1=DamageStates.findall('DamageState')
+    DSNum.text=str(len(DSNum1))
+    
+    Direction1=root1.find('Directional')
+    Direction.text=Direction1.text
 
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
 
@@ -123,25 +188,23 @@ def addEarthquakeWave(path,EarthquakeWaveDict):
     tree=ET.ElementTree(file=path)
     root=tree.getroot()
     Earthquake_Info=root.find('EarthquakeInfo')
-    EarthquakeWaves=Earthquake_Info.find('EarthquakeWaves')
-    
-    
+    EarthquakeWaves=Earthquake_Info.find('EarthquakeWaves')    
     EarthquakeWave=ET.SubElement(EarthquakeWaves,'EarthquakeWave',{'waveNo':str(EarthquakeWaveDict['earthquake_wave_no'])})
     WaveID=ET.SubElement(EarthquakeWave,'WaveID');WaveID.text=str(EarthquakeWaveDict['earthquake_wave_no'])
     WaveName=ET.SubElement(EarthquakeWave,'WaveName');WaveName.text=EarthquakeWaveDict['earthquake_wave_name']
     WavePeak=ET.SubElement(EarthquakeWave,'WavePeak');WavePeak.text=str(EarthquakeWaveDict['peak'])  
-    WaveFile=ET.SubElement(EarthquakeWave,'WaveFile');WaveFile.text=null
+    WaveFile=ET.SubElement(EarthquakeWave,'WaveFile');WaveFile.text=str(EarthquakeWaveDict['earthquake_wave_file'])
     
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
 
 
 def Judge(StructureResponseDict):
     target=str()
-    if StructureResponseDict['direction']==1:
+    if StructureResponseDict['direction']=='X':
         target="X-"
     else:
         target="Y-"
-    if StructureResponseDict['EDP_type']==1:
+    if StructureResponseDict['EDP_type']=='S':
         target += "SDR"
     else:
         target += "ACC"
@@ -159,9 +222,9 @@ def addStructureResponse(path,StructureResponseDict):
     #开始赋值
     x=int(0)
     for i in range (StructureResponseDict['floor_no']):
-        Floor=ET.SubElement(place,"Floor",{'FloorNo':str(i)})
+        Floor=ET.SubElement(place,"Floor",{'FloorNo':str(i+1)})
         for j in range(StructureResponseDict['earthquake_no']):
-            Earthquake=ET.SubElement(Floor,'Earthquake',{'EarthquakeNo':str(j)})
+            Earthquake=ET.SubElement(Floor,'Earthquake',{'EarthquakeNo':str(j+1)})
             double=ET.SubElement(Earthquake,"double");double.text=StructureResponseDict['data'][x]
             x += 1
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
@@ -216,9 +279,6 @@ def xmlProject(ProjectInfoDict,FloorsList,StructureElementsList,NonStructureElem
     Y_SDR=ET.SubElement(StructureResponse,'Y-SDR')
     Y_ACC=ET.SubElement(StructureResponse,'Y-ACC')
 
-    
- 
-
     Tree=ET.ElementTree(root)
     print(type(Tree))
     path='./media/project/'+str(ProjectInfoDict['id'])+'/project.xml'
@@ -254,4 +314,29 @@ def xmlProject(ProjectInfoDict,FloorsList,StructureElementsList,NonStructureElem
         data=StructureElementsDict['data']
         StructureElementsDict['data']=data[1:-1].split(", ")
         addStructureResponse(path,StructureElementsDict)
+    result = runDll(path)
+    return result
+
+from ctypes import *
+from reportlab.pdfgen import canvas
+def runDll(project_file_path):
+    print("runDll")
+    print(project_file_path)
+    dll =cdll.LoadLibrary("./x64//Debug//Dll3.dll")
+    readfile=dll.pl
+    readfile.argtypes=[c_char_p]
+    readfile.restype=c_int
+    s=(c_char * 200)(*bytes(project_file_path,"utf-8"))
+    print("s success")
+    h=readfile(s)
+    print(h)
+    pdf_path=project_file_path.replace("xml","pdf")
+    print(pdf_path)
+    c=canvas.Canvas(pdf_path)
+    c.drawString(100,800,str(h))
+    c.drawString(100,1000,"rating result")
+    c.showPage()
+    c.save()
+    return h
+
     

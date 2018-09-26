@@ -1,5 +1,3 @@
-
-
 # Create your views here.
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
@@ -17,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 def insert_temp(request):
     get=DB_template.objects.all()
-    this_user=User_Info.objects.get(username='13051997327')
+    this_user=User_Info.objects.get(id=1)
     show=[]
     for item in get:
         print (item)

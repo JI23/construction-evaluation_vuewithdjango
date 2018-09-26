@@ -49,10 +49,10 @@ def step6(request):
             data.append(temp)
         print(data)
         data=list(chain.from_iterable(data))
-        if Structure_response.objects.filter(project=this_project,direction=a['direction'],
+        if Structure_response.objects.filter(project=this_project,direction=a['direction'][0],
         EDP_type=a['EDP_type']).exists():
             #更新数据库中内容
-            update=Structure_response.objects.get(project=this_project,direction=a['direction'],EDP_type=a['EDP_type']) 
+            update=Structure_response.objects.get(project=this_project,direction=a['direction'][0],EDP_type=a['EDP_type'][0]) 
             update.floor_no=floor_no
             update.earthquake_no=earthquake_no
             update.data=data
@@ -63,8 +63,8 @@ def step6(request):
             #新增数据库中内容
             new=Structure_response(
                 project=this_project,
-                direction=a['direction'],
-                EDP_type=a['EDP_type'],
+                direction=a['direction'][0],
+                EDP_type=a['EDP_type'][0],
                 floor_no=a['floor_no'],
                 earthquake_no=a['earthquake_no'],
                 data=data)
