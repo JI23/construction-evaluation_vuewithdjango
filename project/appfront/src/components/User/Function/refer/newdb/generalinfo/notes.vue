@@ -192,7 +192,7 @@
         
         float:left;/*浮动:左浮动 与父元素的左端对齐 依次的往右端显示 一行显示不下就换行接着依次显示*/
         top:-15px;
-        width:43%;
+        width:40%;
         height:350px;
         margin:18px 20px;  
     }
