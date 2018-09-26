@@ -8,7 +8,7 @@ import json
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
-
+from  decimal import Decimal
 def step2(request):
     print(1)
     #username=request.session['username']
@@ -290,7 +290,6 @@ def saveFloor(request):
             #定位到此楼层对应的数据库条目
             print('开始修改')
             update=Floor_Info.objects.get(project=this_project,floor_no=int(a['floor_no']))
-
             update.floor_height=float(a['floor_height'])
             update.floor_area=float(a['floor_area'])
             update.influence_coefficient=float(a['influence_coefficient'])
@@ -299,14 +298,16 @@ def saveFloor(request):
             response['msg']='修改成功'
             response['error_num']=0
         else:
+            print(a)
+            print(float(a['influence_coefficient']))
+            print(Decimal(a['influence_coefficient']))
             new=Floor_Info(
                 project=this_project,
                 floor_no=int(a['floor_no']),
                 floor_height=float(a['floor_height']),
                 floor_area=float(a['floor_area']),
                 influence_coefficient=float(a['influence_coefficient']),
-                population_density=float(a['population_density'])
-            )
+                population_density=float(a['population_density']))
             new.save()
             response['msg']='新建成功'
             response['error_num']=0

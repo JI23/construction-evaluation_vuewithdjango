@@ -195,6 +195,7 @@ export default {
                 console.log(res)
                 if (res.error_num == 0) {
                     console.log(res['msg'])
+                    _this.$message.success(res['msg'])
                 } 
                 else {
                     _this.$message.error('存储地震波信息失败')
@@ -229,6 +230,7 @@ export default {
                 if(res.error_num==0){
                     localStorage.setItem('number',_this.number)
                     console.log(res['msg'])
+                    _this.$message.success(res['msg'])
                 }
                 else {
                     _this.$message.error('存储地震信息失败')
@@ -309,8 +311,8 @@ export default {
         return{
             upload_data:{
                 username:localStorage.getItem('phone'),
-                project:1,//localStorage.getItem('project')
-                //wave_no:row.earthquake_no,
+                project:localStorage.getItem('project'),
+                //wave_no:row.$index,
                 num:1,
             },
             fileList: [],

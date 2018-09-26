@@ -123,6 +123,7 @@
                                 Floor_info[i]=res['floor_info'][i].fields
                     } 
                     //step3
+                    console.log("editstep3")
                     let structure_element=new Array
                     let j=0
                     for(var i = 0; i < res['element_info'].length; i++){
@@ -137,25 +138,29 @@
                                     j++
                                 }
                     } 
-                    structure_element=res['element_info']
+                    //structure_element=res['element_info']
                     structure_element=JSON.stringify(structure_element)
                     console.log('step3')
                     console.log(structure_element)
-                    // //step4
-                    // let non_structure_element=new Array
-                    // let k=0
-                    // for(var i = 0; i < res['element_info'].length; i++){
-                    //             if(res['element_info'][i].fields.element_type=='n')
-                    //             {
-                    //                 delete res['element_info'][i].fields.project 
-                    //                 delete res['element_info'][i].fields.element_type
-                    //                 non_structure_element[k]=res['element_info'][i].fields
-                    //                 k++
-                    //             }
-                    // } 
-                    // non_structure_element=JSON.stringify(non_structure_element)
-                    // console.log('step4')
-                    // console.log(non_structure_element)
+                    //step4
+                    let non_structure_element=new Array
+                    let k=0
+                    for(var i = 0; i < res['element_info'].length; i++){
+                                if(res['element_info'][i].element_type=='n')
+                                {
+                                    //delete res['element_info'][i].fields.project 
+                                    delete res['element_info'][i].element_type
+                                    //delete res['element_info'][i].fields.element
+                                    non_structure_element[k]=res['element_info'][i]
+                                    non_structure_element[k].id=res['element_info'][i].element__part_id
+                                    delete non_structure_element[k].element__part_id
+                                    k++
+                                }
+                    } 
+                    //non_structure_element=res['element_info']
+                    non_structure_element=JSON.stringify(non_structure_element)
+                    console.log('step4')
+                    console.log(non_structure_element)
                     //step5
                     var defense_intensity=''
                     var site_type=''
@@ -250,8 +255,8 @@
                     localStorage.setItem('Floor_info', JSON.stringify(Floor_info))//亲测表格好像只有转换成字符型才能显示
                     //step3
                     localStorage.setItem('structure_element', structure_element)
-                    // //step4
-                    // localStorage.setItem('non_structure_element',non_structure_element)
+                    //step4
+                    localStorage.setItem('non_structure_element',non_structure_element)
                     //step5
                     localStorage.setItem('defense_intensity',JSON.stringify(defense_intensity))
                     localStorage.setItem('site_type',JSON.stringify(site_type))
