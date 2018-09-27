@@ -9,8 +9,8 @@
             <el-step title="结构响应"></el-step>
         </el-steps>
         <router-view  class="input clearfix"  @next="next" @back="back"></router-view>
-        <el-button style="position:relative; left:80%; top:-430px" @click="createNew">重新建立项目</el-button>
-        
+        <!--<el-button style="position:relative; left:80%; top:-430px" @click="createNew">重新建立项目</el-button>
+  -->      
     </div>
 </template>
     
@@ -32,24 +32,6 @@
     },
 
     beforeRouteLeave (to, from , next) {
-            /*next(false)
-            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
-                next()
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-                next(false)          
-            });*/
             const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
             if (answer) {
                 //sessionStorage.clear();
