@@ -5,9 +5,10 @@
             <el-button size="small" class='btn' @click="back">上一步</el-button>
             <el-button size="small" class='btn' @click="save5">保存地震信息</el-button>
         </el-row>
-        <el-col :span="8" class="step5">
-            <span class="lebal">设防烈度</span>
-                <el-select @change="change_level" v-model="defense_intensity" placeholder="请选择">
+        <el-col :span="24" class="step5">
+            <el-col :span='8'>
+                <span class="lebal">设防烈度</span>
+                <el-select style="width:90%" @change="change_level" v-model="defense_intensity" placeholder="请选择">
                     <el-option
                     v-for="item in defense_in_option"
                     :key="item.value"
@@ -15,19 +16,21 @@
                     :value="item.value">
                     </el-option>
                 </el-select>
-            <span class="lebal">场地类别</span>
-                <el-select v-model="site_type" placeholder="请选择">
-                    <el-option
-                    v-for="item in site_type_option"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
-            <span class="lebal">地震波数</span>
-            <el-input v-model="number" placeholder="请输入内容"></el-input>
-            <span class="lebal">地震分组</span>
-                <el-select v-model="group" placeholder="请选择">
+                <span class="lebal">场地类别</span>
+                    <el-select style="width:90%" v-model="site_type" placeholder="请选择">
+                        <el-option
+                        v-for="item in site_type_option"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+            </el-col>
+            <el-col :span='8'>
+                <span class="lebal">地震波数</span>
+                <el-input @change="set_num" style="width:90%" v-model="number" placeholder="请输入内容"></el-input>
+                <span class="lebal">地震分组</span>
+                <el-select style="width:90%" v-model="group" placeholder="请选择">
                     <el-option
                     v-for="item in group_option"
                     :key="item.value"
@@ -35,10 +38,13 @@
                     :value="item.value">
                     </el-option>
                 </el-select>
-            <span class="lebal">峰值加速度</span>
-            <el-input :disabled="true" v-model="peak_acceleration" placeholder="请输入内容"></el-input>
-            <span class="lebal">地震水准</span>
-                <el-select @change="change_level" v-model="earthquake_level" placeholder="请选择">
+                
+            </el-col>
+            <el-col :span='8'>
+                <span class="lebal">峰值加速度</span>
+                <el-input style="width:90%" :disabled="true" v-model="peak_acceleration" placeholder="请输入内容"></el-input>
+                <span class="lebal">地震水准</span>
+                <el-select style="width:90%" @change="change_level" v-model="earthquake_level" placeholder="请选择">
                     <el-option
                     v-for="item in earth_level_option"
                     :key="item.value"
@@ -46,9 +52,12 @@
                     :value="item.value">
                     </el-option>
                 </el-select>
+            </el-col>
+            
+            
         </el-col>
-        <el-col :span="1" style="color:transparent">''</el-col>
-        <el-col :span="15">
+        <!--<el-col :span="1" style="color:transparent">''</el-col>-->
+        <el-col :span="24">
             <el-table :data="earthquake_info" border style="width:100%" max-height="350">
                 <el-table-column prop="earthquake_no" label="地震波编号">
                     <template slot-scope="scope">
@@ -67,10 +76,21 @@
                 </el-table-column>
                 <el-table-column prop="file" label="地震波文件">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.file"></el-input>
+                        <el-upload
+                            class="upload-demo"
+                            action="http://localhost:8000/api/step5-save-wave_file"
+                            :data='upload_data'
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :on-success="handleResponse"
+                            :file-list="fileList[scope.$index]"
+                            name='test'>
+                            <el-button slot="trigger" size="small" type="primary" @click="get_num(scope.$index)">选取文件</el-button>
+                            <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+                        </el-upload>
                     </template>
                 </el-table-column>
-                <el-table-column
+                <!--<el-table-column
                     fixed="right"
                     label="操作"
                     width="120">
@@ -82,33 +102,91 @@
                         移除
                         </el-button>
                     </template>
-                </el-table-column>
+                </el-table-column>-->
             </el-table> 
-            <el-button @click="newEarthquake">新增地震波</el-button>
+            <!--<el-button @click="newEarthquake">新增地震波</el-button>-->
             <el-button @click="saveWaves">保存所有地震波</el-button>
         </el-col>
     </div>
 </template>
 <script>
 export default {
+    beforeRouteLeave(to, from, next){
+        let defense_intensity = JSON.stringify(this.defense_intensity)
+        localStorage.setItem('defense_intensity', defense_intensity)
+        let site_type = JSON.stringify(this.site_type)
+        localStorage.setItem('site_type', site_type)
+        let number = JSON.stringify(this.number)
+        localStorage.setItem('number', number)
+        let group = JSON.stringify(this.group)
+        localStorage.setItem('group', group)
+        let peak_acceleration = JSON.stringify(this.peak_acceleration)
+        localStorage.setItem('peak_acceleration', peak_acceleration)
+        let earthquake_level = JSON.stringify(this.earthquake_level)
+        localStorage.setItem('earthquake_level', earthquake_level)
+        let earthquake_info = JSON.stringify(this.earthquake_info)
+        localStorage.setItem('earthquake_info', earthquake_info)
+        next()
+    },
+    created(){
+      //从localStorage中读取条件并赋值给查询表单
+        let defense_intensity = localStorage.getItem('defense_intensity')
+        if (defense_intensity != null) {
+            this.defense_intensity = JSON.parse(defense_intensity)
+        }
+        let site_type = localStorage.getItem('site_type')
+        if (site_type != null) {
+            this.site_type = JSON.parse(site_type)
+        }
+        let number = localStorage.getItem('number')
+        if (number != null) {
+            this.number = JSON.parse(number)
+        }
+        let group = localStorage.getItem('group')
+        if (group != null) {
+            this.group = JSON.parse(group)
+        }
+        // let peak_acceleration = localStorage.getItem('peak_acceleration')
+        // if (peak_acceleration != null) {
+        //     this.peak_acceleration = JSON.parse(peak_acceleration)
+        // }
+        let earthquake_level = localStorage.getItem('earthquake_level')
+        if (earthquake_level != null) {
+            this.earthquake_level = JSON.parse(earthquake_level)
+        }
+         let earthquake_info = localStorage.getItem('earthquake_info')
+        if (earthquake_info != null) {
+             this.earthquake_info = JSON.parse(earthquake_info)
+        }
+        //上传文件部分改动this.fileList,格式为
+        var item = {
+            name: 'hhh'
+        }
+        //this.fileList.push(item)
+    },
+
     methods:{
-        newEarthquake(){
+        /*newEarthquake(){
             this.earthquake_info.push({
                 earthquake_no: '',
                 name: '',
                 peak:'',
                 file:''
             })        
-        },
+        },*/
         saveWaves(){
             let _this=this;
+            var project=localStorage.getItem('project')
             console.log(this.earthquake_info)
             this.$ajax({
                 method:'get',
                 url:'step5-save-waves',
                 params:{
                     earthquake_info:this.earthquake_info,
-                    project:7,
+                    project:project,
+                    test:this.test,
+                    number:this.number,
+                    username:localStorage.getItem('phone'),
                 },
             })
             .then(function(response){
@@ -130,11 +208,12 @@ export default {
         save5(){
             let _this=this;
             console.log(this.defense_intensity)
+            var project=localStorage.getItem('project')
             this.$ajax({
                 method:'get',
                 url:'step5',
                 params:{
-                    project:7,
+                    project:project,
                     defense_intensity:this.defense_intensity,
                     site_type:this.site_type,
                     number:this.number,
@@ -160,9 +239,10 @@ export default {
                     console.log(err);
                     });
         },
+        /*
         deleteRow(index, rows) {
             rows.splice(index, 1);
-        },
+        },*/
         next(){
             this.$emit('next','');
         },
@@ -176,11 +256,65 @@ export default {
                 console.log(this.defense_intensity)
                 console.log(this.earthquake_level)
                 this.peak_acceleration = array[this.defense_intensity-1][this.earthquake_level]
+                console.log(this.peak_acceleration)
             }
+        },
+        submitUpload() {           
+            this.$refs.upload.submit();
+            console.log(this.fileList);
+        },
+        handleRemove(file, fileList) {
+            //发送请求后台删除文件
+            this.$ajax({
+                method: 'get',
+                url: '',
+                params: ''
+            }).then(function(response){
+
+            }).catch(function(response){
+
+            })
+            console.log(file, fileList);
+        },
+        handlePreview(file, fileList) {
+            console.log(file, fileList);
+        },
+        handleResponse(response, file, fileList){
+            console.log(response)
+        },
+        get_num(index){
+            localStorage.setItem('index',index)
+        },
+        set_num(){
+            this.earthquake_info = [{
+                earthquake_no: '',
+                name: '',
+                peak:'',
+                file:'',
+            }]
+            for(var i = 0; i < this.number-1; i++){
+                //this.earthquake_info[i]=temp
+                this.earthquake_info.push({
+                    earthquake_no: '',
+                    name: '',
+                    peak:'',
+                    file:''
+                })    
+            }
+            console.log(this.earthquake_info)
+
         }
     },
     data(){
         return{
+            upload_data:{
+                username:localStorage.getItem('phone'),
+                project:1,//localStorage.getItem('project')
+                //wave_no:row.earthquake_no,
+                num:1,
+            },
+            fileList: [],
+            test:"test",
             defense_intensity:'',
             defense_in_option:[{
                     value: 1,

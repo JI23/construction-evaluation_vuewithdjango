@@ -51,26 +51,31 @@
         </el-table> 
         <el-button @click="newComponent">新增结构构件</el-button>
         <el-button @click="saveElements">保存所有结构构件</el-button>
-        
+        <el-button @click="view_db">查看易损性数据库详情</el-button>
         <el-dialog
-        title="提示"
+        title="选择易损性数据库"
         :visible.sync="dialogVisible"
         width="50%"
+        top=10px
+        :center=true
         :before-close="handleClose">
-        <span>这是一段信息</span>
         <div class="block">
-            <el-cascader
-                placeholder="试试搜索：指南"
-                :options="options"
-                filterable
-                @change="changed"
-            ></el-cascader>
+            <el-select @change="chooseId(temp1,temp2)" style="position:relative; top:-10px" v-model="value4" filterable placeholder="请选择">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+            </el-select>
         </div>
-        <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
+        <el-scrollbar class = "el-scrollbar">
+            <el-tree class="el-tree" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-scrollbar>
         </el-dialog>
     </div>
     
@@ -81,6 +86,8 @@
     export default {
       data() {
           return{
+            temp1:'',
+            temp2:'',
             choose_value:'',
             index: null,
             dialogVisible:false,
@@ -93,63 +100,84 @@
                 Non:null
             }],
             options: [{
-                value: 'hhh',
-                label: 'General Info',
-                children: [{
-                    value: 'hhh',
-                    label: 'Damage State Type',
-                    children: [{
-                        value: 'hhh',
-                        label: 'Damage State 1',
-                    }]
+                    value: 'DB_common',
+                    label: 'DB_Common'
+                }, {
+                    value: 'DB_school',
+                    label: 'DB_School'
+                }, {
+                    value: 'DB_hospital',
+                    label: 'DB_Hospital'
+                }, {
+                    value: 'DB_user',
+                    label: 'DB_User'
+                }, {
+                    value: 'DB_office',
+                    label: 'DB_Office'
+                }, {
+                    value: 'DB_fEMA',
+                    label: 'DB_FEMA'
                 }],
-            }],
-            /*data2: [{
-                    label: 'General Info123456',
-                    children: [{
-                        label: 'Damage State Type',
-                        children: [{
-                            label: 'Damage State 1',
-                            children: [{
-                                label: 'A1101 Consequence Functions'
-                            }]
-                        }]
-                    }],
-                  }],*/
+                value4:'DB_common',
             data:[],
             data1:[]
             
         };
     },
+    beforeRouteLeave(to, from, next){
+        let structure_element = JSON.stringify(this.tableData)
+        localStorage.setItem('structure_element', structure_element)
+        console.log(structure_element)
+        next()
+    },
+    created(){
+      //从localStorage中读取条件并赋值给查询表单
+        let tableData = localStorage.getItem('structure_element')
+        console.log('step3.vue')
+        console.log(tableData)
+        if (tableData != null) {
+            this.tableData = JSON.parse(tableData)
+        }
+    },
     methods: {
+        view_db(){
+            window.open('http://localhost:8080/#/refer/viewdb')
+        },
         chooseId(index, rows){
-            this.dialogVisible = true;
+            this.temp1 = index
+            this.temp2 = rows
+            this.dialogVisible = false;
             this.index = index;
             let _this=this
             this.$ajax({
                 method:'get',
                 url:'step3-get-all-parts',
+                params:{
+                    value: this.value4
+                },
                 headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
                 console.log(response)
                 //console.log('111')
                 var res=response.data
+                console.log(res['first'])
+                console.log(res['second'])
                 if(res.error_num==0){
-                    console.log(res['list'])
+                    /*console.log(res['list'])
                     console.log(res['detail'])
+                    console.log(res['first'])
+                    console.log(res['second'])
                     _this.data =  _this.data1
-                    for(var i = 0; i < res['detail'].length; i++ ){
-                        var max = 0;
-                        if(res['detail'][i].fields.DB_part > max){
-                            max = res['detail'][i].fields.DB_part
-                        }
-                    }
+                    
+                    var max=res['list'].length
 
                     for(var i = 0; i < max; i++){
-                        const newchild={label: i+1, children:[]}
+                        //console.log(res['list'][i+1].fields.part_id+' !'+res['list'][i+1].fields.description)
+                        const newchild={label: res['list'][i].fields.part_id+' '+res['list'][i].fields.description, children:[]}
                         _this.data[i]=newchild
                     }
+                    console.log('000')
                     var temp=new Array()
                     for(var i = 0; i < max; i++){
                         temp[i] = 0
@@ -157,26 +185,44 @@
                     
                     console.log('111')
                     for(var i = 0; i < res['detail'].length; i++){
-                        //_this.data =  _this.data1
-                        //console.log(i+'!!!')
-                        const newchild={label: res['detail'][i].fields.damage_id, children:[]}
+                        const newchild={label: res['detail'][i].fields.DB_part+res['detail'][i].fields.damage_id+res['detail'][i].fields.damage_description, children:[]}
                         _this.data[res['detail'][i].fields.DB_part-1].children[temp[res['detail'][i].fields.DB_part-1]] = newchild
                         temp[res['detail'][i].fields.DB_part-1] += 1
                     }
                     console.log('222')
-                    //const newchild={label:'test',children:[]}
-                    //_this.data =  _this.data1
-                    //_this.data[1]=newchild
-                    
-                    //_this.data[0].label=res['list'][0].fields.part_id
-                    console.log(_this.data[0].label)
-                    
-                    
-                    //console.log(_this.data.label=res['list'][0].fields.part_id)
-                    _this.$index=res['list'][0].fields.part_id
+                    _this.$index=res['list'][0].fields.part_id*/
+                    console.log(res['list'])
+                    var returnData = []
+                    for(var i = 0; i < res['first'].length; i++){
+                        var temp = {
+                            label: "",
+                            children: []
+                        }
+                        temp.label=res['first'][i]
+                        for(var j = 0; j < res['second'].length; j++){
+                            if(res['first'][i] === res['second'][j][0]){
+                                var item = {
+                                    label: res['second'][j][1],
+                                    children: []
+                                }
+                                for(var k = 0; k < res['list'].length; k++){
+                                    if(res['list'][k].fields.second === res['second'][j][1]){
+                                        var item1 = {
+                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description,
+                                            children:[]
+                                        }
+                                        item.children.push(item1)
+                                    }
+                                }
+                                temp.children.push(item)
+                            }
+                        }
+                        returnData.push(temp)
+                    }
+                    _this.data=returnData
                 }
                 else {
-                    _this.$message.error('获取结构构件失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })
@@ -185,15 +231,20 @@
                     console.log('!!')
                     console.log(_this.data)
                     });
+            this.dialogVisible = true
         },
         saveElements(){
-            let _this=this
+            let _this=this;
+            var floors=localStorage.getItem('floors')
+            var project=localStorage.getItem('project')
+            console.log(this.tableData)
             this.$ajax({
                 method:'get',
                 url:'step3-save-elements',
                 params:{
                     is_structure:'True',
-                    project:7,
+                    project:project,
+                    floors:floors,
                     tableData:this.tableData,
                 },
             })
@@ -202,9 +253,11 @@
                 var res=response.data
                 if(res.error_num==0){
                     console.log(res['msg'])
+                    _this.$message.success(res['msg'])
+                    //console.log(_this.tableData[0].id) id里存的确实是字符串形式啊
                 }
                 else {
-                    _this.$message.error('存储结构构件失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })
@@ -235,9 +288,10 @@
          handleNodeClick(data,node){
               //console.log(data);
               console.log(this.choose_value)
-              if(node.level==2){
+              if(node.level==3){
                   console.log(data)
-                  this.tableData[this.index].id = data.label.substr(0,5);
+                  var temp = data.label.split(' ')
+                  this.tableData[this.index].id = temp[0];
                   this.dialogVisible = false;   
               }
           },
@@ -258,10 +312,24 @@
 
 
 <style scoped>
-.el-table{
-    margin:20px 0;
-}
-.btn{
-        margin-top:12px;
+    .el-table{
+        margin:20px 0;
     }
+    .btn{
+            margin-top:12px;
+        }
+
+    .el-scrollbar{
+        height: 450px;
+    }
+
+    .el-scrollbar__wrap {
+        overflow-x: hidden;
+    }
+
+    .el-tree{
+        display:inline-block;
+    }
+
+
 </style>

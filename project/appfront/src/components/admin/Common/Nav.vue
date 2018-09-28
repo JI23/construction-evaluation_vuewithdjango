@@ -1,7 +1,7 @@
 <template>
     <el-col>
     <el-menu
-    :default-active="$router.path"
+    :default-active=activename
       class="el-menu-vertical-demo nav"
       background-color="#66209A"
       text-color="#eee"
@@ -27,6 +27,33 @@
     </el-menu>
   </el-col>
 </template>
+
+<script>
+export default {
+  beforeMount(){
+    this.get_url()
+  },
+  methods:{
+    get_url(){
+      let _this = this
+      console.log(_this.activename)
+      //console.log(this.$route.path)
+      var path1 = this.$route.path.split("/")
+      console.log('/'+path1[1])
+      _this.activename = '/'+path1[1]
+    }
+  },
+  data(){
+    return{
+      activename:this.$route.path
+    }
+  },
+  watch:{
+    "$route": "get_url"
+  }
+}
+</script>
+
 <style scoped>
     .nav{
         box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);

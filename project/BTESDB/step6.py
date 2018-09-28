@@ -8,34 +8,40 @@ import json
 
 import ast
 def step6(request):
-    #获取指向该项目的对象
-    project=request.GET['project']
-    this_project=Project.objects.get(id=project)
     response={}
-    try:
-        print(2)
-        print (request.GET)
+    try:       
         #获取数据
+        project=request.GET['project']
         data_list=request.GET.getlist('data[]',[])
-        for item in data_list:
-            print (item)
-            print (type(item))
-
-            a=ast.literal_eval(item)
-            print(3)
+    except Exception:
+        response['msg']='请完整填写结构响应信息！'
+        response['error_num']=1
+        return JsonResponse(response)
+    #获取指向该项目的对象
+    this_project=Project.objects.get(id=project)
+    for item in data_list:
+        #将string转化为dict
+        a=ast.literal_eval(item)
+        if Structure_response.objects.filter(project=this_project,direction=a['direction']).exists():
+            #更新数据库中内容
+            update=Structure_response.objects.get(project=this_project,direction=a['direction']) 
+            update.EDP_type=a['EDP_type']
+            update.floor_no=a['floor_no']
+            update.earthquake_no=a['earthquake_no']
+            update.data=data_list
+            update.save()
+            response['msg']='结构响应信息修改成功'
+            response['error_num']=0
+        else:
+            #新增数据库中内容
             new=Structure_response(
                 project=this_project,
                 direction=a['direction'],
                 EDP_type=a['EDP_type'],
                 floor_no=a['floor_no'],
-                earthquake_no=a['earthquake_no']
-            )
+                earthquake_no=a['earthquake_no'],
+                data=data_list)
             new.save()
-            print(4)
-            response['msg']='success'
+            response['msg']='结构响应信息新增成功'
             response['error_num']=0
-    except Exception as e:
-        print(str(e))
-        response['msg']=str(e)
-        response['error_num']=1
     return JsonResponse(response)

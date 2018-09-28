@@ -96,6 +96,18 @@
                   }]
         };
     },
+    beforeRouteLeave(to, from, next){
+        let non_structure_element = JSON.stringify(this.tableData)
+        localStorage.setItem('non_structure_element', non_structure_element)
+        next()
+    },
+    created(){
+      //从localStorage中读取条件并赋值给查询表单
+        let tableData = localStorage.getItem('non_structure_element')
+        if (tableData != null) {
+            this.tableData = JSON.parse(tableData)
+        }
+    },
     methods: {
         chooseId(index, rows){
             this.dialogVisible = true;
@@ -115,6 +127,7 @@
                     console.log(_this.data[0].label)
                     console.log(_this.data.label=res['list'][0].fields.part_id)
                     _this.$index=res['list'][0].fields.part_id
+                    
                 }
                 else {
                     _this.$message.error('获取非结构构件失败')
@@ -126,13 +139,16 @@
                     });
         },
         saveElements(){
-            let _this=this
+            let _this=this;
+            var project=localStorage.getItem('project')
+            var floors=localStorage.getItem('floors')
             this.$ajax({
                 method:'get',
                 url:'step3-save-elements',
                 params:{
                     is_structure:'False',
-                    project:7,
+                    project:project,
+                    floors:floors,
                     tableData:this.tableData,
                 },
                 headers:{"Content-Type": "application/json"}
@@ -142,9 +158,10 @@
                 var res=response.data
                 if(res.error_num==0){
                     console.log(res['msg'])
+                    _this.$message.success(res['msg'])
                 }
                 else {
-                    _this.$message.error('存储非结构构件失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })
@@ -176,7 +193,7 @@
               //console.log(data);
               if(node.level == 1){
                   console.log(data)
-                  this.tableData[this.index].id = data.label.substr(0,5);
+                  this.tableData[this.index].id = data.label.substr(0,10);
                   this.dialogVisible = false;   
               }
           },

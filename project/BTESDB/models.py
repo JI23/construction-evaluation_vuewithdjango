@@ -5,7 +5,23 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-
+class DB_template(models.Model):
+    #如BE.F.01.01，必须遵循该格式，有10位和11位的，最好写max_length=20
+    part_id=models.CharField(max_length=20,primary_key=True)
+    #可以是任意字符串，如ACI 318 OMF with weak joints and column flexural response, Conc Col & Bm = 24" x 24", Beam one side
+    Name=models.CharField(max_length=100)
+    #如单片玻璃幕墙...
+    Description=models.CharField(max_length=300)
+    #EDP类型，分层间位移角和楼层加速度
+    TypeName=models.CharField(max_length=20)
+    #数据来源
+    Author=models.CharField(max_length=20)
+    #是否是官方认证
+    Official=models.CharField(max_length=10)
+    #易损件的场地类别
+    part_type=models.CharField(max_length=20,default='Common')
+    #是否用户自定义
+    user_defined=models.CharField(max_length=10,default='False')
 # Create your models here.
 class Company_Info(models.Model):
     '''公司信息表'''
@@ -82,46 +98,97 @@ class User_comment(models.Model):
     def __str__(self):
         return self.comment_id
 
+from django.conf.urls.static import static
+from django.conf import settings
+
+def upload_to(instance,filename):
+    return '/'.join([instance.get_part_type_display(),instance.part_id,filename])
+
 class DB_part(models.Model):
     '''易损件数据库'''
     #主键由django自行生成
     #指向User的外键，一个user对应多个自定义易损件,对系统给的易损件，user指向一个特定的superuser
     user=models.ForeignKey(User_Info,on_delete=models.CASCADE,verbose_name='用户',default=None)
+    #是否是用户自定义
+    user_defined=models.BooleanField(default=False,verbose_name='用户自定义')
     #如BE.F.01.01，必须遵循该格式
-    part_id=models.CharField(max_length=10,blank=False,verbose_name='易损件id')
+    part_id=models.CharField(max_length=20,blank=False,verbose_name='易损件id')
+    #first & second
+    first=models.CharField(max_length=50,verbose_name='第一层分类信息')
+    second=models.CharField(max_length=50,verbose_name='第二层分类信息')
     #可以是任意字符串
-    part_name=models.CharField(max_length=10,blank=False,verbose_name='易损件名称')
+    part_name=models.CharField(max_length=400,blank=False,verbose_name='易损件名称')
     #如单片玻璃幕墙...
-    description=models.CharField(max_length=300,blank=False,verbose_name='易损件描述')
+    description=models.CharField(max_length=570,blank=False,verbose_name='易损件描述')
     #基本单位，如1个，3.3m2等
     basic_unit=models.CharField(max_length=10,default='1个',verbose_name='基本单位')
     #易损件单价，默认为0，0.00-999999.99
     cost=models.DecimalField(max_digits=8, decimal_places=2,blank=False,verbose_name='易损件单价',default=0.00)
-    #EDP类型，分层间位移角和楼层加速度
-    EDP_type_choice=(
-        ('S','Story Drift Ratio'),#层间位移角
-        ('A','Acceleration'),#楼层加速度
-    )
-    EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S',verbose_name='EDP类型')
     #数据来源
     data_resource=models.CharField(max_length=45,blank=False,default='《建筑抗震韧性评价标准》编委会',verbose_name='数据来源')
     #是否是官方认证
     is_formal=models.BooleanField(default=True,verbose_name='官方认证')
-
     #易损件的场地类别
     site_classification_choice=(
         ('h','hospital'),
         ('o','office'),
         ('s','school'),
         ('c','common'),
+        ('u','user_defined'),
+        ('f','FEMA')
     )
     part_type=models.CharField(max_length=1,choices=site_classification_choice,default='c',verbose_name='场地类别')
     #创建时间
-    #create_date=models.DateTimeField(verbose_name='创建时间',default=timezone.now())
+    create_date=models.DateTimeField(verbose_name='创建时间',auto_now_add=True)
+    #DSGroupType
+    #DSGroupType=models.CharField(max_length=25,verbose_name='DSGroupType')
     #损伤数量
     damage_state_number=models.SmallIntegerField(default=0,verbose_name='损伤数量')
+    #与该易损件相关的损伤xml文件
+    xml=models.FileField(upload_to=upload_to,blank=True,default=None,verbose_name='xml文件')
+    
+    #EDP
+    #EDP类型，分层间位移角和楼层加速度
+    EDP_type_choice=(
+        ('S','Story Drift Ratio'),#层间位移角
+        ('A','Acceleration'),#楼层加速度
+    )
+    EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S',verbose_name='EDP类型')
+    '''
+    #correlation
+    correlation=models.BooleanField(default=True,verbose_name='Correlation')
+    #directional
+    directional=models.BooleanField(default=True,verbose_name='Directional')
+    #默认单位
+    default_units=models.CharField(max_length=25,verbose_name='默认单位')
+    #Dimension
+    dimension=models.CharField(max_length=5,verbose_name='Dimension')
+    
+    
+    #Rating
+    #DataQuality
+    DataQuality=models.CharField(max_length=1,default='1',verbose_name='DataQuality')
+    #DataRelevance
+    DataRelevance=models.CharField(max_length=1,default='1',verbose_name='DataRelevance')
+    #Documentation
+    Documentation=models.CharField(max_length=1,default='1',verbose_name='Documentation')
+    #Rationality
+    Rationality=models.CharField(max_length=1,default='1',verbose_name='Rationality')
+    
+    
+    #Approved
+    Approved=models.BooleanField(default=True,verbose_name='Approved')
+    #Incomplete
+    Incomplete=models.BooleanField(default=True,verbose_name='Incomplete')
+    #Notes
+    #Notes=models.CharField(max_length=200,blank=True,default=None,verbose_name='Notes')
+    #UseEDPValueOfFloorAbove
+    UseEDPValueOfFloorAbove=models.BooleanField(default=False,verbose_name='UseEDPValueOfFloorAbove')
+    #DSGroupType
+    DSGroupType=models.CharField(max_length=25,verbose_name='DSGroupType')
+    '''
     class Meta:
-        unique_together=('part_id','part_type')
+        unique_together=('part_id','part_type','user')
         verbose_name='易损件'
         verbose_name_plural='易损件数据库'
     def __str__(self):
@@ -134,12 +201,12 @@ class Damage_state_detail(models.Model):
     class Meta:
         verbose_name='易损件损伤'
         verbose_name_plural='易损件损伤详情'
-        unique_together=('DB_part','damage_id')
+        #unique_together=('DB_part','damage_id')
     DB_part=models.ForeignKey(DB_part,on_delete=models.CASCADE,verbose_name='易损件',default=None)
     #损伤编号，一个自定义易损件对应多个易损件损伤
     damage_id=models.SmallIntegerField(verbose_name='损伤编号')
     #损伤状态
-    damage_state=models.CharField(max_length=45,verbose_name='损伤状态')
+    damage_state=models.CharField(max_length=45,verbose_name='损伤状态',blank=True)
     #损伤状态描述
     damage_description=models.CharField(max_length=300,verbose_name='损伤状态描述')
     #中位值
@@ -181,7 +248,7 @@ class Project(models.Model):
     user=models.ForeignKey(User_Info,on_delete=models.CASCADE,verbose_name='用户')#指向User的外键，一个user对应多个project
     class Meta:
         #联合主键，但是django会自己产生一个自增长的主键
-        #unique_together=("user","project_id")
+        unique_together=("user","project_name")
         verbose_name='项目'
         verbose_name_plural='项目'
     #项目名称
@@ -301,9 +368,10 @@ class Earthquake_Info(models.Model):
     )
     earthquake_level=models.CharField(max_length=1,choices=earthquake_level_choice,default='S',verbose_name='地震水准')
     #峰值加速度,用if，else判断，由地震水准和设防烈度唯一确定
-    #peak_acceleration=models.DecimalField(max_digits=6,decimal_place=3,verbose_name='峰值加速度')
+    peak_acceleration=models.DecimalField(max_digits=6,decimal_places=3,verbose_name='峰值加速度')
 
-
+def upload_to2(instance,filename):
+    return '/'.join(['wave_file',instance.project,instance.earthquake_wave_no,filename])
 class Earthquake_wave_detail(models.Model):
     '''地震波详情'''
     class Meta:
@@ -317,8 +385,8 @@ class Earthquake_wave_detail(models.Model):
     earthquake_wave_name=models.CharField(max_length=15,verbose_name='地震波名称')
     #地震波峰值
     peak=models.DecimalField(max_digits=4,decimal_places=2,verbose_name='地震波峰值')
-    #文件存放位置，%Y、%m、%d分别表示年、月、日，描述性txt文件，以后不会用，要存在云端
-    earthquake_wave_file=models.FileField(upload_to=str(project)+'/%Y/%m/%d/',verbose_name='地震波文件')
+    #文件存放位置
+    earthquake_wave_file=models.FileField(upload_to=upload_to2,verbose_name='地震波文件')
 
 class Structure_response(models.Model):
     #django自己生成主键
@@ -338,12 +406,13 @@ class Structure_response(models.Model):
     EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S')
      #指向DB_type的外键，一个结构构件对应一个结构类型
     class Meta:
-        
+        unique_together=('project','direction','EDP_type')        
         verbose_name='结构响应'
         verbose_name_plural='结构响应' 
     #楼层数量决定表的宽度，地震数量决定表的长度
-    floor_no=models.SmallIntegerField(verbose_name='楼层编号')
-    earthquake_no=models.SmallIntegerField(verbose_name='地震波编号')
+    floor_no=models.SmallIntegerField(verbose_name='楼层数量')
+    earthquake_no=models.SmallIntegerField(verbose_name='地震波数量')
+    data=models.CharField(max_length=1024,verbose_name='序列化的数组')
 
 
 

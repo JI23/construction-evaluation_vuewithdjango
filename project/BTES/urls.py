@@ -23,17 +23,23 @@ from BTESDB import floor
 from BTESDB import show_all
 from BTESDB import earthquake_info
 from BTESDB import wave
+from BTESDB import insertState
 from BTESDB import structure_response
 from django.conf.urls import url,include
 from django.views.generic import TemplateView
 import BTESDB.urls
+from django.conf.urls.static import static
+from django.conf import settings
 
 admin.autodiscover()
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="index.html")),
     url(r'^api/', include(BTESDB.urls)),
-
+    path('insert/', insertState.insert),
+    path('insert_DB_part/', insertState.insert_temp),
     path('admin/', admin.site.urls),
+
+    path('upload/',views.upload),
 
     path('',views.index),
 
@@ -57,4 +63,4 @@ urlpatterns = [
     path('all_part/',show_all.get_all_parts,name='all_part'),
     url(r'^new_project4/(?P<id>\d+)/$',show_all.show_selected_structure,name='new_project4'),
     url(r'^new_project5/(?P<id>\d+)/$',show_all.show_selected_nonstructure,name='new_project5'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

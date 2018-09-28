@@ -4,7 +4,7 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" label-position=left class="demo-ruleForm">  
           <el-row>
             <el-col :span="2" style="color:transparent">''</el-col>
-            <el-col span="10">
+            <el-col :span="10">
             <h3>个人信息</h3> 
             <el-form-item label="昵称" prop="nickname">
             <el-input v-model="ruleForm.nickname"></el-input>
@@ -19,26 +19,26 @@
             <el-input v-model="ruleForm.checkPass" type="password" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="yourEmail">
-            <el-input v-model="ruleForm.youremail"></el-input>
+            <el-input v-model="ruleForm.yourEmail"></el-input>
             </el-form-item>
             <el-form-item label="手机号" prop="telephone">
             <el-input v-model="ruleForm.telephone"></el-input>
             </el-form-item>
             <el-form-item label="建筑师证号" prop="architectNum">
-            <el-input v-model="ruleForm.architectnum"></el-input>
+            <el-input v-model="ruleForm.architectNum"></el-input>
             </el-form-item>
         </el-col>
         <el-col :span="1" style="color:transparent">''</el-col>
-        <el-col span="10">
+        <el-col :span="10">
             <h3>公司信息</h3>
             <el-form-item label="公司名称" prop="comName">
-            <el-input v-model="ruleForm.comname"></el-input>
+            <el-input v-model="ruleForm.comName"></el-input>
             </el-form-item>
             <el-form-item label="证件号" prop="comNum">
-            <el-input v-model="ruleForm.comnum"></el-input>
+            <el-input v-model="ruleForm.comNum"></el-input>
             </el-form-item>
             <el-form-item label="公司职务" prop="comPosition">
-            <el-input v-model="ruleForm.composition"></el-input>
+            <el-input v-model="ruleForm.comPosition"></el-input>
             </el-form-item>
             <el-form-item>
               <br>
@@ -121,7 +121,48 @@
     },
     methods: {
       submitForm(formName) {
-            this.$router.push({name:'login'})
+              let _this=this;
+              this.$ajax({
+                  method:'get',
+                  url:'http://localhost:8000/api/user_register',
+                  params:{
+                      username : this.ruleForm.telephone,  
+                      password : this.ruleForm.password,
+                      password_again:this.ruleForm.checkPass,
+                      email:this.ruleForm.yourEmail,
+                      nickname:this.ruleForm.nickname,
+                      truename:this.ruleForm.name,
+                      architect_id:this.ruleForm.architectNum,
+                      com_name:this.ruleForm.comName,
+                      certificate:this.ruleForm.comNum,
+                      job:this.ruleForm.comPosition
+                  },
+                  headers:{"Content-Type": "application/json"}
+              })
+              .then(function(response){
+                          console.log(response)
+                          var res = response.data
+                          console.log(res)
+                          if (res['error_num'] == 0) {
+                              console.log(res['msg'])
+                              localStorage.setItem('telephone', res['telephone'])
+                              localStorage.setItem('password', res['password'])
+                              console.log(localStorage.getItem('telephone'))
+                              
+                              console.log(localStorage.getItem('password'))
+                              _this.$router.push({name:'login'});   //这里前面要加个_
+                          } 
+                          else if (res['error_num'] == 1){
+                              _this.$message.error('公司不在数据库中')
+                          }
+                          else {
+                              _this.$message.error('注册失败')
+                              console.log(res['msg'])
+                          }
+                      })
+                      .catch(function(err){
+                          console.log(err);
+                      });
       }
     }
   }

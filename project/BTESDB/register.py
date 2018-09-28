@@ -4,7 +4,7 @@ from .models import *
 from django.contrib import auth
 from django import forms    #导入表单
 from django.contrib.auth.models import User   #导入django自带的user表
-
+from django.http import JsonResponse
 
 class User_Register_Form(forms.Form):
     #用户注册表单
@@ -22,66 +22,70 @@ class User_Register_Form(forms.Form):
     #com_tel=forms.CharField(label='公司电话',max_length=13,)
     #fax=forms.CharField(label='传真号',max_length=13)
     #address=forms.CharField(label='地址',max_length=100)
-    #com_tel=uf.cleaned_data['com_tel']
-    #fax=uf.cleaned_data['fax']
-    #address=uf.cleaned_data['address']
+    #com_tel=request.POST['com_tel']
+    #fax=request.POST['fax']
+    #address=request.POST['address']
 
 # Create your views here.   
 
 def user_register(request):
-    if request.method=='POST':
-        #包含用户注册的一些必要信息，如user_register_form所示
-        uf=User_Register_Form(request.POST) 
-        if uf.is_valid():
-            #获取表单数据
-            com_name=uf.cleaned_data['com_name']
-            certificate=uf.cleaned_data['certificate']
-            job=uf.cleaned_data['job']
+    if request.method=='GET':
+        response={}
+        #获取表单数据
+        com_name=request.POST['com_name']
+        certificate=request.POST['certificate']
+        job=request.POST['job']
+        com_exist=Company_Info.objects.filter(certificate=certificate,com_name=com_name)
+        #验证是否存在该公司，若不存在，在company_info新增一条公司条目
+        #验证是否存在该公司，若不存在，不可以申请成为用户
+        '''
+        if not com_exist.exists():
+            new=Company_Info(com_name=com_name,certificate=certificate)
+            new.save()
+             this_company=Company_Info.objects.filter(certificate=certificate)
+         '''
 
-            com_exist=Company_Info.objects.filter(certificate=certificate,com_name=com_name)
-            #验证是否存在该公司，若不存在，在company_info新增一条公司条目
-            #验证是否存在该公司，若不存在，不可以申请成为用户
-            '''
-            if not com_exist.exists():
-                new=Company_Info(com_name=com_name,certificate=certificate)
-                new.save()
-                this_company=Company_Info.objects.filter(certificate=certificate)
-            '''
-
-            if not com_exist.exists():
-                #公司不在数据库中
-                return render(request,'user_register.html', {'uf': uf,'user_register_error':'公司不存在'})
-            else:
+        if not com_exist.exists():
+            #公司不在数据库中
+               response['error_num']=1
+               return JsonResponse(response)
+               #return render(request,'user_register.html', {'uf': uf,'user_register_error':'公司不存在'})
+        else:
                 #
-                username = uf.cleaned_data['username']
-                telephone=uf.cleaned_data['username']  
-                password = uf.cleaned_data['password']
-                password_again=uf.cleaned_data['password_again']
-                email=uf.cleaned_data['email']
-                nickname=uf.cleaned_data['nickname']
-                truename=uf.cleaned_data['truename']
-                architect_id=uf.cleaned_data['architect_id']
+                username = request.POST['username']
+                telephone=request.POST['username']  
+                password = request.POST['password']
+                password_again=request.POST['password_again']
+                email=request.POST['email']
+                nickname=request.POST['nickname']
+                truename=request.POST['truename']
+                architect_id=request.POST['architect_id']
                 if str(password)==str(password_again):
                     #两次密码相同，尝试添加到数据库
                     try:
+                        print('密码相同')
                         registAdd = User_Info.objects.create_user(username=username, password=password,login_amount=1,company=com_exist[0],
                         telephone=telephone,email=email,nickname=nickname,truename=truename,architect_id=architect_id,
-                        is_superuser=False,is_staff=False, is_active=False) 
+                        is_superuser=False,is_staff=False, is_active=True) 
                         #添加成功   
-                        return render(request,'fail_user.html', {'registAdd': '管理员'+username})
-                    
+                        #return render(request,'fail_user.html', {'registAdd': '管理员'+username})
+                        response['error_num']=0
+                        return JsonResponse(response)
                     except Exception:
                         #添加失败
-                        return render(request,'fail_user.html', {'registAdd': '注册失败', 'username': username,'architect_id':architect_id})
-                
+                        #return render(request,'fail_user.html', {'registAdd': '注册失败', 'username': username,'architect_id':architect_id})
+                        response['error_num']=2
+                        return JsonResponse(response)
                 else:
                     #两次密码不同
-                    uf.clean()
-                    return render(request,'user_register.html', {'uf': uf,'user_register_error':'两次密码不一样'})
+                    #uf.clean()
+                    return JsonResponse(response)
+                    #return render(request,'user_register.html', {'uf': uf,'user_register_error':'两次密码不一样'})
     else:
         # 如果不是post提交数据，就不传参数创建对象，并将对象返回给前台，直接生成input标签，内容为空
-        uf = User_Register_Form()
-    return render(request,'user_register.html', {'uf': uf})
+       return JsonResponse(response)
+    #return render(request,'user_register.html', {'uf': uf})
+
 
 
 class Admin_Register_Form(forms.Form):
@@ -104,18 +108,19 @@ class Admin_Register_Form(forms.Form):
 
 def admin_register(request):
     if request.method=='POST':
+        response={}
         #包含用户注册的一些必要信息，如user_register_form所示
         uf=Admin_Register_Form(request.POST) 
         print (1)
         if uf.is_valid():
             #获取表单数据
             print(2)
-            com_name=uf.cleaned_data['com_name']
-            certificate=uf.cleaned_data['certificate']
-            job=uf.cleaned_data['job']
-            com_tel=uf.cleaned_data['com_tel']
-            fax=uf.cleaned_data['fax']
-            address=uf.cleaned_data['address']
+            com_name=request.POST['com_name']
+            certificate=request.POST['certificate']
+            job=request.POST['job']
+            com_tel=request.POST['com_tel']
+            fax=request.POST['fax']
+            address=request.POST['address']
             
             com_exist=Company_Info.objects.filter(certificate=certificate,com_name=com_name)
             
@@ -130,20 +135,20 @@ def admin_register(request):
             
             this_company=com_exist[0]
             print(4)
-            username = uf.cleaned_data['username']
-            telephone=uf.cleaned_data['username']  
-            password = uf.cleaned_data['password']
-            password_again=uf.cleaned_data['password_again']
-            email=uf.cleaned_data['email']
-            nickname=uf.cleaned_data['nickname']
-            truename=uf.cleaned_data['truename']
-            architect_id=uf.cleaned_data['architect_id']
+            username = request.POST['username']
+            telephone=request.POST['username']  
+            password = request.POST['password']
+            password_again=request.POST['password_again']
+            email=request.POST['email']
+            nickname=request.POST['nickname']
+            truename=request.POST['truename']
+            architect_id=request.POST['architect_id']
             if str(password)==str(password_again):
                 #两次密码相同，尝试添加到数据库
                 print (5)
                 try:
                     registAdd = User_Info.objects.create_user(username=username, password=password,login_amount=1,company=this_company,
-                    telephone=telephone,email=email,nickname=nickname,truename=truename,architect_id=architect_id,
+                    telephone=telephone,email=email,nickname=nickname,truename=truename,job=job,architect_id=architect_id,
                     is_superuser=True,is_staff=True, is_active=True) 
                     #添加成功   
                     return render(request,'fail_user.html', {'registAdd': '管理员'+username})
@@ -176,18 +181,19 @@ class Company_Register_Form(forms.Form):
 
 def company_register(request):
     if request.method=='POST':
+        response={}
         #包含公司注册的一些必要信息，如company_register_form所示
         uf=Company_Register_Form(request.POST) 
         print (1)
         if uf.is_valid():
             #获取表单数据
             print(2)
-            com_name=uf.cleaned_data['com_name']
-            certificate=uf.cleaned_data['certificate']
-            #job=uf.cleaned_data['job']
-            com_tel=uf.cleaned_data['com_tel']
-            fax=uf.cleaned_data['fax']
-            address=uf.cleaned_data['address']
+            com_name=request.POST['com_name']
+            certificate=request.POST['certificate']
+            #job=request.POST['job']
+            com_tel=request.POST['com_tel']
+            fax=request.POST['fax']
+            address=request.POST['address']
             
             com_exist=Company_Info.objects.filter(certificate=certificate,com_name=com_name)
             
@@ -196,17 +202,19 @@ def company_register(request):
                 #验证是否存在该公司，若不存在，在company_info新增一条公司条目
                 new=Company_Info(com_name=com_name,certificate=certificate,com_tel=com_tel,fax=fax,address=address,total_user=0)
                 new.save()
-                this_company=Company_Info.objects.filter(certificate=certificate)
-                return render(request,'fail_user.html', {'registAdd': '公司'+com_name})
+                this_company = Company_Info.objects.filter(certificate=certificate)
+                #return render(request,'fail_user.html', {'registAdd': '公司'+com_name})
+                return JsonResponse(response)
             else:
                 print(4)
                 #公司存在
-                return render(request,'fail_user.html', {'registAdd': '注册失败', 'username': com_name})
-                
+                #return render(request,'fail_user.html', {'registAdd': '注册失败', 'username': com_name})
+                return JsonResponse(response)
     
                 
     else:
         print(8)
         # 如果不是post提交数据，就不传参数创建对象，并将对象返回给前台，直接生成input标签，内容为空
         uf = Company_Register_Form()
-    return render(request,'user_register.html', {'uf': uf})
+    #return render(request,'user_register.html', {'uf': uf})
+    return JsonResponse(response)

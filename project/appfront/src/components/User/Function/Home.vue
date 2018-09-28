@@ -10,15 +10,15 @@
         <br><br>
         <div class="box2" style= "background:#67C23A">
             <h4>已完成项目</h4>
-            <p>10</p>
+            <p>{{successpj}}</p>
         </div>
         <div class="box2" style= "background:rgba(233,240,29,1)">
             <h4>未完成项目</h4>
-            <p>1</p>
+            <p>{{unsuccesspj}}</p>
         </div>
         <div class="box2">
             <h4>项目总数</h4>
-            <p>11</p>
+            <p>{{allpj}}</p>
         </div>
     </div>
 </template>
@@ -33,19 +33,25 @@
             }
         },
 
-        mounted(){
+        created(){
             this.show_info()
         },
 
         methods:{
             show_info(){
+                let _this = this
                 this.$ajax({
                     method: 'get',
-                    url: '',
-
+                    url: 'brief_projects',
                 }).then(function(response){
                     console.log(response)
+                    var res = response.data
+                    _this.allpj = res['all']
+                    _this.successpj = res['success']
+                    _this.unsuccesspj = res['unsuccess']
                     //进行赋值
+                }).catch(function(response){
+                    console.log(response)
                 })
                  
             }
