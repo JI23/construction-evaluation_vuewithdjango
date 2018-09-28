@@ -52,16 +52,29 @@
         <el-button @click="newComponent">新增非结构构件</el-button>
         <el-button @click="saveElements">保存所有非结构构件</el-button>
         <el-dialog
-        title="提示"
+        title="选择易损性数据库"
         :visible.sync="dialogVisible"
-        width="30%"
+        width="50%"
+        top=10px
+        :center=true
         :before-close="handleClose">
-        <span>这是一段信息</span>
-        <el-tree :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
+        <div class="block">
+            <el-select @change="chooseId(temp1,temp2)" style="position:relative; top:-10px" v-model="value4" filterable placeholder="请选择">
+                <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
+        <el-scrollbar class = "el-scrollbar">
+            <el-tree class="el-tree" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-scrollbar>
         </el-dialog>
     </div>
     
@@ -72,6 +85,9 @@
     export default {
       data() {
           return{
+            temp1:'',
+            temp2:'',
+            choose_value:'',
             index: null,
             dialogVisible:false,
             tableData: [{
@@ -82,19 +98,36 @@
                 Y:null,
                 Non:null
             }],
-            data: [{
-                    label: 'General Info',
-                    children: [{
-                        label: 'Damage State Type',
-                        children: [{
-                            label: 'Damage State 1',
-                            children: [{
-                                label: 'A1101 Consequence Functions'
-                            }]
-                        }]
-                    }],
-                  }]
+            options: [{
+                    value: 'DB_common',
+                    label: 'DB_Common'
+                }, {
+                    value: 'DB_school',
+                    label: 'DB_School'
+                }, {
+                    value: 'DB_hospital',
+                    label: 'DB_Hospital'
+                }, {
+                    value: 'DB_user',
+                    label: 'DB_User'
+                }, {
+                    value: 'DB_office',
+                    label: 'DB_Office'
+                }, {
+                    value: 'DB_fEMA',
+                    label: 'DB_FEMA'
+                }],
+                value4:'DB_common',
+            data:[],
+            data1:[]
+            
         };
+    },
+    beforeRouteLeave(to, from, next){
+        let structure_element = JSON.stringify(this.tableData)
+        localStorage.setItem('structure_element', structure_element)
+        console.log(structure_element)
+        next()
     },
     beforeRouteLeave(to, from, next){
         let non_structure_element = JSON.stringify(this.tableData)
@@ -104,39 +137,104 @@
     created(){
       //从localStorage中读取条件并赋值给查询表单
         let tableData = localStorage.getItem('non_structure_element')
-        if (tableData != null) {
+        console.log(tableData)
+        if (tableData.length!=0) {
+            console.log("bukong")
             this.tableData = JSON.parse(tableData)
         }
     },
     methods: {
+        // chooseId(index, rows){
+        //     this.dialogVisible = true;
+        //     this.index = index;
+        //     let _this=this
+        //     this.$ajax({
+        //         method:'get',
+        //         url:'step3-get-all-parts',
+        //         headers:{"Content-Type": "application/json"}
+        //     })
+        //     .then(function(response){
+        //         console.log(response)
+        //         var res=response.data
+        //         if(res.error_num==0){
+        //             console.log(res['list'])
+        //             _this.data[0].label=res['list'][0].fields.part_id
+        //             console.log(_this.data[0].label)
+        //             console.log(_this.data.label=res['list'][0].fields.part_id)
+        //             _this.$index=res['list'][0].fields.part_id
+                    
+        //         }
+        //         else {
+        //             _this.$message.error('获取非结构构件失败')
+        //             console.log(res['msg'])
+        //         }
+        //     })
+        //     .catch(function(err){
+        //             console.log(err);
+        //             });
+        // },
         chooseId(index, rows){
-            this.dialogVisible = true;
+            this.temp1 = index
+            this.temp2 = rows
+            this.dialogVisible = false;
             this.index = index;
             let _this=this
             this.$ajax({
                 method:'get',
                 url:'step3-get-all-parts',
+                params:{
+                    value: this.value4
+                },
                 headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
                 console.log(response)
+                //console.log('111')
                 var res=response.data
+                console.log(res['first'])
+                console.log(res['second'])
                 if(res.error_num==0){
                     console.log(res['list'])
-                    _this.data[0].label=res['list'][0].fields.part_id
-                    console.log(_this.data[0].label)
-                    console.log(_this.data.label=res['list'][0].fields.part_id)
-                    _this.$index=res['list'][0].fields.part_id
-                    
+                    var returnData = []
+                    for(var i = 0; i < res['first'].length; i++){
+                        var temp = {
+                            label: "",
+                            children: []
+                        }
+                        temp.label=res['first'][i]
+                        for(var j = 0; j < res['second'].length; j++){
+                            if(res['first'][i] === res['second'][j][0]){
+                                var item = {
+                                    label: res['second'][j][1],
+                                    children: []
+                                }
+                                for(var k = 0; k < res['list'].length; k++){
+                                    if(res['list'][k].fields.second === res['second'][j][1]){
+                                        var item1 = {
+                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description,
+                                            children:[]
+                                        }
+                                        item.children.push(item1)
+                                    }
+                                }
+                                temp.children.push(item)
+                            }
+                        }
+                        returnData.push(temp)
+                    }
+                    _this.data=returnData
                 }
                 else {
-                    _this.$message.error('获取非结构构件失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })
             .catch(function(err){
                     console.log(err);
+                    console.log('!!')
+                    console.log(_this.data)
                     });
+            this.dialogVisible = true
         },
         saveElements(){
             let _this=this;
@@ -191,12 +289,14 @@
         },
          handleNodeClick(data,node){
               //console.log(data);
-              if(node.level == 1){
+              console.log(this.choose_value)
+              if(node.level==3){
                   console.log(data)
-                  this.tableData[this.index].id = data.label.substr(0,10);
+                  var temp = data.label.split(' ')
+                  this.tableData[this.index].id = temp[0];
                   this.dialogVisible = false;   
               }
-          },
+        },
           next(){
             this.$emit('next','');
         },

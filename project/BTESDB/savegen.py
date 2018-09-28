@@ -48,7 +48,7 @@ def savegen_gen_info(request):
         #print (os.getcwd())
         #print (os.listdir('./media/user_defined/'+username+'/'))
         old_path=r'./media/user_defined/'+username+r'/'
-        if this_part.part_id!=gen_info['id']:
+        if this_part.part_id != gen_info['id']:
             if this_part.part_id in os.listdir(old_path):
                 os.rename(old_path+this_part.part_id,old_path+gen_info['id'])
             if this_part.part_id+'.xml' in os.listdir(old_path+gen_info['id']+r'/'):

@@ -303,7 +303,7 @@ class Floor_Info(models.Model):
     #楼层面积，范围0-9999.99
     floor_area=models.DecimalField(max_digits=6,decimal_places=2,verbose_name='楼层面积')
     #楼层影响系，大于1，小于1.5
-    influence_coefficient=models.DecimalField(max_digits=5,decimal_places=4,verbose_name='楼层影响系数')
+    influence_coefficient=models.DecimalField(max_digits=3,decimal_places=2,verbose_name='楼层影响系数')
     #人口密度，单位：人/平方米?，待定范围0-9.99
     population_density=models.DecimalField(max_digits=3,decimal_places=2,verbose_name='人口密度')
 
