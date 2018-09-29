@@ -12,7 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 def edit(request):
     print (1)
     response={}
-    #response['msg']=[]
     try:
         username=request.GET['username']
         project=request.GET['project']
@@ -25,7 +24,11 @@ def edit(request):
         else:
             response['base_info']=''
 
-        print(project)
+        building_info=Building.objects.filter(id=project)
+        if building_info.exists():
+            print(json.loads(serializers.serialize("json", building_info)))
+            response['building_info']=json.loads(serializers.serialize("json", building_info))
+        
         this_project=Project.objects.get(id=project)
         floor_info=Floor_Info.objects.filter(project=project)
         #.values_list('floor_no','floor_height','floor_area','influence_coefficient','population_density')
