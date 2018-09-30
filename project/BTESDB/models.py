@@ -267,6 +267,10 @@ class Project(models.Model):
     is_finished=models.BooleanField(default=False,verbose_name='完成')
     #项目定级结果
     rate=models.CharField(max_length=1,verbose_name='定级')
+
+class Building(models.Model):
+    #指向Project的外键，一个project对应一个Building
+    project=models.ForeignKey(Project,default=None,on_delete=models.CASCADE,verbose_name='项目')    
     #建筑信息
     #材料
     material=models.CharField(max_length=30,blank=False,verbose_name='材料')
@@ -339,7 +343,7 @@ class Earthquake_Info(models.Model):
     class Mata:
         verbose_name='地震信息'
         verbose_name_plural='地震信息表'
-    #指向Project的外键，一个project对应多个地震信息
+    #指向Project的外键，一个project对应一个地震信息
     project=models.ForeignKey(Project,default=None,on_delete=models.CASCADE,verbose_name='项目')       
     #设防烈度，范围0-9.9，待定
     defense_intensity=models.DecimalField(max_digits=2,decimal_places=1,verbose_name='设防烈度')
