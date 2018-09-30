@@ -32,41 +32,46 @@
     },
 
     beforeRouteLeave (to, from , next) {
+        if(localStorage.getItem('new_db_ret') == 'true'){
+            next()
+        }
+        else{
             const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
             if (answer) {
                 //sessionStorage.clear();
                 //localStorage.clear();
                 localStorage.setItem('project','0');
-                    localStorage.removeItem('project_name')
-                    localStorage.removeItem('project_leader')
-                    localStorage.removeItem('project_description')
-                    localStorage.removeItem('client_name')
+                localStorage.removeItem('project_name')
+                localStorage.removeItem('project_leader')
+                localStorage.removeItem('project_description')
+                localStorage.removeItem('client_name')
 
-                    localStorage.removeItem('material')
-                    localStorage.removeItem('structure_type')
-                    localStorage.removeItem('figure_time')
-                    localStorage.removeItem('floors')
-                    localStorage.removeItem('height')
-                    localStorage.removeItem('area')
-                    localStorage.removeItem('cost_per_squaremeter')
-                    localStorage.removeItem('Floor_info')
+                localStorage.removeItem('material')
+                localStorage.removeItem('structure_type')
+                localStorage.removeItem('figure_time')
+                localStorage.removeItem('floors')
+                localStorage.removeItem('height')
+                localStorage.removeItem('area')
+                localStorage.removeItem('cost_per_squaremeter')
+                localStorage.removeItem('Floor_info')
 
-                    localStorage.removeItem('structure_element')
+                localStorage.removeItem('structure_element')
 
-                    localStorage.removeItem('non_structure_element')
+                localStorage.removeItem('non_structure_element')
 
-                    localStorage.removeItem('defense_intensity')
-                    localStorage.removeItem('site_type')
-                    localStorage.removeItem('number')
-                    localStorage.removeItem('group')
-                    localStorage.removeItem('peak_acceleration')
-                    localStorage.removeItem('earthquake_level')
+                localStorage.removeItem('defense_intensity')
+                localStorage.removeItem('site_type')
+                localStorage.removeItem('number')
+                localStorage.removeItem('group')
+                localStorage.removeItem('peak_acceleration')
+                localStorage.removeItem('earthquake_level')
 
-                    localStorage.removeItem('structure_response')
-                //localStorage.clear()
+                localStorage.removeItem('structure_response')
+                    //localStorage.clear()
                 next()
-            } else {
-                //sessionStorage.clear()
+            } 
+            else {
+                    //sessionStorage.clear()
                 localStorage.removeItem('project');
                 localStorage.removeItem('project_name');
                 localStorage.removeItem('project_leader');
@@ -77,7 +82,9 @@
                 localStorage.removeItem('height');
                 next(false)
             }
-        },
+        }
+        
+    },
 
     methods: {
         get_url(){

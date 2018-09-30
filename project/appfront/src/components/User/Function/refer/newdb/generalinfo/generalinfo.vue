@@ -2,11 +2,11 @@
     <div>
         <div class="wrapper6" >
             <el-col>
-                <span class="lebal">ID</span>
+                <span class="lebal">易损性编号</span>
                 <el-input v-bind:disabled="temp" style="width:100%" v-model="id" placeholder="请输入内容"></el-input>
-                <span class="lebal">Name</span>
+                <span class="lebal">名称</span>
                 <el-input v-bind:disabled="temp" style="width:100%" v-model="name" placeholder="请输入内容"></el-input>
-                <span class="lebal">Description</span>
+                <span class="lebal">描述</span>
                 <el-input v-bind:disabled="temp" style="width:100%" type="textarea" :rows="4" placeholder="请输入内容" v-model="description"></el-input>
                 <span class="lebal">要求系数</span><br>
                 <el-select v-bind:disabled="temp" size="mini" v-model="demand_Para" placeholder="请选择">
@@ -49,15 +49,12 @@
             </el-col>
         </div>
         <div class="wrapper6">
-            <el-col><br>
-                <el-switch v-bind:disabled="temp" style="position:relative;" v-model="value1" active-text="use demand value from floor" inactive-text=" ">></el-switch><br><br>
-                <el-switch v-bind:disabled="temp" style="position:relative;" v-model="value2" active-text="use supplied data needed" inactive-text=" ">></el-switch><br><br>
-                <span class="lebal">Directional</span><br>
-                <el-radio v-bind:disabled="temp" v-model="choose1" label="1">Directional</el-radio>
-                <el-radio v-bind:disabled="temp" v-model="choose1" label="2">Non-Directional</el-radio><br>
-                <span class="lebal">Correlation</span><br>
-                <el-radio v-bind:disabled="temp" v-model="choose2" label="1">Correlated</el-radio>
-                <el-radio v-bind:disabled="temp" v-model="choose2" label="2">Not Correlated</el-radio><br><br><br>
+            <el-col>
+                <span class="lebal">构件造价</span>
+                <el-input v-bind:disabled="temp" style="width:100%" v-model="id" placeholder="请输入内容"></el-input>
+                <span class="lebal">方向性</span><br>
+                <el-radio v-bind:disabled="temp" v-model="choose1" label="1">确定方向</el-radio>
+                <el-radio v-bind:disabled="temp" v-model="choose1" label="2">无方向</el-radio><br><br>
                 <el-button style="display:block;margin:0 auto" @click="savegen">下一步</el-button>
             </el-col>
         </div>
@@ -257,11 +254,11 @@
         mounted: function () {
             var vm = this
             // 用$on事件来接收参数
-            var label = JSON.parse(localStorage.getItem("label"));
+            var label = JSON.parse(sessionStorage.getItem("label"));
             //console.log(input+'!!!!!');
             //var tempdata = this.data[input];
             //this.newData[input] = tempdata;
-            localStorage.removeItem("label");
+            sessionStorage.removeItem("label");
         },
 
 
@@ -304,13 +301,13 @@
                         DP_Dimension: this.DP_Dimension,
                         units: this.units,
                     };
-                    localStorage.setItem("gen_info",JSON.stringify(gen_info));
-                    console.log(localStorage.getItem('gen_info'))
-                    if(localStorage.getItem('part_id')==null){
+                    sessionStorage.setItem("gen_info",JSON.stringify(gen_info));
+                    console.log(sessionStorage.getItem('gen_info'))
+                    if(sessionStorage.getItem('part_id')==null){
                         var part_id=0
                     }
                     else{ 
-                        var part_id=localStorage.getItem('part_id')
+                        var part_id=sessionStorage.getItem('part_id')
                     }
                     console.log(part_id)
                     console.log('!!!!')

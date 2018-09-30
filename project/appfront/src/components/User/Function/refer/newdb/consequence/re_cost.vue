@@ -2,30 +2,21 @@
     <div>
         <div class="wrapper4" >
             <el-col>
-              <span class="lebal">Lower Quantity</span>
-              <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="l_Quantity" placeholder="请输入内容"></el-input>
-              <span class="lebal">Average Repair Cost for Lower Quantity of</span>
-              <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="aver_re_l" placeholder="请输入内容"></el-input>
-              <span class="lebal">Upper Quantity</span>
-              <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="u_Quantity" placeholder="请输入内容"></el-input>
-              <span class="lebal">Average Repair Cost for Upper Quantity of</span>
-              <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="aver_re_u" placeholder="请输入内容"></el-input>
-              <span class="lebal">COV</span>
-              <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="COV" placeholder="请输入内容"></el-input>
-          </el-col>
+                <span class="lebal">修复时间(人/天)</span>
+                <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="l_Quantity" placeholder="请输入内容"></el-input>
+                <span class="lebal">最小工程量折减数量(修复时间)</span>
+                <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="aver_re_l" placeholder="请输入内容"></el-input>
+                <span class="lebal">工程量折减系数(修复时间))</span>
+                <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="u_Quantity" placeholder="请输入内容"></el-input>
+                <span class="lebal">最大工程量折减数量(修复时间)</span>
+                <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="aver_re_u" placeholder="请输入内容"></el-input>
+                <span class="lebal">工程量折减系数(修复时间)</span>
+                <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="aver_re_u" placeholder="请输入内容"></el-input>
+                <span class="lebal">COV</span>
+                <el-input v-bind:disabled="temp1" @change="re_draw" size="mini" style="width:100%" v-model="COV" placeholder="请输入内容"></el-input>
+            </el-col>
         </div>
         <div class="wrapper4">
-            <el-col >
-                <span class="lebal">CurveType</span>
-                    <el-select v-bind:disabled="temp1" size="mini" v-model="CurveType" placeholder="请选择">
-                        <el-option
-                            v-for="item in options0"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-            </el-col>
             <!--<div id="container" style="max-width:800px;height:400px"></div>-->
             <!--<schart class="wrapper" :canvasId="canvasId" :type="type" :data="data" :options="options"></schart>-->
             <div id="container" style="max-width:800px;height:400px"></div>
@@ -88,7 +79,7 @@
                     COV:this.COV,
                     CurveType:this.CurveType
                 };
-                var temp = localStorage.getItem("functionnum")+"_cost"
+                var temp = sessionStorage.getItem("functionnum")+"_cost"
                 sessionStorage.setItem(temp,JSON.stringify(re_cost));
             }
             next()
@@ -101,7 +92,7 @@
             else{
                 this.temp1 = true
             }
-            var temp = localStorage.getItem("functionnum")+"_cost"
+            var temp = sessionStorage.getItem("functionnum")+"_cost"
             try{
                 var re_cost=JSON.parse(sessionStorage.getItem(temp))
                 this.l_Quantity = re_cost['l_Quantity']
@@ -130,14 +121,14 @@
                         COV:this.COV,
                         CurveType:this.CurveType,
                     };
-                    localStorage.setItem("re_cost",JSON.stringify(re_cost));
+                    sessionStorage.setItem("re_cost",JSON.stringify(re_cost));
                     this.$ajax({
                     method:'get',
                     url:'refer_check_re_costAndTime',
                     params:{
                         re_cost:re_cost,
-                        path:localStorage.getItem('path2'),
-                        statenum:localStorage.getItem('statenum'),
+                        path:sessionStorage.getItem('path2'),
+                        statenum:sessionStorage.getItem('statenum'),
                         flag:'cost',
                     },
                     }).then(function(response){

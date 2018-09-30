@@ -73,8 +73,7 @@
                     :value="item.value">
                 </el-option>
             </el-select>
-            <a href="http://localhost:8080/newpj/step3" target="_blank">hhh</a>
-            <el-button ></el-button>
+            <el-button style="position:relative; float:right; top:-10px" type="primary" @click="new_db">创建易损性数据库</el-button>
         </div>
         <el-scrollbar class = "el-scrollbar">
             <el-tree class="el-tree" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
@@ -286,6 +285,12 @@
         },
         changed(value){//请求数据
             console.log(value)
+        },
+
+        new_db(){
+            localStorage.setItem('new_db_ret','true')
+            sessionStorage.setItem('check','DB_User')
+            this.$router.push({name:'newdb'});
         }
     },
            
