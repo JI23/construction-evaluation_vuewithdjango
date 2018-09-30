@@ -5,9 +5,14 @@
             <el-button size="small" class='btn' @click="back">上一步</el-button>
         </el-row>
         <el-table :data="tableData" border style="width:100%" max-height="350">
-        <el-table-column prop="order1" label="易损性编号" width="180">
+        <el-table-column prop="order1" label="易损性编号" width="140">
             <template slot-scope="scope">
                 <el-input v-model="scope.row.id" placeholder="点击可选" @focus="chooseId(scope.$index, tableData)"></el-input>
+            </template>
+        </el-table-column>
+        <el-table-column prop="order1" label="单位" width="120">
+            <template slot-scope="scope">
+                <el-input disabled v-model="scope.row.unit"></el-input>
             </template>
         </el-table-column>
         <el-table-column prop="order2" label="起始楼层">
@@ -92,6 +97,7 @@
             dialogVisible:false,
             tableData: [{
                 id: '',
+                unit: '',
                 start_floor: '',
                 stop_floor:'',
                 X:null,
@@ -211,7 +217,7 @@
                                 for(var k = 0; k < res['list'].length; k++){
                                     if(res['list'][k].fields.second === res['second'][j][1]){
                                         var item1 = {
-                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description,
+                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description + " " + res['list'][k].fields.basic_unit,
                                             children:[]
                                         }
                                         item.children.push(item1)
@@ -280,6 +286,7 @@
         newComponent(){
             this.tableData.push({
                 id:'',
+                unit:'',
                 start_floor: '',
                 stop_floor:'',
                 X:null,
@@ -294,6 +301,7 @@
                   console.log(data)
                   var temp = data.label.split(' ')
                   this.tableData[this.index].id = temp[0];
+                  this.tableData[this.index].unit = temp[3];
                   this.dialogVisible = false;   
               }
         },

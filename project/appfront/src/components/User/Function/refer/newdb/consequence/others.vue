@@ -66,7 +66,7 @@
                     AffectedInjuryRateBeta: this.AffectedInjuryRateBeta,
                     LongLeadFlag: this.LongLeadFlag,
                 };
-                var temp = localStorage.getItem("functionnum")+"_others"
+                var temp = sessionStorage.getItem("functionnum")+"_others"
                 sessionStorage.setItem(temp,JSON.stringify(others));
             }
 
@@ -81,7 +81,7 @@
             else{
                 this.temp1 = true
             }
-            var temp = localStorage.getItem("functionnum")+"_others"
+            var temp = sessionStorage.getItem("functionnum")+"_others"
             try{
                 var others=JSON.parse(sessionStorage.getItem(temp))
                 this.UseCasualty = others['UseCasualty']
@@ -127,21 +127,21 @@
                         AffectedInjuryRateBeta: this.AffectedInjuryRateBeta,
                         LongLeadFlag: LongLeadFlag,
                     };
-                    localStorage.setItem("others",JSON.stringify(others));
+                    sessionStorage.setItem("others",JSON.stringify(others));
                     //this.$router.push({name:'re_time'});
                     //提交数据，成功则弹窗提示，不跳转页面，提交后删除
                     this.$ajax({
                     method:'get',
                     url:'savegen_num',
                     params:{
-                        re_info:localStorage.getItem('re_info'),
-                        re_cost:localStorage.getItem('re_cost'),
-                        re_time:localStorage.getItem('re_time'),
-                        others:localStorage.getItem('others'),
+                        re_info:sessionStorage.getItem('re_info'),
+                        re_cost:sessionStorage.getItem('re_cost'),
+                        re_time:sessionStorage.getItem('re_time'),
+                        others:sessionStorage.getItem('others'),
                         username:localStorage.getItem('phone'),
-                        path:localStorage.getItem('path'),
-                        statenum:localStorage.getItem('statenum'),
-                        statenum_info:localStorage.getItem('statenum_info')
+                        path:sessionStorage.getItem('path'),
+                        statenum:sessionStorage.getItem('statenum'),
+                        statenum_info:sessionStorage.getItem('statenum_info')
                     },
                 }).then(function(response){
                     console.log(response)

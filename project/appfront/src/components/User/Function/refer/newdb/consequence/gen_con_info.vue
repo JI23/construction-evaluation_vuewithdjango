@@ -2,7 +2,7 @@
     <div>
         <div class="wrapper2" >
             <el-col>
-                <span class="lebal">修理信息</span>
+                <span class="lebal">修理方式</span>
                 <el-input v-bind:disabled="temp" style="width:100%; top:-30px; position:relative" type="textarea" :rows="13" placeholder="请输入内容" v-model="re_info"></el-input>
                 <el-button style="display:block;margin:0 auto; position:relative; top:-10px" @click="save_next">下一步</el-button>
             </el-col>
@@ -24,7 +24,7 @@
                 var re_info = {
                     reInfo: this.re_info, 
                 };
-                var temp = localStorage.getItem("functionnum")+"_re"
+                var temp = sessionStorage.getItem("functionnum")+"_re"
                 sessionStorage.setItem(temp,JSON.stringify(re_info));
             }
             next()
@@ -37,7 +37,7 @@
             else{
                 this.temp = true
             }
-            var temp = localStorage.getItem("functionnum")+"_re"
+            var temp = sessionStorage.getItem("functionnum")+"_re"
             try{
                 var re_info=JSON.parse(sessionStorage.getItem(temp))
                 this.re_info = re_info['reInfo']
@@ -58,14 +58,14 @@
                     var re_info = {
                         reInfo: this.re_info, 
                     };
-                    localStorage.setItem("re_info",JSON.stringify(re_info));
+                    sessionStorage.setItem("re_info",JSON.stringify(re_info));
                     this.$ajax({
                         method:'get',
                         url:'refer_check_re_info',
                         params:{
                             re_info:this.re_info,
-                            path:localStorage.getItem('path2'),
-                            statenum:localStorage.getItem('statenum')
+                            path:sessionStorage.getItem('path2'),
+                            statenum:sessionStorage.getItem('statenum')
                         },
                     }).then(function(response){
                         console.log(response)

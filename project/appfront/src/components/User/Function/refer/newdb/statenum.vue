@@ -2,13 +2,13 @@
     <div>
         <div class="wrapper9" >
             <el-col>
-                <span class="lebal">name</span>
+                <span class="lebal">损伤状态名称</span>
                 <el-input v-bind:disabled="temp" style="width:100%" v-model="name" placeholder="请输入内容"></el-input>
-                <span class="lebal">median</span>
+                <span class="lebal">中位值</span>
                 <el-input v-bind:disabled="temp" style="width:100%" v-model="median" placeholder="请输入内容"></el-input>
-                <span class="lebal">dispersion</span>
+                <span class="lebal">对数方差</span>
                 <el-input v-bind:disabled="temp" style="width:100%" v-model="dispersion" placeholder="请输入内容"></el-input>
-                <span class="lebal">description</span>
+                <span class="lebal">描述</span>
                 <el-input v-bind:disabled="temp" style="width:100%" type="textarea" :rows="4" placeholder="请输入内容" v-model="description"></el-input>
             </el-col>
         </div>
@@ -16,7 +16,7 @@
             <el-upload
                 v-bind:disabled="temp"
                 class="upload-demo"
-                action="http://localhost:8000/api/savegen_image"
+                action="/savegen_image"
                 :data='image_data'
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
@@ -39,8 +39,8 @@
             return {
                 temp:false,
                 image_data:{
-                    path:localStorage.getItem('path'),
-                    statenum:localStorage.getItem('statenum'),
+                    path:sessionStorage.getItem('path'),
+                    statenum:sessionStorage.getItem('statenum'),
                 },
                 fileList: [],
                 data: [{
@@ -57,11 +57,11 @@
         mounted: function () {
             var vm = this
             // 用$on事件来接收参数
-            var label = JSON.parse(localStorage.getItem("label"));
+            var label = JSON.parse(sessionStorage.getItem("label"));
             //console.log(label)
             var temp = label.substring(13,14)
             console.log(temp)
-            localStorage.removeItem("label");
+            sessionStorage.removeItem("label");
         },
 
         beforeRouteLeave(to, from, next){
@@ -74,7 +74,7 @@
                     description: this.description,
                     DamageImageName:this.DamageImageName,
                 };
-                var temp = localStorage.getItem("statenum")
+                var temp = sessionStorage.getItem("statenum")
                 sessionStorage.setItem(temp,JSON.stringify(statenum_info));
             }
             next()
@@ -87,7 +87,7 @@
             else{
                 this.temp = true
             }
-            var temp = localStorage.getItem("statenum")
+            var temp = sessionStorage.getItem("statenum")
             try{
                 var statenum_info=JSON.parse(sessionStorage.getItem(temp))
                 this.name = statenum_info['name']
@@ -122,14 +122,14 @@
                         description: this.description,
                         DamageImageName:this.DamageImageName,
                     };
-                    localStorage.setItem("statenum_info",JSON.stringify(statenum_info));
+                    sessionStorage.setItem("statenum_info",JSON.stringify(statenum_info));
                     this.$ajax({
                         method:'get',
                         url:'refer_check_statenum',
                         params:{
                             username:localStorage.getItem('phone'),
-                            path:localStorage.getItem('path'),
-                            statenum:localStorage.getItem('statenum'),
+                            path:sessionStorage.getItem('path'),
+                            statenum:sessionStorage.getItem('statenum'),
                             statenum_info:statenum_info
                         },
                     }).then(function(response){
@@ -141,7 +141,7 @@
                             console.log(res['DamageImageName'])
                             _this.$message.success(res['msg'])
                             statenum_info['DamageImageName']=res['DamageImageName']
-                            localStorage.setItem("statenum_info",JSON.stringify(statenum_info));
+                            sessionStorage.setItem("statenum_info",JSON.stringify(statenum_info));
                         } 
                         else {
                             _this.$message.error(res['msg'])
@@ -177,7 +177,7 @@
         position:relative;/*相对定位:参考物*/
         float:left;/*浮动:左浮动 与父元素的左端对齐 依次的往右端显示 一行显示不下就换行接着依次显示*/
         top:10px;
-        width:43%;
+        width:40%;
         height:350px;
         margin:18px 20px;
     }
