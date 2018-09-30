@@ -1,5 +1,5 @@
 
-from .models import Project,Building
+from .models import Project,Building,Floor_Info
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.core import serializers
