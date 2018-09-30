@@ -58,8 +58,11 @@ def get_project_dedail(project):
     StructureResponse=Structure_response.objects.filter(project=project)
     StructureResponseList=list()
     for i in StructureResponse:
-        StructureResponseDict=model_to_dict(i)
+        StructureResponseDict=model_to_dict(i)        
+        data=StructureResponseDict['data']
+        StructureResponseDict['data']=data[1:-1].split(", ")
         print(StructureResponseDict)
+        print(type(StructureResponseDict['data']))
         StructureResponseList.append(StructureResponseDict)
     
     return ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList
@@ -330,10 +333,8 @@ def xmlProject(ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList
         addEarthquakeWave(path,EarthquakeWaveDict)
 
     #新增结构响应
-    for StructureElementsDict in  StructureResponseList:
-        data=StructureElementsDict['data']
-        StructureElementsDict['data']=data[1:-1].split(", ")
-        addStructureResponse(path,StructureElementsDict)
+    for StructureResponseDict in  StructureResponseList:
+        addStructureResponse(path,StructureResponseDict)
     result = runDll(path)
     return result
 
