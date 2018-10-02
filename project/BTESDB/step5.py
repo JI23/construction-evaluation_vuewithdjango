@@ -5,6 +5,7 @@ from .models import Earthquake_Info,Project,Earthquake_wave_detail
 from django.core import serializers
 import requests
 import json
+
 def step5(request):
     response={}
     try:
@@ -15,6 +16,7 @@ def step5(request):
         number=request.GET['number']       
         group=request.GET['group']
         earthquake_level=request.GET['earthquake_level']
+        peak_acceleration=request.GET['peak_acceleration']
     except Exception:
         response['msg']='请正确填写数据'
         response['error_num']=1
@@ -47,6 +49,7 @@ def step5(request):
         update.number=number
         update.group=group
         update.earthquake_level=earthquake_level
+        update.peak_acceleration=peak_acceleration
         update.save()
         response['msg']='修改成功'
         response['error_num']=0
@@ -58,6 +61,7 @@ def step5(request):
             site_type=site_type,
             number=number,
             group=group,
+            peak_acceleration=peak_acceleration,
             earthquake_level=earthquake_level)
         new.save()
         response['msg']='新建成功'
@@ -71,20 +75,19 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def save_wave_file(request):
     print('save_wave_file')
-    num=request.POST['num']
-    print(num)
     response={}
     try:
         print(request.FILES)
         f=request.FILES.get('test')
         username=request.POST['username']
         project=request.POST['project']
-        wave_no=1 #request.POST['wave_no']
+        #wave_no=request.POST['wave_no']
+        #print(wave_no)
         print(username)
         print(project)
         #print(wave_no)
         print(f.name)
-        d='media/wave_file/'+username+'/'+project+'/'+wave_no+'/'
+        d='media/project/'+project+'/wave_files/'
         folder=os.path.exists(d)
         if not folder:
             os.makedirs(d)
@@ -93,7 +96,7 @@ def save_wave_file(request):
             for files in os.listdir(d):
                 filesname=files.split('/')[-1]
                 if filesname==f.name:
-                    os.remove('media/wave_file/'+username+'/'+project+'/'+wave_no+'/'+f.name)
+                    os.remove('media/project/'+project+'/wave_files/'+f.name)
                     print('删除同名文件成功')          
         with open(d+'/'+f.name,'wb+') as dest:
             for chunk in f.chunks():      # 分块写入文件
@@ -120,8 +123,9 @@ def save_waves(request):
         return JsonResponse(response)
     #获得指向project的对象   
     this_project=Project.objects.get(id=project)
+    row=int(0)
     for item in wave_list:
-        #将string转化为dict
+        print("将string转化为dict")
         a=ast.literal_eval(item)
         #检验数据合理性
         if len(a['earthquake_no'])==0:
@@ -163,13 +167,14 @@ def save_waves(request):
             update=Earthquake_wave_detail.objects.get(project=this_project,earthquake_wave_no=earthquake_no)
             update.earthquake_wave_name=a['name']
             update.peak=peak
-            d='media/wave_file/'+username+'/'+project+'/'+earthquake_no+'/'
+            d='media/project/'+project+'/wave_files/'
             folder=os.path.exists(d)
             if not folder:
                 path='null'
             else:
                 files=os.listdir(d)
-                path=d+files[0]
+                path='project/'+project+'/wave_files/'+files[row]
+                #row += 1
             update.earthquake_wave_file=path
             update.save()
             response['msg']='地震波修改成功'
@@ -177,13 +182,14 @@ def save_waves(request):
         else:
             #对数据库内容进行新增
             #地震波文件仅保存其目录
-            d='media/wave_file/'+username+'/'+project+'/'+earthquake_no+'/'
+            d='media/project/'+project+'/wave_files/'
             folder=os.path.exists(d)
             if not folder:
                 path='null'
             else:
                 files=os.listdir(d)
-                path=d+files[0]
+                path='project/'+project+'/wave_files/'+files[row]
+                #row += 1
             new=Earthquake_wave_detail(project=this_project,
                 earthquake_wave_no=earthquake_no,
                 earthquake_wave_name=a['name'],
@@ -192,7 +198,8 @@ def save_waves(request):
             new.save()
             response['msg']='地震波信息新建成功'
             response['error_num']=0
-    if Earthquake_wave_detail.objects.filter(project=this_project).count()!=number:
+    if Earthquake_wave_detail.objects.filter(project=this_project).count()!=int(number):
+        print("请填写完所有地震信息！")
         response['msg']='请填写完所有地震信息！'
         response['error_num']=1        
     return JsonResponse(response)

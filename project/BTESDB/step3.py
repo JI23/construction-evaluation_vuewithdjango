@@ -39,13 +39,6 @@ def get_all_parts(request):
     except Exception as e:
         response['msg']=str(e)
         response['error_num']=1
-        
-    # print article_list
-    # print type(article_list)
-    #QuerySet是一个可遍历结构，包含一个或多个元素，每个元素都是一个Model实例
-    #QuerySet类似于Python中的list，list的一些方法QuerySet也有，比如切片，遍历。
-    #每个Model都有一个默认的manager实例，名为objects，QuerySet有两种来源：通过manager的方法得到、通过QuerySet的方法得到。mananger的方法和QuerySet的方法大部分同名，同意思，如filter(),update()等，但也有些不同，如manager有create()、get_or_create()，而QuerySet有delete()等
-    #locals()返回一个包含当前作用域里面的所有变量和它们的值的字典。
     return JsonResponse(response)
 
 import ast
@@ -54,13 +47,9 @@ def save_elements(request):
     #获取表单内容
     try:
         project=request.GET['project']
-        print(1111)
         floors=int(request.GET['floors'])
-        print(2222)   
         element_list=request.GET.getlist('tableData[]',[])
-        print(3333)
         is_structure=request.GET['is_structure']
-        print(4444)
     except Exception:
         response['msg']='请完整填写构件信息'
         response['error_num']=1
@@ -97,7 +86,6 @@ def save_elements(request):
             return JsonResponse(response)
         else:   
             try:
-                print('int')
                 start_floor=int(start_floor)
                 if start_floor>=floors:
                     response['msg']='起始楼层最大为'+str(floors-1)

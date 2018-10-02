@@ -1,5 +1,5 @@
 
-from .models import Project,User_Info,Floor_Info
+from .models import Project,Building,Floor_Info
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.core import serializers
@@ -8,31 +8,14 @@ import json
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
-
+from  decimal import Decimal
 def step2(request):
-    print(1)
-    #username=request.session['username']
+    print('step 2')
     response={}
     try:
-        project_name=request.GET['project_name']
-        client_name=request.GET['client_name']
-        project_leader=request.GET['project_leader']
-        project_description=request.GET['project_description']
-    except Exception as e:
-        response['msg']='请先正确填写项目信息'
-        response['error_num']=1
-        return JsonResponse(response)
-
-    print(project_name)
-    try:
-        print(2)
         #获取表单数据
         create_time=datetime.now()
-        #timezone.now().strftime("%Y-%m-%d")
-        #x=datetime.strptime('2012-12-12','%Y-%m-%d')
-        #print (x<create_time)
         project=request.GET['project']
-        username=request.GET['username']
         material=request.GET['material']
         structure_type=request.GET['structure_type']
         floor=request.GET['floors']
@@ -40,8 +23,7 @@ def step2(request):
         height=request.GET['height']
         area=request.GET['area']
         cost_per_squaremeter=request.GET['cost_per_squaremeter']
-
-        print(type(floor))
+        
         #检查数据合理性
         if len(material)==0:
             response['msg']='材料不能为空！'
@@ -51,7 +33,7 @@ def step2(request):
             response['msg']='材料不能超过30个字符！'
             response['error_num']=1
             return JsonResponse(response)
-
+        
         if len(structure_type)==0:
             response['msg']='结构类型不能为空！'
             response['error_num']=1
@@ -60,7 +42,7 @@ def step2(request):
             response['msg']='结构类型不能超过20个字符！'
             response['error_num']=1
             return JsonResponse(response)
-
+        
         try:
             figure_time=datetime.strptime(figure_time,'%Y-%m-%d')
             if figure_time<=create_time:
@@ -71,7 +53,7 @@ def step2(request):
             response['msg']='图审时间格式：2018-8-18'
             response['error_num']=1
             return JsonResponse(response)
-
+        print(floor)
         if len(floor)==0:
             response['msg']='楼层数量不能为空！' 
             response['error_num']=1
@@ -84,7 +66,7 @@ def step2(request):
             response['msg']='楼层数量不能为零或负数！'
             response['error_num']=1
             return JsonResponse(response)
-
+        print('here')
         if  len(height)==0:
             response['msg']='楼层总高不能为空！'
             response['error_num']=1
@@ -130,17 +112,10 @@ def step2(request):
                 response['msg']='每平米造价必须为实数'
                 response['error_num']=1
                 return JsonResponse(response)
-        
 
-        #获取user外键
-        this_user=User_Info.objects.get(username=username)
-        print(3.3)
-        if Project.objects.filter(user=this_user,project_name=project_name).exists() and project!=0:
-            update=Project.objects.get(id=project)
-            print('对数据进行更新')
-            update.client_name=client_name
-            update.project_description=project_description
-            update.project_leader=project_leader
+        if Building.objects.filter(project_id=project).exists():
+            print('更新')
+            update=Building.objects.get(project=project)
             update.material=material
             update.structure_type=structure_type
             update.floor=floor
@@ -149,32 +124,22 @@ def step2(request):
             update.area=area
             update.cost_per_squaremeter=cost_per_squaremeter
             update.save()
-            response['project']=update.id
-            response['msg']='项目信息修改成功'
+            response['msg']='建筑信息修改成功'
             response['error_num']=0
         else:
-            new=Project(user=this_user,
-            project_name=project_name,
-            client_name=client_name,
-            project_description=project_description,
-            create_time=create_time,
-            project_leader=project_leader,
+            this_project=Project.objects.get(id=project)
+            new=Building(project=this_project,
             material=material,
             structure_type=structure_type,
             floor=floor,
             figure_time=figure_time,
             height=height,
             area=area,
-            cost_per_squaremeter=cost_per_squaremeter,
-            is_finished=False,
-            rate='0')
-            
+            cost_per_squaremeter=cost_per_squaremeter)            
             new.save()
-            response['project']=new.id
-            response['msg']='项目新建成功'
+            response['msg']='建筑信息新建成功'
             response['error_num']=0
     except Exception as e:
-        print (5)
         print (str(e))
         response['msg']=str(e)
         response['error_num']=1   
@@ -191,10 +156,10 @@ def saveFloor(request):
         floors=int(request.GET['floors'])
         area=float(request.GET['area'])
         height=float(request.GET['height'])
-        floor_list=request.GET.getlist('Floor_info[]',[])
-        
-    #print(floor_list)
-    except Exception as e:
+        floor_list=request.GET.getlist('Floor_info[]',[])        
+        #print(floor_list)
+    except Exception as e :
+        print (str(e))
         response['msg']='请先正确填写楼层信息'
         response['error_num']=1
         return JsonResponse(response)
@@ -290,7 +255,6 @@ def saveFloor(request):
             #定位到此楼层对应的数据库条目
             print('开始修改')
             update=Floor_Info.objects.get(project=this_project,floor_no=int(a['floor_no']))
-
             update.floor_height=float(a['floor_height'])
             update.floor_area=float(a['floor_area'])
             update.influence_coefficient=float(a['influence_coefficient'])
@@ -299,14 +263,16 @@ def saveFloor(request):
             response['msg']='修改成功'
             response['error_num']=0
         else:
+            print(a)
+            print(float(a['influence_coefficient']))
+            print(Decimal(a['influence_coefficient']))
             new=Floor_Info(
                 project=this_project,
                 floor_no=int(a['floor_no']),
                 floor_height=float(a['floor_height']),
                 floor_area=float(a['floor_area']),
                 influence_coefficient=float(a['influence_coefficient']),
-                population_density=float(a['population_density'])
-            )
+                population_density=float(a['population_density']))
             new.save()
             response['msg']='新建成功'
             response['error_num']=0

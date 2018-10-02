@@ -267,6 +267,10 @@ class Project(models.Model):
     is_finished=models.BooleanField(default=False,verbose_name='完成')
     #项目定级结果
     rate=models.CharField(max_length=1,verbose_name='定级')
+
+class Building(models.Model):
+    #指向Project的外键，一个project对应一个Building
+    project=models.ForeignKey(Project,default=None,on_delete=models.CASCADE,verbose_name='项目')    
     #建筑信息
     #材料
     material=models.CharField(max_length=30,blank=False,verbose_name='材料')
@@ -303,7 +307,7 @@ class Floor_Info(models.Model):
     #楼层面积，范围0-9999.99
     floor_area=models.DecimalField(max_digits=6,decimal_places=2,verbose_name='楼层面积')
     #楼层影响系，大于1，小于1.5
-    influence_coefficient=models.DecimalField(max_digits=5,decimal_places=4,verbose_name='楼层影响系数')
+    influence_coefficient=models.DecimalField(max_digits=3,decimal_places=2,verbose_name='楼层影响系数')
     #人口密度，单位：人/平方米?，待定范围0-9.99
     population_density=models.DecimalField(max_digits=3,decimal_places=2,verbose_name='人口密度')
 
@@ -339,7 +343,7 @@ class Earthquake_Info(models.Model):
     class Mata:
         verbose_name='地震信息'
         verbose_name_plural='地震信息表'
-    #指向Project的外键，一个project对应多个地震信息
+    #指向Project的外键，一个project对应一个地震信息
     project=models.ForeignKey(Project,default=None,on_delete=models.CASCADE,verbose_name='项目')       
     #设防烈度，范围0-9.9，待定
     defense_intensity=models.DecimalField(max_digits=2,decimal_places=1,verbose_name='设防烈度')
@@ -368,7 +372,7 @@ class Earthquake_Info(models.Model):
     )
     earthquake_level=models.CharField(max_length=1,choices=earthquake_level_choice,default='S',verbose_name='地震水准')
     #峰值加速度,用if，else判断，由地震水准和设防烈度唯一确定
-    #peak_acceleration=models.DecimalField(max_digits=6,decimal_place=3,verbose_name='峰值加速度')
+    peak_acceleration=models.DecimalField(max_digits=6,decimal_places=3,verbose_name='峰值加速度')
 
 def upload_to2(instance,filename):
     return '/'.join(['wave_file',instance.project,instance.earthquake_wave_no,filename])
@@ -406,12 +410,13 @@ class Structure_response(models.Model):
     EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S')
      #指向DB_type的外键，一个结构构件对应一个结构类型
     class Meta:
-        
+        unique_together=('project','direction','EDP_type')        
         verbose_name='结构响应'
         verbose_name_plural='结构响应' 
     #楼层数量决定表的宽度，地震数量决定表的长度
-    floor_no=models.SmallIntegerField(verbose_name='楼层编号')
-    earthquake_no=models.SmallIntegerField(verbose_name='地震波编号')
+    floor_no=models.SmallIntegerField(verbose_name='楼层数量')
+    earthquake_no=models.SmallIntegerField(verbose_name='地震波数量')
+    data=models.CharField(max_length=1024,verbose_name='序列化的数组')
 
 
 

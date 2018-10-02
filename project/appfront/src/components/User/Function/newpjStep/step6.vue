@@ -67,6 +67,12 @@
                         <el-input style="width:100%"  @change="change_level_2" v-model="data[1].earthquake_no" ></el-input>
                     </el-col>
                     <el-col :span="1" style="color:transparent">''</el-col>
+<<<<<<< HEAD
+                </el-col>
+            </div>
+            <div v-if="data[1].floor_no && data[1].earthquake_no">
+                <el-table :data="data2"  border max-height="200">
+=======
                 </el-col>
             </div>
             <div v-if="data[1].floor_no && data[1].earthquake_no">
@@ -111,6 +117,52 @@
             </div>
             <div v-if="data[2].floor_no && data[2].earthquake_no">
                 <el-table :data="data3"  border max-height="200">
+>>>>>>> upstream/master
+                    <el-table-column prop="floor" label="楼层">
+                        <template slot-scope="scope">
+                            <el-input v-model="scope.row.floor"></el-input>
+                        </template>
+                    </el-table-column>
+<<<<<<< HEAD
+                    <el-table-column :label="col" v-for="(col,index) in temp2" :key="col">
+=======
+                    <el-table-column :label="col" v-for="(col,index) in temp3" :key="col">
+>>>>>>> upstream/master
+                        <template slot-scope="scope">
+                            <el-input v-model=scope.row[col]></el-input>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </div>
+        </div>
+        <div class="div_table">
+            <div>
+                <el-col :span="24">
+                    <el-col :span="4">
+                        <span class="lebal">方向</span><br>
+<<<<<<< HEAD
+                        <el-input style="width:100%"  v-model="data[2].direction"  placeholder="Y方向" :disabled="true"></el-input>
+                    </el-col>
+                    <el-col :span="1" style="color:transparent">''</el-col>
+                    <el-col :span="6">
+                        <span class="lebal">EDP类型</span><br>
+                        <el-input style="width:100%"  v-model="data[2].EDP_type"  placeholder="Story Drift Ratio/层间位移角" :disabled="true"></el-input>
+                    </el-col>
+                    <el-col :span="1" style="color:transparent">''</el-col>
+                    <el-col :span="5">
+                        <span class="lebal">楼层数量</span><br>
+                        <el-input style="width:100%"  @change="change_level_3" v-model="data[2].floor_no" ></el-input>
+                    </el-col>
+                    <el-col :span="1" style="color:transparent">''</el-col>
+                    <el-col :span="5">
+                        <span class="lebal">地震数量</span><br>
+                        <el-input style="width:100%"  @change="change_level_3" v-model="data[2].earthquake_no" ></el-input>
+                    </el-col>
+                    <el-col :span="1" style="color:transparent">''</el-col>
+                </el-col>
+            </div>
+            <div v-if="data[2].floor_no && data[2].earthquake_no">
+                <el-table :data="data3"  border max-height="200">
                     <el-table-column prop="floor" label="楼层">
                         <template slot-scope="scope">
                             <el-input v-model="scope.row.floor"></el-input>
@@ -129,6 +181,8 @@
                 <el-col :span="24">
                     <el-col :span="4">
                         <span class="lebal">方向</span><br>
+=======
+>>>>>>> upstream/master
                         <el-input style="width:100%"  v-model="data[3].direction"  placeholder="Y方向" :disabled="true"></el-input>
                     </el-col>
                     <el-col :span="1" style="color:transparent">''</el-col>
@@ -166,7 +220,7 @@
         </div>
 
         <div class="btn-group">
-            <el-button>点击预览</el-button>
+            <el-button @click='preview'>点击预览</el-button>
             <el-button @click='rate'>提交并生成结果</el-button>
             <el-button @click="save6">保存</el-button>
         </div>
@@ -214,6 +268,10 @@ export default {
                 url:'step6',
                 params:{
                     data:this.data,
+                    data1:this.data1,
+                    data2:this.data2,
+                    data3:this.data3,
+                    data4:this.data4,
                     project:project,
                 },
             })
@@ -236,7 +294,6 @@ export default {
         },
         rate(){
             let _this=this;
-            console.log(this.Floor_info)
             var project=localStorage.getItem('project')
             this.$ajax({
                 method:'get',
@@ -260,6 +317,34 @@ export default {
                 console.log(err);
             });
         },
+<<<<<<< HEAD
+=======
+        preview(){
+            let _this=this;
+            var project=localStorage.getItem('project')
+            this.$ajax({
+                method:'get',
+                url:'preview',
+                params:{
+                    project:project,
+                },
+            }).then(function(response){
+                console.log(response)
+                var res = response.data
+                console.log(res)
+                if (res.error_num == 0) {
+                    console.log(res['msg'])
+                    _this.$message.success(res['msg'])
+                } 
+                else {
+                    _this.$message.error(res['msg'])
+                    console.log(res['msg'])
+                }
+            }).catch(function(err){
+                console.log(err);
+            });
+        },
+>>>>>>> upstream/master
         change_level_1(){
             if(this.data[0].floor_no && this.data[0].earthquake_no){
                 console.log("buweikong1")
