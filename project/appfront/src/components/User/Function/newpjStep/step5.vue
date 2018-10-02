@@ -155,7 +155,7 @@ export default {
             this.earthquake_level = JSON.parse(earthquake_level)
         }
          let earthquake_info = localStorage.getItem('earthquake_info')
-        if (earthquake_info != null) {
+        if (earthquake_info.length!=0) {
              this.earthquake_info = JSON.parse(earthquake_info)
         }
         //上传文件部分改动this.fileList,格式为
