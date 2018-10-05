@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
- 
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 
@@ -64,8 +64,8 @@ ROOT_URLCONF = 'BTES.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        #'DIRS': ['appfront/dist',],
-        'DIRS': ['templates',],
+        'DIRS': ['appfront/dist',],
+        #'DIRS': ['templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 
-#时区设置
+# 时区设置
 #LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'zh-hans'
 TIME_ZONE = 'Asia/Shanghai'
@@ -137,7 +137,7 @@ USE_L10N = True
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')     
-#设置静态文件路径为主目录下的media文件夹
-MEDIA_URL = '/media/'                                                 
-#url映射
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
+# 设置静态文件路径为主目录下的media文件夹
+MEDIA_URL = '/media/'
+# url映射

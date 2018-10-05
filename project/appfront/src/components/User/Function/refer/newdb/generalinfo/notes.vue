@@ -133,16 +133,16 @@
                         author: this.author,
                         notes: this.notes,
                     };
-                    localStorage.setItem("notes_info",JSON.stringify(notes_info));
-                    var gen_info=localStorage.getItem('gen_info')
-                    var username=localStorage.getItem('phone')
+                    sessionStorage.setItem("notes_info",JSON.stringify(notes_info));
+                    var gen_info=sessionStorage.getItem('gen_info')
+                    var username=sessionStorage.getItem('phone')
                     console.log(gen_info)
-                    console.log(localStorage.getItem('notes_info'))
+                    console.log(sessionStorage.getItem('notes_info'))
                     console.log(username)
-                    if(localStorage.getItem('part_id')==null){
+                    if(sessionStorage.getItem('part_id')==null){
                         var part_id=0
                     }
-                    else{ var part_id=localStorage.getItem('part_id')}
+                    else{ var part_id=sessionStorage.getItem('part_id')}
                     console.log(part_id)
                     //提交给后台若成功则弹窗提示并跳转至下一部分
                     //记得删除localStorage内容
@@ -159,15 +159,15 @@
                         console.log(response)
                         var res = response.data
                         if (res.error_num == 0) {
-                            localStorage.setItem('path',res['path'])
+                            sessionStorage.setItem('path',res['path'])
                             console.log(res['path'])
                             console.log(res['path2'])
-                            localStorage.setItem('path2',res['path2'])
-                            localStorage.setItem('part_id',res['part_id'])
+                            sessionStorage.setItem('path2',res['path2'])
+                            sessionStorage.setItem('part_id',res['part_id'])
                             console.log('111')
                             _this.$message.success(res['msg'])
                             _this.$router.push({name:'statenum'});
-                            localStorage.setItem("statenum","Damage State 1");
+                            sessionStorage.setItem("statenum","Damage State 1");
                         } 
                         else {
                             _this.$message.error(res['msg'])
@@ -178,7 +178,7 @@
                     });
                 }
                 this.$router.push({name:'statenum'});
-                localStorage.setItem("statenum","Damage State 1");
+                sessionStorage.setItem("statenum","Damage State 1");
                 
             },
         }
@@ -192,7 +192,7 @@
         
         float:left;/*浮动:左浮动 与父元素的左端对齐 依次的往右端显示 一行显示不下就换行接着依次显示*/
         top:-15px;
-        width:43%;
+        width:40%;
         height:350px;
         margin:18px 20px;  
     }

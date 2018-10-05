@@ -123,6 +123,7 @@ export default {
                             console.log(res['project_description'])
                             console.log(res['client_name'])
                             _this.$message.success(res['msg'])
+                            localStorage.setItem('project',res['project'])
                         } 
                         else {
                             _this.$message.error(res['msg'])

@@ -14,7 +14,7 @@ export default{
     mounted() {
         var chart = Highcharts.chart('container', {
             title: {
-                text: 'Damage State Group'
+                text: '易损性曲线'
             },
             subtitle: {
                // text: '数据来源：thesolarfoundation.com'
