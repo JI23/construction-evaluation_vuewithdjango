@@ -16,7 +16,7 @@
                 <span class="lebal">图审时间</span>
                 <el-input style="width:90%" size='small' v-model="figure_time" placeholder="请输入内容"></el-input>
                 <span class="lebal">结构层数</span>
-                <el-input style="width:90%" size='small' v-model="floors" placeholder="请输入内容"></el-input>
+                <el-input style="width:90%" size='small' v-model="floors"  @blur="set_num"  placeholder="请输入内容"></el-input>
             </el-col>
             <el-col :span="8">
                 <span class="lebal">结构高度(m)</span>
@@ -69,7 +69,7 @@
                     </template>
                 </el-table-column>
             </el-table> 
-            <el-button @click="newFloor">新增楼层</el-button>
+            <!-- <el-button @click="newFloor">新增楼层</el-button> -->
         </el-col>
         <el-button @click="saveFloor">保存所有楼层</el-button>
     </div>
@@ -185,15 +185,15 @@ export default {
 
     
     methods:{
-        newFloor(){
-            this.Floor_info.push({
-                floor_no:'',
-                floor_height: '',
-                floor_area:'',
-                influence_coefficient:'',
-                population_density:''
-            })
-        },
+        // newFloor(){
+        //     this.Floor_info.push({
+        //         floor_no:'',
+        //         floor_height: '',
+        //         floor_area:'',
+        //         influence_coefficient:'',
+        //         population_density:''
+        //     })
+        // },
         saveFloor(){
             let _this=this;
             console.log(this.Floor_info)
@@ -237,6 +237,25 @@ export default {
         },
         back(){
             this.$emit('back','');
+        },
+        set_num(){
+            this.Floor_info = [{
+                floor_no:1,
+                floor_height: '',
+                floor_area:'',
+                influence_coefficient:'',
+                population_density:''
+            }]
+            console.log()
+            for(var i = 0; i < this.floors-1; i++){
+                this.Floor_info.push({
+                    floor_no:i+2,
+                    floor_height: '',
+                    floor_area:'',
+                    influence_coefficient:'',
+                    population_density:''
+                })    
+            }
         },
         save2(){
             let _this=this;

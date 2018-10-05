@@ -167,6 +167,7 @@
                     var number=''
                     var group=''
                     var earthquake_level=''
+                    var earthquake_info=new Array
                     console.log('step5')
                     if(res['earthquake_info']!='')
                     {
@@ -193,6 +194,7 @@
                         //let peak_acceleration=JSON.stringify(res['earthquake_info'][0].fields.peak_acceleration)
                         //console.log(res['earthquake_info'][0].fields.earthquake_level)
                         earthquake_level=res['earthquake_info'][0].fields.earthquake_level
+                        earthquake_info=res['earthquake_info'][0].fields.earthquake_info
                     }
                     
                     //step6
@@ -234,6 +236,7 @@
                     localStorage.removeItem('group')
                     localStorage.removeItem('peak_acceleration')
                     localStorage.removeItem('earthquake_level')
+                    localStorage.removeItem('earthquake_info')
 
                     localStorage.removeItem('structure_response')
 
@@ -264,6 +267,7 @@
                     localStorage.setItem('group',JSON.stringify(group))
                     //localStorage.setItem('peak_acceleration',peak_acceleration)
                     localStorage.setItem('earthquake_level',JSON.stringify(earthquake_level))
+                    localStorage.setItem('earthquake_info',JSON.stringify(earthquake_info))
                     //step6
                     localStorage.setItem('structure_response',JSON.stringify(structure_response))
                     let a=localStorage.getItem('structure_response')

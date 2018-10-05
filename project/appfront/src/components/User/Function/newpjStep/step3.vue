@@ -142,9 +142,10 @@
         let tableData = localStorage.getItem('structure_element')
         console.log('step3.vue')
         console.log(tableData)
-        if (tableData != null) {
+        if (tableData.length!=0) {
             this.tableData = JSON.parse(tableData)
         }
+        
     },
     methods: {
         view_db(){
@@ -266,7 +267,7 @@
                 Non:null
             })
         },
-         handleNodeClick(data,node){
+        handleNodeClick(data,node){
               //console.log(data);
               console.log(this.choose_value)
               if(node.level==3){
@@ -276,7 +277,7 @@
                   this.tableData[this.index].unit = temp[3];
                   this.dialogVisible = false;   
               }
-          },
+        },
           next(){
             this.$emit('next','');
         },

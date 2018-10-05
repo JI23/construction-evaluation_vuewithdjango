@@ -3,7 +3,7 @@
         <h2>用户登录</h2>
         <el-form  label-width="80px" :model="LoginLabel">
             <el-form-item label="手机号">
-            <el-input v-model="LoginLabel.phone" placeholder="请输入手机号"></el-input>
+            <el-input v-model="LoginLabel.phone" placeholder="请输入手机号" ref="focusPhone"></el-input>
             </el-form-item>
             <el-form-item label="密　码">
             <el-input v-model="LoginLabel.password" type="password" @keyup.enter.native="login" placeholder="请输入密码"></el-input>
@@ -25,6 +25,9 @@ export default {
                 password:''
             }
         }
+    },
+    mounted(){
+        this.$refs['focusPhone'].focus();
     },
     methods:{
         login(){

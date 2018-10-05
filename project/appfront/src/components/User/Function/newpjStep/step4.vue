@@ -148,6 +148,16 @@
             console.log("bukong")
             this.tableData = JSON.parse(tableData)
         }
+        else{
+            this.tableData.push({
+                id: '',
+                start_floor: '',
+                stop_floor:'',
+                X:null,
+                Y:null,
+                Non:null
+            })
+        }
     },
     methods: {
         // chooseId(index, rows){
@@ -217,7 +227,11 @@
                                 for(var k = 0; k < res['list'].length; k++){
                                     if(res['list'][k].fields.second === res['second'][j][1]){
                                         var item1 = {
+<<<<<<< HEAD
+                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description,
+=======
                                             label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description + " " + res['list'][k].fields.basic_unit,
+>>>>>>> upstream/master
                                             children:[]
                                         }
                                         item.children.push(item1)
@@ -301,7 +315,10 @@
                   console.log(data)
                   var temp = data.label.split(' ')
                   this.tableData[this.index].id = temp[0];
+<<<<<<< HEAD
+=======
                   this.tableData[this.index].unit = temp[3];
+>>>>>>> upstream/master
                   this.dialogVisible = false;   
               }
         },

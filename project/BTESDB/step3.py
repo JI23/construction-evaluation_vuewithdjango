@@ -70,6 +70,8 @@ def save_elements(request):
         a=ast.literal_eval(item)
         print(a)
         this_part=DB_part.objects.get(part_id=a['id'])
+        print('this_part is')
+        print(this_part)
         start_floor=a['start_floor']
         print(start_floor)
         print(type(start_floor))
@@ -120,7 +122,9 @@ def save_elements(request):
             Y=Y,
             Non=Non)
         new.save()
-
+        print('element')
+        print(new.element)
+        #到这也是字符型啊
     response['msg']='构件信息存储成功'
     response['error_num']=0
             
