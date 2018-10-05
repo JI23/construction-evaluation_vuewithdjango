@@ -5,7 +5,8 @@
   <ID>MEP.M.09.03</ID>
   <Description>刚性锚固或隔振且采取限位措施</Description>
   <BasicUnit>1个</BasicUnit>
-  <Cost />
+  <Cost>14819</Cost>
+  <RepairWorkNumber>6</RepairWorkNumber>
   <Name>MEP.M.09.03</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -23,7 +24,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-04-17 20:51:01.778</DateCreated>
+  <DateCreated>2018-07-17 21:33:10.033</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -59,7 +60,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.04</UpperQuantityRatio>
+          <UpperQuantityRatio>0.96</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -104,7 +105,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.04</UpperQuantityRatio>
+          <UpperQuantityRatio>0.96</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -140,15 +141,15 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>15856.33</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>15222.0768</MinAmount>
           <Uncertainty>0.22</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>
           <RepairRatio>1.07</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.04</UpperQuantityRatio>
+          <UpperQuantityRatio>0.96</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>

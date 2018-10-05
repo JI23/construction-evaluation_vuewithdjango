@@ -4,8 +4,9 @@
   </UniqueID>
   <ID>MEP.P.03.02</ID>
   <Description>铸铁管，柔性连接，垂直与侧向支撑，支撑破坏</Description>
-  <BasicUnit>333m</BasicUnit>
-  <Cost />
+  <BasicUnit>1m</BasicUnit>
+  <Cost>260</Cost>
+  <RepairWorkNumber>5</RepairWorkNumber>
   <Name>MEP.P.03.02</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -23,7 +24,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-04-17 20:51:01.748</DateCreated>
+  <DateCreated>2018-07-17 21:33:09.983</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -59,7 +60,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.07</UpperQuantityRatio>
+          <UpperQuantityRatio>0.93</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -95,21 +96,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>78</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>72.54</MinAmount>
           <Uncertainty>0.58</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>0.15</CostRatio>
           <RepairRatio>2</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.07</UpperQuantityRatio>
+          <UpperQuantityRatio>0.93</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0.424</MaxAmount>
+          <MaxAmount>0.001</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0.4028</MinAmount>
+          <MinAmount>0.00095</MinAmount>
           <Uncertainty>0.63</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>
@@ -148,7 +149,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.07</UpperQuantityRatio>
+          <UpperQuantityRatio>0.93</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
