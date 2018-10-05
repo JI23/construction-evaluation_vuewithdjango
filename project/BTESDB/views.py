@@ -301,7 +301,11 @@ def upload(request):
                 EDP_type=EDP_type,
                 damage_state_number=damage_state_number,
                 create_date=get_datetime(d['DateCreated']),
+<<<<<<< HEAD
                 #part_type=t[0],                     
+=======
+                # part_type=t[0],                   
+>>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c
                 xml=xml)
                 new.save()
             '''

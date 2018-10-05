@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+ 
 CORS_ORIGIN_ALLOW_ALL = True
 
 
@@ -64,8 +64,13 @@ ROOT_URLCONF = 'BTES.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+<<<<<<< HEAD
         'DIRS': ['appfront/dist', ],
         #'DIRS': ['templates',],
+=======
+        #'DIRS': ['appfront/dist',],
+        'DIRS': ['templates',],
+>>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,10 +93,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'BTESDB',
+<<<<<<< HEAD
         'USER': 'root',
         'PASSWORD': '1111',
         'HOST': 'localhost',
         'PORT': 3306,
+=======
+        'USER':'root',
+        'PASSWORD':'1111',
+        'HOST':'localhost',
+        'PORT':3306,
+>>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c
     }
 }
 
@@ -119,7 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 
-# 时区设置
+#时区设置
 #LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'zh-hans'
 TIME_ZONE = 'Asia/Shanghai'
@@ -137,7 +149,7 @@ USE_L10N = True
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
-# 设置静态文件路径为主目录下的media文件夹
-MEDIA_URL = '/media/'
-# url映射
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')     
+#设置静态文件路径为主目录下的media文件夹
+MEDIA_URL = '/media/'                                                 
+#url映射

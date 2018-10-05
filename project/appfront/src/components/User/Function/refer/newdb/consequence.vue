@@ -1,9 +1,10 @@
 <template>
     <div>
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-            <el-tab-pane label="基本信息" name="gen_con_info"></el-tab-pane>
-            <el-tab-pane label="修复成本" name="re_cost"></el-tab-pane>
-            <el-tab-pane label="修复时间" name="re_time"></el-tab-pane>
+            <el-tab-pane label="gen_con_info" name="gen_con_info"></el-tab-pane>
+            <el-tab-pane label="re_cost" name="re_cost"></el-tab-pane>
+            <el-tab-pane label="re_time" name="re_time"></el-tab-pane>
+            <el-tab-pane label="others" name="others"></el-tab-pane>
         </el-tabs>
         <router-view></router-view>
     </div>
@@ -14,6 +15,7 @@
         data() {
             return {
                 activeName: 'gen_con_info',
+        
             }
         },
 
@@ -28,9 +30,9 @@
         mounted: function () {
             var vm = this
             // 用$on事件来接收参数
-            var label = JSON.parse(sessionStorage.getItem("label"));
+            var label = JSON.parse(localStorage.getItem("label"));
             
-            sessionStorage.removeItem("label");
+            localStorage.removeItem("label");
         },
 
         methods: {
