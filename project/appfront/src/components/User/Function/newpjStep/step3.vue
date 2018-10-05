@@ -5,14 +5,9 @@
             <el-button size="small" class='btn' @click="back">上一步</el-button>
         </el-row>
         <el-table :data="tableData" border style="width:100%" max-height="350">
-        <el-table-column prop="order1" label="易损性编号" width="140">
+        <el-table-column prop="order1" label="易损性编号" width="180">
             <template slot-scope="scope">
                 <el-input v-model="scope.row.id" placeholder="点击可选" @focus="chooseId(scope.$index, tableData)"></el-input>
-            </template>
-        </el-table-column>
-        <el-table-column prop="order1" label="单位" width="120">
-            <template slot-scope="scope">
-                <el-input disabled v-model="scope.row.unit"></el-input>
             </template>
         </el-table-column>
         <el-table-column prop="order2" label="起始楼层">
@@ -73,7 +68,6 @@
                     :value="item.value">
                 </el-option>
             </el-select>
-            <el-button style="position:relative; float:right; top:-10px" type="primary" @click="new_db">创建易损性数据库</el-button>
         </div>
         <el-scrollbar class = "el-scrollbar">
             <el-tree class="el-tree" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
@@ -99,7 +93,6 @@
             dialogVisible:false,
             tableData: [{
                 id: '',
-                unit: '',
                 start_floor: '',
                 stop_floor:'',
                 X:null,
@@ -171,6 +164,33 @@
                 console.log(res['first'])
                 console.log(res['second'])
                 if(res.error_num==0){
+                    /*console.log(res['list'])
+                    console.log(res['detail'])
+                    console.log(res['first'])
+                    console.log(res['second'])
+                    _this.data =  _this.data1
+                    
+                    var max=res['list'].length
+
+                    for(var i = 0; i < max; i++){
+                        //console.log(res['list'][i+1].fields.part_id+' !'+res['list'][i+1].fields.description)
+                        const newchild={label: res['list'][i].fields.part_id+' '+res['list'][i].fields.description, children:[]}
+                        _this.data[i]=newchild
+                    }
+                    console.log('000')
+                    var temp=new Array()
+                    for(var i = 0; i < max; i++){
+                        temp[i] = 0
+                    }
+                    
+                    console.log('111')
+                    for(var i = 0; i < res['detail'].length; i++){
+                        const newchild={label: res['detail'][i].fields.DB_part+res['detail'][i].fields.damage_id+res['detail'][i].fields.damage_description, children:[]}
+                        _this.data[res['detail'][i].fields.DB_part-1].children[temp[res['detail'][i].fields.DB_part-1]] = newchild
+                        temp[res['detail'][i].fields.DB_part-1] += 1
+                    }
+                    console.log('222')
+                    _this.$index=res['list'][0].fields.part_id*/
                     console.log(res['list'])
                     var returnData = []
                     for(var i = 0; i < res['first'].length; i++){
@@ -188,7 +208,7 @@
                                 for(var k = 0; k < res['list'].length; k++){
                                     if(res['list'][k].fields.second === res['second'][j][1]){
                                         var item1 = {
-                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description + " " + res['list'][k].fields.basic_unit,
+                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description,
                                             children:[]
                                         }
                                         item.children.push(item1)
@@ -258,7 +278,6 @@
         newComponent(){
             this.tableData.push({
                 id:'',
-                unit:'',
                 start_floor: '',
                 stop_floor:'',
                 X:null,
@@ -273,7 +292,6 @@
                   console.log(data)
                   var temp = data.label.split(' ')
                   this.tableData[this.index].id = temp[0];
-                  this.tableData[this.index].unit = temp[3];
                   this.dialogVisible = false;   
               }
           },
@@ -285,12 +303,6 @@
         },
         changed(value){//请求数据
             console.log(value)
-        },
-
-        new_db(){
-            localStorage.setItem('new_db_ret','true')
-            sessionStorage.setItem('check','DB_User')
-            this.$router.push({name:'newdb'});
         }
     },
            

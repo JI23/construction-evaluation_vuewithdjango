@@ -272,11 +272,12 @@ export default {
                         console.log(res)
                         if (res.error_num == 0) {
                             console.log(res['msg'])
+                            console.log(res['project'])
+                            localStorage.setItem('project',res['project'])
                             localStorage.setItem('floors',_this.floors)
                             localStorage.setItem('height',_this.height)
                             localStorage.setItem('area',_this.area)
                             _this.$message.success(res['msg'])
-                            console.log(localStorage.getItem('project'))
                         } 
                         else {
                             _this.$message.error(res['msg'])
