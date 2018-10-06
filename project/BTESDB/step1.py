@@ -8,14 +8,13 @@ from django.core import serializers
 import requests
 import json
 from django.views.decorators.csrf import csrf_exempt
-
+from datetime import datetime
 
 def step1(request):
-    print(1)
+    print('step 1')
     response={}
     #获取表单数据
     try:
-        print(2)
         project=int(request.GET['project'])
         project_name=request.GET['project_name']
         client_name=request.GET['client_name']
@@ -27,7 +26,7 @@ def step1(request):
             response['msg']='项目名称不能为空！'
             response['error_num']=1
             return JsonResponse(response)
-        elif Project.objects.filter(user=this_user,project_name=project_name).exists() and project==0:
+        elif Project.objects.filter(user=this_user,project_name=project_name).exists():
             response['msg']='项目名称不得重复！'
             response['error_num']=1
             return JsonResponse(response)
@@ -44,8 +43,21 @@ def step1(request):
             response['msg']='项目描述不能为空！'
             response['error_num']=1
             return JsonResponse(response)
-        
-        if project!=0:
+        if project == 0:
+            print('新建')
+            new=Project(user=this_user,
+            project_name=project_name,
+            client_name=client_name,
+            project_description=project_description,
+            create_time=datetime.now(),
+            project_leader=project_leader,
+            is_finished=False,
+            rate='0')           
+            new.save()
+            response['project']=new.id
+            response['msg']='项目新建成功'
+            response['error_num']=0
+        if  Project.objects.filter(id=project).exists():
             print('更新')
             update=Project.objects.get(id=project)
             #对数据进行更新
@@ -55,21 +67,14 @@ def step1(request):
             update.project_leader=project_leader
             try:
                 update.save()
+                response['project']=update.id
                 response['msg']='项目信息修改成功！'
                 response['error_num']=0
             except Exception as e:
                 print (str(e))
                 response['msg']=str(e)
                 response['error_num']=1
-            return JsonResponse(response)
-        
-        #获取user外键
-        #this_user=User_Info.objects.get(username='13051997327')
-
-        response['error_num']=0
-        response['msg']='success'
-        print(3)
-        
+            return JsonResponse(response)  
     except Exception as e:
         print (4)    
         print (str(e))

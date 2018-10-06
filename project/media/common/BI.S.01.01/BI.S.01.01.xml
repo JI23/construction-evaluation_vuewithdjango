@@ -5,8 +5,7 @@
   <ID>BI.S.01.01</ID>
   <Description>预制钢楼梯，非抗震节点</Description>
   <BasicUnit>1个</BasicUnit>
-  <Cost>8000</Cost>
-  <RepairWorkNumber>7</RepairWorkNumber>
+  <Cost />
   <Name>BI.S.01.01</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -24,7 +23,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-07-17 21:33:09.963</DateCreated>
+  <DateCreated>2018-04-17 20:51:01.728</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -51,15 +50,15 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>160</MaxAmount>
+          <MaxAmount>0</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>153.6</MinAmount>
+          <MinAmount>0</MinAmount>
           <Uncertainty>0.99</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>0.02</CostRatio>
           <RepairRatio>1</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -95,15 +94,15 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>2016</MaxAmount>
+          <MaxAmount>0</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>1935.36</MinAmount>
+          <MinAmount>0</MinAmount>
           <Uncertainty>0.58</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>0.14</CostRatio>
           <RepairRatio>1.8</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -139,15 +138,15 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>10320</MaxAmount>
+          <MaxAmount>0</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>9907.2</MinAmount>
+          <MinAmount>0</MinAmount>
           <Uncertainty>0.4</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>
           <RepairRatio>1.29</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>

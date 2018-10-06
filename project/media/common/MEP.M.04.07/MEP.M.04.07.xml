@@ -5,8 +5,7 @@
   <ID>MEP.M.04.07</ID>
   <Description>小型，有锚固或隔振，医用-设备破坏</Description>
   <BasicUnit>1个</BasicUnit>
-  <Cost>20000</Cost>
-  <RepairWorkNumber>6</RepairWorkNumber>
+  <Cost />
   <Name>MEP.M.04.07</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -24,7 +23,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-07-17 21:33:10.023</DateCreated>
+  <DateCreated>2018-04-17 20:51:01.768</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -60,7 +59,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -105,7 +104,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -141,15 +140,15 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>9936</MaxAmount>
+          <MaxAmount>0</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>9538.56</MinAmount>
+          <MinAmount>0</MinAmount>
           <Uncertainty>0.33</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>0.46</CostRatio>
           <RepairRatio>1.08</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>

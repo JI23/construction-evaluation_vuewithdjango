@@ -4,9 +4,8 @@
   </UniqueID>
   <ID>BI.D.01.03</ID>
   <Description>石膏板+墙纸，到顶，下端固定，上端滑槽</Description>
-  <BasicUnit>1m2</BasicUnit>
-  <Cost>130</Cost>
-  <RepairWorkNumber>3</RepairWorkNumber>
+  <BasicUnit>100m2</BasicUnit>
+  <Cost />
   <Name>BI.D.01.03</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -24,7 +23,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-07-17 21:33:09.973</DateCreated>
+  <DateCreated>2018-04-17 20:51:01.728</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -60,7 +59,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.89</UpperQuantityRatio>
+          <UpperQuantityRatio>1.12</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -105,7 +104,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.89</UpperQuantityRatio>
+          <UpperQuantityRatio>1.12</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -141,21 +140,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>130</MaxAmount>
+          <MaxAmount>0</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>115.7</MinAmount>
+          <MinAmount>0</MinAmount>
           <Uncertainty>0.15</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>
-          <RepairRatio>1</RepairRatio>
+          <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.89</UpperQuantityRatio>
+          <UpperQuantityRatio>1.12</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0.03</MaxAmount>
+          <MaxAmount>2.52</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0.027</MinAmount>
+          <MinAmount>2.268</MinAmount>
           <Uncertainty>0.29</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>

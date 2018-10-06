@@ -1,8 +1,8 @@
 <template>
     <div>
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-            <el-tab-pane label="generalInfo" name="generalinfo"></el-tab-pane>
-            <el-tab-pane label="notes" name="notes"></el-tab-pane>
+            <el-tab-pane label="基本信息" name="generalinfo"></el-tab-pane>
+            <el-tab-pane label="其他" name="notes"></el-tab-pane>
         </el-tabs>
         <router-view></router-view>
     </div>

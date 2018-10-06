@@ -5,8 +5,7 @@
   <ID>MEP.M.08.01</ID>
   <Description>水平或垂直支撑</Description>
   <BasicUnit>1个</BasicUnit>
-  <Cost>800</Cost>
-  <RepairWorkNumber>5</RepairWorkNumber>
+  <Cost />
   <Name>MEP.M.08.01</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -24,7 +23,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-07-17 21:33:10.033</DateCreated>
+  <DateCreated>2018-04-17 20:51:01.778</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -60,7 +59,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -105,7 +104,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -141,21 +140,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>936</MaxAmount>
+          <MaxAmount>0</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>898.56</MinAmount>
+          <MinAmount>0</MinAmount>
           <Uncertainty>0.29</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>
           <RepairRatio>1.17</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>1.76</MaxAmount>
+          <MaxAmount>17.6</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>1.76</MinAmount>
+          <MinAmount>17.6</MinAmount>
           <Uncertainty>0.39</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>

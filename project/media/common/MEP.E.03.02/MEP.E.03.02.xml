@@ -3,10 +3,9 @@
   <UniqueID>
   </UniqueID>
   <ID>MEP.E.03.02</ID>
-  <Description>350~750 Amp，无锚固、无隔振</Description>
+  <Description>350~750Amp，无锚固、无隔振</Description>
   <BasicUnit>1个</BasicUnit>
-  <Cost>1000</Cost>
-  <RepairWorkNumber>6</RepairWorkNumber>
+  <Cost />
   <Name>MEP.E.03.02</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -24,7 +23,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-07-17 21:33:10.043</DateCreated>
+  <DateCreated>2018-04-17 20:51:01.788</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -60,7 +59,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -105,7 +104,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -141,15 +140,15 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>1200</MaxAmount>
+          <MaxAmount>0</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>1152</MinAmount>
+          <MinAmount>0</MinAmount>
           <Uncertainty>0.06</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>
           <RepairRatio>1.2</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>0.96</UpperQuantityRatio>
+          <UpperQuantityRatio>1.04</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>

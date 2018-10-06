@@ -166,7 +166,7 @@
         </div>
 
         <div class="btn-group">
-            <el-button>点击预览</el-button>
+            <el-button @click='preview'>点击预览</el-button>
             <el-button @click='rate'>提交并生成结果</el-button>
             <el-button @click="save6">保存</el-button>
         </div>
@@ -240,11 +240,35 @@ export default {
         },
         rate(){
             let _this=this;
-            console.log(this.Floor_info)
             var project=localStorage.getItem('project')
             this.$ajax({
                 method:'get',
                 url:'rate',
+                params:{
+                    project:project,
+                },
+            }).then(function(response){
+                console.log(response)
+                var res = response.data
+                console.log(res)
+                if (res.error_num == 0) {
+                    console.log(res['msg'])
+                    _this.$message.success(res['msg'])
+                } 
+                else {
+                    _this.$message.error(res['msg'])
+                    console.log(res['msg'])
+                }
+            }).catch(function(err){
+                console.log(err);
+            });
+        },
+        preview(){
+            let _this=this;
+            var project=localStorage.getItem('project')
+            this.$ajax({
+                method:'get',
+                url:'preview',
                 params:{
                     project:project,
                 },
