@@ -4,94 +4,71 @@ from django.core import serializers
 from django.forms.models import model_to_dict 
 import os
 
-def get_project_dedail(project):
-    ProjectInfo=Project.objects.get(id=project)
-    ProjectInfoDict=model_to_dict(ProjectInfo)
-    print(ProjectInfoDict)
-
-    BuildingInfo=Building.objects.get(project=project)
-    BuildingInfoDict=model_to_dict(BuildingInfo)
-    print(BuildingInfoDict)
-
-    Floors=Floor_Info.objects.filter(project=project)
-    FloorsList=list()
-    for i in Floors:
-        floorDict=model_to_dict(i)
-        print(floorDict)
-        FloorsList.append(floorDict)
-        
-    StructureElements=Element.objects.filter(project=project,element_type='s')
-    StructureElementsList=list()
-    for i in StructureElements:
-        SEDict=model_to_dict(i)
-        element_id=SEDict['element']
-        this_DB_part=DB_part.objects.get(id=element_id)
-        this_DB_partDict=model_to_dict(this_DB_part)
-        this_DB_partDict.pop('id')
-        SEDict.update(this_DB_partDict)
-        print(SEDict)
-        StructureElementsList.append(SEDict)
-
-    NonStructureElements=Element.objects.filter(project=project,element_type='n')
-    NonStructureElementsList=list()
-    for i in NonStructureElements:
-        NSEDict=model_to_dict(i)
-        element_id=NSEDict['element']
-        this_DB_part=DB_part.objects.get(id=element_id)
-        this_DB_partDict=model_to_dict(this_DB_part)
-        this_DB_partDict.pop('id')
-        NSEDict.update(this_DB_partDict)
-        print(NSEDict)
-        NonStructureElementsList.append(NSEDict)
-
-    EarthquakeInfo=Earthquake_Info.objects.get(project=project)
-    EarthquakeInfoDict=model_to_dict(EarthquakeInfo)
-    print(EarthquakeInfoDict)
-
-    EarthquakeWave=Earthquake_wave_detail.objects.filter(project=project)
-    EarthquakeWaveList=list()
-    for i in EarthquakeWave:
-        EarthquakeWaveDict=model_to_dict(i)
-        print(EarthquakeWaveDict)
-        EarthquakeWaveList.append(EarthquakeWaveDict)
-
-    StructureResponse=Structure_response.objects.filter(project=project)
-    StructureResponseList=list()
-    for i in StructureResponse:
-        StructureResponseDict=model_to_dict(i)        
-        data=StructureResponseDict['data']
-        StructureResponseDict['data']=data[1:-1].split(", ")
-        print(StructureResponseDict)
-        print(type(StructureResponseDict['data']))
-        StructureResponseList.append(StructureResponseDict)
-    
-    return ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList
-
-        
-
 def rate(request):
     print(rate)
     response={}
     try:
         #获取数据
         project=request.GET['project']
-        ProjectInfoDict=dict()
-        BuildingInfoDict=dict()
-        FloorsList=list()
-        StructureElementsList=list()
-        NonStructureElementsList=list()
-        EarthquakeInfoDict=dict()
-        EarthquakeWaveList=list()
-        StructureResponseList=list()
 
-        ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList = get_project_dedail(project)
+        ProjectInfo=Project.objects.get(id=project)
+        ProjectInfoDict=model_to_dict(ProjectInfo)
+        print(ProjectInfoDict)
+
+        Floors=Floor_Info.objects.filter(project=project)
+        FloorsList=list()
+        for i in Floors:
+            floorDict=model_to_dict(i)
+            print(floorDict)
+            FloorsList.append(floorDict)
         
-        result=xmlProject(ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,
+        StructureElements=Element.objects.filter(project=project,element_type='s')
+        StructureElementsList=list()
+        for i in StructureElements:
+            SEDict=model_to_dict(i)
+            element_id=SEDict['element']
+            this_DB_part=DB_part.objects.get(id=element_id)
+            this_DB_partDict=model_to_dict(this_DB_part)
+            this_DB_partDict.pop('id')
+            SEDict.update(this_DB_partDict)
+            print(SEDict)
+            StructureElementsList.append(SEDict)
+
+        NonStructureElements=Element.objects.filter(project=project,element_type='n')
+        NonStructureElementsList=list()
+        for i in NonStructureElements:
+            NSEDict=model_to_dict(i)
+            element_id=NSEDict['element']
+            this_DB_part=DB_part.objects.get(id=element_id)
+            this_DB_partDict=model_to_dict(this_DB_part)
+            this_DB_partDict.pop('id')
+            NSEDict.update(this_DB_partDict)
+            print(NSEDict)
+            NonStructureElementsList.append(NSEDict)
+
+        EarthquakeInfo=Earthquake_Info.objects.get(project=project)
+        EarthquakeInfoDict=model_to_dict(EarthquakeInfo)
+        print(EarthquakeInfoDict)
+
+        EarthquakeWave=Earthquake_wave_detail.objects.filter(project=project)
+        EarthquakeWaveList=list()
+        for i in EarthquakeWave:
+            EarthquakeWaveDict=model_to_dict(i)
+            print(EarthquakeWaveDict)
+            EarthquakeWaveList.append(EarthquakeWaveDict)
+
+        StructureResponse=Structure_response.objects.filter(project=project)
+        StructureResponseList=list()
+        for i in StructureResponse:
+            StructureResponseDict=model_to_dict(i)
+            print(StructureResponseDict)
+            StructureResponseList.append(StructureResponseDict)
+        
+        result=xmlProject(ProjectInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,
         EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList)
 
         response['error_num']=0
         response['msg']='项目xml文件新建成功!'+'\n 你的定级结果是：'+str(result)
-        ProjectInfo=Project.objects.get(id=project)
         ProjectInfo.is_finished=True
         ProjectInfo.rate=result
         ProjectInfo.save()
@@ -131,34 +108,72 @@ def addStructuralElement(path,sNo,SEDict):
     XNumber=ET.SubElement(StructuralElement,'XNumber');XNumber.text=str(SEDict['X'])
     YNumber=ET.SubElement(StructuralElement,'YNumber');YNumber.text=str(SEDict['Y'])
     NonNumber=ET.SubElement(StructuralElement,'NonNumber');NonNumber.text=str(SEDict['Non'])
-    Cost=ET.SubElement(ElementID,'Cost')
-    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
-    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
-    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
-    DSNum=ET.SubElement(ElementID,'DSNum')
-    Direction=ET.SubElement(ElementID,'Direction')
-    #DS=ET.SubElement(ElementID,'DS')
-    #Num[s]=ET.SubElement(ElementID,'Num[s]')
 
     xml_path=DB_part.objects.get(part_id=SEDict['part_id']).xml.path
+    #print(SEDict)
+    print(xml_path)
     tree1=ET.ElementTree(file=xml_path)
     root1=tree1.getroot()
 
+    Cost=ET.SubElement(ElementID,'Cost')
     Cost1=root1.find('Cost')
     Cost.text='1'#Cost1.text
+    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
     EDPType=root1.find('EDPType')
     EDP_kind1=EDPType.find('TypeName')
     EDP_kind.text=EDP_kind1.text
+    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
     UseEDPValueOfFloorAbove1=root1.find('UseEDPValueOfFloorAbove')
     UseEDPValueOfFloorAbove.text=UseEDPValueOfFloorAbove1.text
+    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
     #RepairWorkNumber1=root1.find('Directional')
     RepairWorkNumber.text='3'
-    DamageStates=root1.find('DamageStates')
-    DSNum1=DamageStates.findall('DamageState')
+    DSNum=ET.SubElement(ElementID,'DSNum')
+    DamageStates1=root1.find('DamageStates')
+    DSNum1=DamageStates1.findall('DamageState')
     DSNum.text=str(len(DSNum1))
-    
+    Direction=ET.SubElement(ElementID,'Direction')
     Direction1=root1.find('Directional')
     Direction.text=Direction1.text
+    DamageStates=ET.SubElement(ElementID,'DamageStates')
+    for item in DSNum1:
+        print(item)
+        DamageState=ET.SubElement(DamageStates,'DamageState')
+        Cost_LowerQuantity=ET.SubElement(DamageState,'Cost_LowerQuantity')
+        Cost_MaxAmount=ET.SubElement(DamageState,'Cost_MaxAmount')
+        Cost_UpperQuantity=ET.SubElement(DamageState,'Cost_UpperQuantity')
+        Cost_MinAmount=ET.SubElement(DamageState,'Cost_MinAmount')
+        Time_LowerQuantity=ET.SubElement(DamageState,'Time_LowerQuantity')
+        Time_MaxAmount=ET.SubElement(DamageState,'Time_MaxAmount')
+        Time_UpperQuantity=ET.SubElement(DamageState,'Time_UpperQuantity')
+        Time_MinAmount=ET.SubElement(DamageState,'Time_MinAmount')
+        Median=ET.SubElement(DamageState,'Median')
+        Beta=ET.SubElement(DamageState,'Beta')
+        DSNum.text=str(len(DSNum1))
+        ConsequenceGroup1=item.find('ConsequenceGroup')
+        CostConsequence1=ConsequenceGroup1.find('CostConsequence')
+        Cost_LowerQuantity1=CostConsequence1.find('LowerQuantity')
+        Cost_LowerQuantity.text=Cost_LowerQuantity1.text
+        Cost_MaxAmount1=CostConsequence1.find('MaxAmount')
+        Cost_MaxAmount.text=Cost_MaxAmount1.text
+        Cost_UpperQuantity1=CostConsequence1.find('UpperQuantity')
+        Cost_UpperQuantity.text=Cost_UpperQuantity1.text
+        Cost_MinAmount1=CostConsequence1.find('MinAmount')
+        Cost_MinAmount.text=Cost_MinAmount1.text
+        TimeConsequence1=ConsequenceGroup1.find('TimeConsequence')
+        Time_LowerQuantity1=TimeConsequence1.find('LowerQuantity')
+        Time_LowerQuantity.text=Time_LowerQuantity1.text
+        Time_MaxAmount1=TimeConsequence1.find('MaxAmount')
+        Time_MaxAmount.text=Time_MaxAmount1.text
+        Time_UpperQuantity1=TimeConsequence1.find('UpperQuantity')
+        Time_UpperQuantity.text=Time_UpperQuantity1.text
+        Time_MinAmount1=TimeConsequence1.find('MinAmount')
+        Time_MinAmount.text=Time_MinAmount1.text
+        Median1=item.find('Median')
+        Median.text=Median1.text
+        Beta1=item.find('Beta')
+        Beta.text=Beta1.text
+
 
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
 
@@ -175,36 +190,73 @@ def addNonStructuralElement(path,nsNo,NSEDict):
     XNumber=ET.SubElement(NonStructuralElement,'XNumber');XNumber.text=str(NSEDict['X'])
     YNumber=ET.SubElement(NonStructuralElement,'YNumber');YNumber.text=str(NSEDict['Y'])
     NonNumber=ET.SubElement(NonStructuralElement,'NonNumber') ;NonNumber.text=str(NSEDict['Non'])
-    Cost=ET.SubElement(ElementID,'Cost')
-    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
-    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
-    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
-    DSNum=ET.SubElement(ElementID,'DSNum')
-    Direction=ET.SubElement(ElementID,'Direction')
-    #DS=ET.SubElement(ElementID,'DS')
-    #Num[s]=ET.SubElement(ElementID,'Num[s]')
 
     xml_path=DB_part.objects.get(part_id=NSEDict['part_id']).xml.path
+    
     tree1=ET.ElementTree(file=xml_path)
     root1=tree1.getroot()
 
+    Cost=ET.SubElement(ElementID,'Cost')
     Cost1=root1.find('Cost')
-    Cost.text='1'#Cost1.text
+    Cost.text=Cost1.text
+    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
     EDPType=root1.find('EDPType')
     EDP_kind1=EDPType.find('TypeName')
     EDP_kind.text=EDP_kind1.text
+    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
     UseEDPValueOfFloorAbove1=root1.find('UseEDPValueOfFloorAbove')
     UseEDPValueOfFloorAbove.text=UseEDPValueOfFloorAbove1.text
-    #RepairWorkNumber1=root1.find('Directional')
-    RepairWorkNumber.text='3'
-    DamageStates=root1.find('DamageStates')
-    DSNum1=DamageStates.findall('DamageState')
+    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
+    RepairWorkNumber1=root1.find('RepairWorkNumber')
+    RepairWorkNumber.text=RepairWorkNumber1.text
+    DSNum=ET.SubElement(ElementID,'DSNum')
+    DamageStates1=root1.find('DamageStates')
+    DSNum1=DamageStates1.findall('DamageState')
     DSNum.text=str(len(DSNum1))
-    
+    Direction=ET.SubElement(ElementID,'Direction')
     Direction1=root1.find('Directional')
     Direction.text=Direction1.text
+    DamageStates=ET.SubElement(ElementID,'DamageStates')
+    for item in DSNum1:
+        print(item)
+        DamageState=ET.SubElement(DamageStates,'DamageState')
+        Cost_LowerQuantity=ET.SubElement(DamageState,'Cost_LowerQuantity')
+        Cost_MaxAmount=ET.SubElement(DamageState,'Cost_MaxAmount')
+        Cost_UpperQuantity=ET.SubElement(DamageState,'Cost_UpperQuantity')
+        Cost_MinAmount=ET.SubElement(DamageState,'Cost_MinAmount')
+        Time_LowerQuantity=ET.SubElement(DamageState,'Time_LowerQuantity')
+        Time_MaxAmount=ET.SubElement(DamageState,'Time_MaxAmount')
+        Time_UpperQuantity=ET.SubElement(DamageState,'Time_UpperQuantity')
+        Time_MinAmount=ET.SubElement(DamageState,'Time_MinAmount')
+        Median=ET.SubElement(DamageState,'Median')
+        Beta=ET.SubElement(DamageState,'Beta')
+        DSNum.text=str(len(DSNum1))
+        ConsequenceGroup1=item.find('ConsequenceGroup')
+        CostConsequence1=ConsequenceGroup1.find('CostConsequence')
+        Cost_LowerQuantity1=CostConsequence1.find('LowerQuantity')
+        Cost_LowerQuantity.text=Cost_LowerQuantity1.text
+        Cost_MaxAmount1=CostConsequence1.find('MaxAmount')
+        Cost_MaxAmount.text=Cost_MaxAmount1.text
+        Cost_UpperQuantity1=CostConsequence1.find('UpperQuantity')
+        Cost_UpperQuantity.text=Cost_UpperQuantity1.text
+        Cost_MinAmount1=CostConsequence1.find('MinAmount')
+        Cost_MinAmount.text=Cost_MinAmount1.text
+        TimeConsequence1=ConsequenceGroup1.find('TimeConsequence')
+        Time_LowerQuantity1=TimeConsequence1.find('LowerQuantity')
+        Time_LowerQuantity.text=Time_LowerQuantity1.text
+        Time_MaxAmount1=TimeConsequence1.find('MaxAmount')
+        Time_MaxAmount.text=Time_MaxAmount1.text
+        Time_UpperQuantity1=TimeConsequence1.find('UpperQuantity')
+        Time_UpperQuantity.text=Time_UpperQuantity1.text
+        Time_MinAmount1=TimeConsequence1.find('MinAmount')
+        Time_MinAmount.text=Time_MinAmount1.text
+        Median1=item.find('Median')
+        Median.text=Median1.text
+        Beta1=item.find('Beta')
+        Beta.text=Beta1.text
 
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
+
 
 def addEarthquakeWave(path,EarthquakeWaveDict):
     print('addEarthquakeWave')
@@ -240,8 +292,6 @@ def addStructureResponse(path,StructureResponseDict):
     StructureResponse=root.find("StructureResponse")
     target=Judge(StructureResponseDict)
     place=StructureResponse.find(target)
-    FloorsNumber=ET.SubElement(place,'FloorsNumber');FloorsNumber.text=str(StructureResponseDict['floor_no'])
-    EarthquakeNumber=ET.SubElement(place,'EarthquakeNumber');EarthquakeNumber.text=str(StructureResponseDict['earthquake_no'])
     #开始赋值
     x=int(0)
     for i in range (StructureResponseDict['floor_no']):
@@ -253,8 +303,9 @@ def addStructureResponse(path,StructureResponseDict):
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
 
 
+
 from datetime import datetime
-def xmlProject(ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,
+def xmlProject(ProjectInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,
         EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList):
     print('xmlProject')
     print(ProjectInfoDict)
@@ -267,16 +318,16 @@ def xmlProject(ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList
     ClientName=ET.SubElement(ProjectInfo,'ClientName');ClientName.text=ProjectInfoDict['client_name']
     ProjectLeader=ET.SubElement(ProjectInfo,'ProjectLeader');ProjectLeader.text=ProjectInfoDict['project_leader']
     ProjectDescription=ET.SubElement(ProjectInfo,'ProjectDescription');ProjectDescription.text=ProjectInfoDict['project_description']
-
+    
     #建筑信息
     BuildingInfo=ET.SubElement(root,'BuildingInfo')
-    BuildingMaterial=ET.SubElement(BuildingInfo,'BuildingMaterial');BuildingMaterial.text=BuildingInfoDict['material']
-    FigureTime=ET.SubElement(BuildingInfo,'FigureTime');FigureTime.text=BuildingInfoDict['figure_time'].strftime('%Y-%m-%d')
-    StructureHeight=ET.SubElement(BuildingInfo,'StructureHeight');StructureHeight.text=str(BuildingInfoDict['height'])
-    StructureType=ET.SubElement(BuildingInfo,'StructureType');StructureType.text=BuildingInfoDict['structure_type']
-    StructureFloorsNumber=ET.SubElement(BuildingInfo,'StructureFloorsNumber');StructureFloorsNumber.text=str(BuildingInfoDict['floor'])
-    BuildingArea=ET.SubElement(BuildingInfo,'BuildingArea');BuildingArea.text=str(BuildingInfoDict['area'])
-    UnitCost=ET.SubElement(BuildingInfo,'UnitCost');UnitCost.text=str(BuildingInfoDict['cost_per_squaremeter'])
+    BuildingMaterial=ET.SubElement(BuildingInfo,'BuildingMaterial');BuildingMaterial.text=ProjectInfoDict['material']
+    FigureTime=ET.SubElement(BuildingInfo,'FigureTime');FigureTime.text=ProjectInfoDict['figure_time'].strftime('%Y-%m-%d')
+    StructureHeight=ET.SubElement(BuildingInfo,'StructureHeight');StructureHeight.text=str(ProjectInfoDict['height'])
+    StructureType=ET.SubElement(BuildingInfo,'StructureType');StructureType.text=ProjectInfoDict['structure_type']
+    StructureFloorsNumber=ET.SubElement(BuildingInfo,'StructureFloorsNumber');StructureFloorsNumber.text=str(ProjectInfoDict['floor'])
+    BuildingArea=ET.SubElement(BuildingInfo,'BuildingArea');BuildingArea.text=str(ProjectInfoDict['area'])
+    UnitCost=ET.SubElement(BuildingInfo,'UnitCost');UnitCost.text=str(ProjectInfoDict['cost_per_squaremeter'])
     Floors=ET.SubElement(BuildingInfo,'Floors')
 
     #结构构件
@@ -294,14 +345,25 @@ def xmlProject(ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList
     EarthquakeGroup=ET.SubElement(EarthquakeInfo,'EarthquakeGroup');EarthquakeGroup.text=str(EarthquakeInfoDict['group'])
     EarthquakeLevel=ET.SubElement(EarthquakeInfo,'EarthquakeLevel');EarthquakeLevel.text=EarthquakeInfoDict['earthquake_level']
     EarthquakeWaves=ET.SubElement(EarthquakeInfo,'EarthquakeWaves')
+<<<<<<< HEAD
+    
+    #结构响应
+    StructureResponse=ET.SubElement(root,'StructureResponse')
+    FloorsNumber=ET.SubElement(StructureResponse,'FloorsNumber');FloorsNumber.text=str(BuildingInfoDict['floor'])
+    print('mmm')
+=======
+    #EarthquakeWave=ET.SubElement(EarthquakeWaves,'EarthquakeWave',{'waveNo':str(1)})
    
     #结构响应
     StructureResponse=ET.SubElement(root,'StructureResponse')
+    FloorsNumber=ET.SubElement(StructureResponse,'FloorsNumber');FloorsNumber.text=str(ProjectInfoDict['floor'])
+>>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c
+    EarthquakeNumber=ET.SubElement(StructureResponse,'EarthquakeNumber');EarthquakeNumber.text=str(EarthquakeInfoDict['number'])
     X_SDR=ET.SubElement(StructureResponse,'X-SDR')
     X_ACC=ET.SubElement(StructureResponse,'X-ACC')
     Y_SDR=ET.SubElement(StructureResponse,'Y-SDR')
     Y_ACC=ET.SubElement(StructureResponse,'Y-ACC')
-
+    
     Tree=ET.ElementTree(root)
     print(type(Tree))
     path='./media/project/'+str(ProjectInfoDict['id'])+'/project.xml'
@@ -333,8 +395,10 @@ def xmlProject(ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList
         addEarthquakeWave(path,EarthquakeWaveDict)
 
     #新增结构响应
-    for StructureResponseDict in  StructureResponseList:
-        addStructureResponse(path,StructureResponseDict)
+    for StructureElementsDict in  StructureResponseList:
+        data=StructureElementsDict['data']
+        StructureElementsDict['data']=data[1:-1].split(", ")
+        addStructureResponse(path,StructureElementsDict)
     result = runDll(path)
     return result
 
@@ -343,21 +407,61 @@ from reportlab.pdfgen import canvas
 def runDll(project_file_path):
     print("runDll")
     print(project_file_path)
-    dll =cdll.LoadLibrary("./x64//Debug//Dll3.dll")
-    readfile=dll.pl
-    readfile.argtypes=[c_char_p]
-    readfile.restype=c_int
-    s=(c_char * 200)(*bytes(project_file_path,"utf-8"))
+<<<<<<< HEAD
+    dll =cdll.LoadLibrary("./x64/Release/Dll3.dll")
+    #readfile=dll.pl
+    #readfile.argtypes=[c_char_p]
+    #readfile.restype=c_int
+    s=(c_char * 29)(*bytes(project_file_path,"utf-8"))
+=======
+    dll =cdll.LoadLibrary("./x64//Release//Dll3.dll")
+    #readfile=dll.pl
+    #readfile.argtypes=[c_char_p]
+    #readfile.restype=c_int
+    s=(c_char * 100)(*bytes(project_file_path,"utf-8"))
+>>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c
+    CostStar=dll.TryGetCostStar
+    CostStar.argtypes=[c_char_p]
+    CostStar.restype=c_int
+    h1=CostStar(s)
+    h1="CostStar:"+str(h1)
+
+    TimeStar=dll.TryGetTimeStar
+    TimeStar.argtypes=[c_char_p]
+    TimeStar.restype=c_int
+    h2=TimeStar(s)
+    h2="TimeStar:"+str(h2)
+
+    CalsualtyStar=dll.TryGetCalsualtyStar
+    CalsualtyStar.argtypes=[c_char_p]
+    CalsualtyStar.restype=c_int
+    h3=CalsualtyStar(s)
+    h3="CalsualtyStar:"+str(h3)
+
+    FinalStar=dll.TryGetFinalStar
+    FinalStar.argtypes=[c_char_p]
+    FinalStar.restype=c_int
+    h4=FinalStar(s)
+    h5="FinalStar:"+str(h4)
+
     print("s success")
-    h=readfile(s)
-    print(h)
+    #h=readfile(s)
+    #print(h)
     pdf_path=project_file_path.replace("xml","pdf")
     print(pdf_path)
+    h6=h1+'   '+h2+'    '+h3+'   '+h5
     c=canvas.Canvas(pdf_path)
-    c.drawString(100,800,str(h))
-    c.drawString(100,1000,"rating result")
+    c.drawString(100,700,str(h6))
+    #c.drawString(100,100,"rating result")
     c.showPage()
     c.save()
-    return h
+    return h4
+<<<<<<< HEAD
+    
+=======
+'''
+
+'''
 
     
+>>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c

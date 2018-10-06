@@ -4,8 +4,9 @@
   </UniqueID>
   <ID>MEP.M.06.08</ID>
   <Description>不锈钢管，截面大于0.7平米，水平+垂直支撑</Description>
-  <BasicUnit>333m</BasicUnit>
-  <Cost />
+  <BasicUnit>1m</BasicUnit>
+  <Cost>40</Cost>
+  <RepairWorkNumber>5</RepairWorkNumber>
   <Name>MEP.M.06.08</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -23,7 +24,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-04-17 20:51:01.778</DateCreated>
+  <DateCreated>2018-07-17 21:33:10.033</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -59,7 +60,7 @@
           <CostRatio>0</CostRatio>
           <RepairRatio>0</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.07</UpperQuantityRatio>
+          <UpperQuantityRatio>0.93</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
@@ -95,21 +96,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>3.996</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>3.71628</MinAmount>
           <Uncertainty>0.13</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>0.09</CostRatio>
           <RepairRatio>1.11</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.07</UpperQuantityRatio>
+          <UpperQuantityRatio>0.93</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>2.15</MaxAmount>
+          <MaxAmount>0.007</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>2.0425</MinAmount>
+          <MinAmount>0.00665</MinAmount>
           <Uncertainty>0.28</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>
@@ -139,21 +140,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>40.4</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>37.572</MinAmount>
           <Uncertainty>0.14</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>
           <RepairRatio>1.01</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.07</UpperQuantityRatio>
+          <UpperQuantityRatio>0.93</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>23.7</MaxAmount>
+          <MaxAmount>0.078</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>22.515</MinAmount>
+          <MinAmount>0.0741</MinAmount>
           <Uncertainty>0.28</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>
