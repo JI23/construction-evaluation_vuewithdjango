@@ -110,13 +110,22 @@
                     let project_leader = res['base_info'][0].fields.project_leader
                     let project_description = res['base_info'][0].fields.project_description
                     //step2
-                    let material = res['base_info'][0].fields.material
-                    let structure_type = res['base_info'][0].fields.structure_type
-                    let figure_time = res['base_info'][0].fields.figure_time
-                    let floors = res['base_info'][0].fields.floor
-                    let height = res['base_info'][0].fields.height
-                    let area = res['base_info'][0].fields.area
-                    let cost_per_squaremeter = res['base_info'][0].fields.cost_per_squaremeter
+                    //修改后
+                    let material = res['building_info'][0].fields.material
+                    let structure_type = res['building_info'][0].fields.structure_type
+                    let figure_time = res['building_info'][0].fields.figure_time
+                    let floors = res['building_info'][0].fields.floor
+                    let height = res['building_info'][0].fields.height
+                    let area = res['building_info'][0].fields.area
+                    let cost_per_squaremeter = res['building_info'][0].fields.cost_per_squaremeter
+                    //修改前
+                    // let material = res['base_info'][0].fields.material
+                    // let structure_type = res['base_info'][0].fields.structure_type
+                    // let figure_time = res['base_info'][0].fields.figure_time
+                    // let floors = res['base_info'][0].fields.floor
+                    // let height = res['base_info'][0].fields.height
+                    // let area = res['base_info'][0].fields.area
+                    // let cost_per_squaremeter = res['base_info'][0].fields.cost_per_squaremeter
                     let Floor_info=res['floor_info']
                     for(var i = 0; i < res['floor_info'].length; i++){
                                 delete res['floor_info'][i].fields.project //删掉返回的project属性
@@ -166,15 +175,12 @@
                     var site_type=''
                     var number=''
                     var group=''
+                    var peak_acceleration=''
                     var earthquake_level=''
-                    var earthquake_info=new Array
                     console.log('step5')
                     if(res['earthquake_info']!='')
                     {
-                        console.log('earthquake_info!=null')
                         let defense_intensity_temp=res['earthquake_info'][0].fields.defense_intensity
-                        console.log('step5')
-                        console.log(defense_intensity_temp)
                         var defense_intensity
                         if(defense_intensity_temp==1.0)
                             defense_intensity=1
@@ -191,12 +197,29 @@
                         site_type=res['earthquake_info'][0].fields.site_type
                         number=res['earthquake_info'][0].fields.number
                         group=res['earthquake_info'][0].fields.group
-                        //let peak_acceleration=JSON.stringify(res['earthquake_info'][0].fields.peak_acceleration)
-                        //console.log(res['earthquake_info'][0].fields.earthquake_level)
+                        peak_acceleration=res['earthquake_info'][0].fields.peak_acceleration
                         earthquake_level=res['earthquake_info'][0].fields.earthquake_level
-                        earthquake_info=res['earthquake_info'][0].fields.earthquake_info
                     }
-                    
+                    let earthquake_info=new Array
+                    if(res['wave_info']!=null)
+                    {
+                        var m=0
+                        for(var i = 0; i < res['wave_info'].length; i++){
+                                        delete res['wave_info'][i].fields.project
+                                        delete res['wave_info'][i].fields.earthquake_wave_file
+                                        console.log("循环里")
+                                        earthquake_info[m]=res['wave_info'][i].fields
+                                        earthquake_info[m].earthquake_no=res['wave_info'][i].fields.earthquake_wave_no
+                                        earthquake_info[m].name=res['wave_info'][i].fields.earthquake_wave_name
+                                        earthquake_info[m].peak=res['wave_info'][i].fields.peak
+                                        delete earthquake_info[m].earthquake_wave_no
+                                        delete earthquake_info[m].earthquake_wave_name
+                                        m++        
+                        } 
+                        earthquake_info=JSON.stringify(earthquake_info)
+                        console.log('edit step5 ')
+                        console.log(earthquake_info)
+                    }
                     //step6
                     console.log('step6')
                     console.log(res['structure_response'])
@@ -265,12 +288,11 @@
                     localStorage.setItem('site_type',JSON.stringify(site_type))
                     localStorage.setItem('number',JSON.stringify(number))
                     localStorage.setItem('group',JSON.stringify(group))
-                    //localStorage.setItem('peak_acceleration',peak_acceleration)
+                    localStorage.setItem('peak_acceleration',peak_acceleration)
                     localStorage.setItem('earthquake_level',JSON.stringify(earthquake_level))
-                    localStorage.setItem('earthquake_info',JSON.stringify(earthquake_info))
+                    localStorage.setItem('earthquake_info',earthquake_info)
                     //step6
                     localStorage.setItem('structure_response',JSON.stringify(structure_response))
-                    let a=localStorage.getItem('structure_response')
                 }).catch(function(err){
                     console.log(err)
                 })

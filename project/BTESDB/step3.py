@@ -55,6 +55,7 @@ def save_elements(request):
         response['error_num']=1
         return JsonResponse(response)
 
+
     #判断是结构构件还是非结构构件
     if is_structure=='True':
         element_type='s'

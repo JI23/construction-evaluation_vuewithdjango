@@ -55,7 +55,7 @@
             </el-table-column>
         </el-table> 
         <el-button @click="newComponent">新增非结构构件</el-button>
-        <el-button @click="saveElements">保存所有非结构构件</el-button>
+        <!-- <el-button @click="saveElements">保存所有非结构构件</el-button> -->
         <el-dialog
         title="选择易损性数据库"
         :visible.sync="dialogVisible"
@@ -143,20 +143,14 @@
     created(){
       //从localStorage中读取条件并赋值给查询表单
         let tableData = localStorage.getItem('non_structure_element')
+        console.log('step4.vue')
         console.log(tableData)
-        if (tableData.length!=0) {
-            console.log("bukong")
-            this.tableData = JSON.parse(tableData)
-        }
-        else{
-            this.tableData.push({
-                id: '',
-                start_floor: '',
-                stop_floor:'',
-                X:null,
-                Y:null,
-                Non:null
-            })
+        if(tableData!=null){
+            tableData=JSON.parse(tableData)
+            if (tableData.length!=0) {
+            console.log("飞空")
+            this.tableData = tableData
+            }
         }
     },
     methods: {
@@ -227,11 +221,7 @@
                                 for(var k = 0; k < res['list'].length; k++){
                                     if(res['list'][k].fields.second === res['second'][j][1]){
                                         var item1 = {
-<<<<<<< HEAD
-                                            label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description,
-=======
                                             label: res['list'][k].fields.part_id + " " + res['list'][k].fields.part_name + " " + res['list'][k].fields.description + " " + res['list'][k].fields.basic_unit,
->>>>>>> upstream/master
                                             children:[]
                                         }
                                         item.children.push(item1)
@@ -256,37 +246,37 @@
                     });
             this.dialogVisible = true
         },
-        saveElements(){
-            let _this=this;
-            var project=localStorage.getItem('project')
-            var floors=localStorage.getItem('floors')
-            this.$ajax({
-                method:'get',
-                url:'step3-save-elements',
-                params:{
-                    is_structure:'False',
-                    project:project,
-                    floors:floors,
-                    tableData:this.tableData,
-                },
-                headers:{"Content-Type": "application/json"}
-            })
-            .then(function(response){
-                console.log(response)
-                var res=response.data
-                if(res.error_num==0){
-                    console.log(res['msg'])
-                    _this.$message.success(res['msg'])
-                }
-                else {
-                    _this.$message.error(res['msg'])
-                    console.log(res['msg'])
-                }
-            })
-            .catch(function(err){
-                    console.log(err);
-                    });
-        },
+        // saveElements(){
+        //     let _this=this;
+        //     var project=localStorage.getItem('project')
+        //     var floors=localStorage.getItem('floors')
+        //     this.$ajax({
+        //         method:'get',
+        //         url:'step3-save-elements',
+        //         params:{
+        //             is_structure:'False',
+        //             project:project,
+        //             floors:floors,
+        //             tableData:this.tableData,
+        //         },
+        //         headers:{"Content-Type": "application/json"}
+        //     })
+        //     .then(function(response){
+        //         console.log(response)
+        //         var res=response.data
+        //         if(res.error_num==0){
+        //             console.log(res['msg'])
+        //             _this.$message.success(res['msg'])
+        //         }
+        //         else {
+        //             _this.$message.error(res['msg'])
+        //             console.log(res['msg'])
+        //         }
+        //     })
+        //     .catch(function(err){
+        //             console.log(err);
+        //             });
+        // },
         deleteRow(index, rows) {
             rows.splice(index, 1);
         },
@@ -315,15 +305,96 @@
                   console.log(data)
                   var temp = data.label.split(' ')
                   this.tableData[this.index].id = temp[0];
-<<<<<<< HEAD
-=======
                   this.tableData[this.index].unit = temp[3];
->>>>>>> upstream/master
                   this.dialogVisible = false;   
               }
         },
-          next(){
-            this.$emit('next','');
+        next(){
+            let _this=this;
+            var floors=localStorage.getItem('floors')
+            var project=localStorage.getItem('project')
+            console.log(this.tableData)
+            console.log(this.tableData.length)
+            for(var i=0;i<this.tableData.length;i++)
+            {   
+                console.log(this.tableData[i].id)
+                console.log(this.tableData[i].start_floor)
+                console.log(this.tableData[i].stop_floor)
+                console.log(this.tableData[i].X)
+                console.log(this.tableData[i].Y)
+                console.log(this.tableData[i].Non)
+                
+                if (this.tableData[i].id=='' || this.tableData[i].start_floor=='' || this.tableData[i].stop_floor=='' || 
+                    this.tableData[i].X==null || this.tableData[i].Y==null || this.tableData[i].Non==null){
+                    _this.$message.error("请完整填写构建信息好吗")
+                }
+                else{
+                    this.$ajax({
+                    method:'get',
+                    url:'step3-save-elements',
+                    params:{
+                        is_structure:'Falae',
+                        project:project,
+                        floors:floors,
+                        tableData:this.tableData,
+                    },
+                    })
+                    .then(function(response){
+                        console.log(response)
+                        var res=response.data
+                        if(res.error_num==0){
+                            console.log(res['msg'])
+                            _this.$message.success(res['msg'])
+                            //console.log(_this.tableData[0].id) id里存的确实是字符串形式啊
+                            setTimeout(()=>{
+                                        _this.$emit('next','');
+                                    },500)
+                        }
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                            console.log(err);
+                            });                   
+                }
+            }
+
+            // let _this=this;
+            // var project=localStorage.getItem('project')
+            // var floors=localStorage.getItem('floors')
+            // this.$ajax({
+            //     method:'get',
+            //     url:'step3-save-elements',
+            //     params:{
+            //         is_structure:'False',
+            //         project:project,
+            //         floors:floors,
+            //         tableData:this.tableData,
+            //     },
+            //     headers:{"Content-Type": "application/json"}
+            // })
+            // .then(function(response){
+            //     console.log(response)
+            //     var res=response.data
+            //     if(res.error_num==0){
+            //         console.log(res['msg'])
+            //         _this.$message.success(res['msg'])
+            //         setTimeout(()=>{
+            //                     _this.$emit('next','');
+            //                 },500)
+            //     }
+            //     else {
+            //         _this.$message.error(res['msg'])
+            //         console.log(res['msg'])
+            //     }
+            // })
+            // .catch(function(err){
+            //         console.log(err);
+            //         });
+
+            // //this.$emit('next','');
         },
         back(){
             this.$emit('back','');
