@@ -135,14 +135,19 @@
                     };
                     sessionStorage.setItem("notes_info",JSON.stringify(notes_info));
                     var gen_info=sessionStorage.getItem('gen_info')
-                    var username=sessionStorage.getItem('phone')
+                    var username=localStorage.getItem('phone')
                     console.log(gen_info)
+                    //console.log('333333')
                     console.log(sessionStorage.getItem('notes_info'))
+                    //console.log('333333')
                     console.log(username)
+                    //console.log('333333')
                     if(sessionStorage.getItem('part_id')==null){
                         var part_id=0
                     }
-                    else{ var part_id=sessionStorage.getItem('part_id')}
+                    else{ 
+                        var part_id=sessionStorage.getItem('part_id')
+                    }
                     console.log(part_id)
                     //提交给后台若成功则弹窗提示并跳转至下一部分
                     //记得删除localStorage内容
@@ -150,12 +155,13 @@
                         method:'get',
                         url:'savegen',
                         params: {
-                        gen_info:gen_info,
-                        notes_info:JSON.stringify(notes_info),
-                        username:username,
-                        part_id:part_id,
+                            gen_info:gen_info,
+                            notes_info:JSON.stringify(notes_info),
+                            username:username,
+                            part_id:part_id,
                         },
                     }).then(function(response){
+                        console.log('11111111111111111111111111111111')
                         console.log(response)
                         var res = response.data
                         if (res.error_num == 0) {
@@ -167,18 +173,19 @@
                             console.log('111')
                             _this.$message.success(res['msg'])
                             _this.$router.push({name:'statenum'});
-                            sessionStorage.setItem("statenum","Damage State 1");
+                            sessionStorage.setItem("statenum","损伤状态1");
                         } 
                         else {
                             _this.$message.error(res['msg'])
                             console.log(res['msg'])
                         }
                     }).catch(function(err){
+                        console.log('22222222222222222222222222')
                         console.log(err);
                     });
                 }
-                this.$router.push({name:'statenum'});
-                sessionStorage.setItem("statenum","Damage State 1");
+                //this.$router.push({name:'statenum'});
+                sessionStorage.setItem("statenum","损伤状态1");
                 
             },
         }

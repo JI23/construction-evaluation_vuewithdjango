@@ -87,6 +87,7 @@ def refer_check_statenum(request):
         response['msg']='存储成功'
     except Exception as e:
         print(str(e))
+        print(11111)
         response['error_num']=1
         response['msg']='易损件详情有误'
     return JsonResponse(response)

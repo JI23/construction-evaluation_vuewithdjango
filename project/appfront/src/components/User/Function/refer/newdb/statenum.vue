@@ -104,6 +104,7 @@
                 console.log('111')
             }
             catch(err){
+                console.log('000000000000000000000000')
                 console.log(err)
             }
         },
@@ -111,8 +112,8 @@
 
         methods: {
             savegen(){
-                console.log(this.$refs.check)
-                this.$refs.check.disabled = true
+                //console.log(this.$refs.check)
+                //this.$refs.check.disabled = true
                 if(sessionStorage.getItem('check') === 'DB_User'){
                     let _this=this;
                     var statenum_info = {
@@ -122,7 +123,8 @@
                         description: this.description,
                         DamageImageName:this.DamageImageName,
                     };
-                    sessionStorage.setItem("statenum_info",JSON.stringify(statenum_info));
+                    var temp = sessionStorage.getItem('statenum')
+                    sessionStorage.setItem(temp,JSON.stringify(statenum_info));
                     this.$ajax({
                         method:'get',
                         url:'refer_check_statenum',
@@ -141,7 +143,8 @@
                             console.log(res['DamageImageName'])
                             _this.$message.success(res['msg'])
                             statenum_info['DamageImageName']=res['DamageImageName']
-                            sessionStorage.setItem("statenum_info",JSON.stringify(statenum_info));
+                            var temp = sessionStorage.getItem("statenum")
+                            sessionStorage.setItem(temp,JSON.stringify(statenum_info));
                         } 
                         else {
                             _this.$message.error(res['msg'])
