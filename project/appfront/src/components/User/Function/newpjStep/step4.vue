@@ -307,7 +307,7 @@
                   console.log(data)
                   var temp = data.label.split(' ')
                   this.tableData[this.index].id = temp[0];
-                  this.tableData[this.index].unit = temp[3];
+                  this.tableData[this.index].unit = temp[temp.length-1];
                   this.dialogVisible = false;   
               }
         },

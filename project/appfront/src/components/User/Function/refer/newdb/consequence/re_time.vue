@@ -182,6 +182,9 @@
                         text: 'Story Drift Ratio(rad)'
                     }
                 },
+                credits: {  
+                    enabled: false     //不显示LOGO 
+                },
                 legend: {
                     layout: 'vertical',
                     align: 'right',

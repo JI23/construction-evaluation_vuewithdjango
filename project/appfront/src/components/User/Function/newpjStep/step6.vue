@@ -8,32 +8,19 @@
             <div>
                 <el-col :span="24">
                     <el-col :span="4">
-                        <span class="lebal">方向</span><br>
-                        <el-input style="width:100%"  v-model="data[0].direction"  placeholder="X方向" :disabled="true"></el-input>
+                        <span class="lebal">方向：X方向</span><br>
                     </el-col>
                     <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="6">
-                        <span class="lebal">EDP类型</span><br>
-                        <el-input style="width:100%"  v-model="data[0].EDP_type"  placeholder="Story Drift Ratio/层间位移角" :disabled="true"></el-input>
+                    <el-col :span="12">
+                        <span class="lebal">EDP类型：Story Drift Ratio/层间位移角</span><br>
                     </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="5">
-                        <span class="lebal">楼层数量</span><br>
-                        <el-input style="width:100%"  @change="change_level_1" v-model="data[0].floor_no" ></el-input>
-                    </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="5">
-                        <span class="lebal">地震数量</span><br>
-                        <el-input style="width:100%"  @change="change_level_1" v-model="data[0].earthquake_no" ></el-input>
-                    </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
                 </el-col>
-            </div>
-            <div v-if="data[0].floor_no && data[0].earthquake_no">
+            </div><br>
+            <div>
                 <el-table :data="data1"  border max-height="200">
-                    <el-table-column prop="floor" label="楼层">
+                    <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.floor"></el-input>
+                            <el-input v-model="scope.row.floor" :disabled="true"></el-input>
                         </template>
                     </el-table-column>
                     <el-table-column :label="col" v-for="(col,index) in temp1" :key="col">
@@ -48,32 +35,19 @@
             <div>
                 <el-col :span="24">
                     <el-col :span="4">
-                        <span class="lebal">方向</span><br>
-                        <el-input style="width:100%"  v-model="data[1].direction"  placeholder="X方向" :disabled="true"></el-input>
+                        <span class="lebal">方向：X方向</span><br>
                     </el-col>
                     <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="6">
-                        <span class="lebal">EDP类型</span><br>
-                        <el-input style="width:100%"  v-model="data[1].EDP_type"  placeholder="Acceleration/楼层加速度" :disabled="true"></el-input>
+                    <el-col :span="12">
+                        <span class="lebal">EDP类型：Acceleration/楼层加速度</span><br>
                     </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="5">
-                        <span class="lebal">楼层数量</span><br>
-                        <el-input style="width:100%"  @change="change_level_2" v-model="data[1].floor_no" ></el-input>
-                    </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="5">
-                        <span class="lebal">地震数量</span><br>
-                        <el-input style="width:100%"  @change="change_level_2" v-model="data[1].earthquake_no" ></el-input>
-                    </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
                 </el-col>
-            </div>
-            <div v-if="data[1].floor_no && data[1].earthquake_no">
+            </div><br>
+            <div>
                 <el-table :data="data2"  border max-height="200">
-                    <el-table-column prop="floor" label="楼层">
+                    <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.floor"></el-input>
+                            <el-input v-model="scope.row.floor" :disabled="true"></el-input>
                         </template>
                     </el-table-column>
                     <el-table-column :label="col" v-for="(col,index) in temp2" :key="col">
@@ -88,32 +62,19 @@
             <div>
                 <el-col :span="24">
                     <el-col :span="4">
-                        <span class="lebal">方向</span><br>
-                        <el-input style="width:100%"  v-model="data[2].direction"  placeholder="Y方向" :disabled="true"></el-input>
+                        <span class="lebal">方向：Y方向</span><br>
                     </el-col>
                     <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="6">
-                        <span class="lebal">EDP类型</span><br>
-                        <el-input style="width:100%"  v-model="data[2].EDP_type"  placeholder="Story Drift Ratio/层间位移角" :disabled="true"></el-input>
+                    <el-col :span="12">
+                        <span class="lebal">EDP类型：Story Drift Ratio/层间位移角</span><br>
                     </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="5">
-                        <span class="lebal">楼层数量</span><br>
-                        <el-input style="width:100%"  @change="change_level_3" v-model="data[2].floor_no" ></el-input>
-                    </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="5">
-                        <span class="lebal">地震数量</span><br>
-                        <el-input style="width:100%"  @change="change_level_3" v-model="data[2].earthquake_no" ></el-input>
-                    </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
                 </el-col>
-            </div>
-            <div v-if="data[2].floor_no && data[2].earthquake_no">
+            </div><br>
+            <div>
                 <el-table :data="data3"  border max-height="200">
-                    <el-table-column prop="floor" label="楼层">
+                    <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.floor"></el-input>
+                            <el-input v-model="scope.row.floor" :disabled="true"></el-input>
                         </template>
                     </el-table-column>
                     <el-table-column :label="col" v-for="(col,index) in temp3" :key="col">
@@ -128,32 +89,19 @@
             <div>
                 <el-col :span="24">
                     <el-col :span="4">
-                        <span class="lebal">方向</span><br>
-                        <el-input style="width:100%"  v-model="data[3].direction"  placeholder="Y方向" :disabled="true"></el-input>
+                        <span class="lebal">方向：Y方向</span><br>
                     </el-col>
                     <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="6">
-                        <span class="lebal">EDP类型</span><br>
-                        <el-input style="width:100%"  v-model="data[3].EDP_type"  placeholder="Story Drift Ratio/层间位移角" :disabled="true"></el-input>
+                    <el-col :span="12">
+                        <span class="lebal">EDP类型：Acceleration/楼层加速度</span><br>
                     </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="5">
-                        <span class="lebal">楼层数量</span><br>
-                        <el-input style="width:100%"  @change="change_level_4" v-model="data[3].floor_no" ></el-input>
-                    </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
-                    <el-col :span="5">
-                        <span class="lebal">地震数量</span><br>
-                        <el-input style="width:100%"  @change="change_level_4" v-model="data[3].earthquake_no" ></el-input>
-                    </el-col>
-                    <el-col :span="1" style="color:transparent">''</el-col>
                 </el-col>
-            </div>
-            <div v-if="data[3].floor_no && data[3].earthquake_no">
+            </div><br>
+            <div>
                 <el-table :data="data4"  border max-height="200">
-                    <el-table-column prop="floor" label="楼层">
+                    <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.floor"></el-input>
+                            <el-input v-model="scope.row.floor" :disabled="true"></el-input>
                         </template>
                     </el-table-column>
                     <el-table-column :label="col" v-for="(col,index) in temp4" :key="col">
@@ -183,6 +131,17 @@ export default {
     },
     created(){
       //从localStorage中读取条件并赋值给查询表单
+        var floors_num = localStorage.getItem('floors')
+        let quake_num = localStorage.getItem('number')
+        this.floors_num = floors_num
+        this.quake_num = quake_num
+        console.log(typeof "4")
+        console.log(typeof quake_num)
+        console.log(parseInt(quake_num))
+        this.change_level_1()
+        this.change_level_2()
+        this.change_level_3()
+        this.change_level_4()
         let data_temp=JSON.parse(localStorage.getItem('structure_response'))
         console.log
         if(data_temp==null||data_temp=='')
@@ -264,6 +223,7 @@ export default {
             });
         },
         preview(){
+            window.open('http://47.105.86.170/project.pdf')
             let _this=this;
             var project=localStorage.getItem('project')
             this.$ajax({
@@ -289,98 +249,83 @@ export default {
             });
         },
         change_level_1(){
-            if(this.data[0].floor_no && this.data[0].earthquake_no){
-                console.log("buweikong1")
-                console.log(this.data[0].earthquake_no)
-                this.temp1={}
-                for(var i = 0; i < this.data[0].earthquake_no; i++){
-                    var temp = "earthquake" + (i+1)
-                    this.temp1[i] = temp
+            this.temp1={}
+            for(var i = 0; i < this.quake_num; i++){
+                var temp = "earthquake" + (i+1)
+                this.temp1[i] = temp
+            }
+            this.option_num = "1"
+            this.data1 = []
+            for(var j = 0; j < this.floors_num; j++){
+                var temp = [{}]
+                for(var i = 0; i < this.quake_num; i++){
+                    var temp1 = "earthquake" + (i+1)
+                    temp[0][temp1] = ''
                 }
-                this.option_num = "1"
-                this.data1=[]
-                for(var j = 0; j < this.data[0].floor_no; j++){
-                    var temp = [{}]
-                    for(var i = 0; i < this.data[0].earthquake_no; i++){
-                        var temp_1 = "earthquake" + (i+1)
-                        temp[0][temp_1] = ''
-                    }
-                    temp[0].floor = '情况1'
-                    this.data1.push(temp[0])
-                }
-
+                temp[0].floor = j+1
+                this.data1.push(temp[0])
             }
         },
         change_level_2(){
-            //console.log(this.data[1].earthquake_no)
-            //console.log(this.data[1].floor_no)
-            console.log("buweikong2")
-            console.log(this.data[1].earthquake_no)
-            if(this.data[1].floor_no && this.data[1].earthquake_no){
-                this.temp2={}
-                console.log("change_level_2")
-                console.log(this.temp2)
-                for(var i = 0; i < this.data[1].earthquake_no; i++){
-                    var temp = "earthquake" + (i+1)
-                    this.temp2[i] = temp
+            this.temp2={}
+            for(var i = 0; i < this.quake_num; i++){
+                var temp = "earthquake" + (i+1)
+                this.temp2[i] = temp
+            }
+            this.option_num = "2"
+            this.data2 = []
+            for(var j = 0; j < this.floors_num; j++){
+                var temp = [{}]
+                for(var i = 0; i < this.quake_num; i++){
+                    var temp1 = "earthquake" + (i+1)
+                    temp[0][temp1] = ''
                 }
-                this.option_num = "2"
-                        this.data2=[]
-                        for(var j = 0; j < this.data[1].floor_no; j++){
-                            var temp = [{}]
-                            for(var i = 0; i < this.data[1].earthquake_no; i++){
-                                var temp1 = "earthquake" + (i+1)
-                                temp[0][temp1] = ''
-                            }
-                            temp[0].floor = '情况2'
-                            this.data2.push(temp[0])
-                        }
+                temp[0].floor = j+1
+                this.data2.push(temp[0])
             }
         },
         change_level_3(){
-            if(this.data[2].floor_no && this.data[2].earthquake_no){
-                this.temp3={}
-                for(var i = 0; i < this.data[2].earthquake_no; i++){
-                    var temp = "earthquake" + (i+1)
-                    this.temp3[i] = temp
+            this.temp3={}
+            for(var i = 0; i < this.quake_num; i++){
+                var temp = "earthquake" + (i+1)
+                this.temp3[i] = temp
+            }
+            this.option_num = "3"
+            this.data3 = []
+            for(var j = 0; j < this.floors_num; j++){
+                var temp = [{}]
+                for(var i = 0; i < this.quake_num; i++){
+                    var temp1 = "earthquake" + (i+1)
+                    temp[0][temp1] = ''
                 }
-                this.option_num = "3"
-                        this.data3=[]
-                        for(var j = 0; j < this.data[2].floor_no; j++){
-                            var temp = [{}]
-                            for(var i = 0; i < this.data[2].earthquake_no; i++){
-                                var temp1 = "earthquake" + (i+1)
-                                temp[0][temp1] = ''
-                            }
-                            temp[0].floor = '情况3'
-                            this.data3.push(temp[0])
-                        }
+                temp[0].floor = j+1
+                this.data3.push(temp[0])
             }
         },
         change_level_4(){
-            if(this.data[3].floor_no && this.data[3].earthquake_no){
-                this.temp4={}
-                for(var i = 0; i < this.data[3].earthquake_no; i++){
-                    var temp = "earthquake" + (i+1)
-                    this.temp4[i] = temp
+            this.temp4={}
+            for(var i = 0; i < this.quake_num; i++){
+                var temp = "earthquake" + (i+1)
+                this.temp4[i] = temp
+            }
+            this.option_num = "4"
+            this.data4 = []
+            for(var j = 0; j < this.floors_num; j++){
+                var temp = [{}]
+                for(var i = 0; i < this.quake_num; i++){
+                    var temp1 = "earthquake" + (i+1)
+                    temp[0][temp1] = ''
                 }
-                this.option_num = "4"
-                        this.data4=[]
-                        for(var j = 0; j < this.data[3].floor_no; j++){
-                            var temp = [{}]
-                            for(var i = 0; i < this.data[3].earthquake_no; i++){
-                                var temp1 = "earthquake" + (i+1)
-                                temp[0][temp1] = ''
-                            }
-                            temp[0].floor = '情况4'
-                            this.data4.push(temp[0])
-                        }
-                }
+                temp[0].floor = j+1
+                this.data4.push(temp[0])
+            }
         },
         
     },
     data(){
         return {
+            quake_num:'',
+            floors_num:'',
             option_num:'0',
             data1:[],
             temp:'',
@@ -415,20 +360,6 @@ export default {
                 earthquake_no:null
             }
             ],
-            EDP_option:[{
-                value:'1',
-                label: 'Story Drift Ratio/层间位移角',
-            }, {
-                value:'2',
-                label: 'Acceleration/楼层加速度',
-            }],
-            direction_option:[{
-                value:'1',
-                label: 'X方向',
-            }, {
-                value:'2',
-                label: 'Y方向',
-            }]
         }    
     }
 }
