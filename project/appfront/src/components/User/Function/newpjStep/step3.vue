@@ -148,7 +148,8 @@
     },
     methods: {
         view_db(){
-            window.open('http://localhost:8080/#/refer/viewdb')
+            localStorage.setItem('new_db_ret','true')
+            this.$router.push({name:'viewdb'});
         },
         chooseId(index, rows){
             this.temp1 = index
@@ -266,7 +267,7 @@
                 Non:null
             })
         },
-         handleNodeClick(data,node){
+        handleNodeClick(data,node){
               //console.log(data);
               console.log(this.choose_value)
               if(node.level==3){

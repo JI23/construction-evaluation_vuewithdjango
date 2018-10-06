@@ -10,6 +10,7 @@
                         :value="item.label">
                     </el-option>
                 </el-select>
+                <el-button @click="ret_newpj" v-show="cancel_show" style="position:relative;">返回项目新建</el-button>
                 <el-button style="float: right" round type="info" @click="write">新建易损性数据库</el-button>
                 <div style="height:380px; position:relative; top:20px">
                     <el-scrollbar class = "el-scrollbar">
@@ -25,6 +26,7 @@
     export default {
         data() {
             return {
+                cancel_show:false,
                 options: [{
                     value: 'DB_common',
                     label: 'DB_Common'
@@ -50,10 +52,17 @@
         },
 
         beforeMount(){
+            if(localStorage.getItem('new_db_ret') == 'true'){
+                this.cancel_show = true
+            }
             this.change_view()
         },
 
         methods: {
+            ret_newpj(){
+                localStorage.setItem('new_db_ret',false)
+                this.$router.push({name:'step3'});
+            },
             handleNodeClick(data,node){
                 //console.log(data);
                 let _this = this

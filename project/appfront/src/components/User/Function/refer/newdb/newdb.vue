@@ -139,10 +139,12 @@
                 else{
                     var temp1 = localStorage.getItem('project')
                     var temp2 = localStorage.getItem('phone')
+                    var temp3 = localStorage.getItem('new_db_ret')
                     localStorage.clear()
                     sessionStorage.clear()
-                    localStorage.setItem('project',0)
+                    localStorage.setItem('project',temp1)
                     localStorage.setItem('phone',temp2)
+                    localStorage.setItem('new_db_ret',temp3)
                 }
                 next()
             } else {
