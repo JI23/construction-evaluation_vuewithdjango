@@ -98,8 +98,8 @@
                             notes: res.detail.notes,
                         };
                         for(var i = 0; i < res.DamageStates.length; i++){
-                            var temp1 = "\"Damage State "+(i+1) + "\""
-                            var temp2 = "\"Consequence Functions " + (i+1) + "\""
+                            var temp1 = "\"损伤状态"+(i+1) + "\""
+                            var temp2 = "\"结果详情" + (i+1) + "\""
                             var statenum_info = {
                                 name: res.DamageStates[i].name, 
                                 median: res.DamageStates[i].median, 

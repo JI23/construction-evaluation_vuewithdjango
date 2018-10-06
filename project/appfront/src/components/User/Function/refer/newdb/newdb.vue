@@ -89,7 +89,7 @@
                 else if(data.label === 'Add Damage State'){
                     var temp = this.data[0].children[0].children.length+1;
                     this.data[0].children[0].children[temp-1] = Object.assign({},this.data_temp[0]);
-                    this.data[0].children[0].children[temp-1].label = 'Damage State '+temp;
+                    this.data[0].children[0].children[temp-1].label = '损伤状态'+temp;
                     //console.log(this.data[0].children[0].children[temp-1].children[0].label)
                     //console.log('!')
                     this.data[0].children[0].children[temp-1].children[0].label = 'Consequence Functions '+temp;
@@ -112,12 +112,18 @@
         beforeRouteLeave (to, from , next) {
             const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
             if (answer) {
-                var temp1 = localStorage.getItem('project')
-                var temp2 = localStorage.getItem('phone')
-                localStorage.clear()
-                sessionStorage.clear()
-                localStorage.setItem('project',temp1)
-                localStorage.setItem('phone',temp2)
+                if(to.name === 'step3' | to.name === 'step4'){
+                    sessionStorage.clear()
+                    localStorage.setItem('new_db_ret','false')
+                }
+                else{
+                    var temp1 = localStorage.getItem('project')
+                    var temp2 = localStorage.getItem('phone')
+                    localStorage.clear()
+                    sessionStorage.clear()
+                    localStorage.setItem('project',0)
+                    localStorage.setItem('phone',temp2)
+                }
                 next()
             } else {
                 next(false)

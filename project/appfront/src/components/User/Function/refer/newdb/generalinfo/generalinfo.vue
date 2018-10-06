@@ -319,9 +319,9 @@
                         method:'get',
                         url:'savegen_gen_info',
                         params: {
-                        'gen_info':gen_info,
-                        'username':localStorage.getItem('phone'),
-                        'part_id':part_id,
+                            'gen_info':gen_info,
+                            'username':localStorage.getItem('phone'),
+                            'part_id':part_id,
                         },
                     }).then(function(response){
                         console.log(response)

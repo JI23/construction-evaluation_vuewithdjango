@@ -345,19 +345,11 @@ def xmlProject(ProjectInfoDict,FloorsList,StructureElementsList,NonStructureElem
     EarthquakeGroup=ET.SubElement(EarthquakeInfo,'EarthquakeGroup');EarthquakeGroup.text=str(EarthquakeInfoDict['group'])
     EarthquakeLevel=ET.SubElement(EarthquakeInfo,'EarthquakeLevel');EarthquakeLevel.text=EarthquakeInfoDict['earthquake_level']
     EarthquakeWaves=ET.SubElement(EarthquakeInfo,'EarthquakeWaves')
-<<<<<<< HEAD
-    
-    #结构响应
-    StructureResponse=ET.SubElement(root,'StructureResponse')
-    FloorsNumber=ET.SubElement(StructureResponse,'FloorsNumber');FloorsNumber.text=str(BuildingInfoDict['floor'])
-    print('mmm')
-=======
     #EarthquakeWave=ET.SubElement(EarthquakeWaves,'EarthquakeWave',{'waveNo':str(1)})
    
     #结构响应
     StructureResponse=ET.SubElement(root,'StructureResponse')
     FloorsNumber=ET.SubElement(StructureResponse,'FloorsNumber');FloorsNumber.text=str(ProjectInfoDict['floor'])
->>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c
     EarthquakeNumber=ET.SubElement(StructureResponse,'EarthquakeNumber');EarthquakeNumber.text=str(EarthquakeInfoDict['number'])
     X_SDR=ET.SubElement(StructureResponse,'X-SDR')
     X_ACC=ET.SubElement(StructureResponse,'X-ACC')
@@ -407,19 +399,11 @@ from reportlab.pdfgen import canvas
 def runDll(project_file_path):
     print("runDll")
     print(project_file_path)
-<<<<<<< HEAD
-    dll =cdll.LoadLibrary("./x64/Release/Dll3.dll")
-    #readfile=dll.pl
-    #readfile.argtypes=[c_char_p]
-    #readfile.restype=c_int
-    s=(c_char * 29)(*bytes(project_file_path,"utf-8"))
-=======
     dll =cdll.LoadLibrary("./x64//Release//Dll3.dll")
     #readfile=dll.pl
     #readfile.argtypes=[c_char_p]
     #readfile.restype=c_int
     s=(c_char * 100)(*bytes(project_file_path,"utf-8"))
->>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c
     CostStar=dll.TryGetCostStar
     CostStar.argtypes=[c_char_p]
     CostStar.restype=c_int
@@ -456,12 +440,4 @@ def runDll(project_file_path):
     c.showPage()
     c.save()
     return h4
-<<<<<<< HEAD
     
-=======
-'''
-
-'''
-
-    
->>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c

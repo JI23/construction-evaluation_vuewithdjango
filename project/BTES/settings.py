@@ -64,13 +64,8 @@ ROOT_URLCONF = 'BTES.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-<<<<<<< HEAD
-        'DIRS': ['appfront/dist', ],
-        #'DIRS': ['templates',],
-=======
         #'DIRS': ['appfront/dist',],
         'DIRS': ['templates',],
->>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -93,17 +88,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'BTESDB',
-<<<<<<< HEAD
-        'USER': 'root',
-        'PASSWORD': '1111',
-        'HOST': 'localhost',
-        'PORT': 3306,
-=======
         'USER':'root',
-        'PASSWORD':'1111',
+        'PASSWORD':'',
         'HOST':'localhost',
         'PORT':3306,
->>>>>>> 97ca1ef2bc62eb429b8a02c9063b105d7dc0b82c
     }
 }
 
