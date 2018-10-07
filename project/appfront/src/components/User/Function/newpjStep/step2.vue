@@ -240,23 +240,12 @@ export default {
         },
         save2(){
             let _this=this;
-            var project_name=localStorage.getItem('project_name')
-            var project_leader=localStorage.getItem('project_leader')
-            var project_description=localStorage.getItem('project_description')
-            var client_name=localStorage.getItem('client_name')
             var project=localStorage.getItem('project')
-            var username=localStorage.getItem('phone')
-            console.log(project_name)
             this.$ajax({
                 method:'get',
                 url:'step2',
                 params:{
-                    username:username,
                     project:project,
-                    project_name:project_name,
-                    project_leader:project_leader,
-                    project_description:project_description,
-                    client_name:client_name,
                     material:this.material,
                     structure_type:this.structure_type,
                     floors:this.floors,

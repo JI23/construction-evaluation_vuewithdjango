@@ -127,6 +127,7 @@ def step2(request):
             response['msg']='建筑信息修改成功'
             response['error_num']=0
         else:
+            print('新建')
             this_project=Project.objects.get(id=project)
             new=Building(project=this_project,
             material=material,
@@ -139,6 +140,7 @@ def step2(request):
             new.save()
             response['msg']='建筑信息新建成功'
             response['error_num']=0
+        saveFloor(request)
     except Exception as e:
         print (str(e))
         response['msg']=str(e)
@@ -148,10 +150,11 @@ def step2(request):
 import ast
 from django.db.models import Max,Min,Sum
 def saveFloor(request):
+    print('saveFloor')
     response={}
-    #print(request.GET)
     try:
     #获取表单数据
+        print(request)
         project=request.GET['project']
         floors=int(request.GET['floors'])
         area=float(request.GET['area'])

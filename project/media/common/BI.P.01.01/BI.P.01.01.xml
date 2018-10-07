@@ -4,8 +4,9 @@
   </UniqueID>
   <ID>BI.P.01.01</ID>
   <Description>轻钢龙骨石膏板，到顶，上、下端固定</Description>
-  <BasicUnit>144m2</BasicUnit>
-  <Cost />
+  <BasicUnit>1m2</BasicUnit>
+  <Cost>220</Cost>
+  <RepairWorkNumber>3</RepairWorkNumber>
   <Name>BI.P.01.01</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -23,7 +24,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-04-17 20:51:01.728</DateCreated>
+  <DateCreated>2018-07-17 21:33:09.963</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -50,21 +51,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>55.66</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>49.5374</MinAmount>
           <Uncertainty>0.44</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>0.22</CostRatio>
           <RepairRatio>1.15</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.12</UpperQuantityRatio>
+          <UpperQuantityRatio>0.89</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>1.82</MaxAmount>
+          <MaxAmount>0.015</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>1.638</MinAmount>
+          <MinAmount>0.0135</MinAmount>
           <Uncertainty>0.51</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>
@@ -94,21 +95,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>133.1</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>118.459</MinAmount>
           <Uncertainty>0.56</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>0.5</CostRatio>
           <RepairRatio>1.21</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.12</UpperQuantityRatio>
+          <UpperQuantityRatio>0.89</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>3.51</MaxAmount>
+          <MaxAmount>0.029</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>3.159</MinAmount>
+          <MinAmount>0.0261</MinAmount>
           <Uncertainty>0.61</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>
@@ -138,21 +139,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>279.4</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>248.666</MinAmount>
           <Uncertainty>0.2</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>
           <RepairRatio>1.27</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.12</UpperQuantityRatio>
+          <UpperQuantityRatio>0.89</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>6.76</MaxAmount>
+          <MaxAmount>0.056</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>6.084</MinAmount>
+          <MinAmount>0.0504</MinAmount>
           <Uncertainty>0.32</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>

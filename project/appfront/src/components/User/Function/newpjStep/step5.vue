@@ -220,7 +220,8 @@ export default {
                     number:this.number,
                     group:this.group,
                     peak_acceleration:this.peak_acceleration,
-                    earthquake_level:this.earthquake_level
+                    earthquake_level:this.earthquake_level,
+                    earthquake_info:this.earthquake_info,
                 },
                 headers:{"Content-Type": "application/json"}
             })

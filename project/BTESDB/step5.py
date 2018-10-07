@@ -7,6 +7,7 @@ import requests
 import json
 
 def step5(request):
+    print('step 5')
     response={}
     try:
         #获取数据
@@ -65,7 +66,8 @@ def step5(request):
             earthquake_level=earthquake_level)
         new.save()
         response['msg']='新建成功'
-        response['error_num']=0   
+        response['error_num']=0  
+    save_waves(request) 
     return JsonResponse(response)
 
 import ast
@@ -107,13 +109,13 @@ def save_wave_file(request):
         print (str(e))
     return JsonResponse(response)
 def save_waves(request):
+    print('save_waves')
     response={}
     try:  
         #获取表单内容
         print(request)
         project=request.GET['project']
         wave_list=request.GET.getlist('earthquake_info[]',[])
-        username=request.GET['username']
         print(wave_list)
         number=request.GET['number']
     except Exception as e:

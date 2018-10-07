@@ -4,8 +4,9 @@
   </UniqueID>
   <ID>BE.F.03.01</ID>
   <Description>框架式幕墙，双层隔热钢化玻璃，厚度6mm+13mm</Description>
-  <BasicUnit>3.3m2</BasicUnit>
-  <Cost />
+  <BasicUnit>1m2</BasicUnit>
+  <Cost>1520</Cost>
+  <RepairWorkNumber>2</RepairWorkNumber>
   <Name>BE.F.03.01</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -23,7 +24,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-04-17 20:51:01.738</DateCreated>
+  <DateCreated>2018-07-17 21:33:09.973</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -50,21 +51,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>1827.648</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>1590.05376</MinAmount>
           <Uncertainty>0.17</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>0.72</CostRatio>
           <RepairRatio>1.67</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.15</UpperQuantityRatio>
+          <UpperQuantityRatio>0.87</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0.603</MaxAmount>
+          <MaxAmount>0.216</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0.5427</MinAmount>
+          <MinAmount>0.1944</MinAmount>
           <Uncertainty>0.3</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>
@@ -94,21 +95,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>2128</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>1851.36</MinAmount>
           <Uncertainty>0.12</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>
           <RepairRatio>1.4</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.15</UpperQuantityRatio>
+          <UpperQuantityRatio>0.87</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0.87</MaxAmount>
+          <MaxAmount>0.312</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0.783</MinAmount>
+          <MinAmount>0.2808</MinAmount>
           <Uncertainty>0.28</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>
@@ -138,21 +139,21 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>2128</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>1851.36</MinAmount>
           <Uncertainty>0.12</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>
           <RepairRatio>1.4</RepairRatio>
           <LowerQuantityRatio>1</LowerQuantityRatio>
-          <UpperQuantityRatio>1.15</UpperQuantityRatio>
+          <UpperQuantityRatio>0.87</UpperQuantityRatio>
         </CostConsequence>
         <TimeConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0.87</MaxAmount>
+          <MaxAmount>0.312</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0.783</MinAmount>
+          <MinAmount>0.2808</MinAmount>
           <Uncertainty>0.28</Uncertainty>
           <CurveType>Normal</CurveType>
           <LowerQuantityRatio>1</LowerQuantityRatio>
