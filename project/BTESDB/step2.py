@@ -24,6 +24,7 @@ def step2(request):
         area=request.GET['area']
         cost_per_squaremeter=request.GET['cost_per_squaremeter']
         
+
         #检查数据合理性
         if len(material)==0:
             response['msg']='材料不能为空！'
@@ -293,4 +294,4 @@ def saveFloor(request):
         response['msg']='楼层高度和不等于总高度！'
         response['error_num']=1
         return JsonResponse(response)
-    return JsonResponse(response)
+    #return JsonResponse(response)

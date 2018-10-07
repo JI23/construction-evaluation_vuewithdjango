@@ -6,9 +6,9 @@
             <el-col :span="2" style="color:transparent">''</el-col>
             <el-col :span="10">
             <h3>个人信息</h3> 
-            <el-form-item label="昵称" prop="nickname">
+            <!-- <el-form-item label="昵称" prop="nickname">
             <el-input v-model="ruleForm.nickname"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="真实姓名" prop="name">
             <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
@@ -34,7 +34,7 @@
             <el-form-item label="公司名称" prop="comName">
             <el-input v-model="ruleForm.comName"></el-input>
             </el-form-item>
-            <el-form-item label="证件号" prop="comNum">
+            <el-form-item label="公司税号" prop="comNum">
             <el-input v-model="ruleForm.comNum"></el-input>
             </el-form-item>
             <el-form-item label="公司职务" prop="comPosition">
@@ -148,9 +148,9 @@
                               localStorage.setItem('telephone', res['telephone'])
                               localStorage.setItem('password', res['password'])
                               console.log(localStorage.getItem('telephone'))
-                              
+
                               console.log(localStorage.getItem('password'))
-                              _this.$router.push({name:'login'});   //这里前面要加个_
+                              _this.$router.push({name:'login'});   
                           } 
                           else if (res['error_num'] == 1){
                               _this.$message.error('公司不在数据库中')

@@ -17,6 +17,7 @@ def edit(request):
         project=request.GET['project']
         this_user=User_Info.objects.get(username=username)
 
+        print (project)
         base_info=Project.objects.filter(id=project,user=this_user)
         if base_info.exists():
             print(json.loads(serializers.serialize("json", base_info)))
@@ -24,8 +25,9 @@ def edit(request):
         else:
             response['base_info']=''
 
-        building_info=Building.objects.filter(id=project)
+        building_info=Building.objects.filter(project=project)
         if building_info.exists():
+            print("building_info  exists")
             print(json.loads(serializers.serialize("json", building_info)))
             response['building_info']=json.loads(serializers.serialize("json", building_info))
         
@@ -40,10 +42,15 @@ def edit(request):
             print('mmmmmm')
             response['floor_info']=(json.loads(serializers.serialize("json", floor_info)))
 
-        element_info=Element.objects.filter(project=project)
+        element_info=Element.objects.filter(project=project).values("start_floor","element_type","stop_floor","X","Y","Non","element__part_id")
+        #Element.objects.filter(project=project)
         if element_info.exists():
-            print (json.loads(serializers.serialize("json", element_info)))
-            response['element_info']=json.loads(serializers.serialize("json", element_info))
+            print('存在')
+            print(element_info)
+            #print (json.loads(serializers.serialize("json", element_info)))
+            #response['element_info']=json.loads(serializers.serialize("json", element_info))
+            response['element_info']=list(element_info)
+            print(element_info)
         else:
             response['element_info']=''
 
