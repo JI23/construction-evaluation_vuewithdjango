@@ -109,7 +109,7 @@
                 else if(data.label === '添加损伤状态'){
                     var temp = this.data[0].children[0].children.length+1;
                     this.data[0].children[0].children[temp-1] = Object.assign({},this.data_temp[0]);
-                    this.data[0].children[0].children[temp-1].label = '损伤详情'+temp;
+                    this.data[0].children[0].children[temp-1].label = '损伤状态'+temp;
                     //console.log(this.data[0].children[0].children[temp-1].children[0].label)
                     //console.log('!')
                     this.data[0].children[0].children[temp-1].children[0].label = '结果函数'+temp;
@@ -132,12 +132,20 @@
         beforeRouteLeave (to, from , next) {
             const answer = window.confirm('当前页面可能还未保存，确定退出？(如已保存请忽略此提示)')
             if (answer) {
-                var temp1 = localStorage.getItem('project')
-                var temp2 = localStorage.getItem('phone')
-                //localStorage.clear()
-                sessionStorage.clear()
-                localStorage.setItem('project',temp1)
-                localStorage.setItem('phone',temp2)
+                if(to.name === 'step3' | to.name === 'step4'){
+                    sessionStorage.clear()
+                    localStorage.setItem('new_db_ret','false')
+                }
+                else{
+                    var temp1 = localStorage.getItem('project')
+                    var temp2 = localStorage.getItem('phone')
+                    var temp3 = localStorage.getItem('new_db_ret')
+                    localStorage.clear()
+                    sessionStorage.clear()
+                    localStorage.setItem('project',temp1)
+                    localStorage.setItem('phone',temp2)
+                    localStorage.setItem('new_db_ret',temp3)
+                }
                 next()
             } else {
                 next(false)

@@ -72,6 +72,7 @@
                     :value="item.value">
                 </el-option>
             </el-select>
+            <el-button style="position:relative; float:right; top:-10px" type="primary" @click="new_db">创建易损性数据库</el-button>
         </div>
         <el-scrollbar class = "el-scrollbar">
             <el-tree class="el-tree" :default-expand-all="true" :data="data"  @node-click="handleNodeClick" ></el-tree>
@@ -183,6 +184,11 @@
         //             console.log(err);
         //             });
         // },
+        new_db(){
+            localStorage.setItem('new_db_ret','true')
+            sessionStorage.setItem('check','DB_User')
+            this.$router.push({name:'newdb'});
+        },
         chooseId(index, rows){
             this.temp1 = index
             this.temp2 = rows
@@ -305,7 +311,7 @@
                   console.log(data)
                   var temp = data.label.split(' ')
                   this.tableData[this.index].id = temp[0];
-                  this.tableData[this.index].unit = temp[3];
+                  this.tableData[this.index].unit = temp[temp.length-1];
                   this.dialogVisible = false;   
               }
         },

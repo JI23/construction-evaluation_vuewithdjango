@@ -116,8 +116,8 @@ export default {
         localStorage.setItem('defense_intensity', defense_intensity)
         let site_type = JSON.stringify(this.site_type)
         localStorage.setItem('site_type', site_type)
-        let number = JSON.stringify(this.number)
-        localStorage.setItem('number', number)
+        let number = this.number
+        localStorage.setItem('number', this.number)
         let group = JSON.stringify(this.group)
         localStorage.setItem('group', group)
         let peak_acceleration = JSON.stringify(this.peak_acceleration)
