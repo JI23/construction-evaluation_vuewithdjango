@@ -42,6 +42,7 @@ def step5(request):
     #获取指向该项目的对象   
     this_project=Project.objects.get(id=project)
     if Earthquake_Info.objects.filter(project=this_project).exists():
+        print('更新')
         #更新数据库中内容
         update=Earthquake_Info.objects.get(project=this_project)
         update.defense_intensity=defense_intensity
@@ -55,6 +56,7 @@ def step5(request):
         response['error_num']=0
     else:
         #在数据库中新建
+        print('新建')
         new=Earthquake_Info(
             project=this_project,
             defense_intensity=defense_intensity,
@@ -66,6 +68,7 @@ def step5(request):
         new.save()
         response['msg']='新建成功'
         response['error_num']=0   
+    save_waves(request)
     return JsonResponse(response)
 
 import ast
@@ -113,7 +116,6 @@ def save_waves(request):
         print(request)
         project=request.GET['project']
         wave_list=request.GET.getlist('earthquake_info[]',[])
-        username=request.GET['username']
         print(wave_list)
         number=request.GET['number']
     except Exception as e:
@@ -128,7 +130,7 @@ def save_waves(request):
         print("将string转化为dict")
         a=ast.literal_eval(item)
         #检验数据合理性
-        if len(a['earthquake_no'])==0:
+        if len(str(a['earthquake_no']))==0:
             response['msg']='地震波编号不能为空！' 
             response['error_num']=1
             return JsonResponse(response) 

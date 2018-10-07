@@ -55,7 +55,7 @@
             </el-table-column>
         </el-table> 
         <el-button @click="newComponent">新增结构构件</el-button>
-        <el-button @click="saveElements">保存所有结构构件</el-button>
+        <!-- <el-button @click="saveElements">保存所有结构构件</el-button> -->
         <el-button @click="view_db">查看易损性数据库详情</el-button>
         <el-dialog
         title="选择易损性数据库"
@@ -142,9 +142,14 @@
         let tableData = localStorage.getItem('structure_element')
         console.log('step3.vue')
         console.log(tableData)
-        if (tableData != null) {
-            this.tableData = JSON.parse(tableData)
+        if(tableData!=null){
+            tableData=JSON.parse(tableData)
+            if (tableData.length!=0) {
+            console.log("飞空")
+            this.tableData = tableData
         }
+        }
+        
     },
     methods: {
         view_db(){
@@ -214,38 +219,38 @@
                     });
             this.dialogVisible = true
         },
-        saveElements(){
-            let _this=this;
-            var floors=localStorage.getItem('floors')
-            var project=localStorage.getItem('project')
-            console.log(this.tableData)
-            this.$ajax({
-                method:'get',
-                url:'step3-save-elements',
-                params:{
-                    is_structure:'True',
-                    project:project,
-                    floors:floors,
-                    tableData:this.tableData,
-                },
-            })
-            .then(function(response){
-                console.log(response)
-                var res=response.data
-                if(res.error_num==0){
-                    console.log(res['msg'])
-                    _this.$message.success(res['msg'])
-                    //console.log(_this.tableData[0].id) id里存的确实是字符串形式啊
-                }
-                else {
-                    _this.$message.error(res['msg'])
-                    console.log(res['msg'])
-                }
-            })
-            .catch(function(err){
-                    console.log(err);
-                    });
-        },
+        // saveElements(){
+        //     let _this=this;
+        //     var floors=localStorage.getItem('floors')
+        //     var project=localStorage.getItem('project')
+        //     console.log(this.tableData)
+        //     this.$ajax({
+        //         method:'get',
+        //         url:'step3-save-elements',
+        //         params:{
+        //             is_structure:'True',
+        //             project:project,
+        //             floors:floors,
+        //             tableData:this.tableData,
+        //         },
+        //     })
+        //     .then(function(response){
+        //         console.log(response)
+        //         var res=response.data
+        //         if(res.error_num==0){
+        //             console.log(res['msg'])
+        //             _this.$message.success(res['msg'])
+        //             //console.log(_this.tableData[0].id) id里存的确实是字符串形式啊
+        //         }
+        //         else {
+        //             _this.$message.error(res['msg'])
+        //             console.log(res['msg'])
+        //         }
+        //     })
+        //     .catch(function(err){
+        //             console.log(err);
+        //             });
+        // },
         deleteRow(index, rows) {
             rows.splice(index, 1);
         },
@@ -277,9 +282,61 @@
                   this.tableData[this.index].unit = temp[temp.length-1];
                   this.dialogVisible = false;   
               }
-          },
-          next(){
-            this.$emit('next','');
+        },
+        next(){
+            let _this=this;
+            var floors=localStorage.getItem('floors')
+            var project=localStorage.getItem('project')
+            console.log("step3 biaoge")
+            console.log(this.tableData)
+            console.log(this.tableData.length)
+            for(var i=0;i<this.tableData.length;i++)
+            {   
+                console.log(this.tableData[i].id)
+                console.log(this.tableData[i].start_floor)
+                console.log(this.tableData[i].stop_floor)
+                console.log(this.tableData[i].X)
+                console.log(this.tableData[i].Y)
+                console.log(this.tableData[i].Non)
+                
+                if (this.tableData[i].id=='' || this.tableData[i].start_floor=='' || this.tableData[i].stop_floor=='' || 
+                    this.tableData[i].X==null || this.tableData[i].Y==null || this.tableData[i].Non==null){
+                    _this.$message.error("请完整填写构建信息好吗")
+                }
+                else{
+                    this.$ajax({
+                    method:'get',
+                    url:'step3-save-elements',
+                    params:{
+                        is_structure:'True',
+                        project:project,
+                        floors:floors,
+                        tableData:this.tableData,
+                    },
+                    })
+                    .then(function(response){
+                        console.log(response)
+                        var res=response.data
+                        if(res.error_num==0){
+                            console.log(res['msg'])
+                            _this.$message.success(res['msg'])
+                            //console.log(_this.tableData[0].id) id里存的确实是字符串形式啊
+                            setTimeout(()=>{
+                                        _this.$emit('next','');
+                                    },500)
+                        }
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                            console.log(err);
+                            });                   
+                }
+            }
+
+            //this.$emit('next','');
         },
         back(){
             this.$emit('back','');

@@ -3,7 +3,7 @@
         <el-row>
             <el-button size="small" class='btn' @click="next">下一步</el-button>
             <el-button size="small" class='btn' @click="back">上一步</el-button>
-            <el-button size="small" class='btn' @click="save1">保存</el-button>
+            <!-- <el-button size="small" class='btn' @click="save1">保存</el-button> -->
         </el-row>
         <el-row>
             <el-col :span="10">
@@ -48,15 +48,7 @@ export default {
         localStorage.setItem('client_name', client_name)
         localStorage.setItem('project_leader', project_leader)
         localStorage.setItem('project_description', project_description)
-    //  }
-    //   else{
-    //     localStorage.removeItem('project_name')
-    //     localStorage.removeItem('client_name')
-    //     localStorage.removeItem('project_leader')
-    //     localStorage.removeItem('project_description')
-    //     console.log('到其他地方');
-    //   }
-      next()
+        next()
     },
     // beforeCreate()
     // {
@@ -86,19 +78,9 @@ export default {
         }
     },
     methods:{
-        next(){
-            this.$emit('next','');
-        },
-        back(){
-            this.$emit('back','');
-        },
-        save1(){
+        next(){    
             let _this=this;
             var username=localStorage.getItem('phone')
-            localStorage.setItem('project_name', this.project_name)
-            localStorage.setItem('project_leader', this.project_leader)
-            localStorage.setItem('project_description', this.project_description)
-            localStorage.setItem('client_name', this.client_name)
             this.$ajax({
                 method:'get',
                 url:'step1',
@@ -117,13 +99,12 @@ export default {
                         var res = response.data
                         console.log(res)
                         if (res['error_num'] == 0) {
-                            console.log(res['msg'])
-                            console.log(localStorage.getItem('project_name'))
-                            console.log(res['project_leader'])
-                            console.log(res['project_description'])
-                            console.log(res['client_name'])
                             _this.$message.success(res['msg'])
                             localStorage.setItem('project',res['project'])
+                            //_this.$emit('next','');
+                            setTimeout(()=>{
+                                _this.$emit('next','');
+                            },500)
                         } 
                         else {
                             _this.$message.error(res['msg'])
@@ -134,6 +115,51 @@ export default {
                         console.log(err);
                     });
         },
+        back(){
+            this.$emit('back','');
+        },
+        // save1(){
+        //     let _this=this;
+        //     var username=localStorage.getItem('phone')
+        //     localStorage.setItem('project_name', this.project_name)
+        //     localStorage.setItem('project_leader', this.project_leader)
+        //     localStorage.setItem('project_description', this.project_description)
+        //     localStorage.setItem('client_name', this.client_name)
+        //     this.$ajax({
+        //         method:'get',
+        //         url:'step1',
+        //         params:{
+        //             username:username,
+        //             project_name:this.project_name,
+        //             client_name:this.client_name,
+        //             project_leader:this.project_leader,
+        //             project_description:this.project_description,
+        //             project:localStorage.getItem('project')
+        //         },
+        //         headers:{"Content-Type": "application/json"}
+        //     })
+        //     .then(function(response){
+        //                 console.log(response)
+        //                 var res = response.data
+        //                 console.log(res)
+        //                 if (res['error_num'] == 0) {
+        //                     console.log(res['msg'])
+        //                     console.log(localStorage.getItem('project_name'))
+        //                     console.log(res['project_leader'])
+        //                     console.log(res['project_description'])
+        //                     console.log(res['client_name'])
+        //                     _this.$message.success(res['msg'])
+        //                     localStorage.setItem('project',res['project'])
+        //                 } 
+        //                 else {
+        //                     _this.$message.error(res['msg'])
+        //                     console.log(res['msg'])
+        //                 }
+        //             })
+        //             .catch(function(err){
+        //                 console.log(err);
+        //             });
+        // },
     }
 }
 </script>

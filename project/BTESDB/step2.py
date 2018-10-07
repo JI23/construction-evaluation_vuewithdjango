@@ -24,6 +24,7 @@ def step2(request):
         area=request.GET['area']
         cost_per_squaremeter=request.GET['cost_per_squaremeter']
         
+
         #检查数据合理性
         if len(material)==0:
             response['msg']='材料不能为空！'
@@ -127,6 +128,7 @@ def step2(request):
             response['msg']='建筑信息修改成功'
             response['error_num']=0
         else:
+            print('新建')
             this_project=Project.objects.get(id=project)
             new=Building(project=this_project,
             material=material,
@@ -139,6 +141,7 @@ def step2(request):
             new.save()
             response['msg']='建筑信息新建成功'
             response['error_num']=0
+        saveFloor(request)
     except Exception as e:
         print (str(e))
         response['msg']=str(e)
@@ -290,4 +293,4 @@ def saveFloor(request):
         response['msg']='楼层高度和不等于总高度！'
         response['error_num']=1
         return JsonResponse(response)
-    return JsonResponse(response)
+    #return JsonResponse(response)

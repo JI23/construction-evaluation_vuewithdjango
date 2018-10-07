@@ -65,6 +65,7 @@
                 localStorage.removeItem('group')
                 localStorage.removeItem('peak_acceleration')
                 localStorage.removeItem('earthquake_level')
+                localStorage.removeItem('earthquake_info')
 
                 localStorage.removeItem('structure_response')
                     //localStorage.clear()
@@ -137,7 +138,7 @@
                     localStorage.removeItem('group')
                     localStorage.removeItem('peak_acceleration')
                     localStorage.removeItem('earthquake_level')
-
+                    localStorage.removeItem('earthquake_info')
                     localStorage.removeItem('structure_response')
 
                 }

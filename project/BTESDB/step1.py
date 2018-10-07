@@ -26,7 +26,7 @@ def step1(request):
             response['msg']='项目名称不能为空！'
             response['error_num']=1
             return JsonResponse(response)
-        elif Project.objects.filter(user=this_user,project_name=project_name).exists():
+        elif Project.objects.filter(user=this_user,project_name=project_name).exists() and project == 0:
             response['msg']='项目名称不得重复！'
             response['error_num']=1
             return JsonResponse(response)
@@ -72,6 +72,7 @@ def step1(request):
                 response['error_num']=0
             except Exception as e:
                 print (str(e))
+                response['project']=update.id
                 response['msg']=str(e)
                 response['error_num']=1
             return JsonResponse(response)  

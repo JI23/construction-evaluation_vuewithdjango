@@ -3,7 +3,7 @@
         <el-row>
             <el-button size="small" class='btn' @click="next">下一步</el-button>
             <el-button size="small" class='btn' @click="back">上一步</el-button>
-            <el-button size="small" class='btn' @click="save5">保存地震信息</el-button>
+            <!-- <el-button size="small" class='btn' @click="save5">保存地震信息</el-button> -->
         </el-row>
         <el-col :span="24" class="step5">
             <el-col :span='8'>
@@ -105,7 +105,7 @@
                 </el-table-column>-->
             </el-table> 
             <!--<el-button @click="newEarthquake">新增地震波</el-button>-->
-            <el-button @click="saveWaves">保存所有地震波</el-button>
+            <!-- <el-button @click="saveWaves">保存所有地震波</el-button> -->
         </el-col>
     </div>
 </template>
@@ -146,17 +146,18 @@ export default {
         if (group != null) {
             this.group = JSON.parse(group)
         }
-        // let peak_acceleration = localStorage.getItem('peak_acceleration')
-        // if (peak_acceleration != null) {
-        //     this.peak_acceleration = JSON.parse(peak_acceleration)
-        // }
+        let peak_acceleration = localStorage.getItem('peak_acceleration')
+        if (peak_acceleration != null) {
+            this.peak_acceleration = JSON.parse(peak_acceleration)
+        }
         let earthquake_level = localStorage.getItem('earthquake_level')
         if (earthquake_level != null) {
             this.earthquake_level = JSON.parse(earthquake_level)
         }
-         let earthquake_info = localStorage.getItem('earthquake_info')
+        let earthquake_info = localStorage.getItem('earthquake_info')
+        console.log(earthquake_info)
         if (earthquake_info != null) {
-             this.earthquake_info = JSON.parse(earthquake_info)
+            this.earthquake_info = JSON.parse(earthquake_info)
         }
         //上传文件部分改动this.fileList,格式为
         var item = {
@@ -166,47 +167,78 @@ export default {
     },
 
     methods:{
-        /*newEarthquake(){
-            this.earthquake_info.push({
-                earthquake_no: '',
-                name: '',
-                peak:'',
-                file:''
-            })        
+        // saveWaves(){
+        //     let _this=this;
+        //     var project=localStorage.getItem('project')
+        //     console.log(this.earthquake_info)
+        //     this.$ajax({
+        //         method:'get',
+        //         url:'step5-save-waves',
+        //         params:{
+        //             earthquake_info:this.earthquake_info,
+        //             project:project,
+        //             test:this.test,
+        //             number:this.number,
+        //             username:localStorage.getItem('phone'),
+        //         },
+        //     })
+        //     .then(function(response){
+        //         console.log(response)
+        //         var res = response.data
+        //         console.log(res)
+        //         if (res.error_num == 0) {
+        //             console.log(res['msg'])
+        //         } 
+        //         else {
+        //             _this.$message.error('存储地震波信息失败')
+        //             console.log(res['msg'])
+        //         }
+        //     })
+        //     .catch(function(err){
+        //             console.log(err);
+        //             });
+        // },
+        // save5(){
+        //     let _this=this;
+        //     console.log(this.defense_intensity)
+        //     var project=localStorage.getItem('project')
+        //     this.$ajax({
+        //         method:'get',
+        //         url:'step5',
+        //         params:{
+        //             project:project,
+        //             defense_intensity:this.defense_intensity,
+        //             site_type:this.site_type,
+        //             number:this.number,
+        //             group:this.group,
+        //             peak_acceleration:this.peak_acceleration,
+        //             earthquake_level:this.earthquake_level,
+        //             earthquake_info:this.earthquake_info,
+        //         },
+        //         headers:{"Content-Type": "application/json"}
+        //     })
+        //     .then(function(response){
+        //         console.log(response)
+        //         var res=response.data
+        //         if(res.error_num==0){
+        //             localStorage.setItem('number',_this.number)
+        //             _this.$message.success(res['msg'])
+        //             console.log(res['msg'])
+        //         }
+        //         else {
+        //             _this.$message.error('存储地震信息失败')
+        //             console.log(res['msg'])
+        //         }
+        //     })
+        //     .catch(function(err){
+        //             console.log(err);
+        //             });
+        // },
+        /*
+        deleteRow(index, rows) {
+            rows.splice(index, 1);
         },*/
-        saveWaves(){
-            let _this=this;
-            var project=localStorage.getItem('project')
-            console.log(this.earthquake_info)
-            this.$ajax({
-                method:'get',
-                url:'step5-save-waves',
-                params:{
-                    earthquake_info:this.earthquake_info,
-                    project:project,
-                    test:this.test,
-                    number:this.number,
-                    username:localStorage.getItem('phone'),
-                },
-            })
-            .then(function(response){
-                console.log(response)
-                var res = response.data
-                console.log(res)
-                if (res.error_num == 0) {
-                    console.log(res['msg'])
-                    _this.$message.success(res['msg'])
-                } 
-                else {
-                    _this.$message.error('存储地震波信息失败')
-                    console.log(res['msg'])
-                }
-            })
-            .catch(function(err){
-                    console.log(err);
-                    });
-        },
-        save5(){
+        next(){
             let _this=this;
             console.log(this.defense_intensity)
             var project=localStorage.getItem('project')
@@ -220,7 +252,8 @@ export default {
                     number:this.number,
                     group:this.group,
                     peak_acceleration:this.peak_acceleration,
-                    earthquake_level:this.earthquake_level
+                    earthquake_level:this.earthquake_level,
+                    earthquake_info:this.earthquake_info,
                 },
                 headers:{"Content-Type": "application/json"}
             })
@@ -229,8 +262,11 @@ export default {
                 var res=response.data
                 if(res.error_num==0){
                     localStorage.setItem('number',_this.number)
-                    console.log(res['msg'])
                     _this.$message.success(res['msg'])
+                    console.log(res['msg'])
+                    setTimeout(()=>{
+                                _this.$emit('next','');
+                            },500)
                 }
                 else {
                     _this.$message.error('存储地震信息失败')
@@ -240,13 +276,8 @@ export default {
             .catch(function(err){
                     console.log(err);
                     });
-        },
-        /*
-        deleteRow(index, rows) {
-            rows.splice(index, 1);
-        },*/
-        next(){
-            this.$emit('next','');
+
+            //this.$emit('next','');
         },
         back(){
             this.$emit('back','');
@@ -311,8 +342,8 @@ export default {
         return{
             upload_data:{
                 username:localStorage.getItem('phone'),
-                project:localStorage.getItem('project'),
-                //wave_no:row.$index,
+                project:1,//localStorage.getItem('project')
+                //wave_no:row.earthquake_no,
                 num:1,
             },
             fileList: [],

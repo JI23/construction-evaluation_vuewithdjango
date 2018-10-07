@@ -64,7 +64,7 @@ ROOT_URLCONF = 'BTES.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        #'DIRS': ['appfront/dist',],
+        #'DIRS': ['appfront/dist', ],
         'DIRS': ['templates',],
         'APP_DIRS': True,
         'OPTIONS': {
