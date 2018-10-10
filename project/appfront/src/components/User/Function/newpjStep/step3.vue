@@ -152,7 +152,8 @@
     },
     methods: {
         view_db(){
-            window.open('http://localhost:8080/#/refer/viewdb')
+            localStorage.setItem('new_db_ret','true')
+            this.$router.push({name:'viewdb'});
         },
         chooseId(index, rows){
             this.temp1 = index
@@ -277,7 +278,7 @@
                   console.log(data)
                   var temp = data.label.split(' ')
                   this.tableData[this.index].id = temp[0];
-                  this.tableData[this.index].unit = temp[3];
+                  this.tableData[this.index].unit = temp[temp.length-1];
                   this.dialogVisible = false;   
               }
         },
