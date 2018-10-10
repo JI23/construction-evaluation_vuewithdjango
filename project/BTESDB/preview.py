@@ -49,7 +49,7 @@ def generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElem
     message = """
     <html>
     <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
     <title>定级报告</title>
     </head>
     <body>"""
