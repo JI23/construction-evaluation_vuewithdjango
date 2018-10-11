@@ -133,6 +133,7 @@
                     } 
                     //step3
                     console.log("editstep3")
+                    console.log(res['element_info'])
                     let structure_element=new Array
                     let j=0
                     for(var i = 0; i < res['element_info'].length; i++){
@@ -143,7 +144,9 @@
                                     //delete res['element_info'][i].fields.element
                                     structure_element[j]=res['element_info'][i]
                                     structure_element[j].id=res['element_info'][i].element__part_id
+                                    structure_element[j].unit=res['element_info'][i].element__basic_unit
                                     delete structure_element[j].element__part_id
+                                    delete structure [j].element__basic_unit
                                     j++
                                 }
                     } 
@@ -162,7 +165,9 @@
                                     //delete res['element_info'][i].fields.element
                                     non_structure_element[k]=res['element_info'][i]
                                     non_structure_element[k].id=res['element_info'][i].element__part_id
+                                    structure_element[j].unit=res['element_info'][i].element__basic_unit
                                     delete non_structure_element[k].element__part_id
+                                    delete structure [j].element__basic_unit
                                     k++
                                 }
                     } 
@@ -198,6 +203,8 @@
                         number=res['earthquake_info'][0].fields.number
                         group=res['earthquake_info'][0].fields.group
                         peak_acceleration=res['earthquake_info'][0].fields.peak_acceleration
+                        console.log("peak_acceleration is ")
+                        console.log(peak_acceleration)
                         earthquake_level=res['earthquake_info'][0].fields.earthquake_level
                     }
                     let earthquake_info=new Array
@@ -288,7 +295,7 @@
                     localStorage.setItem('site_type',JSON.stringify(site_type))
                     localStorage.setItem('number',JSON.stringify(number))
                     localStorage.setItem('group',JSON.stringify(group))
-                    localStorage.setItem('peak_acceleration',peak_acceleration)
+                    localStorage.setItem('peak_acceleration',JSON.stringify(peak_acceleration))
                     localStorage.setItem('earthquake_level',JSON.stringify(earthquake_level))
                     localStorage.setItem('earthquake_info',earthquake_info)
                     //step6
