@@ -3,9 +3,10 @@
   <UniqueID>
   </UniqueID>
   <ID>MEP.E.01.02</ID>
-  <Description>100~350kVA，无锚固、无隔振</Description>
+  <Description>100~350 kVA，无锚固、无隔振</Description>
   <BasicUnit>1个</BasicUnit>
-  <Cost />
+  <Cost>2390</Cost>
+  <RepairWorkNumber>6</RepairWorkNumber>
   <Name>MEP.E.01.02</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -23,7 +24,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-04-17 20:51:01.778</DateCreated>
+  <DateCreated>2018-07-17 21:33:10.043</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -140,9 +141,9 @@
         <RedTagBeta>0</RedTagBeta>
         <CostConsequence>
           <LowerQuantity>1</LowerQuantity>
-          <MaxAmount>0</MaxAmount>
+          <MaxAmount>2724.6</MaxAmount>
           <UpperQuantity>10</UpperQuantity>
-          <MinAmount>0</MinAmount>
+          <MinAmount>2724.6</MinAmount>
           <Uncertainty>0.18</Uncertainty>
           <CurveType>Normal</CurveType>
           <CostRatio>1</CostRatio>

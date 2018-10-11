@@ -3,9 +3,10 @@
   <UniqueID>
   </UniqueID>
   <ID>MEP.E.04.04</ID>
-  <Description>1200~2000kVA，无锚固或隔振</Description>
+  <Description>1200~2000 kvA，无锚固或隔振</Description>
   <BasicUnit>1个</BasicUnit>
-  <Cost />
+  <Cost>120000</Cost>
+  <RepairWorkNumber>6</RepairWorkNumber>
   <Name>MEP.E.04.04</Name>
   <Author>《建筑抗震韧性评价标准》编委会</Author>
   <Correlation>0</Correlation>
@@ -23,7 +24,7 @@
     <Rationality>NA</Rationality>
   </Ratings>
   <Official>true</Official>
-  <DateCreated>2018-04-17 20:51:01.788</DateCreated>
+  <DateCreated>2018-07-17 21:33:10.053</DateCreated>
   <Approved>true</Approved>
   <Incomplete>true</Incomplete>
   <Notes />
@@ -78,7 +79,7 @@
     <DamageState>
       <Name>
       </Name>
-      <Description>设备不能运行，需要修复</Description>
+      <Description>设备不能运行，需要修复/替换</Description>
       <DamageImageName>
       </DamageImageName>
       <ConsequenceGroup>

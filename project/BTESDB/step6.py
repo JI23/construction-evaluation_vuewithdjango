@@ -44,7 +44,7 @@ def step6(request):
             print(line)
             for j in range(earthquake_no):
                 key="earthquake"+str(j+1)
-                temp.append(int(line[key]))
+                temp.append(float(line[key]))
                 print(line[key])
             data.append(temp)
         print(data)

@@ -64,6 +64,7 @@ def save_elements(request):
     #获得指向project的对象
     this_project=Project.objects.get(id=project)
 
+    #删掉该project的所有element信息
     Element.objects.filter(project=this_project,element_type=element_type).delete()
 
     for item in element_list:
@@ -71,8 +72,6 @@ def save_elements(request):
         a=ast.literal_eval(item)
         print(a)
         this_part=DB_part.objects.get(part_id=a['id'])
-        print('this_part is')
-        print(this_part)
         start_floor=a['start_floor']
         print(start_floor)
         print(type(start_floor))
