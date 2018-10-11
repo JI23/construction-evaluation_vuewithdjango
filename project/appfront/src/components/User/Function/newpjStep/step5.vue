@@ -63,7 +63,7 @@
         <!--<el-col :span="1" style="color:transparent">''</el-col>-->
         <el-row>
             <el-col :span="24">
-            <el-table :data="earthquake_info" border class="td-edit" style="width:100%" highlight-current-row width="500" max-height="350" @row-click="handleCurrentChange">
+            <el-table :data="earthquake_info" border class="tb-edit" style="width:100%" highlight-current-row width="500" max-height="350" @row-click="handleCurrentChange">
                 <el-table-column prop="earthquake_no" label="地震波编号" width="140">
                     <template slot-scope="scope">
                         <el-input size="small" v-model="scope.row.earthquake_no" @change="handleEdit(scope.$index, scope.row)"></el-input><span>{{scope.row.earthquake_no}}</span>

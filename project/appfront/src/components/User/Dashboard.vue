@@ -8,7 +8,7 @@
             </el-col>
             <el-col :span="20">
             <el-card class="card clearfix">
-                <router-view></router-view>
+                <router-view style="height:100%" class="mainCard"></router-view>
             </el-card>  
             </el-col>
         </div>
@@ -48,6 +48,7 @@ export default {
     .card{
         box-sizing: border-box;
         margin-left: 10px;
+        height: 100%;
     }
     body{
         width: 100%;
@@ -57,6 +58,9 @@ export default {
         position: fixed;
         width:18%;
         margin-right: 10px;
+    }
+    .mainCard{
+        height: 100%;
     }
 </style>
 

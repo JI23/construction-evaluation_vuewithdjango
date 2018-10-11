@@ -15,17 +15,12 @@
                             <el-form-item label="结构类型" prop="structure_type" >
                                 <el-input style="width:90%" size='small' v-model="buildingForm.structure_type" auto-complete="off" placeholder="请输入内容"></el-input>
                             </el-form-item>
-                            
-                                <!-- <span class="lebal">建筑材料</span>
-                                <el-input style="width:90%" size='small' v-model="material" required="required" placeholder="请输入内容"></el-input> -->
-                                <!-- <span class="lebal">结构类型</span>
-                                <el-input style="width:90%" size='small' v-model="structure_type" placeholder="请输入内容"></el-input> -->
                     </el-col>
                     <el-col :span='6'>
                         <el-form-item label="图审时间" prop="figure_time" >
 
-                        <el-date-picker style="width:90%" type="date" size='small' placeholder="请选择时间"  v-model="buildingForm.figure_time"></el-date-picker>
-                        <!-- <el-input style="width:90%" size='small' v-model="buildingForm.figure_time" auto-complete="off" placeholder="请输入内容"></el-input> -->
+                        <!-- <el-date-picker style="width:90%" type="date" size='small' placeholder="请选择时间"  v-model="buildingForm.figure_time"></el-date-picker> -->
+                        <el-input style="width:90%" size='small' v-model="buildingForm.figure_time" auto-complete="off" placeholder="请输入内容"></el-input>
                         </el-form-item>
                         <el-form-item label="结构层数" prop="floors" >
                         <el-input  style="width:90%" size='small' @blur="set_num" v-model.number="buildingForm.floors" auto-complete="off" placeholder="请输入内容"></el-input>
