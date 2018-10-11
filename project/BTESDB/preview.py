@@ -32,7 +32,7 @@ def preview(request):
         response['EarthquakeWaveList']=EarthquakeWaveList
         response['StructureResponseList']=StructureResponseList
         print ('生成PDF')
-        result='尚未定级'
+        result=['尚未定级','尚未定级','尚未定级','尚未定级','尚未定级']
         generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList)
 
         print('成功')
@@ -44,19 +44,35 @@ def preview(request):
         response['msg']='有误'
     return JsonResponse(response)
 
+import hashlib
 def generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList):
-    f = open('./media/project/'+str(ProjectInfoDict['id'])+'/project.html','w')
+    #f = open('./media/project/'+str(ProjectInfoDict['id'])+'/project.html','w')
+
+    #形成新的文件地址，形如/project/user_id/用md5加密的32位长的字符串/project_name.pdf,project_name.html
+    path='./media/project/'+ ProjectInfoDict['user_id']+'/'
+    x=bytes(str(ProjectInfoDict['id']),encoding='utf-8')
+    m=hashlib.md5()
+    m.update(x)
+    path += m.hexdigest() +'/'
+
+    #打开html文件开始编写
+    f = open(path+ProjectInfoDict['project_name']+'.html','w')
     message = """
     <html>
     <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
     <title>定级报告</title>
     </head>
     <body>"""
     message += '<h1 style="text-align:center" >项目名称：' + ProjectInfoDict['project_name']+'</h1>'
 
     message += '<hr /><h3>项目信息</h3>'
-    message += '<h1>项目定级:' +result +'</h1>'
+    #项目编号格式：U+用户ID+P+项目ID+R+四个评级信息
+    message += '<h2>项目编号:' + result[0] +'</h2>'
+    message += '<h2>修复费用评级:' +result[1] +'</h2>'
+    message += '<h2>修复时间评级:' +result[2] +'</h2>'
+    message += '<h2>人员损失评级:' +result[3] +'</h2>'
+    message += '<h2>最终定级:' +result[4] +'</h2>'
     message += '<p>客户名称:' + ProjectInfoDict['client_name']+'</p>'
     message += '<p>负责人:' + ProjectInfoDict['project_leader']+'</p>'
     message += '<p>项目描述:'+ ProjectInfoDict['project_description']+'</p>'
@@ -182,4 +198,6 @@ def generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElem
     message += "</body></html>"
     f.write(message)
     f.close()
-    pdfkit.from_file('./media/project/'+str(ProjectInfoDict['id'])+'/project.html','./media/project/'+str(ProjectInfoDict['id'])+'/project.pdf')
+    #保存并关闭html，将html转为pdf
+    #pdfkit.from_file('./media/project/'+str(ProjectInfoDict['id'])+'/project.html','./media/project/'+str(ProjectInfoDict['id'])+'/project.pdf')
+    pdfkit.from_file(path+ProjectInfoDict['project_name']+'.html',path+ProjectInfoDict['project_name']+'.pdf')

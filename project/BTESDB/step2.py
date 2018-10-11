@@ -151,10 +151,11 @@ def step2(request):
 import ast
 from django.db.models import Max,Min,Sum
 def saveFloor(request):
+    print('saveFloor')
     response={}
-    #print(request.GET)
     try:
     #获取表单数据
+        print(request)
         project=request.GET['project']
         floors=int(request.GET['floors'])
         area=float(request.GET['area'])

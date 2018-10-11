@@ -7,6 +7,7 @@ import requests
 import json
 
 def step5(request):
+    print('step 5')
     response={}
     try:
         #获取数据
@@ -110,6 +111,7 @@ def save_wave_file(request):
         print (str(e))
     return JsonResponse(response)
 def save_waves(request):
+    print('save_waves')
     response={}
     try:  
         #获取表单内容

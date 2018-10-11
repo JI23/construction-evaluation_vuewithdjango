@@ -147,9 +147,8 @@
             if (tableData.length!=0) {
             console.log("飞空")
             this.tableData = tableData
+            }
         }
-        }
-        
     },
     methods: {
         view_db(){
@@ -287,9 +286,9 @@
             let _this=this;
             var floors=localStorage.getItem('floors')
             var project=localStorage.getItem('project')
-            console.log("step3 biaoge")
             console.log(this.tableData)
             console.log(this.tableData.length)
+            var isFull=true
             for(var i=0;i<this.tableData.length;i++)
             {   
                 console.log(this.tableData[i].id)
@@ -299,11 +298,13 @@
                 console.log(this.tableData[i].Y)
                 console.log(this.tableData[i].Non)
                 
-                if (this.tableData[i].id=='' || this.tableData[i].start_floor=='' || this.tableData[i].stop_floor=='' || 
-                    this.tableData[i].X==null || this.tableData[i].Y==null || this.tableData[i].Non==null){
+                if (this.tableData[i].id==='' || this.tableData[i].start_floor==='' || this.tableData[i].stop_floor==='' || 
+                    this.tableData[i].X===null || this.tableData[i].Y===null || this.tableData[i].Non===null){
                     _this.$message.error("请完整填写构建信息好吗")
+                    isFull=false
                 }
-                else{
+            }
+                if(isFull){
                     this.$ajax({
                     method:'get',
                     url:'step3-save-elements',
@@ -334,10 +335,10 @@
                             console.log(err);
                             });                   
                 }
-            }
+            },
 
             //this.$emit('next','');
-        },
+        
         back(){
             this.$emit('back','');
         },
@@ -350,7 +351,7 @@
             sessionStorage.setItem('check','DB_User')
             this.$router.push({name:'newdb'});
         }
-    },
+    }
            
 }
     

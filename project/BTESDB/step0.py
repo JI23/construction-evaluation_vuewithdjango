@@ -42,7 +42,7 @@ def edit(request):
             print('mmmmmm')
             response['floor_info']=(json.loads(serializers.serialize("json", floor_info)))
 
-        element_info=Element.objects.filter(project=project).values("start_floor","element_type","stop_floor","X","Y","Non","element__part_id")
+        element_info=Element.objects.filter(project=project).values("start_floor","element_type","stop_floor","X","Y","Non","element__part_id","element__basic_unit")
         #Element.objects.filter(project=project)
         if element_info.exists():
             print('存在')

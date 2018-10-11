@@ -321,6 +321,7 @@
             var project=localStorage.getItem('project')
             console.log(this.tableData)
             console.log(this.tableData.length)
+            var isFull=true
             for(var i=0;i<this.tableData.length;i++)
             {   
                 console.log(this.tableData[i].id)
@@ -330,16 +331,18 @@
                 console.log(this.tableData[i].Y)
                 console.log(this.tableData[i].Non)
                 
-                if (this.tableData[i].id=='' || this.tableData[i].start_floor=='' || this.tableData[i].stop_floor=='' || 
-                    this.tableData[i].X==null || this.tableData[i].Y==null || this.tableData[i].Non==null){
+                if (this.tableData[i].id==='' || this.tableData[i].start_floor==='' || this.tableData[i].stop_floor==='' || 
+                    this.tableData[i].X===null || this.tableData[i].Y===null || this.tableData[i].Non===null){
                     _this.$message.error("请完整填写构建信息好吗")
+                    isFull=false
                 }
-                else{
+            }
+                if(isFull){
                     this.$ajax({
                     method:'get',
                     url:'step3-save-elements',
                     params:{
-                        is_structure:'Falae',
+                        is_structure:'False',
                         project:project,
                         floors:floors,
                         tableData:this.tableData,
@@ -365,42 +368,6 @@
                             console.log(err);
                             });                   
                 }
-            }
-
-            // let _this=this;
-            // var project=localStorage.getItem('project')
-            // var floors=localStorage.getItem('floors')
-            // this.$ajax({
-            //     method:'get',
-            //     url:'step3-save-elements',
-            //     params:{
-            //         is_structure:'False',
-            //         project:project,
-            //         floors:floors,
-            //         tableData:this.tableData,
-            //     },
-            //     headers:{"Content-Type": "application/json"}
-            // })
-            // .then(function(response){
-            //     console.log(response)
-            //     var res=response.data
-            //     if(res.error_num==0){
-            //         console.log(res['msg'])
-            //         _this.$message.success(res['msg'])
-            //         setTimeout(()=>{
-            //                     _this.$emit('next','');
-            //                 },500)
-            //     }
-            //     else {
-            //         _this.$message.error(res['msg'])
-            //         console.log(res['msg'])
-            //     }
-            // })
-            // .catch(function(err){
-            //         console.log(err);
-            //         });
-
-            // //this.$emit('next','');
         },
         back(){
             this.$emit('back','');

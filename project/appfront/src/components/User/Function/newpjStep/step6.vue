@@ -342,25 +342,25 @@ export default {
             data:[{
                 direction:'X方向',
                 EDP_type:'Story Drift Ratio/层间位移角',
-                floor_no:null,
-                earthquake_no:null
+                floor_no:localStorage.getItem('floors'),
+                earthquake_no:localStorage.getItem('number')
             },{
                 direction:'X方向',
                 EDP_type:'Acceleration/楼层加速度',
-                floor_no:null,
-                earthquake_no:null
+                floor_no:localStorage.getItem('floors'),
+                earthquake_no:localStorage.getItem('number')
             },
             {
                 direction:'Y方向',
                 EDP_type:'Story Drift Ratio/层间位移角',
-                floor_no:null,
-                earthquake_no:null
+                floor_no:localStorage.getItem('floors'),
+                earthquake_no:localStorage.getItem('number')
             },
             {
                 direction:'Y方向',
                 EDP_type:'Acceleration/楼层加速度',
-                floor_no:null,
-                earthquake_no:null
+                floor_no:localStorage.getItem('floors'),
+                earthquake_no:localStorage.getItem('number')
             }
             ],
         }    
