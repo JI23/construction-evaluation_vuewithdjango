@@ -153,7 +153,7 @@ export default {
         margin:0 2px 0 5px;
         border-radius: 5px;
         font-weight: 400;
-        height: 600px;
+        height: 550px;    
     }
     
 </style>
