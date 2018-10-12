@@ -69,25 +69,25 @@ const router = new VueRouter({
 //         next();
 //     }
 // })
-// router.beforeEach((to, from, next) => {
-//   if (to.path == '/' ||to.path == '/login' || to.path == '/register' || to.path == '/product' || to.path == '/service') { // 判断该路由是否需要登录权限
-//     next();
-//     console.log(store.state.isLogin)
-//   } else {
-//     if (store.getters.isLogin) { // 通过vuex state获取当前的token是否存在
-//       next();
-//       console.log(store.state.isLogin)
-//     } else {
-//       next({
-//         path: '/login',
-//         // query: {
-//         //   redirect: to.fullPath
-//         // } // 将跳转的路由path作为参数，登录成功后跳转到该路由
-//       })
-//       alert('请登陆再访问项目内容');
-//     }
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  if (to.path == '/' ||to.path == '/login' || to.path == '/register' || to.path == '/product' || to.path == '/service') { // 判断该路由是否需要登录权限
+    next();
+    console.log(store.state.isLogin)
+  } else {
+    if (store.getters.isLogin) { // 通过vuex state获取当前的token是否存在
+      next();
+      console.log(store.state.isLogin)
+    } else {
+      next({
+        path: '/login',
+        // query: {
+        //   redirect: to.fullPath
+        // } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      })
+      alert('请登陆再访问项目内容');
+    }
+  }
+})
 
 
 /* eslint-disable no-new */
