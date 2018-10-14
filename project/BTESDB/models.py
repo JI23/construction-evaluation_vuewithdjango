@@ -320,7 +320,7 @@ class Element(models.Model):
         verbose_name='构建信息'
         verbose_name_plural='构建信息表'
         #联合主键
-        unique_together("project","element_no","element_type")
+        #unique_together("project","element_no","element_type")
     #第几个
     element_no=models.IntegerField(verbose_name='构件编号')
     element_type_choice=(

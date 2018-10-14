@@ -8,44 +8,6 @@
                 <el-input v-bind:disabled="temp" style="width:100%" v-model="name" placeholder="请输入内容"></el-input>
                 <span class="lebal">描述</span>
                 <el-input v-bind:disabled="temp" style="width:100%" type="textarea" :rows="4" placeholder="请输入内容" v-model="description"></el-input>
-                <span class="lebal">要求系数</span><br>
-                <el-select v-bind:disabled="temp" size="mini" v-model="demand_Para" placeholder="请选择">
-                    <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"><!--data未设置 -->
-                    </el-option>
-                </el-select>
-                <el-row style="float: right; top: -27px; left:45px">
-                    <el-button v-bind:disabled="temp" size="mini" @click="editReq">编辑</el-button><!--弹窗 未实现 -->
-                    <el-button v-bind:disabled="temp" size="mini" @click="dialogFormVisible = true">添加</el-button>
-                    <el-dialog title="要求系数" :visible.sync="dialogFormVisible">
-                        <el-form :model="form">
-                            <el-form-item label="type_name" :label-width="formLabelWidth">
-                                <el-input v-model="typename" placeholder="请输入内容"></el-input>
-                            </el-form-item>
-                            <span style="position:relative; left:20px;">default units</span>
-                            <el-cascader
-                                :options="edit_options"
-                                change-on-select
-                                v-model="units" 
-                                placeholder="请选择"
-                                style="position:relative; left:30px;"
-                            ></el-cascader><br><br>
-                            <el-form-item label="DP Dimension" :label-width="formLabelWidth">
-                                <el-select v-model="DP_Dimension" placeholder="请选择">
-                                    <el-option label="区域一" value="shanghai"></el-option>
-                                    <el-option label="区域二" value="beijing"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-form>
-                        <div slot="footer" class="dialog-footer">
-                            <el-button @click="dialogFormVisible = false">取 消</el-button>
-                            <el-button type="primary" @click="saveReq_Coe">确 定</el-button>
-                        </div>
-                    </el-dialog>
-                </el-row>
             </el-col>
         </div>
         <div class="wrapper6">

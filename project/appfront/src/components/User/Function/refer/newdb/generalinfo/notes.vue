@@ -1,47 +1,5 @@
 <template>
     <div>
-        <div class="wrapper7" >
-            <el-col>
-                <span class="lebal">Data quality</span>
-                <el-select v-bind:disabled="temp" v-model="data" placeholder="请选择">
-                    <el-option
-                        v-for="item in options1"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                </el-select>
-                <span class="lebal">Data relevance</span>
-                <el-select v-bind:disabled="temp" v-model="relevance" placeholder="请选择">
-                    <el-option
-                        v-for="item in options1"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                </el-select>
-
-                <span class="lebal">Documentation quality</span>
-                <el-select v-bind:disabled="temp" v-model="quality" placeholder="请选择">
-                    <el-option
-                        v-for="item in options1"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                </el-select>
-
-                <span class="lebal">Rationality</span>
-                <el-select v-bind:disabled="temp" v-model="rationality" placeholder="请选择">
-                    <el-option
-                        v-for="item in options1"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                    </el-option>
-                </el-select>
-            </el-col>
-          </div>
         <div class="wrapper7">
             <el-col>
                 <span class="lebal">作者</span>
