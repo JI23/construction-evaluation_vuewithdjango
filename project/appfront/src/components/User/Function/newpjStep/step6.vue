@@ -17,7 +17,7 @@
                 </el-col>
             </div><br>
             <div>
-                <el-table :data="data1"  class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
+                <el-table :data="data1"  style="width:50%" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
                     <el-table-column width="80" prop="floor" label="楼层">
                         <template slot-scope="scope">
                             <el-input size="small" v-model="scope.row.floor" :disabled="true"></el-input><span>{{scope.row.floor}}</span>
@@ -44,7 +44,7 @@
                 </el-col>
             </div><br>
             <div>
-                <el-table :data="data2"  class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
+                <el-table :data="data2"  style="width:50%" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
                     <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
                             <el-input size="small" v-model="scope.row.floor" :disabled="true"></el-input><span>{{scope.row.floor}}</span>
@@ -71,7 +71,7 @@
                 </el-col>
             </div><br>
             <div>
-                <el-table :data="data3" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
+                <el-table :data="data3" style="width:50%" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
                     <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
                             <el-input size="small" v-model="scope.row.floor" :disabled="true"></el-input><span>{{scope.row.floor}}</span>
@@ -98,7 +98,7 @@
                 </el-col>
             </div><br>
             <div>
-                <el-table :data="data4" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
+                <el-table :data="data4" style="width:50%" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
                     <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
                             <el-input size="small" v-model="scope.row.floor" :disabled="true"></el-input><span>{{scope.row.floor}}</span>
