@@ -17,15 +17,15 @@
                 </el-col>
             </div><br>
             <div>
-                <el-table :data="data1"  border max-height="200">
-                    <el-table-column width=80px prop="floor" label="楼层">
+                <el-table :data="data1"  style="width:50%" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
+                    <el-table-column width="80" prop="floor" label="楼层">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.floor" :disabled="true"></el-input>
+                            <el-input size="small" v-model="scope.row.floor" :disabled="true"></el-input><span>{{scope.row.floor}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="col" v-for="(col,index) in temp1" :key="col">
-                        <template slot-scope="scope">
-                            <el-input v-model=scope.row[col]></el-input>
+                    <el-table-column width="250" :label="col" v-for="(col,index) in temp1" :key="col">
+                        <template width="140" slot-scope="scope">
+                            <el-input size="small" v-model=scope.row[col]></el-input><span>{{scope.row[col]}}</span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -44,15 +44,15 @@
                 </el-col>
             </div><br>
             <div>
-                <el-table :data="data2"  border max-height="200">
+                <el-table :data="data2"  style="width:50%" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
                     <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.floor" :disabled="true"></el-input>
+                            <el-input size="small" v-model="scope.row.floor" :disabled="true"></el-input><span>{{scope.row.floor}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="col" v-for="(col,index) in temp2" :key="col">
+                    <el-table-column width="250" :label="col" v-for="(col,index) in temp2" :key="col">
                         <template slot-scope="scope">
-                            <el-input v-model=scope.row[col]></el-input>
+                            <el-input size="small" v-model=scope.row[col]></el-input><span>{{scope.row[col]}}</span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -71,15 +71,15 @@
                 </el-col>
             </div><br>
             <div>
-                <el-table :data="data3"  border max-height="200">
+                <el-table :data="data3" style="width:50%" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
                     <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.floor" :disabled="true"></el-input>
+                            <el-input size="small" v-model="scope.row.floor" :disabled="true"></el-input><span>{{scope.row.floor}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="col" v-for="(col,index) in temp3" :key="col">
+                    <el-table-column width="250" :label="col" v-for="(col,index) in temp3" :key="col">
                         <template slot-scope="scope">
-                            <el-input v-model=scope.row[col]></el-input>
+                            <el-input size="small" v-model=scope.row[col]></el-input><span>{{scope.row[col]}}</span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -98,15 +98,15 @@
                 </el-col>
             </div><br>
             <div>
-                <el-table :data="data4"  border max-height="200">
+                <el-table :data="data4" style="width:50%" class="tb-edit" border max-height="200" highlight-current-row :header-cell-style="rowClass">
                     <el-table-column width=80px prop="floor" label="楼层">
                         <template slot-scope="scope">
-                            <el-input v-model="scope.row.floor" :disabled="true"></el-input>
+                            <el-input size="small" v-model="scope.row.floor" :disabled="true"></el-input><span>{{scope.row.floor}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="col" v-for="(col,index) in temp4" :key="col">
+                    <el-table-column width="250" :label="col" v-for="(col,index) in temp4" :key="col">
                         <template slot-scope="scope">
-                            <el-input v-model=scope.row[col]></el-input>
+                            <el-input size="small" v-model=scope.row[col]></el-input><span>{{scope.row[col]}}</span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -320,6 +320,9 @@ export default {
                 this.data4.push(temp[0])
             }
         },
+        rowClass(){
+            return 'background:#eee'
+        }
         
     },
     data(){
@@ -380,8 +383,9 @@ export default {
     }
     .lebal{
         display: inline-block;
-        padding:12px 0;
+        padding:8px 0;
         color: #333;
+        font-size:14px
     }
     .btn-group{
         margin:15px 0;
@@ -393,5 +397,14 @@ export default {
     }
     .btn{
         margin-top:12px;
+    }
+    .tb-edit .el-input {
+        display: none
+    }
+    .tb-edit .current-row .el-input {
+        display: block
+    }
+    .tb-edit .current-row .el-input+span {
+        display: none
     }
 </style>

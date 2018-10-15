@@ -5,32 +5,51 @@
             <el-button size="small" class='btn' @click="back">上一步</el-button>
             <!-- <el-button size="small" class='btn' @click="save5">保存地震信息</el-button> -->
         </el-row>
-        <el-col :span="24" class="step5">
-            <el-col :span='8'>
-                <span class="lebal">设防烈度</span>
-                <el-select style="width:90%" @change="change_level" v-model="defense_intensity" placeholder="请选择">
-                    <el-option
-                    v-for="item in defense_in_option"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
-                <span class="lebal">场地类别</span>
-                    <el-select style="width:90%" v-model="site_type" placeholder="请选择">
+        <el-row class="step5" :gutter="20">
+            <el-col :span="6">
+                <div style="width:100%">
+                    <span class="label">设防烈度</span>
+                    <el-select style="display:block" size="small" @change="change_level" v-model="defense_intensity" placeholder="请选择">
                         <el-option
-                        v-for="item in site_type_option"
+                        v-for="item in defense_in_option"
                         :key="item.value"
                         :label="item.label"
                         :value="item.value">
                         </el-option>
                     </el-select>
+                </div>
+                <span class="label">场地类别</span>
+                <el-select size="small" style="width:90%" v-model="site_type" placeholder="请选择">
+                    <el-option
+                    v-for="item in site_type_option"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                    </el-option>
+                </el-select>
             </el-col>
-            <el-col :span='8'>
-                <span class="lebal">地震波数</span>
-                <el-input @change="set_num" style="width:90%" v-model="number" placeholder="请输入内容"></el-input>
-                <span class="lebal">地震分组</span>
-                <el-select style="width:90%" v-model="group" placeholder="请选择">
+            <el-col :span='6'>
+                <span class="label">地震波数</span>
+                <el-input size="small" @change="set_num" style="" v-model="number" placeholder="请输入内容"></el-input>
+                <span class="label">地震水准</span>
+                    <el-select size="small" style="" @change="change_level" v-model="earthquake_level" placeholder="请选择">
+                        <el-option
+                        v-for="item in earth_level_option"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                
+                
+            </el-col>
+            <el-col :span='6'>
+                <span class="label">峰值加速度</span>
+                    <el-input size="small" :disabled="true" v-model="peak_acceleration" placeholder="请输入内容"></el-input>
+            </el-col>
+            <el-col :span='6'>
+                <span class="label">地震分组</span>
+                <el-select size="small" v-model="group" placeholder="请选择">
                     <el-option
                     v-for="item in group_option"
                     :key="item.value"
@@ -40,38 +59,24 @@
                 </el-select>
                 
             </el-col>
-            <el-col :span='8'>
-                <span class="lebal">峰值加速度</span>
-                <el-input style="width:90%" :disabled="true" v-model="peak_acceleration" placeholder="请输入内容"></el-input>
-                <span class="lebal">地震水准</span>
-                <el-select style="width:90%" @change="change_level" v-model="earthquake_level" placeholder="请选择">
-                    <el-option
-                    v-for="item in earth_level_option"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
-            </el-col>
-            
-            
-        </el-col>
+        </el-row>
         <!--<el-col :span="1" style="color:transparent">''</el-col>-->
-        <el-col :span="24">
-            <el-table :data="earthquake_info" border style="width:100%" max-height="350">
-                <el-table-column prop="earthquake_no" label="地震波编号">
+        <el-row>
+            <el-col :span="24">
+            <el-table :data="earthquake_info" border class="tb-edit" style="width:100%" highlight-current-row width="500" max-height="350" @row-click="handleCurrentChange">
+                <el-table-column prop="earthquake_no" label="地震波编号" width="140">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.earthquake_no"></el-input>
+                        <el-input size="small" v-model="scope.row.earthquake_no" @change="handleEdit(scope.$index, scope.row)"></el-input><span>{{scope.row.earthquake_no}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="name" label="地震波名称">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.name"></el-input>
+                        <el-input size="small" v-model="scope.row.name" @change="handleEdit(scope.$index, scope.row)"></el-input><span>{{scope.row.name}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="peak" label="地震波峰值">
                     <template slot-scope="scope">
-                        <el-input v-model="scope.row.peak"></el-input>
+                        <el-input size="small" v-model="scope.row.peak" @change="handleEdit(scope.$index, scope.row)"></el-input><span>{{scope.row.peak}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="file" label="地震波文件">
@@ -107,6 +112,8 @@
             <!--<el-button @click="newEarthquake">新增地震波</el-button>-->
             <!-- <el-button @click="saveWaves">保存所有地震波</el-button> -->
         </el-col>
+        </el-row>
+        
     </div>
 </template>
 <script>
@@ -336,7 +343,17 @@ export default {
             }
             console.log(this.earthquake_info)
 
-        }
+        },
+        handleCurrentChange(row, event, column) {
+                console.log(row, event, column, event.currentTarget)
+            },
+        handleEdit(index, row) {
+                console.log(index, row);
+            },
+        handleDelete(index, row) {
+                console.log(index, row);
+            }
+
     },
     data(){
         return{
@@ -423,30 +440,30 @@ export default {
 
 <style scoped>
 
-    .lebal{
+    body {
+        font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+        overflow: auto;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+    }
+    .tb-edit .el-input {
+        display: none
+    }
+    .tb-edit .current-row .el-input {
+        display: block
+    }
+    .tb-edit .current-row .el-input+span {
+        display: none
+    }
+    .step5 .label{
         display: inline-block;
-        padding:10px 0 5px 0;
-        color: #333;
+        /* width:80px; */
+        color:#606266;
         font-size:14px;
+        padding-bottom: 3px
+        
     }
-    
-    .el-table{
-
-        margin:10px 0;
-
+    .step5{
+        padding: 10px 0
     }
-    .step5 .el-select{
-        width:300px;
-        display: block;
-    }
-    .step5 .el-input{
-        width:300px;
-        display: block;
-    }
-    .btn{
-        margin-top:12px;
-    }
-    
-    
-
 </style>
