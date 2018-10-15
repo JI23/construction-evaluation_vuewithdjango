@@ -264,7 +264,7 @@ class Project(models.Model):
     #是否已完成，默认为false
     is_finished=models.BooleanField(default=False,verbose_name='完成')
     #项目定级结果
-    finalrate=models.CharField(max_length=1,verbose_name='最终评级')
+    rate=models.CharField(max_length=1,verbose_name='最终评级')
     costrate=models.CharField(max_length=1,verbose_name='修复费用指标评级')
     timerate=models.CharField(max_length=1,verbose_name='修复时间指标评级')
     casualtyrate=models.CharField(max_length=1,verbose_name='人员损失评级')
@@ -320,9 +320,9 @@ class Element(models.Model):
         verbose_name='构建信息'
         verbose_name_plural='构建信息表'
         #联合主键
-        unique_together("project","element_no","element_type")
+        #unique_together=("project","element_no","element_type")
     #第几个
-    element_no=models.IntegerField(verbose_name='构件编号')
+    #element_no=models.IntegerField(verbose_name='构件编号')
     element_type_choice=(
         ("s","StructuraElement/结构构件"),
         ("n","NonSturctualElement/非结构构件"),

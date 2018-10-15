@@ -363,9 +363,9 @@ def xmlProject(ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList
     DefenseIntensity=ET.SubElement(EarthquakeInfo,'DefenseIntensity');DefenseIntensity.text=str(EarthquakeInfoDict['defense_intensity'])
     EarthquakeWaveNumber=ET.SubElement(EarthquakeInfo,'EarthquakeWaveNumber');EarthquakeWaveNumber.text=str(EarthquakeInfoDict['number'])
     PeakAcceleration=ET.SubElement(EarthquakeInfo,'PeakAcceleration');PeakAcceleration.text=str(EarthquakeInfoDict['peak_acceleration'])
-    SiteType=ET.SubElement(EarthquakeInfo,'SiteType');SiteType.text=EarthquakeInfoDict['site_type']
+    SiteType=ET.SubElement(EarthquakeInfo,'SiteType');SiteType.text=str(EarthquakeInfoDict['site_type'])
     EarthquakeGroup=ET.SubElement(EarthquakeInfo,'EarthquakeGroup');EarthquakeGroup.text=str(EarthquakeInfoDict['group'])
-    EarthquakeLevel=ET.SubElement(EarthquakeInfo,'EarthquakeLevel');EarthquakeLevel.text=EarthquakeInfoDict['earthquake_level']
+    EarthquakeLevel=ET.SubElement(EarthquakeInfo,'EarthquakeLevel');EarthquakeLevel.text=str(EarthquakeInfoDict['earthquake_level'])
     EarthquakeWaves=ET.SubElement(EarthquakeInfo,'EarthquakeWaves')
    
     #结构响应

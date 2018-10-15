@@ -31,8 +31,8 @@ def brief_projects(request):
     try:
         un_projects = Project.objects.filter(is_finished=0).count()
         ed_projects = Project.objects.filter(is_finished=1).count() 
-        all = un_projects+ed_projects
-        response['all']  = all
+        sum_projects = un_projects+ed_projects
+        response['all']  = sum_projects
         response['success'] = ed_projects
         response['unsuccess'] = un_projects
         response['msg'] = 'success'
@@ -48,27 +48,25 @@ def logout(request):
     return render(request,'index.html')
 @csrf_exempt
 def show_projects(request):
+    print('show_projects')
     response = {}
     try:
-        print (1)
-        #print (request)
         is_finished=request.GET['is_finished']
         username=request.GET['username']
         print (is_finished)
         this_user=User_Info.objects.get(username=username)
+        print(this_user)
         if is_finished=='False':
             projects = Project.objects.filter(is_finished=0,user=this_user) 
         else:
-            projects = Project.objects.filter(is_finished=1,user=this_user)
+            projects = Project.objects.filter(is_finished=1,user=this_user)       
         response['list']  = json.loads(serializers.serialize("json", projects))
         response['msg'] = 'success'
         response['error_num'] = 0
-        #print (response)
     except  Exception as e:
-        print (2)
+        print(str(e))
         response['msg'] = str(e)
         response['error_num'] = 1
-    print (3)
     return JsonResponse(response)
 
 def Rating(a):

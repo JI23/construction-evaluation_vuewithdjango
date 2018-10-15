@@ -35,18 +35,14 @@ def login(request):
                 this_user.save() 
                 
                 return JsonResponse(response)                              
-               # return redirect('/',{'user':re})    #跳转--redirect指从一个旧的url转到一个新的url
             else:
                 print ('未审核')
                 response['error_num']=1
                 response['msg']='failed'
                 return JsonResponse(response)
-                #return render(request,'login.html',{'login_error':'您的账号申请还在审核中'})  #登陆失败
         else:  #数据库里不存在与之对应的数据
             print(3)
             response['error_num']=2
             response['msg']='failed'
             return JsonResponse(response)
-            #return render(request,'login.html',{'login_error':'用户名或密码错误'})  #登陆失败
-    #return render(request,'login.html')
     return JsonResponse(response)
