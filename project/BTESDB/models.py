@@ -122,7 +122,7 @@ class DB_part(models.Model):
     description=models.CharField(max_length=570,blank=False,verbose_name='易损件描述')
     #基本单位，如1个，3.3m2等
     basic_unit=models.CharField(max_length=10,default='1个',verbose_name='基本单位')
-    #易损件单价，默认为0，0.00-999999.99
+    #易损件单价
     cost=models.DecimalField(max_digits=8, decimal_places=2,blank=False,verbose_name='易损件单价',default=0.00)
     #数据来源
     data_resource=models.CharField(max_length=45,blank=False,default='《建筑抗震韧性评价标准》编委会',verbose_name='数据来源')
@@ -239,8 +239,6 @@ class Damage_state_detail(models.Model):
     max_lost_time=models.DecimalField(max_digits=5, decimal_places=2,default=0,verbose_name='工程量折减系数(修复时间)')
     #时间COV
     cov_time=models.DecimalField(max_digits=8,decimal_places=4,default=0,verbose_name='时间COV')
-    
-
 
 class Project(models.Model):
     '''项目信息表'''
@@ -266,7 +264,12 @@ class Project(models.Model):
     #是否已完成，默认为false
     is_finished=models.BooleanField(default=False,verbose_name='完成')
     #项目定级结果
-    rate=models.CharField(max_length=1,verbose_name='定级')
+    rate=models.CharField(max_length=1,verbose_name='最终评级')
+    costrate=models.CharField(max_length=1,verbose_name='修复费用指标评级')
+    timerate=models.CharField(max_length=1,verbose_name='修复时间指标评级')
+    casualtyrate=models.CharField(max_length=1,verbose_name='人员损失评级')
+    #PDF定级报告位置
+    PDF=models.CharField(max_length=512,verbose_name='PDF定级报告位置')
 
 class Building(models.Model):
     #指向Project的外键，一个project对应一个Building
@@ -280,12 +283,12 @@ class Building(models.Model):
     floor=models.IntegerField(verbose_name='楼层数')
     #图审时间，自己填，须在项目创建时间后
     figure_time=models.DateField(verbose_name='图审时间')
-    #楼层总高，范围0-999.99
-    height=models.DecimalField(max_digits=5,decimal_places=2,verbose_name='楼层总高')
-    #总面积，范围0-99999.99
-    area=models.DecimalField(max_digits=7,decimal_places=2,verbose_name='总面积')
-    #每平米造价，范围0-99999.99,非必填
-    cost_per_squaremeter=models.DecimalField(max_digits=7,decimal_places=2,verbose_name='每平米造价')
+    #楼层总高
+    height=models.DecimalField(max_digits=12,decimal_places=6,verbose_name='楼层总高')
+    #总面积
+    area=models.DecimalField(max_digits=18,decimal_places=6,verbose_name='总面积')
+    #每平米造价,非必填
+    cost_per_squaremeter=models.DecimalField(max_digits=18,decimal_places=6,verbose_name='每平米造价')
     def __str__(self):
         return str(self.id)
 
@@ -303,20 +306,23 @@ class Floor_Info(models.Model):
         verbose_name='楼层信息'
         verbose_name='楼层信息'
         #楼层高度，范围0-99.99
-    floor_height=models.DecimalField(max_digits=4,decimal_places=2,verbose_name='楼层高度')
+    floor_height=models.DecimalField(max_digits=10,decimal_places=6,verbose_name='楼层高度')
     #楼层面积，范围0-9999.99
-    floor_area=models.DecimalField(max_digits=6,decimal_places=2,verbose_name='楼层面积')
+    floor_area=models.DecimalField(max_digits=12,decimal_places=6,verbose_name='楼层面积')
     #楼层影响系，大于1，小于1.5
-    influence_coefficient=models.DecimalField(max_digits=3,decimal_places=2,verbose_name='楼层影响系数')
+    influence_coefficient=models.DecimalField(max_digits=7,decimal_places=6,verbose_name='楼层影响系数')
     #人口密度，单位：人/平方米?，待定范围0-9.99
-    population_density=models.DecimalField(max_digits=3,decimal_places=2,verbose_name='人口密度')
+    population_density=models.DecimalField(max_digits=8,decimal_places=6,verbose_name='人口密度')
 
 class Element(models.Model):
     '''构件信息表，包括结构构件和非结构构件'''
     class Meta:
         verbose_name='构建信息'
         verbose_name_plural='构建信息表'
-    #主键有django自己生成，我们只通过filter查找
+        #联合主键
+        #unique_together("project","element_no","element_type")
+    #第几个
+    #element_no=models.IntegerField(verbose_name='构件编号')
     element_type_choice=(
         ("s","StructuraElement/结构构件"),
         ("n","NonSturctualElement/非结构构件"),
@@ -327,15 +333,13 @@ class Element(models.Model):
     element=models.ForeignKey(DB_part,default=None,on_delete=models.CASCADE,verbose_name='易损件编号')#如BE.F.01.01
     #指向Project的外键，一个project对应多个构件
     project=models.ForeignKey(Project,on_delete=models.CASCADE,verbose_name='项目')
-    #class Meta:
-        #unique_together("project_id","user_id","element_id","element_type")#联合主键，但是django会自己产生一个自增长的主键
     #验证楼层合理性
     start_floor=models.SmallIntegerField(verbose_name='起始楼层',default=1)
     stop_floor=models.SmallIntegerField(verbose_name='终止楼层',default=1)
-    #角度单位待定，暂不考虑
-    X=models.SmallIntegerField(verbose_name='X方向偏移',default=0)
-    Y=models.SmallIntegerField(verbose_name='Y方向偏移',default=0)
-    Non=models.SmallIntegerField(verbose_name='无方向偏移',default=0)
+    #X,Y,无方向位移数量，可有小数
+    X=models.DecimalField(max_digits=12,decimal_places=6,verbose_name='X方向偏移')
+    Y=models.DecimalField(max_digits=12,decimal_places=6,verbose_name='Y方向偏移')
+    Non=models.DecimalField(max_digits=12,decimal_places=6,verbose_name='无方向偏移')
 
 class Earthquake_Info(models.Model):
     '''地震信息表'''
@@ -345,17 +349,17 @@ class Earthquake_Info(models.Model):
         verbose_name_plural='地震信息表'
     #指向Project的外键，一个project对应一个地震信息
     project=models.ForeignKey(Project,default=None,on_delete=models.CASCADE,verbose_name='项目')       
-    #设防烈度，范围0-9.9，待定
+    #设防烈度，由地震水准和场地类别唯一确定
     defense_intensity=models.DecimalField(max_digits=2,decimal_places=1,verbose_name='设防烈度')
     #场地类别
     site_classification_choice=(
-        ('0','zero'),
-        ('1','one'),
-        ('2','two'),
-        ('3','three'),
-        ('4','four')
+        (1,'Ⅰ_0'),
+        (2,'Ⅰ_1'),
+        (3,'Ⅱ'),
+        (4,'Ⅲ'),
+        (5,'Ⅳ'),
     )
-    site_type=models.CharField(max_length=1,choices=site_classification_choice,default='0',verbose_name='场地类别')
+    site_type=models.SmallIntegerField(choices=site_classification_choice,default=1,verbose_name='场地类别')
     number=models.SmallIntegerField(verbose_name='地震波数')#地震波数
     group_choice=(
         (1,'第一组'),
@@ -366,13 +370,13 @@ class Earthquake_Info(models.Model):
     
     #地震水准，分三种，多遇，设防，罕遇
     earthquake_level_choice=(
-        ('L','多遇'),
-        ('M','设防'),
-        ('S','罕遇'),
+        (1,'多遇'),
+        (2,'设防'),
+        (3,'罕遇'),
     )
-    earthquake_level=models.CharField(max_length=1,choices=earthquake_level_choice,default='S',verbose_name='地震水准')
+    earthquake_level=models.SmallIntegerField(choices=earthquake_level_choice,default=1,verbose_name='地震水准')
     #峰值加速度,用if，else判断，由地震水准和设防烈度唯一确定
-    peak_acceleration=models.DecimalField(max_digits=6,decimal_places=3,verbose_name='峰值加速度')
+    peak_acceleration=models.DecimalField(max_digits=12,decimal_places=6,verbose_name='峰值加速度')
 
 def upload_to2(instance,filename):
     return '/'.join(['wave_file',instance.project,instance.earthquake_wave_no,filename])
@@ -386,9 +390,9 @@ class Earthquake_wave_detail(models.Model):
      #地震波编号，有多少个地震波，就有多少个地震波文件
     earthquake_wave_no=models.SmallIntegerField(verbose_name='地震波编号')
     #地震波名称
-    earthquake_wave_name=models.CharField(max_length=15,verbose_name='地震波名称')
+    earthquake_wave_name=models.CharField(max_length=256,verbose_name='地震波名称')
     #地震波峰值
-    peak=models.DecimalField(max_digits=4,decimal_places=2,verbose_name='地震波峰值')
+    peak=models.DecimalField(max_digits=12,decimal_places=6,verbose_name='地震波峰值')
     #文件存放位置
     earthquake_wave_file=models.FileField(upload_to=upload_to2,verbose_name='地震波文件')
 
@@ -398,17 +402,17 @@ class Structure_response(models.Model):
     project=models.ForeignKey(Project,on_delete=models.CASCADE)
     #方向,分X,Y
     direction_choice=(
-        ('X','X'),
-        ('Y','Y'),
+        ('X','X方向'),
+        ('Y','Y方向'),
     )
     direction=models.CharField(max_length=1,choices=direction_choice,default='X')
     #EDP类型，分层间位移角和楼层加速度
     EDP_type_choice=(
-        ('S','Story Drift Ratio'),#层间位移角
-        ('A','Acceleration'),#楼层加速度
+        ('S','层间位移角/Story Drift Ratio'),#层间位移角
+        ('A','楼层加速度/Acceleration'),#楼层加速度
     )
     EDP_type=models.CharField(max_length=1,choices=EDP_type_choice,default='S')
-     #指向DB_type的外键，一个结构构件对应一个结构类型
+    #指向DB_type的外键，一个结构构件对应一个结构类型
     class Meta:
         unique_together=('project','direction','EDP_type')        
         verbose_name='结构响应'
@@ -416,7 +420,7 @@ class Structure_response(models.Model):
     #楼层数量决定表的宽度，地震数量决定表的长度
     floor_no=models.SmallIntegerField(verbose_name='楼层数量')
     earthquake_no=models.SmallIntegerField(verbose_name='地震波数量')
-    data=models.CharField(max_length=1024,verbose_name='序列化的数组')
+    data=models.CharField(max_length=10240,verbose_name='序列化的数组')
 
 
 

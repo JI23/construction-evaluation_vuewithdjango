@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-steps :active="active" finish-status="success" align-center>
+        <el-steps class="step" :active="active" finish-status="success" align-center>
             <el-step title="项目信息"></el-step>
             <el-step title="建筑信息"></el-step>
             <el-step title="结构构件"></el-step>
@@ -169,7 +169,7 @@
 <style scoped>
     .input{
         width: 100%;
-        height: 430px;
+        height: 100%;
     }
     .clearfix:after{
         content:"";

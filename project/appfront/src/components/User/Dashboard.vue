@@ -3,11 +3,12 @@
         <user-header></user-header>
         <div class="main clearfix">
             <el-col :span="4">
-                <user-nav style="height:100%"></user-nav>
+                <user-nav class="user_nav clearfix" style="height:100%"></user-nav>
+                <div style="color:transparent">" "</div>
             </el-col>
             <el-col :span="20">
             <el-card class="card clearfix">
-                <router-view></router-view>
+                <router-view style="height:100%" class="mainCard"></router-view>
             </el-card>  
             </el-col>
         </div>
@@ -45,10 +46,20 @@ export default {
         bottom: 0;
     } 
     .card{
-        padding: 10px;
+        box-sizing: border-box;
+        margin-left: 10px;
+        height: 100%;
     }
     body{
         width: 100%;
+        height: 100%;
+    }
+    .user_nav{
+        position: fixed;
+        width:18%;
+        margin-right: 10px;
+    }
+    .mainCard{
         height: 100%;
     }
 </style>

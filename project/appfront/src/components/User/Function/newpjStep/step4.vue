@@ -4,40 +4,40 @@
             <el-button size="small" class='btn' @click="next">下一步</el-button>
             <el-button size="small" class='btn' @click="back">上一步</el-button>
         </el-row>
-        <el-table :data="tableData" border style="width:100%" max-height="350">
+        <el-table :data="tableData" class="tb-edit" border style="width:90%" max-height="350" highlight-current-row>
         <el-table-column prop="order1" label="易损性编号" width="140">
             <template slot-scope="scope">
-                <el-input v-model="scope.row.id" placeholder="点击可选" @focus="chooseId(scope.$index, tableData)"></el-input>
+                <el-input size="small" v-model="scope.row.id" placeholder="点击可选" @focus="chooseId(scope.$index, tableData)"></el-input><span>{{scope.row.id}}</span>
             </template>
         </el-table-column>
-        <el-table-column prop="order1" label="单位" width="120">
+        <el-table-column prop="order1" label="单位" width="80">
             <template slot-scope="scope">
-                <el-input disabled v-model="scope.row.unit"></el-input>
+                <el-input size="small" disabled v-model="scope.row.unit"></el-input><span>{{scope.row.unit}}</span>
             </template>
         </el-table-column>
-        <el-table-column prop="order2" label="起始楼层">
+        <el-table-column prop="order2" width="80" label="起始楼层">
             <template slot-scope="scope">
-                <el-input v-model="scope.row.start_floor" placeholder="请输入内容"></el-input>
+                <el-input size="small" v-model="scope.row.start_floor" placeholder="请输入内容"></el-input><span>{{scope.row.start_floor}}</span>
             </template>
         </el-table-column>
-        <el-table-column prop="order2" label="终止楼层">
+        <el-table-column prop="order2" width="80" label="终止楼层">
             <template slot-scope="scope">
-                <el-input v-model="scope.row.stop_floor" placeholder="请输入内容"></el-input>
+                <el-input size="small" v-model="scope.row.stop_floor" placeholder="请输入内容"></el-input><span>{{scope.row.stop_floor}}</span>
             </template>
         </el-table-column>
-        <el-table-column prop="order2" label="x方向易损性数量">
+        <el-table-column prop="order2" width="130" label="x方向易损性数量">
             <template slot-scope="scope">
-                <el-input v-model="scope.row.X" placeholder="请输入内容"></el-input>
+                <el-input size="small" v-model="scope.row.X" placeholder="请输入内容"></el-input><span>{{scope.row.X}}</span>
             </template>
         </el-table-column>
-        <el-table-column prop="order2" label="y方向易损性数量">
+        <el-table-column prop="order2" width="130" label="y方向易损性数量">
             <template slot-scope="scope">
-                <el-input v-model="scope.row.Y" placeholder="请输入内容"></el-input>
+                <el-input size="small" v-model="scope.row.Y" placeholder="请输入内容"></el-input><span>{{scope.row.Y}}</span>
             </template>
         </el-table-column>
-            <el-table-column prop="order2" label="无方向易损性数量">
+            <el-table-column prop="order2" width="140" label="无方向易损性数量">
             <template slot-scope="scope">
-                <el-input v-model="scope.row.Non" placeholder="请输入内容"></el-input>
+                <el-input size="small" v-model="scope.row.Non" placeholder="请输入内容"></el-input><span>{{scope.row.Non}}</span>
             </template>
         </el-table-column>
         <el-table-column
@@ -380,10 +380,26 @@
 
 
 <style scoped>
-.el-table{
-    margin:20px 0;
-}
-.btn{
-        margin-top:12px;
+    .el-table{
+        margin:20px 0;
     }
+    .btn{
+            margin-top:12px;
+    }
+    body {
+        font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+        overflow: auto;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+    }
+    .tb-edit .el-input {
+        display: none
+    }
+    .tb-edit .current-row .el-input {
+        display: block
+    }
+    .tb-edit .current-row .el-input+span{
+        display: none
+    }
+       
 </style>

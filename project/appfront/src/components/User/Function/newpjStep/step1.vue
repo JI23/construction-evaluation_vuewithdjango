@@ -5,17 +5,22 @@
             <el-button size="small" class='btn' @click="back">上一步</el-button>
             <!-- <el-button size="small" class='btn' @click="save1">保存</el-button> -->
         </el-row>
-        <el-row>
-            <el-col :span="10">
-            <h3>基本信息</h3>
-            <span class="lebal">项目名称</span>
-            <el-input v-model="project_name" placeholder="请输入内容"></el-input>
-            <span class="lebal">客户名称</span>
-            <el-input v-model="client_name" placeholder="请输入内容"></el-input>
-            <span class="lebal">项目负责人</span>
-            <el-input v-model="project_leader" placeholder="请输入内容"></el-input>
-        </el-col>
-        <el-col :span="1" style="color:transparent">''</el-col>
+        <el-row :gutter="5">
+            <el-col :span="9">
+                <h3>基本信息</h3>
+                <el-row>
+                    <span class="lebal">项目名称</span>
+                    <el-input size="small" style="width:200px" v-model="project_name" placeholder="请输入内容"></el-input>
+                </el-row>
+                <el-row>
+                    <span class="lebal">客户名称</span>
+                    <el-input size="small" style="width:200px" v-model="client_name" placeholder="请输入内容"></el-input>
+                </el-row>
+                <el-row>
+                    <span class="lebal">项目负责人</span>
+                    <el-input size="small" style="width:200px" v-model="project_leader" placeholder="请输入内容"></el-input>
+                </el-row>
+             </el-col>
         <el-col :span="11">
             <h3>项目说明</h3>
             <el-input
@@ -169,10 +174,9 @@ export default {
         display: inline-block;
         padding:12px 0;
         color: #333;
-    }
-    el-input{
-        margin-top:5px;
-        width:40px;
+        font-size: 14px;
+        width:80px;
+        margin-top:10px;
     }
     .btn{
         margin-top:12px;

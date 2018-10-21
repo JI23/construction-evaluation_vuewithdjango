@@ -131,36 +131,75 @@ def addStructuralElement(path,sNo,SEDict):
     XNumber=ET.SubElement(StructuralElement,'XNumber');XNumber.text=str(SEDict['X'])
     YNumber=ET.SubElement(StructuralElement,'YNumber');YNumber.text=str(SEDict['Y'])
     NonNumber=ET.SubElement(StructuralElement,'NonNumber');NonNumber.text=str(SEDict['Non'])
-    Cost=ET.SubElement(ElementID,'Cost')
-    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
-    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
-    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
-    DSNum=ET.SubElement(ElementID,'DSNum')
-    Direction=ET.SubElement(ElementID,'Direction')
-    #DS=ET.SubElement(ElementID,'DS')
-    #Num[s]=ET.SubElement(ElementID,'Num[s]')
 
     xml_path=DB_part.objects.get(part_id=SEDict['part_id']).xml.path
+    #print(SEDict)
+    print(xml_path)
     tree1=ET.ElementTree(file=xml_path)
     root1=tree1.getroot()
 
+    Cost=ET.SubElement(ElementID,'Cost')
     Cost1=root1.find('Cost')
-    Cost.text='1'#Cost1.text
+    Cost.text=Cost1.text
+    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
     EDPType=root1.find('EDPType')
     EDP_kind1=EDPType.find('TypeName')
     EDP_kind.text=EDP_kind1.text
+    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
     UseEDPValueOfFloorAbove1=root1.find('UseEDPValueOfFloorAbove')
     UseEDPValueOfFloorAbove.text=UseEDPValueOfFloorAbove1.text
-    #RepairWorkNumber1=root1.find('Directional')
-    RepairWorkNumber.text='3'
-    DamageStates=root1.find('DamageStates')
-    DSNum1=DamageStates.findall('DamageState')
+    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
+    RepairWorkNumber1=root1.find('RepairWorkNumber')
+    RepairWorkNumber.text=RepairWorkNumber1.text
+    DSNum=ET.SubElement(ElementID,'DSNum')
+    DamageStates1=root1.find('DamageStates')
+    DSNum1=DamageStates1.findall('DamageState')
     DSNum.text=str(len(DSNum1))
-    
+    Direction=ET.SubElement(ElementID,'Direction')
     Direction1=root1.find('Directional')
     Direction.text=Direction1.text
+    DamageStates=ET.SubElement(ElementID,'DamageStates')
+    for item in DSNum1:
+        print(item)
+        DamageState=ET.SubElement(DamageStates,'DamageState')
+        Cost_LowerQuantity=ET.SubElement(DamageState,'Cost_LowerQuantity')
+        Cost_MaxAmount=ET.SubElement(DamageState,'Cost_MaxAmount')
+        Cost_UpperQuantity=ET.SubElement(DamageState,'Cost_UpperQuantity')
+        Cost_MinAmount=ET.SubElement(DamageState,'Cost_MinAmount')
+        Time_LowerQuantity=ET.SubElement(DamageState,'Time_LowerQuantity')
+        Time_MaxAmount=ET.SubElement(DamageState,'Time_MaxAmount')
+        Time_UpperQuantity=ET.SubElement(DamageState,'Time_UpperQuantity')
+        Time_MinAmount=ET.SubElement(DamageState,'Time_MinAmount')
+        Median=ET.SubElement(DamageState,'Median')
+        Beta=ET.SubElement(DamageState,'Beta')
+        DSNum.text=str(len(DSNum1))
+        ConsequenceGroup1=item.find('ConsequenceGroup')
+        CostConsequence1=ConsequenceGroup1.find('CostConsequence')
+        Cost_LowerQuantity1=CostConsequence1.find('LowerQuantity')
+        Cost_LowerQuantity.text=Cost_LowerQuantity1.text
+        Cost_MaxAmount1=CostConsequence1.find('MaxAmount')
+        Cost_MaxAmount.text=Cost_MaxAmount1.text
+        Cost_UpperQuantity1=CostConsequence1.find('UpperQuantity')
+        Cost_UpperQuantity.text=Cost_UpperQuantity1.text
+        Cost_MinAmount1=CostConsequence1.find('MinAmount')
+        Cost_MinAmount.text=Cost_MinAmount1.text
+        TimeConsequence1=ConsequenceGroup1.find('TimeConsequence')
+        Time_LowerQuantity1=TimeConsequence1.find('LowerQuantity')
+        Time_LowerQuantity.text=Time_LowerQuantity1.text
+        Time_MaxAmount1=TimeConsequence1.find('MaxAmount')
+        Time_MaxAmount.text=Time_MaxAmount1.text
+        Time_UpperQuantity1=TimeConsequence1.find('UpperQuantity')
+        Time_UpperQuantity.text=Time_UpperQuantity1.text
+        Time_MinAmount1=TimeConsequence1.find('MinAmount')
+        Time_MinAmount.text=Time_MinAmount1.text
+        Median1=item.find('Median')
+        Median.text=Median1.text
+        Beta1=item.find('Beta')
+        Beta.text=Beta1.text
+
 
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
+
 
 def addNonStructuralElement(path,nsNo,NSEDict):
     print('addNonStructuralElement')
@@ -175,34 +214,70 @@ def addNonStructuralElement(path,nsNo,NSEDict):
     XNumber=ET.SubElement(NonStructuralElement,'XNumber');XNumber.text=str(NSEDict['X'])
     YNumber=ET.SubElement(NonStructuralElement,'YNumber');YNumber.text=str(NSEDict['Y'])
     NonNumber=ET.SubElement(NonStructuralElement,'NonNumber') ;NonNumber.text=str(NSEDict['Non'])
-    Cost=ET.SubElement(ElementID,'Cost')
-    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
-    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
-    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
-    DSNum=ET.SubElement(ElementID,'DSNum')
-    Direction=ET.SubElement(ElementID,'Direction')
-    #DS=ET.SubElement(ElementID,'DS')
-    #Num[s]=ET.SubElement(ElementID,'Num[s]')
 
     xml_path=DB_part.objects.get(part_id=NSEDict['part_id']).xml.path
+    
     tree1=ET.ElementTree(file=xml_path)
     root1=tree1.getroot()
 
+    Cost=ET.SubElement(ElementID,'Cost')
     Cost1=root1.find('Cost')
-    Cost.text='1'#Cost1.text
+    Cost.text=Cost1.text
+    EDP_kind=ET.SubElement(ElementID,'EDP_kind')
     EDPType=root1.find('EDPType')
     EDP_kind1=EDPType.find('TypeName')
     EDP_kind.text=EDP_kind1.text
+    UseEDPValueOfFloorAbove=ET.SubElement(ElementID,'UseEDPValueOfFloorAbove')
     UseEDPValueOfFloorAbove1=root1.find('UseEDPValueOfFloorAbove')
     UseEDPValueOfFloorAbove.text=UseEDPValueOfFloorAbove1.text
-    #RepairWorkNumber1=root1.find('Directional')
-    RepairWorkNumber.text='3'
-    DamageStates=root1.find('DamageStates')
-    DSNum1=DamageStates.findall('DamageState')
+    RepairWorkNumber=ET.SubElement(ElementID,'RepairWorkNumber')
+    RepairWorkNumber1=root1.find('RepairWorkNumber')
+    RepairWorkNumber.text=RepairWorkNumber1.text
+    DSNum=ET.SubElement(ElementID,'DSNum')
+    DamageStates1=root1.find('DamageStates')
+    DSNum1=DamageStates1.findall('DamageState')
     DSNum.text=str(len(DSNum1))
-    
+    Direction=ET.SubElement(ElementID,'Direction')
     Direction1=root1.find('Directional')
     Direction.text=Direction1.text
+    DamageStates=ET.SubElement(ElementID,'DamageStates')
+    for item in DSNum1:
+        print(item)
+        DamageState=ET.SubElement(DamageStates,'DamageState')
+        Cost_LowerQuantity=ET.SubElement(DamageState,'Cost_LowerQuantity')
+        Cost_MaxAmount=ET.SubElement(DamageState,'Cost_MaxAmount')
+        Cost_UpperQuantity=ET.SubElement(DamageState,'Cost_UpperQuantity')
+        Cost_MinAmount=ET.SubElement(DamageState,'Cost_MinAmount')
+        Time_LowerQuantity=ET.SubElement(DamageState,'Time_LowerQuantity')
+        Time_MaxAmount=ET.SubElement(DamageState,'Time_MaxAmount')
+        Time_UpperQuantity=ET.SubElement(DamageState,'Time_UpperQuantity')
+        Time_MinAmount=ET.SubElement(DamageState,'Time_MinAmount')
+        Median=ET.SubElement(DamageState,'Median')
+        Beta=ET.SubElement(DamageState,'Beta')
+        DSNum.text=str(len(DSNum1))
+        ConsequenceGroup1=item.find('ConsequenceGroup')
+        CostConsequence1=ConsequenceGroup1.find('CostConsequence')
+        Cost_LowerQuantity1=CostConsequence1.find('LowerQuantity')
+        Cost_LowerQuantity.text=Cost_LowerQuantity1.text
+        Cost_MaxAmount1=CostConsequence1.find('MaxAmount')
+        Cost_MaxAmount.text=Cost_MaxAmount1.text
+        Cost_UpperQuantity1=CostConsequence1.find('UpperQuantity')
+        Cost_UpperQuantity.text=Cost_UpperQuantity1.text
+        Cost_MinAmount1=CostConsequence1.find('MinAmount')
+        Cost_MinAmount.text=Cost_MinAmount1.text
+        TimeConsequence1=ConsequenceGroup1.find('TimeConsequence')
+        Time_LowerQuantity1=TimeConsequence1.find('LowerQuantity')
+        Time_LowerQuantity.text=Time_LowerQuantity1.text
+        Time_MaxAmount1=TimeConsequence1.find('MaxAmount')
+        Time_MaxAmount.text=Time_MaxAmount1.text
+        Time_UpperQuantity1=TimeConsequence1.find('UpperQuantity')
+        Time_UpperQuantity.text=Time_UpperQuantity1.text
+        Time_MinAmount1=TimeConsequence1.find('MinAmount')
+        Time_MinAmount.text=Time_MinAmount1.text
+        Median1=item.find('Median')
+        Median.text=Median1.text
+        Beta1=item.find('Beta')
+        Beta.text=Beta1.text
 
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
 
@@ -240,8 +315,6 @@ def addStructureResponse(path,StructureResponseDict):
     StructureResponse=root.find("StructureResponse")
     target=Judge(StructureResponseDict)
     place=StructureResponse.find(target)
-    FloorsNumber=ET.SubElement(place,'FloorsNumber');FloorsNumber.text=str(StructureResponseDict['floor_no'])
-    EarthquakeNumber=ET.SubElement(place,'EarthquakeNumber');EarthquakeNumber.text=str(StructureResponseDict['earthquake_no'])
     #开始赋值
     x=int(0)
     for i in range (StructureResponseDict['floor_no']):
@@ -290,13 +363,16 @@ def xmlProject(ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList
     DefenseIntensity=ET.SubElement(EarthquakeInfo,'DefenseIntensity');DefenseIntensity.text=str(EarthquakeInfoDict['defense_intensity'])
     EarthquakeWaveNumber=ET.SubElement(EarthquakeInfo,'EarthquakeWaveNumber');EarthquakeWaveNumber.text=str(EarthquakeInfoDict['number'])
     PeakAcceleration=ET.SubElement(EarthquakeInfo,'PeakAcceleration');PeakAcceleration.text=str(EarthquakeInfoDict['peak_acceleration'])
-    SiteType=ET.SubElement(EarthquakeInfo,'SiteType');SiteType.text=EarthquakeInfoDict['site_type']
+    SiteType=ET.SubElement(EarthquakeInfo,'SiteType');SiteType.text=str(EarthquakeInfoDict['site_type'])
     EarthquakeGroup=ET.SubElement(EarthquakeInfo,'EarthquakeGroup');EarthquakeGroup.text=str(EarthquakeInfoDict['group'])
-    EarthquakeLevel=ET.SubElement(EarthquakeInfo,'EarthquakeLevel');EarthquakeLevel.text=EarthquakeInfoDict['earthquake_level']
+    EarthquakeLevel=ET.SubElement(EarthquakeInfo,'EarthquakeLevel');EarthquakeLevel.text=str(EarthquakeInfoDict['earthquake_level'])
     EarthquakeWaves=ET.SubElement(EarthquakeInfo,'EarthquakeWaves')
    
     #结构响应
     StructureResponse=ET.SubElement(root,'StructureResponse')
+    FloorsNumber=ET.SubElement(StructureResponse,'FloorsNumber');FloorsNumber.text=str(BuildingInfoDict['floor'])
+    EarthquakeNumber=ET.SubElement(StructureResponse,'EarthquakeNumber');EarthquakeNumber.text=str(EarthquakeInfoDict['number'])
+
     X_SDR=ET.SubElement(StructureResponse,'X-SDR')
     X_ACC=ET.SubElement(StructureResponse,'X-ACC')
     Y_SDR=ET.SubElement(StructureResponse,'Y-SDR')
@@ -343,21 +419,37 @@ from reportlab.pdfgen import canvas
 def runDll(project_file_path):
     print("runDll")
     print(project_file_path)
-    dll =cdll.LoadLibrary("./x64//Debug//Dll3.dll")
-    readfile=dll.pl
-    readfile.argtypes=[c_char_p]
-    readfile.restype=c_int
-    s=(c_char * 200)(*bytes(project_file_path,"utf-8"))
-    print("s success")
-    h=readfile(s)
-    print(h)
-    pdf_path=project_file_path.replace("xml","pdf")
-    print(pdf_path)
-    c=canvas.Canvas(pdf_path)
-    c.drawString(100,800,str(h))
-    c.drawString(100,1000,"rating result")
-    c.showPage()
-    c.save()
-    return h
+    dll =cdll.LoadLibrary(r"C:\Users\85764\Documents\GitHub\construction-evaluation_vuewithdjango\project\x64\Release\Dll3.dll")
+    s=(c_char * 106)(*bytes(project_file_path,"utf-8"))
+    print ('success')
 
+    CostStar=dll.TryGetCostStar
+    CostStar.argtypes=[c_char_p]
+    CostStar.restype=c_int
+    h=CostStar(s)
+    h="CostStar"+str(h)
+    print("CostStar:",h)
+
+    TimeStar=dll.TryGetTimeStar
+    TimeStar.argtypes=[c_char_p]
+    TimeStar.restype=c_int
+    h1=TimeStar(s)
+    h1="TimeStar"+str(h1)
+    print("TimeStar:",h)
+
+    CalsualtyStar=dll.TryGetCalsualtyStar
+    CalsualtyStar.argtypes=[c_char_p]
+    CalsualtyStar.restype=c_int
+    h2=CalsualtyStar(s)
+    h2="CalsualtyStar"+str(h2)
+    print("CalsualtyStar:",h)
+
+    FinalStar=dll.TryGetFinalStar
+    FinalStar.argtypes=[c_char_p]
+    FinalStar.restype=c_int
+    h3=FinalStar(s)
+    h3="FinalStar"+str(h3)
+    print("FinalStar:",h)
+
+    return 1
     

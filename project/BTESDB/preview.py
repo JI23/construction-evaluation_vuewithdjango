@@ -1,5 +1,6 @@
 from .rate import get_project_dedail
 from django.http import JsonResponse
+from .models import Project
 import pdfkit
 def preview(request):
     print('preview')
@@ -32,11 +33,14 @@ def preview(request):
         response['EarthquakeWaveList']=EarthquakeWaveList
         response['StructureResponseList']=StructureResponseList
         print ('生成PDF')
-        result='尚未定级'
+        result=['尚未定级','尚未定级','尚未定级','尚未定级','尚未定级']
         generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList)
 
+        this_project=Project.objects.get(id=ProjectInfoDict['id'])
         print('成功')
+        print(this_project.PDF)
         response['error_num']=0
+        response['PDF']=str(this_project.PDF)
         response['msg']='获取预览信息成功'
     except Exception as e:
         print(str(e))
@@ -44,24 +48,45 @@ def preview(request):
         response['msg']='有误'
     return JsonResponse(response)
 
+import hashlib
+import os
 def generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList):
-    f = open('./media/project/'+str(ProjectInfoDict['id'])+'/project.html','w')
+    print('generatePDF')
+    #形成新的文件地址，形如/project/user_id/用md5加密的32位长的字符串/project_name.pdf,project_name.html
+    path='./media/project/'+ str(ProjectInfoDict['user'])+'/'
+    x=bytes(str(ProjectInfoDict['id']),encoding='utf-8')
+    m=hashlib.md5()
+    m.update(x)
+    path += m.hexdigest() +'/'
+
+    print(path)
+    if not os.path.exists(path):
+        os.makedirs(path)
+        print('新建路径成功')
+    #打开html文件开始编写
+    f = open(path+ProjectInfoDict['project_name']+'.html','w')
+    
     message = """
     <html>
     <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
     <title>定级报告</title>
     </head>
     <body>"""
     message += '<h1 style="text-align:center" >项目名称：' + ProjectInfoDict['project_name']+'</h1>'
-
+    
     message += '<hr /><h3>项目信息</h3>'
-    message += '<h1>项目定级:' +result +'</h1>'
+    #项目编号格式：U+用户ID+P+项目ID+R+四个评级信息
+    message += '<h2>项目编号:' + result[0] +'</h2>'
+    message += '<h2>修复费用评级:' +result[1] +'</h2>'
+    message += '<h2>修复时间评级:' +result[2] +'</h2>'
+    message += '<h2>人员损失评级:' +result[3] +'</h2>'
+    message += '<h2>最终定级:' +result[4] +'</h2>'
     message += '<p>客户名称:' + ProjectInfoDict['client_name']+'</p>'
     message += '<p>负责人:' + ProjectInfoDict['project_leader']+'</p>'
     message += '<p>项目描述:'+ ProjectInfoDict['project_description']+'</p>'
     message += '<hr />'
-
+    
     message +='<h3>建筑信息</h3>'
     message +='<p>建筑材料:' +BuildingInfoDict['material'] +'</p>'
     message +='<p>结构类型:' +BuildingInfoDict['structure_type']+'</p>'
@@ -70,7 +95,7 @@ def generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElem
     message +='<p>建筑层数:' +str(BuildingInfoDict['floor'])+'</p>'
     message +='<p>建筑面积:' +str(BuildingInfoDict['area'])+'</p>'
     message +='<p>每平米造价:' +str(BuildingInfoDict['cost_per_squaremeter']) +'</p>'
-
+    
     message +='<h4>楼层详情</h4>'
     message +='<table border="1">'
     message +="""<tr>
@@ -90,7 +115,7 @@ def generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElem
         message +='</tr>'
     message +='</table>'
     message += '<hr />'
-
+    
     message +='<h3>结构构件</h3>'
     message +='<table border="1">'
     message +="""<tr>
@@ -112,7 +137,7 @@ def generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElem
         message +='</tr>'
     message += '</table>'
     message += '<hr />'
-
+    
     message +='<h3>非结构构件</h3>'
     message +='<table border="1">'
     message +="""<tr>
@@ -134,14 +159,14 @@ def generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElem
         message +='</tr>'
     message += '</table>'
     message += '<hr />'
-
+    
     message +='<h3>地震信息</h3>'
     message += '<p>设防烈度:' + str(EarthquakeInfoDict['defense_intensity'])+'</p>'
     message += '<p>地震波数:' + str(EarthquakeInfoDict['number'])+'</p>'
     message += '<p>峰值加速度:' + str(EarthquakeInfoDict['peak_acceleration'])+'</p>'
-    message += '<p>场地类别:' + EarthquakeInfoDict['site_type']+'</p>'
+    message += '<p>场地类别:' + str(EarthquakeInfoDict['site_type'])+'</p>'
     message += '<p>地震分组:' + str(EarthquakeInfoDict['group'])+'</p>'
-    message += '<p>地震水准:' + EarthquakeInfoDict['earthquake_level']+'</p>'
+    message += '<p>地震水准:' + str(EarthquakeInfoDict['earthquake_level'])+'</p>'
     message +='<h4>地震详情</h4>'
     message +='<table border="1">'
     message +="""<tr>
@@ -182,4 +207,10 @@ def generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElem
     message += "</body></html>"
     f.write(message)
     f.close()
-    pdfkit.from_file('./media/project/'+str(ProjectInfoDict['id'])+'/project.html','./media/project/'+str(ProjectInfoDict['id'])+'/project.pdf')
+    print('新建html成功')
+    #保存并关闭html，将html转为pdf
+    #pdfkit.from_file('./media/project/'+str(ProjectInfoDict['id'])+'/project.html','./media/project/'+str(ProjectInfoDict['id'])+'/project.pdf')
+    pdfkit.from_file(path+ProjectInfoDict['project_name']+'.html',path+ProjectInfoDict['project_name']+'.pdf')
+    this_project=Project.objects.get(id=ProjectInfoDict['id'])
+    this_project.PDF='project/'+str(ProjectInfoDict['user'])+'/'+m.hexdigest() +'/'+ProjectInfoDict['project_name']+'.pdf'
+    this_project.save()

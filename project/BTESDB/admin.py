@@ -49,7 +49,7 @@ class ProjectAdmin(admin.ModelAdmin):
         print(4)
         return qs.filter(user=User_Info.objects.filter(username=request.user))
  
-    list_display = ('user', 'project_name','client_name','last_update','create_time','is_finished','rate')
+    list_display = ('user', 'project_name','client_name','last_update','create_time','is_finished')
 admin.site.register(Project,ProjectAdmin)
 
 '''
