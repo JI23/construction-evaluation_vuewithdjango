@@ -52,7 +52,10 @@ def step1(request):
             create_time=datetime.now(),
             project_leader=project_leader,
             is_finished=False,
-            rate='0')           
+            rate='0',
+            costrate='0',
+            timerate='0',
+            casualtyrate='0')           
             new.save()
             response['project']=new.id
             response['msg']='项目新建成功'

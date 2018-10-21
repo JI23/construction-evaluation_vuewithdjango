@@ -146,7 +146,7 @@
                                     structure_element[j].id=res['element_info'][i].element__part_id
                                     structure_element[j].unit=res['element_info'][i].element__basic_unit
                                     delete structure_element[j].element__part_id
-                                    delete structure [j].element__basic_unit
+                                    delete structure_element[j].element__basic_unit
                                     j++
                                 }
                     } 
@@ -165,9 +165,9 @@
                                     //delete res['element_info'][i].fields.element
                                     non_structure_element[k]=res['element_info'][i]
                                     non_structure_element[k].id=res['element_info'][i].element__part_id
-                                    structure_element[j].unit=res['element_info'][i].element__basic_unit
+                                    non_structure_element[k].unit=res['element_info'][i].element__basic_unit
                                     delete non_structure_element[k].element__part_id
-                                    delete structure [j].element__basic_unit
+                                    delete non_structure_element [k].element__basic_unit
                                     k++
                                 }
                     } 

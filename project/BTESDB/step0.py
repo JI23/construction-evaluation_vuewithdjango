@@ -10,7 +10,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 def edit(request):
-    print (1)
+    print ('edit')
     response={}
     try:
         username=request.GET['username']
@@ -30,6 +30,8 @@ def edit(request):
             print("building_info  exists")
             print(json.loads(serializers.serialize("json", building_info)))
             response['building_info']=json.loads(serializers.serialize("json", building_info))
+        else:
+            response['building_info']=''
         
         this_project=Project.objects.get(id=project)
         floor_info=Floor_Info.objects.filter(project=project)
@@ -70,6 +72,21 @@ def edit(request):
 
         structure_response=Structure_response.objects.filter(project=project)
         if structure_response.exists():
+            #处理data中的字符串，转变为[楼层数][地震数]的二维数组
+            for item in structure_response:
+                temp_list=item.data[1:-1].split(", ")
+                item.data=list()
+                x=int(0)
+                for i in range(item.floor_no):
+                    t2=list()
+                    for j in range(item.earthquake_no):
+                        t2.append(float(temp_list[x]))
+                        x += 1
+                    #print(t2)
+                    item.data.append(t2)
+                print (item.data)
+                #print (type(item.data))
+            
             print (json.loads(serializers.serialize("json", structure_response)))
             response['structure_response']=json.loads(serializers.serialize("json", structure_response))
         else:
