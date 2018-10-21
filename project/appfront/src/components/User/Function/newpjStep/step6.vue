@@ -125,7 +125,13 @@
 <script>
 export default {
     beforeRouteLeave(to, from, next){
-        let structure_response = JSON.stringify(this.data)
+        let structure_response=new Array
+        structure_response[0]=this.data1
+        structure_response[1]=this.data2
+        structure_response[2]=this.data3
+        structure_response[3]=this.data4
+        structure_response=JSON.stringify(structure_response)
+        console.log(structure_response)
         localStorage.setItem('structure_response', structure_response)
         next()
     },
@@ -142,21 +148,26 @@ export default {
         this.change_level_2()
         this.change_level_3()
         this.change_level_4()
-        let data_temp=JSON.parse(localStorage.getItem('structure_response'))
-        console.log
-        if(data_temp==null||data_temp=='')
-            {
+        let data_temp=localStorage.getItem('structure_response')
+        console.log(typeof data_temp)
+        console.log(data_temp)
+        console.log(data_temp[0])
+        if(data_temp==null||data_temp==''){
                 console.log('没有值')
-            }    
-        else
-            this.data=data_temp
-        //let data = JSON.parse(localStorage.getItem('structure_response'))
-        console.log('step6.vue')
-        // if (data != '') {
-        //     this.data = data
-        // }
-        
-    },
+        }    
+        else{
+            for(var j = 0; j < data_temp[0].length; j++){
+                var temp = [{}]
+                for(var i = 0; i < data_temp[0][0].length; i++){
+                    var temp1 = "earthquake" + (i+1)
+                    temp[0][temp1] = data_temp[0][j][i]
+                }
+                temp[0].floor = j+1
+                this.data1.push(temp[0])
+
+        }
+        console.log('step6.vue')    
+    }},
     methods:{
         next(){
             this.$emit('next','');
@@ -166,13 +177,38 @@ export default {
         },
         save6(){
             let _this=this;
-            console.log(this.Floor_info)
+            // var floors_num = localStorage.getItem('floors')
+            // let quake_num = localStorage.getItem('number')
+            let data=[{
+                        direction:'X方向',
+                        EDP_type:'Story Drift Ratio/层间位移角',
+                        floor_no:this.floors_num,
+                        earthquake_no:this.quake_num
+                    },{
+                        direction:'X方向',
+                        EDP_type:'Acceleration/楼层加速度',
+                        floor_no:this.floors_num,
+                        earthquake_no:this.quake_num
+                    },
+                    {
+                        direction:'Y方向',
+                        EDP_type:'Story Drift Ratio/层间位移角',
+                        floor_no:this.floors_num,
+                        earthquake_no:this.quake_num
+                    },
+                    {
+                        direction:'Y方向',
+                        EDP_type:'Acceleration/楼层加速度',
+                        floor_no:this.floors_num,
+                        earthquake_no:this.quake_num
+                    }
+                    ]
             var project=localStorage.getItem('project')
             this.$ajax({
                 method:'get',
                 url:'step6',
                 params:{
-                    data:this.data,
+                    data:data,
                     data1:this.data1,
                     data2:this.data2,
                     data3:this.data3,
@@ -189,7 +225,7 @@ export default {
                     _this.$message.success(res['msg'])
                 } 
                 else {
-                    _this.$message.error(res['msg'])
+                    _this.$message.error("保存失败！")
                     console.log(res['msg'])
                 }
             })
@@ -336,30 +372,6 @@ export default {
             data2:[],
             data3:[],
             data4:[],
-            data:[{
-                direction:'X方向',
-                EDP_type:'Story Drift Ratio/层间位移角',
-                floor_no:null,
-                earthquake_no:null
-            },{
-                direction:'X方向',
-                EDP_type:'Acceleration/楼层加速度',
-                floor_no:null,
-                earthquake_no:null
-            },
-            {
-                direction:'Y方向',
-                EDP_type:'Story Drift Ratio/层间位移角',
-                floor_no:null,
-                earthquake_no:null
-            },
-            {
-                direction:'Y方向',
-                EDP_type:'Acceleration/楼层加速度',
-                floor_no:null,
-                earthquake_no:null
-            }
-            ],
         }    
     }
 }

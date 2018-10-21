@@ -131,6 +131,9 @@
                                 delete res['floor_info'][i].fields.project //删掉返回的project属性
                                 Floor_info[i]=res['floor_info'][i].fields
                     } 
+                    console.log(res['floor_info'])
+                    console.log("返回的Floor_info")
+                    console.log(Floor_info)
                     //step3
                     console.log("editstep3")
                     console.log(res['element_info'])
@@ -146,7 +149,7 @@
                                     structure_element[j].id=res['element_info'][i].element__part_id
                                     structure_element[j].unit=res['element_info'][i].element__basic_unit
                                     delete structure_element[j].element__part_id
-                                    delete structure [j].element__basic_unit
+                                    delete structure_element[j].element__basic_unit
                                     j++
                                 }
                     } 
@@ -165,9 +168,9 @@
                                     //delete res['element_info'][i].fields.element
                                     non_structure_element[k]=res['element_info'][i]
                                     non_structure_element[k].id=res['element_info'][i].element__part_id
-                                    structure_element[j].unit=res['element_info'][i].element__basic_unit
+                                    non_structure_element[k].unit=res['element_info'][i].element__basic_unit
                                     delete non_structure_element[k].element__part_id
-                                    delete structure [j].element__basic_unit
+                                    delete non_structure_element [k].element__basic_unit
                                     k++
                                 }
                     } 
@@ -230,17 +233,19 @@
                     //step6
                     console.log('step6')
                     console.log(res['structure_response'])
-                    var structure_response=''
+                    console.log(JSON.parse(res['structure_response']))
+                    var structure_response=new Array
                     if(res['structure_response']!='')
                     {
                         console.log('structure_response不为空')
+                        //console.log(res['structure_response'])
                         structure_response=res['structure_response']
                         for(var i = 0; i < res['structure_response'].length; i++){
                                     delete res['structure_response'][i].fields.project //删掉返回的project属性
-                                    structure_response[i]=res['structure_response'][i].fields
+                                    structure_response[i]=res['structure_response'][i].fields.data
                         }
                     }
-
+                    console.log(structure_response)
                     
                     localStorage.removeItem('project_name')
                     localStorage.removeItem('project_leader')
@@ -299,7 +304,7 @@
                     localStorage.setItem('earthquake_level',JSON.stringify(earthquake_level))
                     localStorage.setItem('earthquake_info',earthquake_info)
                     //step6
-                    localStorage.setItem('structure_response',JSON.stringify(structure_response))
+                    localStorage.setItem('structure_response',structure_response)
                 }).catch(function(err){
                     console.log(err)
                 })
