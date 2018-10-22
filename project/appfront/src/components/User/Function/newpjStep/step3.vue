@@ -146,6 +146,7 @@
             tableData=JSON.parse(tableData)
             if (tableData.length!=0) {
             console.log("飞空")
+            console.log(tableData)
             this.tableData = tableData
             }
         }

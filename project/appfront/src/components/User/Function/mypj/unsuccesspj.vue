@@ -111,13 +111,26 @@
                     let project_description = res['base_info'][0].fields.project_description
                     //step2
                     //修改后
-                    let material = res['building_info'][0].fields.material
-                    let structure_type = res['building_info'][0].fields.structure_type
-                    let figure_time = res['building_info'][0].fields.figure_time
-                    let floors = res['building_info'][0].fields.floor
-                    let height = res['building_info'][0].fields.height
-                    let area = res['building_info'][0].fields.area
-                    let cost_per_squaremeter = res['building_info'][0].fields.cost_per_squaremeter
+                    console.log("222222")
+                    console.log(res['building_info'])
+                    let material=''
+                    let structure_type=''
+                    let figure_time = ''
+                    let floors = ''
+                    let height = ''
+                    let area = ''
+                    let cost_per_squaremeter = ''
+                    if(res['building_info']!='')
+                    {
+                        material = res['building_info'][0].fields.material
+                        console.log("cunzau")
+                        structure_type = res['building_info'][0].fields.structure_type
+                        figure_time = res['building_info'][0].fields.figure_time
+                        floors = res['building_info'][0].fields.floor
+                        height = res['building_info'][0].fields.height
+                        area = res['building_info'][0].fields.area
+                        cost_per_squaremeter = res['building_info'][0].fields.cost_per_squaremeter
+                    }
                     //修改前
                     // let material = res['base_info'][0].fields.material
                     // let structure_type = res['base_info'][0].fields.structure_type
@@ -126,14 +139,16 @@
                     // let height = res['base_info'][0].fields.height
                     // let area = res['base_info'][0].fields.area
                     // let cost_per_squaremeter = res['base_info'][0].fields.cost_per_squaremeter
-                    let Floor_info=res['floor_info']
-                    for(var i = 0; i < res['floor_info'].length; i++){
-                                delete res['floor_info'][i].fields.project //删掉返回的project属性
-                                Floor_info[i]=res['floor_info'][i].fields
-                    } 
-                    console.log(res['floor_info'])
-                    console.log("返回的Floor_info")
-                    console.log(Floor_info)
+                    let Floor_info=new Array
+                    if(res['floor_info']!='')
+                    {
+                        Floor_info=res['floor_info']
+                        for(var i = 0; i < res['floor_info'].length; i++){
+                                    delete res['floor_info'][i].fields.project //删掉返回的project属性
+                                    Floor_info[i]=res['floor_info'][i].fields
+                        } 
+                    }
+                    Floor_info=JSON.stringify(Floor_info)
                     //step3
                     console.log("editstep3")
                     console.log(res['element_info'])
@@ -233,7 +248,6 @@
                     //step6
                     console.log('step6')
                     console.log(res['structure_response'])
-                    console.log(JSON.parse(res['structure_response']))
                     var structure_response=new Array
                     if(res['structure_response']!='')
                     {
@@ -241,8 +255,12 @@
                         //console.log(res['structure_response'])
                         structure_response=res['structure_response']
                         for(var i = 0; i < res['structure_response'].length; i++){
-                                    delete res['structure_response'][i].fields.project //删掉返回的project属性
-                                    structure_response[i]=res['structure_response'][i].fields.data
+                                    delete res['structure_response'][i].project //删掉返回的project属性
+                                    delete res['structure_response'][i].EDP_type
+                                    delete res['structure_response'][i].direction
+                                    delete res['structure_response'][i].earthquake_no
+                                    delete res['structure_response'][i].floor_no
+                                    structure_response[i]=res['structure_response'][i].data
                         }
                     }
                     console.log(structure_response)
@@ -290,7 +308,7 @@
                     localStorage.setItem('height', height)
                     localStorage.setItem('area', area)
                     localStorage.setItem('cost_per_squaremeter', cost_per_squaremeter)
-                    localStorage.setItem('Floor_info', JSON.stringify(Floor_info))//亲测表格好像只有转换成字符型才能显示
+                    localStorage.setItem('Floor_info', Floor_info)//亲测表格好像只有转换成字符型才能显示
                     //step3
                     localStorage.setItem('structure_element', structure_element)
                     //step4
@@ -304,7 +322,7 @@
                     localStorage.setItem('earthquake_level',JSON.stringify(earthquake_level))
                     localStorage.setItem('earthquake_info',earthquake_info)
                     //step6
-                    localStorage.setItem('structure_response',structure_response)
+                    localStorage.setItem('structure_response',JSON.stringify(structure_response))
                 }).catch(function(err){
                     console.log(err)
                 })
