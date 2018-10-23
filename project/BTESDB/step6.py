@@ -18,7 +18,7 @@ def step6(request):
         data3=request.GET.getlist('data3[]',[])
         data4=request.GET.getlist('data4[]',[])
         detail=[data1,data2,data3,data4]
-
+        print(data_list)
         print(type(data_list),"::",data_list)
         print(type(data1),"::",data1)
         print(type(data2),"::",data2)

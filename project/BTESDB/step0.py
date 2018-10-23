@@ -49,8 +49,6 @@ def edit(request):
         if element_info.exists():
             print('存在')
             print(element_info)
-            #print (json.loads(serializers.serialize("json", element_info)))
-            #response['element_info']=json.loads(serializers.serialize("json", element_info))
             response['element_info']=list(element_info)
             print(element_info)
         else:
@@ -70,25 +68,22 @@ def edit(request):
         else:
             response['wave_info']=''
 
-        structure_response=Structure_response.objects.filter(project=project)
+        structure_response=Structure_response.objects.filter(project=project).values("project","direction","EDP_type","floor_no","earthquake_no","data")
         if structure_response.exists():
             #处理data中的字符串，转变为[楼层数][地震数]的二维数组
             for item in structure_response:
-                temp_list=item.data[1:-1].split(", ")
-                item.data=list()
+                temp_list=item["data"][1:-1].split(", ")
+                item["data"]=list()
                 x=int(0)
-                for i in range(item.floor_no):
+                for i in range(item["floor_no"]):
                     t2=list()
-                    for j in range(item.earthquake_no):
+                    for j in range(item["earthquake_no"]):
                         t2.append(float(temp_list[x]))
                         x += 1
-                    #print(t2)
-                    item.data.append(t2)
-                print (item.data)
-                #print (type(item.data))
-            
-            print (json.loads(serializers.serialize("json", structure_response)))
-            response['structure_response']=json.loads(serializers.serialize("json", structure_response))
+                    item["data"].append(t2)
+                print (item["data"])
+            print(structure_response)
+            response['structure_response']=list(structure_response)
         else:
             response['structure_response']=''
 

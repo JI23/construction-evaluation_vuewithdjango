@@ -165,6 +165,7 @@ export default {
         console.log(earthquake_info)
         if (earthquake_info != null) {
             this.earthquake_info = JSON.parse(earthquake_info)
+            console.log(this.earthquake_info)
         }
         //上传文件部分改动this.fileList,格式为
         var item = {
