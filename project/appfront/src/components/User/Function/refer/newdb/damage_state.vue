@@ -9,71 +9,91 @@ export default{
     data() {
         return {
             chart: null,
+            datachart: []
+        }
+    },
+    methods :{
+        getData(){
+            let _this = this
+            _this.$ajax({
+                method:'get',
+                url:'getChart',
+                params:{
+                    part_id : localStorage.getItem('part_id')
+                },
+            }).then(function(response){
+                //console.log(response)
+                var res = response.data
+                //_this.chart.series = []
+                _this.datachart = []
+                for(var i = 0; i < res.data.length; i++){
+                    var temp = {
+                        name: i,
+                        data: res.data[i]
+                    }
+                    _this.datachart.push(temp)
+                }
+                console.log(_this.datachart)
+                var chart = Highcharts.chart('container', {
+                    title: {
+                        text: '易损性曲线'
+                    },
+                    subtitle: {
+                    // text: '数据来源：thesolarfoundation.com'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'P(D>DS | Story Drift Ratio)'
+                        }
+                    },
+                    xAxis: {
+                        title: {
+                            text: 'Story Drift Ratio(rad)'
+                        }
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            },
+                            pointStart: 0,
+                            pointInterval: 0.02
+                        }
+                    },
+                    series: _this.datachart,
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                legend: {
+                                    layout: 'horizontal',
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                }
+                            }
+                        }]
+                    }
+                });
+
+
+
+
+                    
+            }).catch(function(err){
+                console.log(err);
+            });
         }
     },
     mounted() {
-        var chart = Highcharts.chart('container', {
-            title: {
-                text: '易损性曲线'
-            },
-            subtitle: {
-               // text: '数据来源：thesolarfoundation.com'
-            },
-            yAxis: {
-                title: {
-                    text: 'P(D>DS | Story Drift Ratio)'
-                }
-            },
-            xAxis: {
-                title: {
-                    text: 'Story Drift Ratio(rad)'
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-            plotOptions: {
-                series: {
-                    label: {
-                        connectorAllowed: false
-                    },
-                    pointStart: 0,
-                    pointInterval: 0.02
-                }
-            },
-            series: [{
-                name: '安装，实施人员',
-                data: [1, 3, 5, 7, 9, 1, 137133, 154175]
-            }, {
-                name: '工人',
-                data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434,1,2,3,4,6,6,6,6,6,6]
-            }, {
-                name: '销售',
-                data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-            }, {
-                name: '项目开发',
-                data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-            }, {
-                name: '其他',
-                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-            }],
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
-                    }
-                }]
-            }
-        });
+        let _this = this
+        _this.getData()
     }
 }
     

@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'preview$',preview.preview),
 
     url(r'show_projects_all$', admin_view.show_projects_all ),
+    url(r'getChart$', views.getChart ),
     ]

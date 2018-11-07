@@ -16,6 +16,47 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 
+def getChart(request):
+    global miu
+    global sigma
+    response = {}
+    try:
+        part_id=request.GET['part_id']
+        #id=request.GET['id']
+        this_part=DB_part.objects.get(part_id=part_id)
+        print("成功获取")
+        path=this_part.xml.url
+        #print(path)
+        #调用函数，解析xml文件
+        d=xmlAnalysis(path)
+        #response['aaa']=d
+        DamageStates=d['DamageStates']
+        sendData = []
+        for item in DamageStates:
+            #print(item)
+            temp = []
+            if item['median'] == '0' or item['dispersion'] == '0' :
+                continue
+            miu = math.log(float(item['median']))
+            sigma = float(item['dispersion'])
+            j = 0.02
+            temp.append(0)
+            for i in range(16):
+                temp.append(setp(j))
+                j = j + 0.02
+            print(item['median'])
+            print(item['dispersion'])
+            sendData.append(temp)
+        print (sendData)
+        response["data"] = sendData
+        response["xmax"] = 0.34
+    except Exception as e:
+        print(str(e))
+        response["error_num"]=1
+        response['msg']='获取详情失败'
+    #response['error_num'] = setp(0.3)
+    return JsonResponse(response)
+
 def index(request):
     #主页
     try:
@@ -320,5 +361,162 @@ def upload(request):
     return render(request,'upload.html')
 
 
+
+import math
+import numpy
+
+pi = 3.14159
+miu = math.log(0.04)
+#miu = 0.827658
+sigma = 0.4
+lowlimit = 0.0000001
+deviation = 0.001
+
+
+
+def fp(x):
+    #return math.exp(-(math.log(x)-miu))/2/pow(sigma,2)/x/sigma
+    return math.exp(-pow(math.log(x)-miu,2)/2/sigma/sigma)/x/sigma/numpy.sqrt(2*pi)
+
+def setp(EDP):
+    return getp(EDP)
+
+def getp(EDP):
+    if(sigma == 0 or miu == 0):
+        return 1
+    if(EDP > (10 * math.exp(miu) + 10 * sigma)):
+        return 1
+    f1 = fp(lowlimit) + fp(EDP)
+    f2 = fp((lowlimit+EDP)/2)
+    f3 = 0
+    s = (EDP - lowlimit) / 6 * (f1 + 4 * f2)
+    n = 2
+    h = (EDP - lowlimit) / 4
+    f2 = f2 + f3
+    s0 = s
+    f3 = 0
+    for i in range(n+1):
+        if i == 0:
+            continue
+        else:
+            f3 = f3 + fp(lowlimit + (2 * i - 1) * h)
+    s = h / 3 * (f1 + 2 * f2 + 4 * f3)
+    n *= 2
+    h /= 2
+    while((abs(s-s0) > deviation) or (abs(s - s0) > 0.001 * s) or (4 * h > sigma)):
+        f2 = f2 + f3
+        s0 = s
+        f3 = 0
+        for i in range(n+1):
+            if i == 0:
+                continue
+            else:
+                f3 = f3 + fp(lowlimit + (2 * i - 1) * h)
+        s = h / 3 * (f1 + 2 * f2 + 4 * f3)
+        n *= 2
+        h /= 2
+    return s
+
+
+
+def xmlAnalysis(path):
+    try:
+        d={}#每个part_id对应一条字典信息
+        l=[]#存储解析后的DamageState中的信息
+        CostConsequence={}
+        TimeConsequence={}
+        x=[]#存储DamageState的对象,len(x)就是DamageState的个数
+        y=[]
+        path="."+path
+        tree=ET.ElementTree(file=path)
+        root=tree.getroot()
+        d[root.tag]=root.attrib
+        for child_of_root in root:
+            d[child_of_root.tag]=child_of_root.text
+            #d1[child_of_root.tag]=child_of_root.text
+            for child2 in child_of_root:
+                d[child2.tag]=child2.text
+                #d1[child2.tag]=child2.text
+                if child2.tag=='DamageState':
+                    x.append(child2)
+        #print(len(x))
+        for k in range(0,len(x)):
+            l.append({})
+            y.append({})
+        #print(y)
+        for i in range(0,len(x)):
+            for child3 in x[i]:
+                l[i][child3.tag]=child3.text
+                for child4 in child3:
+                    l[i][child4.tag]=child4.text
+                    if child4.tag=='CostConsequence':
+                        for child5 in child4:
+                            CostConsequence[child5.tag]=child5.text
+                    elif child4.tag=='TimeConsequence':
+                        for child5 in child4:
+                            TimeConsequence[child5.tag]=child5.text
+                    l[i]['CostConsequence']=CostConsequence
+                    l[i]['TimeConsequence']=TimeConsequence
+        d['DamageStates']=l 
+        
+        d1={}
+        re_cost={}
+        re_time={}
+        d1['id']=d['ID']
+        d1['description']=d['Description']
+        d1['name']=d['Name']
+        d1['choose2']=d['Correlation']
+        d1['choose1']=d['Directional']
+        d1['value2']=d['Approved']
+        d1['value1']=d['UseEDPValueOfFloorAbove']
+        d1['DP_Dimension']=d['Dimension']
+        d1['typename']=d['TypeName']
+        d1['units']=d['DefaultUnits']
+        d1['author']=d['Author']
+        d1['notes']=d['Notes']
+        d1['quality']=d['DataQuality']
+        d1['relevance']=d['DataRelevance']
+        d1['data']=d['Documentation']
+        d1['retionality']=d['Rationality']
+    
+        for j in range(0,len(y)):
+            y[j]['No']=j+1
+            y[j]['name']=l[j]['Name']
+            y[j]['description']=l[j]['Description']
+            y[j]['DamageImageName']=l[j]['DamageImageName']
+            y[j]['median']=l[j]['Median']
+            y[j]['dispersion']=l[j]['Beta']
+            y[j]['RepairMeasures']=l[j]['RepairMeasures']
+            y[j]['UseCasualty']=l[j]['UseCasualty']
+            y[j]['LongLeadFlag']=l[j]['LongLeadFlag']
+            y[j]['AffectedFloorArea']=l[j]['AffectedFloorArea']
+            y[j]['AffectedDeathRate']=l[j]['AffectedDeathRate']
+            y[j]['AffectedInjuryRate']=l[j]['AffectedInjuryRate']
+            y[j]['AffectedDeathRateBeta']=l[j]['AffectedDeathRateBeta']
+            y[j]['AffectedInjuryRateBeta']=l[j]['AffectedInjuryRateBeta']
+            y[j]['RedTagMedian']=l[j]['RedTagMedian']
+            y[j]['RedTagBeta']=l[j]['RedTagBeta']
+
+            re_cost['l_Quantity']=d['DamageStates'][j]['CostConsequence']['LowerQuantity']
+            re_cost['aver_re_l']=d['DamageStates'][j]['CostConsequence']['MaxAmount']
+            re_cost['u_Quantity']=d['DamageStates'][j]['CostConsequence']['UpperQuantity']
+            re_cost['aver_re_u']=d['DamageStates'][j]['CostConsequence']['MinAmount']
+            re_cost['COV']=d['DamageStates'][j]['CostConsequence']['Uncertainty']
+            re_cost['CurveType']=d['DamageStates'][j]['CostConsequence']['CurveType']
+
+            re_time['l_Quantity']=d['DamageStates'][j]['TimeConsequence']['LowerQuantity']
+            re_time['aver_re_l']=d['DamageStates'][j]['TimeConsequence']['MaxAmount']
+            re_time['u_Quantity']=d['DamageStates'][j]['TimeConsequence']['UpperQuantity']
+            re_time['aver_re_u']=d['DamageStates'][j]['TimeConsequence']['MinAmount']
+            re_time['COV']=d['DamageStates'][j]['TimeConsequence']['Uncertainty']
+            re_time['CurveType']=d['DamageStates'][j]['TimeConsequence']['CurveType']
+
+            y[j]['CostConsequence']=re_cost
+            y[j]['TimeConsequence']=re_time
+
+        d1['DamageStates']=y
+        return d1
+    except Exception as e:
+        return(str(e))
 
     
