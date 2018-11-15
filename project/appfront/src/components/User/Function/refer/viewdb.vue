@@ -70,6 +70,7 @@
                 var value = _this.value4
                 sessionStorage.setItem('check',value)
                 temp = temp[0]
+                localStorage.setItem('part_id',temp)
                 if(node.level == 3){
                     this.$ajax({
                         method:'get',
