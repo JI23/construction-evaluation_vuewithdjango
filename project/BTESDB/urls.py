@@ -5,6 +5,7 @@ from . import savegen,refer_check,get_detail
 from . import rate
 from . import preview
 from . import admin_view
+from . import user_info_edit
 
 from django.conf.urls import url
 from django.views.generic import TemplateView
@@ -36,5 +37,12 @@ urlpatterns = [
     url(r'get_detail$', get_detail.get_detail),
     url(r'preview$',preview.preview),
 
-    url(r'show_projects_all$', admin_view.show_projects_all ),
+    url(r'show_projects_filter$', admin_view.show_projects_filter ),
+    url(r'admin_index$',admin_view.admin_index),
+    url(r'filter_user',admin_view.filter_user),
+    url(r'show_projects_fileter',admin_view.show_projects_filter),
+    url(r'allow_user',admin_view.allow_user),
+    url(r'ban_user',admin_view.ban_user),
+    url(r'refuse_user',admin_view.refuse_user),
+    url(r'get_user_info',user_info_edit.get_user_info),
     ]
