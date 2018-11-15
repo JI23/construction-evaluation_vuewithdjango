@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
-from .models import Project,User_Info,DB_part,DB_template,Company_Info
+from .models import Project,User_Info,DB_part,Company_Info
 from django.contrib import auth
 from datetime import datetime
 from django.http import JsonResponse

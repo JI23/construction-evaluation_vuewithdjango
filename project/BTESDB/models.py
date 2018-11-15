@@ -5,23 +5,7 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-class DB_template(models.Model):
-    #如BE.F.01.01，必须遵循该格式，有10位和11位的，最好写max_length=20
-    part_id=models.CharField(max_length=20,primary_key=True)
-    #可以是任意字符串，如ACI 318 OMF with weak joints and column flexural response, Conc Col & Bm = 24" x 24", Beam one side
-    Name=models.CharField(max_length=100)
-    #如单片玻璃幕墙...
-    Description=models.CharField(max_length=300)
-    #EDP类型，分层间位移角和楼层加速度
-    TypeName=models.CharField(max_length=20)
-    #数据来源
-    Author=models.CharField(max_length=20)
-    #是否是官方认证
-    Official=models.CharField(max_length=10)
-    #易损件的场地类别
-    part_type=models.CharField(max_length=20,default='Common')
-    #是否用户自定义
-    user_defined=models.CharField(max_length=10,default='False')
+
 # Create your models here.
 class Company_Info(models.Model):
     '''公司信息表'''
