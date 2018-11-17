@@ -65,7 +65,7 @@
                 localStorage.setItem("pjNum",JSON.stringify(row.pjNum));
                 this.$router.push({name:'detail_user'});
             },
-            showProjects(){/*
+            showUser(){
                 let _this = this;
                 this.$ajax({
                     method:'get',
@@ -77,24 +77,14 @@
                     console.log(response)
                     var res = response.data
                     console.log(res)
-                    if (res.error_num == 0) {
-                        _this.projects = res['list']
-                        for(var i = 0; i < res['list'].length; i++){
-                            _this.projects[i] = res['list'][i].fields
-                        }
-                    } 
-                    else {
-                        _this.$message.error('查询项目失败')
-                        console.log(res['msg'])
-                    }
                 }).catch(function(err){
                     console.log(err);
-                });*/
+                });
             },
         },
 
         beforeMount: function() {
-            this.showProjects()
+            this.showUser()
         },
         data () {
             return {

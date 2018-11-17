@@ -54,7 +54,6 @@
                 this.$ajax({
                     method: 'get',
                     url: '',
-
                 }).then(function(response){
                     console.log(response)
                     //进行赋值

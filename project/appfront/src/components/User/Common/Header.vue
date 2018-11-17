@@ -55,10 +55,10 @@ export default {
     methods:{
         goToIndex(){
             // 需要增加路由守卫
-
-            this.$store.dispatch("setUser",null)
-            localStorage.removeItem('phone')
-            this.$router.push({name:'index'})
+            //应保留下面两行
+            //this.$store.dispatch("setUser",null)
+            //localStorage.removeItem('phone')
+            this.$router.push({name:'home_admin'})
         },
         goToUserInfo(){
             this.$router.push({name:'userinfo'})

@@ -25,7 +25,7 @@
                         children: [{
                             label: '损伤状态1',
                             children: [{
-                                label: '结果函数1'
+                                label: '结果详情1'
                             }],
                         }]
                     }],
@@ -35,7 +35,7 @@
                 data_temp: [{
                     label: '损伤状态1',
                     children: [{
-                        label: '结果函数'
+                        label: '结果详情'
                     }],
                 }]
             }
@@ -52,7 +52,7 @@
                 this.data[0].children[0].children[i+1].label = '损伤状态'+(i+2);
                 //console.log(this.data[0].children[0].children[temp-1].children[0].label)
                 //console.log('!')
-                this.data[0].children[0].children[i+1].children[0].label = '结果函数'+(i+2);
+                this.data[0].children[0].children[i+1].children[0].label = '结果详情'+(i+2);
                 this.data = JSON.parse(JSON.stringify(this.data));
             }
             //console.log(_this.data)
@@ -100,7 +100,7 @@
                 else if(data.label === '损伤状态'){
                     this.$router.push({name:'damage_state'});
                 }
-                else if(data.label.indexOf('结果函数')>-1){
+                else if(data.label.indexOf('结果详情')>-1){
                     this.$router.push({name:'consequence'});
                     console.log(data)
                     sessionStorage.setItem("functionnum",JSON.stringify(data.label));
@@ -112,7 +112,7 @@
                     this.data[0].children[0].children[temp-1].label = '损伤状态'+temp;
                     //console.log(this.data[0].children[0].children[temp-1].children[0].label)
                     //console.log('!')
-                    this.data[0].children[0].children[temp-1].children[0].label = '结果函数'+temp;
+                    this.data[0].children[0].children[temp-1].children[0].label = '结果详情'+temp;
                     this.data = JSON.parse(JSON.stringify(this.data));
                     //console.log(this.data[0].children[0].children[2]);
                     //console.log(this.data[0].children[0].children);
