@@ -59,7 +59,8 @@ export default {
         let _this = this
         _this.admintemp = false
         var temp = localStorage.getItem('admin')
-        if(temp === '1'){
+        if(temp === 'true'){
+            console.log('12311111111111111111111')
             _this.admintemp = true
         }
     },
@@ -68,9 +69,9 @@ export default {
         goToIndex(){
             // 需要增加路由守卫
             //应保留下面两行
-            //this.$store.dispatch("setUser",null)
-            //localStorage.removeItem('phone')
-            this.$router.push({name:'home_admin'})
+            this.$store.dispatch("setUser",null)
+            localStorage.removeItem('phone')
+            //this.$router.push({name:'home_admin'})
         },
         goToUserInfo(){
             this.$router.push({name:'userinfo'})

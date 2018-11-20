@@ -59,7 +59,9 @@ export default {
                             
                             console.log(res['admin'])
                             console.log('!!!!!!!!!!!!!!!!!!!!!')
-                            if(res['admin'] === '1'){
+                            console.log('!!!!!!!!!!!!!!!!!!!!!')
+                            console.log('!!!!!!!!!!!!!!!!!!!!!')
+                            if(res['admin'] === true){
                                 _this.$router.push({name:'dashboard_admin'})
                                 localStorage.setItem('admin',res['admin'])
                             }
