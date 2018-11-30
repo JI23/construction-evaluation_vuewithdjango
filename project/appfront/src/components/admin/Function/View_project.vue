@@ -78,8 +78,9 @@
                 let _this = this;
                 this.$ajax({
                     method:'get',
-                    url:'show_projects_all',
+                    url:'show_projects_filter',
                     params: {
+                        'condition' : 'all'
                     },
                     headers:{"Content-Type": "application/json"}
                 }).then(function(response){
@@ -87,10 +88,7 @@
                     var res = response.data
                     console.log(res)
                     if (res.error_num == 0) {
-                        _this.projects = res['list']
-                        for(var i = 0; i < res['list'].length; i++){
-                             _this.projects[i] = res['list'][i].fields
-                        }
+                        _this.projects = res['project']
                         //console.log(_this.projects)
                     } 
                     else {

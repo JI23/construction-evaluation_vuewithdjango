@@ -2,6 +2,7 @@
     <nav>
         <span>建筑抗震韧性评估系统</span>
         <div class="btn-group">
+            <el-button @click="goUser">转到用户界面</el-button>
             <el-button @click="goToIndex">退出</el-button>
             <i class="el-icon-info" @click='goToUserInfo'></i>
             <span @click='goToUserInfo'>{{ username }}</span> 
@@ -60,6 +61,9 @@ export default {
         goToUserInfo(){
             this.$router.push({name:'userinfo'})
         },
+        goUser(){
+            this.$router.push({name:'dashboard'})
+        }
 
     }
 }

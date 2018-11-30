@@ -57,8 +57,15 @@ export default {
                             console.log(localStorage.getItem('phone')) 
                             _this.$store.dispatch("setUser",res['username'])
                             
-                            //console.log(localStorage.getItem('password'))
-                            _this.$router.push({name:'dashboard'});   //这里前面要加个_
+                            console.log(res['admin'])
+                            console.log('!!!!!!!!!!!!!!!!!!!!!')
+                            if(res['admin'] === '1'){
+                                _this.$router.push({name:'dashboard_admin'})
+                                localStorage.setItem('admin',res['admin'])
+                            }
+                            else{
+                                _this.$router.push({name:'dashboard'});   //这里前面要加个_
+                            }
                         } 
                         else if(res['error_num']==1){
                             _this.$message.error('账号还在审核中')

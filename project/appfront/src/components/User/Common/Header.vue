@@ -2,6 +2,7 @@
     <nav>
         <span>建筑抗震韧性评估系统</span>
         <div class="btn-group">
+            <el-button v-show="admintemp" @click="goAdmin">转到管理员界面</el-button>
             <el-button @click="goToIndex">退出</el-button>
             <i class="el-icon-info" @click='goToUserInfo'></i>
             <span @click='goToUserInfo'>{{ username }}</span> 
@@ -49,9 +50,20 @@
 export default {
     data(){
         return{
-            username:null
+            username:null,
+            admintemp:'',
         }
     },
+
+    created(){
+        let _this = this
+        _this.admintemp = false
+        var temp = localStorage.getItem('admin')
+        if(temp === '1'){
+            _this.admintemp = true
+        }
+    },
+
     methods:{
         goToIndex(){
             // 需要增加路由守卫
@@ -63,6 +75,11 @@ export default {
         goToUserInfo(){
             this.$router.push({name:'userinfo'})
         },
+
+        goAdmin(){
+            this.$router.push({name:'dashboard_admin'})
+            //todo:check the type of user
+        }
 
     },
 

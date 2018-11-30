@@ -248,12 +248,12 @@ class Project(models.Model):
     #是否已完成，默认为false
     is_finished=models.BooleanField(default=False,verbose_name='完成')
     #项目定级结果
-    rate=models.CharField(max_length=1,verbose_name='最终评级')
-    costrate=models.CharField(max_length=1,verbose_name='修复费用指标评级')
-    timerate=models.CharField(max_length=1,verbose_name='修复时间指标评级')
-    casualtyrate=models.CharField(max_length=1,verbose_name='人员损失评级')
+    rate=models.CharField(max_length=1,verbose_name='最终评级',default='0')
+    costrate=models.CharField(max_length=1,verbose_name='修复费用指标评级',default='0')
+    timerate=models.CharField(max_length=1,verbose_name='修复时间指标评级',default='0')
+    casualtyrate=models.CharField(max_length=1,verbose_name='人员损失评级',default='0')
     #PDF定级报告位置
-    PDF=models.CharField(max_length=512,verbose_name='PDF定级报告位置')
+    PDF=models.CharField(max_length=512,verbose_name='PDF定级报告位置',default='0')
 
 class Building(models.Model):
     #指向Project的外键，一个project对应一个Building

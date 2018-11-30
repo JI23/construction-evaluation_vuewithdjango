@@ -48,12 +48,18 @@
         },
 
         methods: {
-            refuse(){
-
-            },
-
-            accept(){
-
+            getUser_info(){//获取四个框的基本信息，以及图表的信息内容
+                let _this = this
+                this.$ajax({
+                    method: 'get',
+                    url: 'get_user_info',
+                }).then(function(response){
+                    console.log(response)
+                    var res = response['data']['userinfo']
+                    
+                    //进行赋值
+                })
+                 
             }
         },
 //用于传值

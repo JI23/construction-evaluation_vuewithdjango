@@ -33,7 +33,7 @@ def login(request):
                 this_user.login_amount+=1
                 this_user.last_login=timezone.now()
                 this_user.save() 
-                
+                response['admin'] = '1'
                 return JsonResponse(response)                              
             else:
                 print ('未审核')
