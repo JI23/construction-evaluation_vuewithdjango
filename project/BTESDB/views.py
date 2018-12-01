@@ -3,7 +3,7 @@
 # Create your views here.
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
-from .models import Project,User_Info,DB_part
+from .models import Project,User_Info,DB_part,Company_Info
 from django.contrib import auth
 from django import forms    #导入表单
 from django.contrib.auth.models import User   #导入django自带的user表
@@ -223,8 +223,20 @@ def get_datetime(dt):
 
 import xml.etree.ElementTree as ET
 import os
+def init(request):
+    if request.method=="POST":
+        new=Company_Info(com_name="测试公司",
+        certificate="123456789987654321",
+        com_tel="010-12345678",fax="010-12345678",
+        address="测试公司地址",total_user=0)
+        new.save()
+        this_company=Company_Info.objects.get(certificate="123456789987654321")
+        User_Info.objects.create_user(username="123456", password="123456",login_amount=0,company=this_company,
+        telephone="123456",email="123456@123.com",nickname="nickname",truename="truename",job="job",architect_id="123456654321",
+        is_superuser=True,is_staff=True, is_active=True) 
+    return render(request,'upload.html')
 
-def upload(request):
+def upload(request):  
     if request.method=='POST':
         xmls=request.FILES.getlist('xml',[])
         t=request.POST['type']

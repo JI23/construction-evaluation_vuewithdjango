@@ -69,7 +69,7 @@ def step5(request):
         new.save()
         response['msg']='新建成功'
         response['error_num']=0   
-    save_waves(request)
+    response=save_waves(request)
     return JsonResponse(response)
 
 import ast
@@ -124,7 +124,7 @@ def save_waves(request):
         print (str(e))
         response['msg']='请正确填写数据'
         response['error_num']=1
-        return JsonResponse(response)
+        return response
     #获得指向project的对象   
     this_project=Project.objects.get(id=project)
     row=int(0)
@@ -135,7 +135,7 @@ def save_waves(request):
         if len(str(a['earthquake_no']))==0:
             response['msg']='地震波编号不能为空！' 
             response['error_num']=1
-            return JsonResponse(response) 
+            return response
         else:
             try:
                 earthquake_no=int(a['earthquake_no'])
@@ -143,28 +143,28 @@ def save_waves(request):
                     #print(number+1)
                     response['msg']='地震波编号不能小于0或大于地震波数！' 
                     response['error_num']=1
-                    return JsonResponse(response) 
+                    return response
             except Exception as e:
                 print(str(e))
                 response['msg']='地震波编号必须为整数！' 
                 response['error_num']=1
-                return JsonResponse(response)
+                return response
 
         if len(a['peak'])==0:
             response['msg']='地震波峰值不能为空！' 
             response['error_num']=1
-            return JsonResponse(response) 
+            return response 
         else:
             try:
                 peak=float(a['peak'])
                 if peak<=0 :
                     response['msg']='地震波峰值不能小于0！' 
                     response['error_num']=1
-                    return JsonResponse(response) 
+                    return response
             except Exception:
                 response['msg']='地震波峰值必须为实数！' 
                 response['error_num']=1
-                return JsonResponse(response) 
+                return response 
         
         if Earthquake_wave_detail.objects.filter(project=this_project,earthquake_wave_no=earthquake_no).exists():
             #更新数据库内容
@@ -206,6 +206,6 @@ def save_waves(request):
         print("请填写完所有地震信息！")
         response['msg']='请填写完所有地震信息！'
         response['error_num']=1        
-    return JsonResponse(response)
+    return response
 
 

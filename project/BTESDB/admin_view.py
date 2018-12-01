@@ -70,6 +70,10 @@ def allow_user(request):
         username=request.GET['username']
         this_user=User_Info.objects.get(username=username)
         this_user.is_staff=True
+        this_user.save()
+        this_company=Company_Info.objects.get(id=this_user.company)
+        this_company.total_user+=1
+        this_company.save()
         response['msg']='成功通过用户申请'
         response['error_num']=0
     except Exception as e:
@@ -98,8 +102,27 @@ def ban_user(request):
     try:
         username=request.GET['username']
         this_user=User_Info.objects.get(username=username)
+        this_user.is_banned=True
         this_user.is_staff=False
+        this_user.save()
         response['msg']='成功禁用用户'
+        response['error_num']=0
+    except Exception as e:
+        print (str(e))
+        response['msg'] = str(e)
+        response['error_num']=1
+    return JsonResponse(response)
+
+def free_user(request):
+    '''解禁用户'''
+    response = {}
+    try:
+        username=request.GET['username']
+        this_user=User_Info.objects.get(username=username)
+        this_user.is_banned=False
+        this_user.is_staff=True
+        this_user.save()
+        response['msg']='成功解禁用户'
         response['error_num']=0
     except Exception as e:
         print (str(e))
@@ -113,13 +136,16 @@ def filter_user(request):
     try:
         flag=request.GET['flag']
         users=0
+        #禁用
         if flag=='0':
-            users=User_Info.objects.filter(is_staff=False)
+            users=User_Info.objects.filter(is_staff=False,is_banned=True).values("date_joined","username","truename","company__com_name","company__certificate")
+        #正常用户
         elif flag=='1':
-            users=User_Info.objects.filter(is_staff=True)
+            users=User_Info.objects.filter(is_staff=True).values("date_joined","username","truename","company__com_name","company__certificate")
+        #待审核用户  
         elif flag=='2':
-            users=User_Info.objects.filter(is_staff=False,project=0)        
-        response['users']=json.loads(serializers.serialize("json", users))
+            users=User_Info.objects.filter(is_staff=False,is_banned=False).values("date_joined","username","truename","company__com_name","company__certificate")     
+        response['users']=list(users)
         response['msg']='success'
         response['error_num']=0
     except Exception as e:

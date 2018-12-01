@@ -39,6 +39,8 @@ class User_Info(AbstractUser):
     truename=models.CharField(max_length=20,blank=False,verbose_name='真实姓名')
     #telephone也是登陆账号 即username
     telephone=models.CharField(max_length=11,unique=True,verbose_name='手机号')
+    #是否禁用，默认false
+    is_banned=models.BooleanField(default=False,verbose_name="是否禁用")
     #建筑师证号，非必填
     architect_id=models.CharField(max_length=12,unique=True,blank=True,verbose_name='建筑师证号')
     #公司职务，非必填
