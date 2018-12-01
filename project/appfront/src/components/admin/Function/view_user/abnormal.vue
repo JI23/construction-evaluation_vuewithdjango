@@ -70,14 +70,20 @@
                 localStorage.setItem("current_user_id",JSON.stringify(row.username));
                 this.$router.push({name:'view_detail'});
             },
+<<<<<<< HEAD
             show_users: function(){
                 let _this=this;
+=======
+            showUser(){
+                let _this = this;
+>>>>>>> upstream/master
                 this.$ajax({
                     method:'get',
                     url:'filter_user',
                     params:{
                         flag:'0'
                     },
+<<<<<<< HEAD
                     headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
@@ -115,6 +121,20 @@
 
         beforeMount: function() {
             this.show_users()
+=======
+                }).then(function(response){
+                    console.log(response)
+                    var res = response.data
+                    console.log(res)
+                }).catch(function(err){
+                    console.log(err);
+                });
+            },
+        },
+
+        beforeMount: function() {
+            this.showUser()
+>>>>>>> upstream/master
         },
         data () {
             return {

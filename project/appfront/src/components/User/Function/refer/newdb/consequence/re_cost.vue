@@ -93,6 +93,7 @@
                 this.temp1 = true
             }
             var temp = sessionStorage.getItem("functionnum")+"_cost"
+            console.log(temp)
             try{
                 var re_cost=JSON.parse(sessionStorage.getItem(temp))
                 this.l_Quantity = re_cost['l_Quantity']

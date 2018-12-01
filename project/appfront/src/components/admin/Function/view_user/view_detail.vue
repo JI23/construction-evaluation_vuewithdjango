@@ -48,6 +48,7 @@
         },
 
         methods: {
+<<<<<<< HEAD
             show_user_detail:function(){
                 let _this=this;
                 let current_user_id = JSON.parse(localStorage.getItem("current_user_id"));
@@ -86,6 +87,20 @@
                     .catch(function(err){
                         console.log(err);
                     });
+=======
+            getUser_info(){//获取四个框的基本信息，以及图表的信息内容
+                let _this = this
+                this.$ajax({
+                    method: 'get',
+                    url: 'get_user_info',
+                }).then(function(response){
+                    console.log(response)
+                    var res = response['data']['userinfo']
+                    
+                    //进行赋值
+                })
+                 
+>>>>>>> upstream/master
             }
         },
 //用于传值

@@ -94,14 +94,20 @@
                 localStorage.setItem("current_user_id",JSON.stringify(row.username));//获取当前查看用户的用户名    
                 this.$router.push({name:'view_detail'});
             },
+<<<<<<< HEAD
             show_users: function(){
                 let _this=this;
+=======
+            showUser(){
+                let _this = this;
+>>>>>>> upstream/master
                 this.$ajax({
                     method:'get',
                     url:'filter_user',
                     params:{
                         flag:'1'
                     },
+<<<<<<< HEAD
                     headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
@@ -140,6 +146,20 @@
 
         beforeMount: function() {
             this.show_users()
+=======
+                }).then(function(response){
+                    console.log(response)
+                    var res = response.data
+                    console.log(res)
+                }).catch(function(err){
+                    console.log(err);
+                });
+            },
+        },
+
+        beforeMount: function() {
+            this.showUser()
+>>>>>>> upstream/master
         },
         data () {
             return {

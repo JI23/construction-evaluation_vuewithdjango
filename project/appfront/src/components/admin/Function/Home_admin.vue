@@ -5,19 +5,19 @@
         <br><br>
         <div class="box2" style= "background:#67C23A">
             <h4>总人数</h4>
-            <p>10</p>
+            <p>{{user_Num}}</p>
         </div>
         <div class="box2" style= "background:rgba(233,240,29,1)">
             <h4>总公司数</h4>
-            <p>1</p>
+            <p>{{com_Num}}</p>
         </div>
         <div class="box2">
             <h4>已完成项目总数</h4>
-            <p>11</p>
+            <p>{{successpj}}</p>
         </div>
         <div class="box2">
             <h4>项目总数</h4>
-            <p>11</p>
+            <p>{{allpj}}</p>
         </div>
     </div>
 </template>
@@ -51,12 +51,17 @@
 
         methods:{
             show_info(){//获取四个框的基本信息，以及图表的信息内容
+                let _this = this
                 this.$ajax({
                     method: 'get',
-                    url: '',
-
+                    url: 'admin_index',
                 }).then(function(response){
                     console.log(response)
+                    var res = response['data']
+                    _this.allpj = res['project_sum']
+                    _this.successpj = res['project_finish']
+                    _this.com_Num = res['company_sum']
+                    _this.user_Num = res['people_sum']
                     //进行赋值
                 })
                  

@@ -27,6 +27,7 @@
         },
 
         beforeMount(){
+            this.get_message()
             this.get_url()
         },
 
@@ -35,6 +36,15 @@
         },
 
         methods: {
+            get_message(){
+                this.$ajax({
+                    method: 'get',
+                    url: '',
+                }).then(function(response){
+                    console.log(response)
+                    //进行赋值
+                })
+            },
             handleClick(tab, event){
                 if(tab.name === "normal"){
                     this.$router.push({name:'normal'});
