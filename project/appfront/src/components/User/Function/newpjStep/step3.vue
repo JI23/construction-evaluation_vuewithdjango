@@ -292,13 +292,6 @@
             var isFull=true
             for(var i=0;i<this.tableData.length;i++)
             {   
-                console.log(this.tableData[i].id)
-                console.log(this.tableData[i].start_floor)
-                console.log(this.tableData[i].stop_floor)
-                console.log(this.tableData[i].X)
-                console.log(this.tableData[i].Y)
-                console.log(this.tableData[i].Non)
-                
                 if (this.tableData[i].id==='' || this.tableData[i].start_floor==='' || this.tableData[i].stop_floor==='' || 
                     this.tableData[i].X===null || this.tableData[i].Y===null || this.tableData[i].Non===null){
                     _this.$message.error("请完整填写构建信息好吗")

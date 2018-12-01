@@ -56,9 +56,9 @@ export default {
         goToIndex(){
             // 需要增加路由守卫
 
-            this.$store.dispatch("setUser",null)
+            //this.$store.dispatch("setUser",null)
             localStorage.removeItem('phone')
-            this.$router.push({name:'index'})
+            this.$router.push({name:'home_admin'})
         },
         goToUserInfo(){
             this.$router.push({name:'userinfo'})

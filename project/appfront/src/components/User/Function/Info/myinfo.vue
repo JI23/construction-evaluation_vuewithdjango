@@ -3,10 +3,10 @@
     <el-form  label-position="left" label-width="90px" :model="formLabelAlign">
         <el-row>
             <el-col :span="10">
-                <el-form-item label="昵称">
+                <!-- <el-form-item label="昵称">
                 <el-input disabled="disabled" v-model="formLabelAlign.nickname" placeholder="已注册内容"></el-input>
                 </el-form-item>
-                <br>
+                <br> -->
                 <el-form-item label="真实姓名">
                 <el-input disabled="disabled" v-model="formLabelAlign.realname" placeholder="已注册内容"></el-input>
                 </el-form-item>
@@ -82,7 +82,7 @@ export default {
     data(){
         return{
                 formLabelAlign: {
-                nickname: '',
+                //nickname: '',
                 realname:'',
                 yourEmail:'',
                 phone:'',
@@ -94,6 +94,44 @@ export default {
              }
         },
     methods:{
+                show_user_detail:function(){
+                    let _this=this;
+                    let current_user_id = JSON.parse(localStorage.getItem("phone")); 
+                    console.log(current_user_id)
+                    this.$ajax({
+                        method:'get',
+                        url:'get_user_info',
+                        params:{
+                            username:current_user_id
+                        },
+                        headers:{"Content-Type": "application/json"}
+                })
+                .then(function(response){
+                            console.log(response)
+                            var res = response.data
+                            console.log(res)
+                            if (res['error_num'] == 0) {
+                                console.log(res['user_info'])
+                                //_this.nickName=res['user_info'].nickname
+                                _this.formLabelAlign.realname=res['user_info'].truename
+                                //_this.id=res['user_info'].
+                                _this.formLabelAlign.yourEmail=res['user_info'].email
+                                _this.formLabelAlign.phone=res['user_info'].telephone
+                                _this.formLabelAlign.architectNum=res['user_info'].architect_id
+                                _this.formLabelAlign.comName=res['user_info'].company__com_name
+                                _this.formLabelAlign.comNum=res['user_info'].company__certificate
+                                _this.formLabelAlign.comPosition=res['user_info'].job
+                            } 
+                            else {
+                                _this.$message.error(res['msg'])
+                                console.log(res['msg'])
+                            }
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                        });
+                },
+
             goToEdit()
             {
                 this.$prompt('请输入您的密码', '安全提示', {
@@ -105,7 +143,11 @@ export default {
 
                 //this.$router.push({name:'editinfo'});
             }
-            }
+            
+    },
+    mounted(){
+        this.show_user_detail()
+    }
 }
 </script>
 

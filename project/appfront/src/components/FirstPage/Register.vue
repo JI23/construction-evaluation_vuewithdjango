@@ -9,8 +9,9 @@
             <!-- <el-form-item label="昵称" prop="nickname">
             <el-input v-model="ruleForm.nickname"></el-input>
             </el-form-item> -->
-            <el-form-item label="真实姓名" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+            
+            <el-form-item label="手机号(账号)" prop="telephone" :maxlength="11">
+            <el-input v-model="ruleForm.telephone"></el-input>
             </el-form-item>
             <el-form-item label="密码"  prop="password">
             <el-input v-model="ruleForm.password" type="password" auto-complete="off"></el-input>
@@ -21,8 +22,8 @@
             <el-form-item label="邮箱" prop="yourEmail">
             <el-input v-model="ruleForm.yourEmail"></el-input>
             </el-form-item>
-            <el-form-item label="手机号" prop="telephone">
-            <el-input v-model="ruleForm.telephone"></el-input>
+            <el-form-item label="真实姓名" prop="name">
+            <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
             <el-form-item label="建筑师证号" prop="architectNum">
             <el-input v-model="ruleForm.architectNum"></el-input>
@@ -87,11 +88,15 @@
           comPosition:''
         },
         rules: {
+          telephone:[
+            { required: true, message: '请输入您的手机号', trigger: 'blur' },
+            { type: 'string', min: 11, message: '请输入11位手机号', trigger: 'blur' }
+          ],
           nickname: [
             { required: true, message: '请输入您的昵称', trigger: 'blur' },
             { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
           ],
-           realname: [
+           name: [
             { required: true, message: '请输入您的真实姓名', trigger: 'blur' },
             { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
           ],
@@ -107,13 +112,13 @@
            phone: [
             { required: true, message: '请输入您的手机号', trigger: 'blur' }
           ],
-           architectNum: [
+          architectNum: [
             {   trigger: 'blur' }
           ],
           comName: [
             { required: true, message: '请输入公司名称',trigger: 'blur' }
           ],
-         comNum: [
+          comNum: [
             { required: true, message: '请输入证件号',trigger: 'blur' }
           ],
         }
@@ -147,16 +152,14 @@
                               console.log(res['msg'])
                               localStorage.setItem('telephone', res['telephone'])
                               localStorage.setItem('password', res['password'])
-                              console.log(localStorage.getItem('telephone'))
-
-                              console.log(localStorage.getItem('password'))
-                              _this.$router.push({name:'login'});   
-                          } 
-                          else if (res['error_num'] == 1){
-                              _this.$message.error('公司不在数据库中')
+                              _this.$message.success('注册成功! 即将跳至登录页面...')
+                              setTimeout(()=>{
+                                  _this.$router.push({name:'login'})
+                              },2000)
+                              //_this.$router.push({name:'login'});   
                           }
                           else {
-                              _this.$message.error('注册失败')
+                              _this.$message.error(res['msg'])
                               console.log(res['msg'])
                           }
                       })

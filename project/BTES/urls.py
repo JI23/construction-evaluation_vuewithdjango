@@ -40,7 +40,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('upload/',views.upload),
-
+    path('init/',views.init),
     path('',views.index),
 
     path('user_register/',register.user_register),

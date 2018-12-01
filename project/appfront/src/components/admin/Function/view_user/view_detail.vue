@@ -4,12 +4,12 @@
             <div class="wrapper1" >
                 <el-col>
                     <h2>个人资料</h2>
-                    <span class="lebal">昵称</span>
-                    <el-input :disabled="true" size="mini" style="width:100%" v-model="nickName" placeholder="请输入内容"></el-input>
+                    <!-- <span class="lebal">昵称</span>
+                    <el-input :disabled="true" size="mini" style="width:100%" v-model="nickName" placeholder="请输入内容"></el-input> -->
                     <span class="lebal">真实姓名</span>
                     <el-input :disabled="true" size="mini" style="width:100%" v-model="realName" placeholder="请输入内容"></el-input>
-                    <span class="lebal">身份证号码</span>
-                    <el-input :disabled="true" size="mini" style="width:100%" v-model="id" placeholder="请输入内容"></el-input>
+                    <!-- <span class="lebal">身份证号码</span>
+                    <el-input :disabled="true" size="mini" style="width:100%" v-model="id" placeholder="请输入内容"></el-input> -->
                     <span class="lebal">邮箱</span>
                     <el-input :disabled="true" size="mini" style="width:100%" v-model="email" placeholder="请输入内容"></el-input>
                     <span class="lebal">手机</span>
@@ -35,9 +35,9 @@
     export default {
         data() {
             return {
-                nickName: '',
+                //nickName: '',
                 realName: '',
-                id: '',
+                //id: '',
                 email: '',
                 phoneNum: '',
                 workId: '',
@@ -48,22 +48,52 @@
         },
 
         methods: {
-            refuse(){
-
-            },
-
-            accept(){
-
+            show_user_detail:function(){
+                let _this=this;
+                let current_user_id = JSON.parse(localStorage.getItem("current_user_id"));
+                localStorage.removeItem("current_user_id");   
+                console.log("view_detail")
+                console.log(current_user_id)
+                this.$ajax({
+                    method:'get',
+                    url:'get_user_info',
+                    params:{
+                        username:current_user_id
+                    },
+                    headers:{"Content-Type": "application/json"}
+            })
+            .then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        console.log(res)
+                        if (res['error_num'] == 0) {
+                            console.log(res['user_info'])
+                            //_this.nickName=res['user_info'].nickname
+                            _this.realName=res['user_info'].truename
+                            //_this.id=res['user_info'].
+                            _this.email=res['user_info'].email
+                            _this.phoneNum=res['user_info'].telephone
+                            _this.workId=res['user_info'].architect_id
+                            _this.comName=res['user_info'].company__com_name
+                            _this.comId=res['user_info'].company__certificate
+                            _this.workName=res['user_info'].job
+                        } 
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
             }
         },
 //用于传值
         mounted: function () {
             var vm = this
             //获取初始值并进行赋值
-            var pjNum1 = JSON.parse(localStorage.getItem("pjNum"));
-
-            localStorage.removeItem("pjNum");
             
+            this.show_user_detail() 
         },
     }
 </script>

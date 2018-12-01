@@ -32,9 +32,9 @@ def user_register(request):
     if request.method=='GET':
         response={}
         #获取表单数据
-        com_name=request.POST['com_name']
-        certificate=request.POST['certificate']
-        job=request.POST['job']
+        com_name=request.GET['com_name']
+        certificate=request.GET['certificate']
+        job=request.GET['job']
         com_exist=Company_Info.objects.filter(certificate=certificate,com_name=com_name)
         #验证是否存在该公司，若不存在，在company_info新增一条公司条目
         #验证是否存在该公司，若不存在，不可以申请成为用户
@@ -47,39 +47,45 @@ def user_register(request):
 
         if not com_exist.exists():
             #公司不在数据库中
-               response['error_num']=1
-               return JsonResponse(response)
+            response['error_num']=1
+            response['msg']='公司不在数据库中！'
+            return JsonResponse(response)
                #return render(request,'user_register.html', {'uf': uf,'user_register_error':'公司不存在'})
         else:
                 #
-                username = request.POST['username']
-                telephone=request.POST['username']  
-                password = request.POST['password']
-                password_again=request.POST['password_again']
-                email=request.POST['email']
-                nickname=request.POST['nickname']
-                truename=request.POST['truename']
-                architect_id=request.POST['architect_id']
-                if str(password)==str(password_again):
+            username = request.GET['username']
+            telephone=request.GET['username']  
+            password = request.GET['password']
+            password_again=request.GET['password_again']
+            email=request.GET['email']
+            nickname=request.GET['nickname']
+            truename=request.GET['truename']
+            architect_id=request.GET['architect_id']
+            job=request.GET['job']
+            if str(password)==str(password_again):
                     #两次密码相同，尝试添加到数据库
-                    try:
-                        print('密码相同')
-                        registAdd = User_Info.objects.create_user(username=username, password=password,login_amount=1,company=com_exist[0],
-                        telephone=telephone,email=email,nickname=nickname,truename=truename,architect_id=architect_id,
-                        is_superuser=False,is_staff=False, is_active=True) 
-                        #添加成功   
-                        #return render(request,'fail_user.html', {'registAdd': '管理员'+username})
-                        response['error_num']=0
-                        return JsonResponse(response)
-                    except Exception:
-                        #添加失败
-                        #return render(request,'fail_user.html', {'registAdd': '注册失败', 'username': username,'architect_id':architect_id})
-                        response['error_num']=2
-                        return JsonResponse(response)
-                else:
-                    #两次密码不同
-                    #uf.clean()
+                try:
+                    print('密码相同')
+                    registAdd = User_Info.objects.create_user(username=username, password=password,login_amount=0,company=com_exist[0],
+                    telephone=telephone,email=email,nickname=nickname,truename=truename,architect_id=architect_id,job=job,
+                    is_superuser=False,is_staff=False, is_active=True) 
+                    #添加成功   
+                    #return render(request,'fail_user.html', {'registAdd': '管理员'+username})
+                    response['error_num']=0
+                    response['msg']='注册成功'
                     return JsonResponse(response)
+                except Exception:
+                    #添加失败
+                    #return render(request,'fail_user.html', {'registAdd': '注册失败', 'username': username,'architect_id':architect_id})
+                    response['error_num']=1
+                    response['msg']='添加失败'
+                    return JsonResponse(response)
+            else:
+                #两次密码不同
+                #uf.clean()
+                response['error_num']=1
+                response['msg']='两次密码必须相同！'
+                return JsonResponse(response)
                     #return render(request,'user_register.html', {'uf': uf,'user_register_error':'两次密码不一样'})
     else:
         # 如果不是post提交数据，就不传参数创建对象，并将对象返回给前台，直接生成input标签，内容为空
@@ -131,9 +137,10 @@ def admin_register(request):
                 #验证是否存在该公司，若不存在，在company_info新增一条公司条目
                 new=Company_Info(com_name=com_name,certificate=certificate,com_tel=com_tel,fax=fax,address=address,total_user=0)
                 new.save()
-                this_company=Company_Info.objects.filter(certificate=certificate)
+                this_company=Company_Info.objects.get(certificate=certificate)
+            else:
+                this_company=com_exist[0]
             
-            this_company=com_exist[0]
             print(4)
             username = request.POST['username']
             telephone=request.POST['username']  
@@ -147,7 +154,7 @@ def admin_register(request):
                 #两次密码相同，尝试添加到数据库
                 print (5)
                 try:
-                    registAdd = User_Info.objects.create_user(username=username, password=password,login_amount=1,company=this_company,
+                    registAdd = User_Info.objects.create_user(username=username, password=password,login_amount=0,company=this_company,
                     telephone=telephone,email=email,nickname=nickname,truename=truename,job=job,architect_id=architect_id,
                     is_superuser=True,is_staff=True, is_active=True) 
                     #添加成功   

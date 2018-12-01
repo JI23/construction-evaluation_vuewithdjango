@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'get_detail$', get_detail.get_detail),
     url(r'preview$',preview.preview),
 
-    url(r'show_projects_filter$', admin_view.show_projects_filter ),
+    #url(r'show_users_all$', admin_view.show_users_all),
     url(r'admin_index$',admin_view.admin_index),
     url(r'filter_user',admin_view.filter_user),
     url(r'show_projects_fileter',admin_view.show_projects_filter),

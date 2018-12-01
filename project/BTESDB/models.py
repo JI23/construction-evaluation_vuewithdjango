@@ -39,6 +39,8 @@ class User_Info(AbstractUser):
     truename=models.CharField(max_length=20,blank=False,verbose_name='真实姓名')
     #telephone也是登陆账号 即username
     telephone=models.CharField(max_length=11,unique=True,verbose_name='手机号')
+    #是否禁用，默认false
+    is_banned=models.BooleanField(default=False,verbose_name="是否禁用")
     #建筑师证号，非必填
     architect_id=models.CharField(max_length=12,unique=True,blank=True,verbose_name='建筑师证号')
     #公司职务，非必填
@@ -248,12 +250,12 @@ class Project(models.Model):
     #是否已完成，默认为false
     is_finished=models.BooleanField(default=False,verbose_name='完成')
     #项目定级结果
-    rate=models.CharField(max_length=1,verbose_name='最终评级')
-    costrate=models.CharField(max_length=1,verbose_name='修复费用指标评级')
-    timerate=models.CharField(max_length=1,verbose_name='修复时间指标评级')
-    casualtyrate=models.CharField(max_length=1,verbose_name='人员损失评级')
+    rate=models.CharField(max_length=1,verbose_name='最终评级',default='0')
+    costrate=models.CharField(max_length=1,verbose_name='修复费用指标评级',default='0')
+    timerate=models.CharField(max_length=1,verbose_name='修复时间指标评级',default='0')
+    casualtyrate=models.CharField(max_length=1,verbose_name='人员损失评级',default='0')
     #PDF定级报告位置
-    PDF=models.CharField(max_length=512,verbose_name='PDF定级报告位置')
+    PDF=models.CharField(max_length=512,verbose_name='PDF定级报告位置',default='0')
 
 class Building(models.Model):
     #指向Project的外键，一个project对应一个Building

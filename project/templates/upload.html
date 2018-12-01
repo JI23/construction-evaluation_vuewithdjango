@@ -1,6 +1,10 @@
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" action="/upload/">
     {% csrf_token %}
     <input type="file" name="xml" multiple="">
     <input type='text' name='type'>
     <button type="submit">上传</button>
-    </form>
+</form>
+<form method="POST" action="/init/">
+    {% csrf_token %}
+    <button type="submit">初始化</button>
+</form>
