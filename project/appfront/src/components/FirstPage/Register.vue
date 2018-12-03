@@ -112,13 +112,13 @@
            phone: [
             { required: true, message: '请输入您的手机号', trigger: 'blur' }
           ],
-           architectNum: [
+          architectNum: [
             {   trigger: 'blur' }
           ],
           comName: [
             { required: true, message: '请输入公司名称',trigger: 'blur' }
           ],
-         comNum: [
+          comNum: [
             { required: true, message: '请输入证件号',trigger: 'blur' }
           ],
         }
@@ -152,16 +152,14 @@
                               console.log(res['msg'])
                               localStorage.setItem('telephone', res['telephone'])
                               localStorage.setItem('password', res['password'])
-                              console.log(localStorage.getItem('telephone'))
-
-                              console.log(localStorage.getItem('password'))
-                              _this.$router.push({name:'login'});   
-                          } 
-                          else if (res['error_num'] == 1){
-                              _this.$message.error('公司不在数据库中')
+                              _this.$message.success('注册成功! 即将跳至登录页面...')
+                              setTimeout(()=>{
+                                  _this.$router.push({name:'login'})
+                              },2000)
+                              //_this.$router.push({name:'login'});   
                           }
                           else {
-                              _this.$message.error('注册失败')
+                              _this.$message.error(res['msg'])
                               console.log(res['msg'])
                           }
                       })

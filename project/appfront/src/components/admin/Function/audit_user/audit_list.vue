@@ -63,10 +63,34 @@
                 this.currentPage = currentPage;
             },
             refuse: function(row){
+                let _this=this;
+                this.$ajax({
+                    method:'get',
+                    url:'refuse_user',
+                    params:{
+                        username:row.username
+                    },
+                    headers:{"Content-Type": "application/json"}
+                }).then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        console.log(res)
+                        if (res['error_num'] == 0) {
+                            _this.$message.success(res['msg'])
+                            _this.show_users()
+                        } 
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
             },
             overlook: function(row){//跳转未写
                 //console.log(row)
-                localStorage.setItem("pjNum",JSON.stringify(row.pjNum));
+                localStorage.setItem("current_user_id",JSON.stringify(row.username));
                 this.$router.push({name:'detail_user'});
             },
             allow_user: function(row){
@@ -84,7 +108,11 @@
                         console.log(res)
                         if (res['error_num'] == 0) {
                             _this.$message.success(res['msg'])
+<<<<<<< HEAD
+                            _this.show_users()
+=======
                             show_users()
+>>>>>>> upstream/master
                         } 
                         else {
                             _this.$message.error(res['msg'])
@@ -94,7 +122,10 @@
                     .catch(function(err){
                         console.log(err);
                     });
+<<<<<<< HEAD
+=======
 
+>>>>>>> upstream/master
             },
             show_users: function(){
                 let _this=this;

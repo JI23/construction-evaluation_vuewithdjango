@@ -7,6 +7,19 @@
             <el-table-column
                 prop="date_joined"
                 label="申请日期"
+<<<<<<< HEAD
+                width="140">
+            </el-table-column>
+            <el-table-column
+                prop="username"
+                label="用户名"
+                width="140">
+            </el-table-column>
+            <el-table-column
+                prop="truename"
+                label="真实姓名"
+                width="140">
+=======
                 width="200">
             </el-table-column>
             <el-table-column
@@ -18,11 +31,12 @@
                 prop="truename"
                 label="真实姓名"
                 width="150">
+>>>>>>> upstream/master
             </el-table-column>
             <el-table-column
                 prop="com_name"
                 label="公司名"
-                width="200">
+                width="140">
             </el-table-column>
             <el-table-column
                 prop="company_id"
@@ -35,7 +49,7 @@
                     width="200">
                 <template slot-scope="scope">
                     <el-button @click="overlook(scope.row)" type="text" size="small">查看详情</el-button><!--未写 -->
-                    <el-button @click="forbin(scope.row)" type="text" size="small">禁用用户</el-button>
+                    <el-button @click="ban_user(scope.row)" type="text" size="small">禁用用户</el-button>
                 </template>
                 </el-table-column>
         </el-table>
@@ -62,7 +76,31 @@
             handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
             },
-            forbin: function(row){
+            ban_user: function(row){
+                let _this=this;
+                this.$ajax({
+                    method:'get',
+                    url:'ban_user',
+                    params:{
+                        username:row.username
+                    },
+                    headers:{"Content-Type": "application/json"}
+                }).then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        console.log(res)
+                        if (res['error_num'] == 0) {
+                            _this.$message.success(res['msg'])
+                            _this.show_users()
+                        } 
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
 
             },
             overlook: function(row){
@@ -70,14 +108,28 @@
                 localStorage.setItem("current_user_id",JSON.stringify(row.username));//获取当前查看用户的用户名    
                 this.$router.push({name:'view_detail'});
             },
+<<<<<<< HEAD
+<<<<<<< HEAD
             show_users: function(){
                 let _this=this;
+=======
+            showUser(){
+                let _this = this;
+>>>>>>> upstream/master
+=======
+            show_users: function(){
+                let _this=this;
+>>>>>>> upstream/master
                 this.$ajax({
                     method:'get',
                     url:'filter_user',
                     params:{
                         flag:'1'
                     },
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> upstream/master
                     headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
@@ -112,10 +164,31 @@
                     });
             }            
             
+<<<<<<< HEAD
         },
 
         beforeMount: function() {
             this.show_users()
+=======
+                }).then(function(response){
+                    console.log(response)
+                    var res = response.data
+                    console.log(res)
+                }).catch(function(err){
+                    console.log(err);
+                });
+            },
+        },
+
+        beforeMount: function() {
+            this.showUser()
+>>>>>>> upstream/master
+=======
+        },
+
+        beforeMount: function() {
+            this.show_users()
+>>>>>>> upstream/master
         },
         data () {
             return {

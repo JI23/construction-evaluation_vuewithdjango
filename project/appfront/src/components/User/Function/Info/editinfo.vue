@@ -2,8 +2,8 @@
     <div>
         <el-col :span="10">
             <h3>基础资料</h3>
-            <span class="lebal">昵称</span>
-            <el-input v-model="nickname" placeholder="已注册内容"></el-input>
+            <!-- <span class="lebal">昵称</span>
+            <el-input v-model="nickname" placeholder="已注册内容"></el-input> -->
             <span class="lebal">公司名称</span>
             <el-input v-model="comName" placeholder="已注册内容"></el-input>
             <span class="lebal">证件号</span>
@@ -33,7 +33,7 @@
 export default {
     data(){
         return{
-            nickname: '',
+            //nickname: '',
             // realname:'',
             // idnumber:'',
             password:'',
@@ -46,10 +46,49 @@ export default {
         }
     },
     methods:{
+            show_user_detail:function(){
+                    let _this=this;
+                    let current_user_id = JSON.parse(localStorage.getItem("phone")); 
+                    console.log(current_user_id)
+                    this.$ajax({
+                        method:'get',
+                        url:'get_user_info',
+                        params:{
+                            username:current_user_id
+                        },
+                        headers:{"Content-Type": "application/json"}
+                })
+                .then(function(response){
+                            console.log(response)
+                            var res = response.data
+                            console.log(res)
+                            if (res['error_num'] == 0) {
+                                console.log(res['user_info'])
+                                //_this.realname=res['user_info'].truename
+                                //_this.id=res['user_info'].
+                                //_this.yourEmail=res['user_info'].email
+                                //_this.phone=res['user_info'].telephone
+                                //_this.architectNum=res['user_info'].architect_id
+                                _this.comName=res['user_info'].company__com_name
+                                _this.comNum=res['user_info'].company__certificate
+                                _this.comPosition=res['user_info'].job
+                            } 
+                            else {
+                                _this.$message.error(res['msg'])
+                                console.log(res['msg'])
+                            }
+                        })
+                        .catch(function(err){
+                            console.log(err);
+                        });
+                },
             goToMyinfo()
             {
                 this.$router.push({name:'myinfo'});
             }
+    },
+    mounted:function(){
+        this.show_user_detail()
     }
 }
 </script>
