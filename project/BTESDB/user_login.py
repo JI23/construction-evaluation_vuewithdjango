@@ -34,6 +34,7 @@ def login(request):
                 this_user.last_login=timezone.now()
                 this_user.save() 
 <<<<<<< HEAD
+<<<<<<< HEAD
                 print(str(this_user.is_superuser))
                 if this_user.is_superuser:
                     response['admin'] = '1'
@@ -41,6 +42,9 @@ def login(request):
                     response['admin'] = '0'
 =======
                 response['admin'] = '1'
+>>>>>>> upstream/master
+=======
+                response['admin'] = this_user.is_superuser
 >>>>>>> upstream/master
                 return JsonResponse(response)                              
             else:

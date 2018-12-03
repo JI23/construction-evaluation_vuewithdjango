@@ -7,6 +7,7 @@
             <el-table-column
                 prop="date_joined"
                 label="申请日期"
+<<<<<<< HEAD
                 width="140">
             </el-table-column>
             <el-table-column
@@ -18,6 +19,19 @@
                 prop="truename"
                 label="真实姓名"
                 width="140">
+=======
+                width="200">
+            </el-table-column>
+            <el-table-column
+                prop="username"
+                label="用户名"
+                width="150">
+            </el-table-column>
+            <el-table-column
+                prop="truename"
+                label="真实姓名"
+                width="150">
+>>>>>>> upstream/master
             </el-table-column>
             <el-table-column
                 prop="com_name"
@@ -95,11 +109,16 @@
                 this.$router.push({name:'view_detail'});
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
             show_users: function(){
                 let _this=this;
 =======
             showUser(){
                 let _this = this;
+>>>>>>> upstream/master
+=======
+            show_users: function(){
+                let _this=this;
 >>>>>>> upstream/master
                 this.$ajax({
                     method:'get',
@@ -108,6 +127,9 @@
                         flag:'1'
                     },
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> upstream/master
                     headers:{"Content-Type": "application/json"}
             })
             .then(function(response){
@@ -142,6 +164,7 @@
                     });
             }            
             
+<<<<<<< HEAD
         },
 
         beforeMount: function() {
@@ -159,6 +182,12 @@
 
         beforeMount: function() {
             this.showUser()
+>>>>>>> upstream/master
+=======
+        },
+
+        beforeMount: function() {
+            this.show_users()
 >>>>>>> upstream/master
         },
         data () {

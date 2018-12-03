@@ -4,9 +4,13 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
 <<<<<<< HEAD
+<<<<<<< HEAD
 from .models import Project,User_Info,DB_part,Company_Info
 =======
 from .models import Project,User_Info,DB_part
+>>>>>>> upstream/master
+=======
+from .models import Project,User_Info,DB_part,Company_Info
 >>>>>>> upstream/master
 from django.contrib import auth
 from django import forms    #导入表单

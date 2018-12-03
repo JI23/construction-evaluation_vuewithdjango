@@ -277,7 +277,7 @@ export default {
                             },500)
                 }
                 else {
-                    _this.$message.error('存储地震信息失败')
+                    _this.$message.error(res['msg'])
                     console.log(res['msg'])
                 }
             })

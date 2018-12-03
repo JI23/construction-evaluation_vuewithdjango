@@ -72,8 +72,13 @@ def allow_user(request):
         this_user=User_Info.objects.get(username=username)
         this_user.is_staff=True
         this_user.save()
+<<<<<<< HEAD
         this_company=Company_Info.objects.get(id=this_user.company_id)
         this_company.total_user = this_company.total_user+1
+=======
+        this_company=Company_Info.objects.get(id=this_user.company)
+        this_company.total_user+=1
+>>>>>>> upstream/master
         this_company.save()
         response['msg']='成功通过用户申请'
         response['error_num']=0

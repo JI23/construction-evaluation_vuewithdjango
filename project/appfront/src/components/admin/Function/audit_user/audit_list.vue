@@ -108,7 +108,11 @@
                         console.log(res)
                         if (res['error_num'] == 0) {
                             _this.$message.success(res['msg'])
+<<<<<<< HEAD
                             _this.show_users()
+=======
+                            show_users()
+>>>>>>> upstream/master
                         } 
                         else {
                             _this.$message.error(res['msg'])
@@ -118,6 +122,10 @@
                     .catch(function(err){
                         console.log(err);
                     });
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
             },
             show_users: function(){
                 let _this=this;
