@@ -48,10 +48,7 @@ def user_register(request):
         if not com_exist.exists():
             #公司不在数据库中
             response['error_num']=1
-<<<<<<< HEAD
             response['msg']='公司不在数据库中！'
-=======
->>>>>>> upstream/master
             return JsonResponse(response)
                #return render(request,'user_register.html', {'uf': uf,'user_register_error':'公司不存在'})
         else:
@@ -75,29 +72,19 @@ def user_register(request):
                     #添加成功   
                     #return render(request,'fail_user.html', {'registAdd': '管理员'+username})
                     response['error_num']=0
-<<<<<<< HEAD
                     response['msg']='注册成功'
-=======
->>>>>>> upstream/master
                     return JsonResponse(response)
                 except Exception:
                     #添加失败
                     #return render(request,'fail_user.html', {'registAdd': '注册失败', 'username': username,'architect_id':architect_id})
-<<<<<<< HEAD
                     response['error_num']=1
                     response['msg']='添加失败'
-=======
-                    response['error_num']=2
->>>>>>> upstream/master
                     return JsonResponse(response)
             else:
                 #两次密码不同
                 #uf.clean()
-<<<<<<< HEAD
                 response['error_num']=1
                 response['msg']='两次密码必须相同！'
-=======
->>>>>>> upstream/master
                 return JsonResponse(response)
                     #return render(request,'user_register.html', {'uf': uf,'user_register_error':'两次密码不一样'})
     else:

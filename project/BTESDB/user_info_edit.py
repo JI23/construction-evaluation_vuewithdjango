@@ -9,11 +9,7 @@ def get_user_info(request):
     #user={}
     try:
         username=request.GET['username']
-<<<<<<< HEAD
         this_user=User_Info.objects.filter(username=username).values("username","telephone","truename","email","nickname","architect_id","job","company__com_name","company__certificate")
-=======
-        this_user=User_Info.objects.filter(username=username).values("telephone","truename","email","nickname","architect_id","job","company__com_name","company__certificate")
->>>>>>> upstream/master
         this_user=this_user[0]
         print(this_user)
         '''
