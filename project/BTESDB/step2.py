@@ -141,7 +141,8 @@ def step2(request):
             new.save()
             response['msg']='建筑信息新建成功'
             response['error_num']=0
-        saveFloor(request)
+        response=saveFloor(request)
+        print(response)
     except Exception as e:
         print (str(e))
         response['msg']=str(e)
@@ -166,7 +167,7 @@ def saveFloor(request):
         print (str(e))
         response['msg']='请先正确填写楼层信息'
         response['error_num']=1
-        return JsonResponse(response)
+        return response
 
     this_project=Project.objects.get(id=project)
     
@@ -177,82 +178,82 @@ def saveFloor(request):
          #if len(a['floor_no'])==0:
             response['msg']='楼层编号不能为空！' 
             response['error_num']=1
-            return JsonResponse(response)
+            return response
         else:   
             try:
                 floor_no=int(a['floor_no'])
                 if floor_no>floors or floor_no==0:
                     response['msg']='楼层编号不得大于楼层总数或等于0！'
                     response['error_num']=1
-                    return JsonResponse(response)
+                    return response
             except Exception:
                 response['msg']='楼层编号必须为整数'
                 response['error_num']=1
-                return JsonResponse(response)
+                return response
 
         if len(a['floor_height'])==0:
             response['msg']='楼层高度不能为空！' 
             response['error_num']=1
-            return JsonResponse(response)   
+            return response
         else:
             try:
                 floor_height=float(a['floor_height'])
                 if floor_height<=0 or floor_height>height:
                     response['msg']='楼层高度零或负数或超过总高度！'
                     response['error_num']=1
-                    return JsonResponse(response)
+                    return response
             except Exception:
                 response['msg']='楼层高度须为实数！'
                 response['error_num']=1
-                return JsonResponse(response)
+                return response
 
         if len(a['floor_area'])==0:
             response['msg']='楼层面积不能为空！' 
             response['error_num']=1
-            return JsonResponse(response)   
+            return response
         else:
             try:
                 floor_area=float(a['floor_area'])
                 if floor_area<=0 or floor_area>area:
                     response['msg']='楼层面积不能小于0或超过总面积！'
                     response['error_num']=1
-                    return JsonResponse(response)
+                    return response
             except Exception:
                 response['msg']='楼层面积须为实数！'
                 response['error_num']=1
-                return JsonResponse(response)
+                return response
         print (a['influence_coefficient'])
         if len(a['influence_coefficient'])==0:
             response['msg']='楼层影响系数不能为空！' 
             response['error_num']=1
-            return JsonResponse(response)   
+            return response
         else:
             try:
                 influence_coefficient=float(a['influence_coefficient'])
                 if influence_coefficient<1 or influence_coefficient>1.5:
                     response['msg']='楼层影响系数在1到1.5之间'
                     response['error_num']=1
-                    return JsonResponse(response)
+                    return response
             except Exception:
                 response['msg']='楼层影响系数须为实数！'
                 response['error_num']=1
-                return JsonResponse(response)
+                return response
 
         if len(a['population_density'])==0:
             response['msg']='楼层人口密度不能为空！' 
             response['error_num']=1
-            return JsonResponse(response)   
+            return response  
         else:
             try:
                 population_density=float(a['population_density'])
                 if population_density<0 :
                     response['msg']='人口密度不能小于0'
                     response['error_num']=1
-                    return JsonResponse(response)
+                    return response
             except Exception:
                 response['msg']='楼层人口密度必须为实数！'
                 response['error_num']=1
-                return JsonResponse(response)
+                return response
 
         
         if Floor_Info.objects.filter(project=this_project,floor_no=int(a['floor_no'])).exists():
@@ -283,15 +284,15 @@ def saveFloor(request):
     if Floor_Info.objects.filter(project=this_project).count()!=floors:
         response['msg']='请填写完所有楼层信息！'
         response['error_num']=1
-        return JsonResponse(response)
+        return response
     if Floor_Info.objects.filter(project=this_project).aggregate(Sum('floor_area'))['floor_area__sum']!=area:
         print(area)
         print (Floor_Info.objects.filter(project=this_project).aggregate(Sum('floor_area'))['floor_area__sum'])
         response['msg']='楼层面积和不等于总面积！'
         response['error_num']=1
-        return JsonResponse(response)
+        return response
     if Floor_Info.objects.filter(project=this_project).aggregate(Sum('floor_height'))['floor_height__sum']!=height:
         response['msg']='楼层高度和不等于总高度！'
         response['error_num']=1
-        return JsonResponse(response)
-    #return JsonResponse(response)
+        return response
+    return response
