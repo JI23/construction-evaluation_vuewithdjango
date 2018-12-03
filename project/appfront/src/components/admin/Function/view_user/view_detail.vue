@@ -48,17 +48,12 @@
         },
 
         methods: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> upstream/master
             show_user_detail:function(){
                 let _this=this;
                 let current_user_id = JSON.parse(localStorage.getItem("current_user_id"));
                 localStorage.removeItem("current_user_id");   
                 console.log("view_detail")
                 console.log(current_user_id)
-<<<<<<< HEAD
                 this.$ajax({
                     method:'get',
                     url:'get_user_info',
@@ -91,45 +86,7 @@
                     .catch(function(err){
                         console.log(err);
                     });
-=======
-            getUser_info(){//获取四个框的基本信息，以及图表的信息内容
-                let _this = this
-                this.$ajax({
-                    method: 'get',
-                    url: 'get_user_info',
-                }).then(function(response){
-                    console.log(response)
-                    var res = response['data']['userinfo']
-                    
-                    //进行赋值
-                })
-                 
->>>>>>> upstream/master
-=======
-                this.$ajax({
-                    method:'get',
-                    url:'get_user_info',
-                    params:{
-                        username:current_user_id
-                    },
-                    headers:{"Content-Type": "application/json"}
-            })
-            .then(function(response){
-                        console.log(response)
-                        var res = response.data
-                        console.log(res)
-                        if (res['error_num'] == 0) {
-                            console.log(res['user_info'])
-                        } 
-                        else {
-                            _this.$message.error(res['msg'])
-                            console.log(res['msg'])
-                        }
-                    })
-                    .catch(function(err){
-                        console.log(err);
-                    });
->>>>>>> upstream/master
+
             }
         },
 //用于传值

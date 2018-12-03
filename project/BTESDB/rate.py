@@ -601,7 +601,7 @@ from reportlab.pdfgen import canvas
 def runDll(project_file_path):
     print("runDll")
     print(project_file_path)
-    dll =cdll.LoadLibrary(r"C:\Users\85764\Documents\GitHub\construction-evaluation_vuewithdjango\project\x64\Release\Dll3.dll")
+    dll =cdll.LoadLibrary(r"E:\\project1\\construction-evaluation_vuewithdjango\\project\\x64\\Release\\Dll3.dll")
     s=(c_char * 106)(*bytes(project_file_path,"utf-8"))
     print ('success')
 
