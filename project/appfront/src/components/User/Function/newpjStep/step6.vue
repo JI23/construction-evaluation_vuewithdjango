@@ -273,6 +273,7 @@ export default {
                 if (res.error_num == 0) {
                     console.log(res['msg'])
                     _this.$message.success(res['msg'])
+                    _this.$router.push({name:'successpj'})
                 } 
                 else {
                     _this.$message.error(res['msg'])
