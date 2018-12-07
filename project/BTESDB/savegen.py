@@ -10,10 +10,11 @@ import json
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
+from .views import classify_first,classify_second,classify_FEMA1,classify_FEMA2
 
 def savegen_gen_info(request):
+    print('savegen_gen_info')
     response={}
-    print('333')
     part_id=request.GET['part_id']
     #print(part_id)
     gen_info=request.GET['gen_info']
@@ -25,15 +26,17 @@ def savegen_gen_info(request):
 
     username=request.GET['username']
     this_user=User_Info.objects.get(username=username)
-    first=gen_info['id'].split('.')[0]
+    #first=gen_info['id'].split('.')[0]
     if len(gen_info['id'])==0:
         response['error_num']=1
         response['msg']='ID名不能为空'
         return JsonResponse(response)
+        '''
     elif not DB_part.objects.filter(part_id__startswith=first).exists():
         response['error_num']=1
         response['msg']='ID名非法'
         return JsonResponse(response)
+        '''
     elif DB_part.objects.filter(user=this_user,part_id=gen_info['id']).exists() and part_id==0:
         response['error_num']=1
         response['msg']='ID名不能重名'
@@ -72,7 +75,7 @@ def savegen_gen_info(request):
             print('!!!!!!!!!!!!!!!')
         except Exception as e:
             print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-            #print(str(e))
+            print(str(e))
             response['error_num']=1
             response['msg']=str(e)
     else:
@@ -119,6 +122,7 @@ def update_notes(path,notes_info):
     tree.write(path,xml_declaration=True, encoding='utf-8', method="xml")
 
 def savegen(request):
+    print('savegen')
     response={}
     part_id=request.GET['part_id']
     print(part_id)
@@ -157,8 +161,19 @@ def savegen(request):
         response['msg']='数据库中已存在,修改成功'
     else:
         #到数据库中新建
+        name=gen_info['id']
+        name=name.split('.')
+        first=classify_first(name[0])
+        if first=='分类不明':
+            first=classify_FEMA1(name[0][0])
+        if len(name)>1:       
+            second=classify_second(name[0],name[1])
+        else:
+            second=classify_FEMA2(name[0])
         new=DB_part(user=this_user,
         part_id=gen_info['id'],
+        first=first,
+        second=second,
         part_name=gen_info['name'],
         EDP_type='A',
         data_resource=notes_info['author'],
