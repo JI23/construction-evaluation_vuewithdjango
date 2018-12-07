@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
 from django.http import JsonResponse
-from BTESDB.models import DB_part,Element,Project,Damage_state_detail
+from BTESDB.models import DB_part,Element,Project,Damage_state_detail,User_Info
 from django.core import serializers
 import requests
 import json
@@ -14,8 +14,13 @@ def get_all_parts(request):
         ctime=time.time()
         #part_list = DB_part.objects.all()
         temp=request.GET['value'][3]
+        username=request.GET['username']
         print(temp)
-        part_list = DB_part.objects.filter(part_type=temp)
+        this_user=User_Info.objects.get(username=username)
+        if (not this_user.is_superuser) and temp=='u':
+            part_list = DB_part.objects.filter(part_type=temp,user_id=this_user.id)
+        else:
+            part_list = DB_part.objects.filter(part_type=temp)
         detail_list= Damage_state_detail.objects.all()
         print(detail_list)
 
