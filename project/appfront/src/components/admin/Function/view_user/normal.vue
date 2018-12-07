@@ -36,6 +36,7 @@
                 <template slot-scope="scope">
                     <el-button @click="overlook(scope.row)" type="text" size="small">查看详情</el-button><!--未写 -->
                     <el-button @click="ban_user(scope.row)" type="text" size="small">禁用用户</el-button>
+                    <el-button @click="lookpj(scope.row)" type="text" size="small">查看用户项目</el-button>
                 </template>
                 </el-table-column>
         </el-table>
@@ -93,6 +94,13 @@
                 //console.log(row)
                 localStorage.setItem("current_user_id",JSON.stringify(row.username));//获取当前查看用户的用户名    
                 this.$router.push({name:'view_detail'});
+            },
+
+            lookpj: function(row){
+                //console.log(row)
+                localStorage.setItem("filtername",row.username);//获取当前查看用户的用户名    
+                localStorage.setItem("filter",'true');
+                this.$router.push({name:'view_project'});
             },
 
             show_users: function(){

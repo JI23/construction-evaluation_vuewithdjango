@@ -80,7 +80,7 @@
                     method:'get',
                     url:'show_projects_filter',
                     params: {
-                        'condition' : 'all'
+                        'condition' : 'finish'
                     },
                     headers:{"Content-Type": "application/json"}
                 }).then(function(response){
@@ -88,8 +88,39 @@
                     var res = response.data
                     console.log(res)
                     if (res.error_num == 0) {
-                        _this.projects = res['project']
-                        //console.log(_this.projects)
+                        _this.projects = res['projects']
+                        for(var i = 0; i < res['projects'].length; i++){
+                             _this.projects[i] = res['projects'][i].fields
+                        }
+                    } 
+                    else {
+                        _this.$message.error('查询项目失败')
+                        //console.log(res['msg'])
+                    }
+                }).catch(function(err){
+                    console.log(err);
+                });
+            },
+
+
+            show_userProjects(){
+                let _this = this;
+                this.$ajax({
+                    method:'get',
+                    url:'show_user_projects',
+                    params: {
+                        'username' : localStorage.getItem('filtername')
+                    },
+                    headers:{"Content-Type": "application/json"}
+                }).then(function(response){
+                    //console.log(response)
+                    var res = response.data
+                    console.log(res)
+                    if (res.error_num == 0) {
+                        _this.projects = res['projects']
+                        for(var i = 0; i < res['projects'].length; i++){
+                             _this.projects[i] = res['projects'][i].fields
+                        }
                     } 
                     else {
                         _this.$message.error('查询项目失败')
@@ -102,7 +133,14 @@
         },
 
         beforeMount: function() {
-            this.showProjects()
+            var temp = localStorage.getItem('filter');
+            if(temp == 'true'){
+                this.show_userProjects()
+                localStorage.setItem('filter','flase')
+            }
+            else{
+                this.showProjects()
+            }
         },
         data () {
             return {

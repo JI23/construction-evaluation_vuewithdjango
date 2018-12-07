@@ -13,7 +13,7 @@
         <div class="wrapper6">
             <el-col>
                 <span class="lebal">构件造价</span>
-                <el-input v-bind:disabled="temp" style="width:100%" v-model="id" placeholder="请输入内容"></el-input>
+                <el-input v-bind:disabled="temp" style="width:100%" v-model="price" placeholder="请输入内容"></el-input>
                 <span class="lebal">方向性</span><br>
                 <el-radio v-bind:disabled="temp" v-model="choose1" label="1">确定方向</el-radio>
                 <el-radio v-bind:disabled="temp" v-model="choose1" label="2">无方向</el-radio><br><br>
@@ -38,15 +38,17 @@
                     delivery: false,
                     type: [],
                     resource: '',
-                    desc: ''
+                    desc: '',
+                    price:'',
                 },
                 typename: '',
                 DP_Dimension: '',
                 units: '',
                 formLabelWidth: '120px',
-                value2: false,
-                value1: false,
+                value2: '123',
+                value1: '123',
                 choose1: '1',
+                price:'',
                 choose2: '1',
                 options: [{
                     value: '选项1',
@@ -170,8 +172,9 @@
                     //cus_name: this.cus_name,
                     description:this.description,
                     demand_Para:this.demand_Para,
-                    value1: this.value1,
-                    value2: this.value2,
+                    price:this.price,
+                    value1: '111',
+                    value2: '222',
                     choose1: this.choose1,
                     choose2: this.choose2,
                     typename: this.typename,
@@ -302,7 +305,6 @@
                         console.log('222')
                     });   
                 }
-                this.$router.push({name:'notes'});
             },
             open() {
                 this.$alert('这是一段内容', '要求系数编辑', {

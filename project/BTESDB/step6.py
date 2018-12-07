@@ -50,7 +50,7 @@ def step6(request):
         print(data)
         data=list(chain.from_iterable(data))
         if Structure_response.objects.filter(project=this_project,direction=a['direction'][0],
-        EDP_type=a['EDP_type']).exists():
+        EDP_type=a['EDP_type'][0]).exists():
             #更新数据库中内容
             update=Structure_response.objects.get(project=this_project,direction=a['direction'][0],EDP_type=a['EDP_type'][0]) 
             update.floor_no=floor_no

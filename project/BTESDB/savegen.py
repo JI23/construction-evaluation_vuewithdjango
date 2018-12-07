@@ -139,7 +139,9 @@ def savegen(request):
     username=request.GET['username']
    
     this_user=User_Info.objects.get(username=username)
-    path='user_defined/'+username+'/'+gen_info['id']+'/'+gen_info['id']+'.xml'
+    #print(gen_info[1])
+    #print("!!!!!!!!!!")
+    path='user_defined/'+str(username)+'/'+str(gen_info['id'])+'/'+str(gen_info['id'])+'.xml'
     if DB_part.objects.filter(id=part_id).exists():
         print('数据库中已存在')
         this_part=DB_part.objects.get(id=part_id)

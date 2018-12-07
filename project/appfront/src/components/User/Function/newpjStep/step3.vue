@@ -166,7 +166,8 @@
                 method:'get',
                 url:'step3-get-all-parts',
                 params:{
-                    value: this.value4
+                    value: this.value4,
+                    username: localStorage.getItem("phone"),
                 },
                 headers:{"Content-Type": "application/json"}
             })
