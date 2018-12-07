@@ -45,6 +45,6 @@ urlpatterns = [
     url(r'ban_user',admin_view.ban_user),
     url(r'refuse_user',admin_view.refuse_user),
     url(r'get_user_info',user_info_edit.get_user_info),
-    
+    url(r'admin_db_part',admin_view.admin_db_part),
     url(r'getChart$', views.getChart ),
     ]

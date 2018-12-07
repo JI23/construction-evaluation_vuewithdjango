@@ -72,13 +72,8 @@ def allow_user(request):
         this_user=User_Info.objects.get(username=username)
         this_user.is_staff=True
         this_user.save()
-<<<<<<< HEAD
         this_company=Company_Info.objects.get(id=this_user.company_id)
         this_company.total_user = this_company.total_user+1
-=======
-        this_company=Company_Info.objects.get(id=this_user.company)
-        this_company.total_user+=1
->>>>>>> upstream/master
         this_company.save()
         response['msg']='成功通过用户申请'
         response['error_num']=0
@@ -199,4 +194,26 @@ def admin_index(request):
         response['msg']=str(e)
     return JsonResponse(response)
 
-
+def admin_db_part(request):
+    '''管理员管理易损件'''
+    print('admin_db_part')
+    response={}
+    try:
+        temp=request.GET['value'][3]
+        part_id=request.GET['part_id']
+        flag=request.GET['flag']#1:将用户自定义变为系统定义；2：？
+        #id=request.GET['id']
+        this_part=DB_part.objects.get(part_id=part_id)
+        if this_part.part_type != temp:
+            this_part.part_type=temp
+            this_part.save()
+        if this_part.user_defined and flag=='1':
+            this_part.user_defined=False
+            this_part.save()
+        response['msg']='修改成功'
+        response['error_num']=0
+    except Exception as e:
+        print(str(e))
+        response['error_num']=1
+        response['msg']=str(e)
+    return JsonResponse(response)
