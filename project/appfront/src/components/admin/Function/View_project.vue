@@ -66,9 +66,12 @@
             handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
             },
-            overlook: function(row){//跳转未写
+            overlook: function(row){
                 //console.log(row)
-                localStorage.setItem("pjNum",JSON.stringify(row.pjNum));
+                localStorage.setItem("pjNum",JSON.stringify(row.project_name));
+				var temp = "http://47.105.86.170"+row.PDF.slice(74,row.PDF.length)
+				window.open(temp)
+				
                 //this.$router.push({name:'view'});
             },
             delete: function(){
