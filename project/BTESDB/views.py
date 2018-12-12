@@ -3,15 +3,7 @@
 # Create your views here.
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
-<<<<<<< HEAD
-<<<<<<< HEAD
 from .models import Project,User_Info,DB_part,Company_Info
-=======
-from .models import Project,User_Info,DB_part
->>>>>>> upstream/master
-=======
-from .models import Project,User_Info,DB_part,Company_Info
->>>>>>> upstream/master
 from django.contrib import auth
 from django import forms    #导入表单
 from django.contrib.auth.models import User   #导入django自带的user表
@@ -189,7 +181,11 @@ def classify_second(first,second):
 def classify_FEMA1(name):
     d={'A':'Substructure','B':'Shell','C':'Interiors','D':'Services',
     'E':'Equipment & Furnishings','F':'Special Construction & Demolition'}
-    return d[name]
+    try:
+        return d[name]
+    except Exception as e:
+        print (str(e))
+        return '分类不明'
 def classify_FEMA2(name):
     A={'A1O11': 'Wall Foundations','A1012': 'Column Foundations & Pile Caps',
     'A1013': 'Perimeter Drainage & Insulation',

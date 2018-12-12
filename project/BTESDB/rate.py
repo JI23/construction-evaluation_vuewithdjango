@@ -277,6 +277,7 @@ def rate(request):
         print(result)
         generatePDF(result,ProjectInfoDict,BuildingInfoDict,FloorsList,StructureElementsList,NonStructureElementsList,EarthquakeInfoDict,EarthquakeWaveList,StructureResponseList)
         ProjectInfo.save()
+        response['PDF']=str(ProjectInfo.PDF)
     except Exception as e:
         print(str(e))
         response['error_num']=1

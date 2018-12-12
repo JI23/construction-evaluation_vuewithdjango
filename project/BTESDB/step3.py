@@ -132,7 +132,7 @@ def save_elements(request):
             return JsonResponse(response)
         else:
             try:
-                X=float(X)
+                X=Decimal(X)
             except Exception:
                 response['msg']='X方向易损件个数为实数！'
                 response['error_num']=1
@@ -144,7 +144,7 @@ def save_elements(request):
             return JsonResponse(response)
         else:
             try:
-                Y=float(Y)
+                Y=Decimal(Y)
             except Exception:
                 response['msg']='Y方向易损件个数为实数！'
                 response['error_num']=1
@@ -156,7 +156,7 @@ def save_elements(request):
             return JsonResponse(response)
         else:
             try:
-                Non=float(Non)
+                Non=Decimal(Non)
             except Exception:
                 response['msg']='无方向易损件个数为实数！'
                 response['error_num']=1

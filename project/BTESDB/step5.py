@@ -156,7 +156,7 @@ def save_waves(request):
             return response 
         else:
             try:
-                peak=float(a['peak'])
+                peak=Decimal(a['peak'])
                 if peak<=0 :
                     response['msg']='地震波峰值不能小于0！' 
                     response['error_num']=1

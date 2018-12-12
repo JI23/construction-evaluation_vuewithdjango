@@ -74,7 +74,7 @@ def step2(request):
             return JsonResponse(response)
         else:
             try:
-                height=float(height)
+                height=Decimal(height)
                 if height<=0:
                     response['msg']='楼层总高不能为零或负数！'
                     response['error_num']=1
@@ -90,7 +90,7 @@ def step2(request):
             return JsonResponse(response)
         else:
             try:
-                area=float(area)
+                area=Decimal(area)
                 if area<=0:
                     response['msg']='总面积不能为零或负数！'
                     response['error_num']=1
@@ -104,7 +104,7 @@ def step2(request):
             print('造价为空')
         else:
             try:
-                cost_per_squaremeter=float(cost_per_squaremeter)
+                cost_per_squaremeter=Decimal(cost_per_squaremeter)
                 if cost_per_squaremeter<=0:
                     response['msg']='每平米造价不能为零或负数！'
                     response['error_num']=1
@@ -159,8 +159,8 @@ def saveFloor(request):
         print(request)
         project=request.GET['project']
         floors=int(request.GET['floors'])
-        area=float(request.GET['area'])
-        height=float(request.GET['height'])
+        area=Decimal(request.GET['area'])
+        height=Decimal(request.GET['height'])
         floor_list=request.GET.getlist('Floor_info[]',[])        
         #print(floor_list)
     except Exception as e :
@@ -197,9 +197,9 @@ def saveFloor(request):
             return response
         else:
             try:
-                floor_height=float(a['floor_height'])
+                floor_height=Decimal(a['floor_height'])
                 if floor_height<=0 or floor_height>height:
-                    response['msg']='楼层高度零或负数或超过总高度！'
+                    response['msg']='楼层高度小于0或超过总高度！'+str(floor_height)+'   '+str(height)
                     response['error_num']=1
                     return response
             except Exception:
@@ -213,7 +213,7 @@ def saveFloor(request):
             return response
         else:
             try:
-                floor_area=float(a['floor_area'])
+                floor_area=Decimal(a['floor_area'])
                 if floor_area<=0 or floor_area>area:
                     response['msg']='楼层面积不能小于0或超过总面积！'
                     response['error_num']=1
@@ -229,7 +229,7 @@ def saveFloor(request):
             return response
         else:
             try:
-                influence_coefficient=float(a['influence_coefficient'])
+                influence_coefficient=Decimal(a['influence_coefficient'])
                 if influence_coefficient<1 or influence_coefficient>1.5:
                     response['msg']='楼层影响系数在1到1.5之间'
                     response['error_num']=1
@@ -245,7 +245,7 @@ def saveFloor(request):
             return response  
         else:
             try:
-                population_density=float(a['population_density'])
+                population_density=Decimal(a['population_density'])
                 if population_density<0 :
                     response['msg']='人口密度不能小于0'
                     response['error_num']=1
@@ -260,24 +260,24 @@ def saveFloor(request):
             #定位到此楼层对应的数据库条目
             print('开始修改')
             update=Floor_Info.objects.get(project=this_project,floor_no=int(a['floor_no']))
-            update.floor_height=float(a['floor_height'])
-            update.floor_area=float(a['floor_area'])
-            update.influence_coefficient=float(a['influence_coefficient'])
-            update.population_density=float(a['population_density'])
+            update.floor_height=Decimal(a['floor_height'])
+            update.floor_area=Decimal(a['floor_area'])
+            update.influence_coefficient=Decimal(a['influence_coefficient'])
+            update.population_density=Decimal(a['population_density'])
             update.save()
             response['msg']='修改成功'
             response['error_num']=0
         else:
             print(a)
-            print(float(a['influence_coefficient']))
+            print(Decimal(a['influence_coefficient']))
             print(Decimal(a['influence_coefficient']))
             new=Floor_Info(
                 project=this_project,
                 floor_no=int(a['floor_no']),
-                floor_height=float(a['floor_height']),
-                floor_area=float(a['floor_area']),
-                influence_coefficient=float(a['influence_coefficient']),
-                population_density=float(a['population_density']))
+                floor_height=Decimal(a['floor_height']),
+                floor_area=Decimal(a['floor_area']),
+                influence_coefficient=Decimal(a['influence_coefficient']),
+                population_density=Decimal(a['population_density']))
             new.save()
             response['msg']='新建成功'
             response['error_num']=0
