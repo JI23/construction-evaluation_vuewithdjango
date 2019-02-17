@@ -14,7 +14,7 @@ def step2(request):
     response={}
     try:
         #获取表单数据
-        create_time=datetime.now()
+        #create_time=datetime.now()
         project=request.GET['project']
         material=request.GET['material']
         structure_type=request.GET['structure_type']
@@ -46,10 +46,10 @@ def step2(request):
         
         try:
             figure_time=datetime.strptime(figure_time,'%Y-%m-%d')
-            if figure_time<=create_time:
-                response['msg']='图审时间须在项目创建时间之后！'
-                response['error_num']=1
-                return JsonResponse(response)
+            #if figure_time<=create_time:
+            #    response['msg']='图审时间须在项目创建时间之后！'
+            #    response['error_num']=1
+            #    return JsonResponse(response)
         except Exception:
             response['msg']='图审时间格式：2018-8-18'
             response['error_num']=1
