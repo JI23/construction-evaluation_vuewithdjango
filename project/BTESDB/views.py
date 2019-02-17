@@ -3,7 +3,9 @@
 # Create your views here.
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
+
 from .models import Project,User_Info,DB_part,Company_Info
+
 from django.contrib import auth
 from django import forms    #导入表单
 from django.contrib.auth.models import User   #导入django自带的user表

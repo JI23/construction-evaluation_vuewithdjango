@@ -92,11 +92,11 @@
                         notes: this.notes,
                     };
                     sessionStorage.setItem("notes_info",JSON.stringify(notes_info));
-                    var gen_info=sessionStorage.getItem('gen_info')
+                    var gen_info=JSON.parse(sessionStorage.getItem('gen_info'))
                     var username=localStorage.getItem('phone')
                     console.log(gen_info)
-                    //console.log('333333')
-                    console.log(sessionStorage.getItem('notes_info'))
+                    console.log('333333')
+                    console.log(notes_info)
                     //console.log('333333')
                     console.log(username)
                     //console.log('333333')
@@ -113,7 +113,7 @@
                         method:'get',
                         url:'savegen',
                         params: {
-                            gen_info:gen_info,
+                            gen_info:JSON.stringify(gen_info),
                             notes_info:JSON.stringify(notes_info),
                             username:username,
                             part_id:part_id,

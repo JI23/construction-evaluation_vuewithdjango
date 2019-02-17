@@ -35,7 +35,7 @@
                     width="200">
                 <template slot-scope="scope">
                     <el-button @click="overlook(scope.row)" type="text" size="small">查看详情</el-button><!--未写 -->
-                    <el-button @click="open(scope.row)" type="text" size="small">解禁用户</el-button>
+                    <el-button @click="free_user(scope.row)" type="text" size="small">解禁用户</el-button>
                 </template>
                 </el-table-column>
         </el-table>
@@ -62,7 +62,31 @@
             handleCurrentChange: function(currentPage){
                 this.currentPage = currentPage;
             },
-            open: function(row){
+            free_user: function(row){
+                let _this=this;
+                this.$ajax({
+                    method:'get',
+                    url:'free_user',
+                    params:{
+                        username:row.username
+                    },
+                    headers:{"Content-Type": "application/json"}
+                }).then(function(response){
+                        console.log(response)
+                        var res = response.data
+                        console.log(res)
+                        if (res['error_num'] == 0) {
+                            _this.$message.success(res['msg'])
+                            _this.show_users()
+                        } 
+                        else {
+                            _this.$message.error(res['msg'])
+                            console.log(res['msg'])
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
 
             },
             overlook: function(row){//跳转未写

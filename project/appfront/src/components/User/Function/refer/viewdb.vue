@@ -199,8 +199,7 @@
                     url:'step3-get-all-parts',
                     params:{
                         value: this.value4,
-                        username:localStorage.getItem("phone"),
-                        flag:1
+                        username: localStorage.getItem('phone')
                     },
                     headers:{"Content-Type": "application/json"}
                 }).then(function(response){

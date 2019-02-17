@@ -261,7 +261,7 @@ def rate(request):
         for item in NonStructureElementsList:
             item['xml']=str(item['xml'])     
         response['error_num']=0
-        response['msg']='项目xml文件新建成功!'+'\n 你的定级结果是：'+str(result[3])
+        response['msg']='项目xml文件新建成功!'+'  你的定级结果是：'+str(result[3])
         ProjectInfo=Project.objects.get(id=project)
         ProjectInfo.is_finished=True
         ProjectInfo.costrate=result[0]
@@ -602,7 +602,7 @@ from reportlab.pdfgen import canvas
 def runDll(project_file_path):
     print("runDll")
     print(project_file_path)
-    dll =cdll.LoadLibrary(r"C:\Users\85764\Documents\GitHub\construction-evaluation_vuewithdjango\project\x64\Release\Dll3.dll")
+    dll =cdll.LoadLibrary(r"E:\\project1\\construction-evaluation_vuewithdjango\\project\\x64\\Release\\Dll3.dll")
     s=(c_char * 106)(*bytes(project_file_path,"utf-8"))
     print ('success')
 
@@ -672,7 +672,7 @@ def judge_group(a):
 
 def judge_earth_level(a):
     if a==1:
-        return '多于地震'
+        return '多遇地震'
     elif a==2:
         return '设防地震'
     elif a==3:

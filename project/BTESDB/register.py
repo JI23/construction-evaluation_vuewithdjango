@@ -74,7 +74,8 @@ def user_register(request):
                     response['error_num']=0
                     response['msg']='注册成功'
                     return JsonResponse(response)
-                except Exception:
+                except Exception as e:
+                    print(str(e))
                     #添加失败
                     #return render(request,'fail_user.html', {'registAdd': '注册失败', 'username': username,'architect_id':architect_id})
                     response['error_num']=1
