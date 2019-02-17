@@ -147,6 +147,3 @@ def xmlAnalysis(path):
     except Exception as e:
         return(str(e))
         
-
-
-    

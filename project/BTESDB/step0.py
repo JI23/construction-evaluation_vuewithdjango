@@ -78,7 +78,7 @@ def edit(request):
                 for i in range(item["floor_no"]):
                     t2=list()
                     for j in range(item["earthquake_no"]):
-                        t2.append(float(temp_list[x]))
+                        t2.append(Decimal(temp_list[x]))
                         x += 1
                     item["data"].append(t2)
                 print (item["data"])

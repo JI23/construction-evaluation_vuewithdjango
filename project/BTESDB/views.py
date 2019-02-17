@@ -183,7 +183,11 @@ def classify_second(first,second):
 def classify_FEMA1(name):
     d={'A':'Substructure','B':'Shell','C':'Interiors','D':'Services',
     'E':'Equipment & Furnishings','F':'Special Construction & Demolition'}
-    return d[name]
+    try:
+        return d[name]
+    except Exception as e:
+        print (str(e))
+        return '分类不明'
 def classify_FEMA2(name):
     A={'A1O11': 'Wall Foundations','A1012': 'Column Foundations & Pile Caps',
     'A1013': 'Perimeter Drainage & Insulation',

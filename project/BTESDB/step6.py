@@ -8,6 +8,7 @@ import json
 from itertools import chain
 import ast
 def step6(request):
+    print('step6')
     response={}
     try:       
         #获取数据
@@ -44,7 +45,7 @@ def step6(request):
             print(line)
             for j in range(earthquake_no):
                 key="earthquake"+str(j+1)
-                temp.append(float(line[key]))
+                temp.append(Decimal(line[key]))
                 print(line[key])
             data.append(temp)
         print(data)
@@ -60,7 +61,7 @@ def step6(request):
             response['msg']='结构响应信息修改成功'
             response['error_num']=0
         else:
-            #新增数据库中内容
+            print('新增数据库中内容')
             new=Structure_response(
                 project=this_project,
                 direction=a['direction'][0],
