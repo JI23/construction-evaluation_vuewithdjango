@@ -68,22 +68,9 @@ export default {
     methods:{
         goToIndex(){
             // 需要增加路由守卫
-<<<<<<< HEAD
-
             //this.$store.dispatch("setUser",null)
             localStorage.removeItem('phone')
-=======
-            //应保留下面两行
-<<<<<<< HEAD
-            //this.$store.dispatch("setUser",null)
-            //localStorage.removeItem('phone')
->>>>>>> upstream/master
             this.$router.push({name:'home_admin'})
-=======
-            this.$store.dispatch("setUser",null)
-            localStorage.removeItem('phone')
-            //this.$router.push({name:'home_admin'})
->>>>>>> upstream/master
         },
         goToUserInfo(){
             this.$router.push({name:'userinfo'})

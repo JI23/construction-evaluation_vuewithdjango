@@ -328,7 +328,7 @@ export default {
         },
         set_num(){
             this.earthquake_info = [{
-                earthquake_no: '',
+                earthquake_no: 1,
                 name: '',
                 peak:'',
                 file:'',
@@ -336,7 +336,7 @@ export default {
             for(var i = 0; i < this.number-1; i++){
                 //this.earthquake_info[i]=temp
                 this.earthquake_info.push({
-                    earthquake_no: '',
+                    earthquake_no: i+2,
                     name: '',
                     peak:'',
                     file:''

@@ -64,13 +64,10 @@ ROOT_URLCONF = 'BTES.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-<<<<<<< HEAD
+
         #'DIRS': ['appfront/dist', ],
         'DIRS': ['templates',],
-=======
-        'DIRS': ['appfront/dist', ],
-        #'DIRS': ['templates',],
->>>>>>> upstream/master
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

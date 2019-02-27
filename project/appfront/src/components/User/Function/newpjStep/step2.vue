@@ -18,10 +18,11 @@
                     </el-col>
                     <el-col :span='6'>
                         <el-form-item label="图审时间" prop="figure_time" >
-
-                        <!-- <el-date-picker style="width:90%" type="date" size='small' placeholder="请选择时间"  v-model="buildingForm.figure_time"></el-date-picker> -->
-                        <el-input style="width:90%" size='small' v-model="buildingForm.figure_time" auto-complete="off" placeholder="请输入内容"></el-input>
+                        <el-date-picker style="width:90%" type="date" size='small' value-format="yyyy-MM-dd" :picker-options="pickerOptions1" placeholder="请选择时间"  v-model="buildingForm.figure_time"></el-date-picker>
                         </el-form-item>
+                        <!-- <el-form-item label="图审时间" prop="figure_time" > -->
+                        <!-- <el-input style="width:90%" size='small' v-model="buildingForm.figure_time" auto-complete="off" placeholder="请输入内容"></el-input> -->
+                        <!-- </el-form-item> -->
                         <el-form-item label="结构层数" prop="floors" >
                         <el-input  style="width:90%" size='small' @blur="set_num" v-model.number="buildingForm.floors" auto-complete="off" placeholder="请输入内容"></el-input>
                         </el-form-item>
@@ -249,6 +250,7 @@ export default {
                 },
             })
             .then(function(response){
+                console.log(_this.buildingForm.figure_time)
                         console.log(response)
                         var res = response.data
                         console.log(res)
@@ -341,6 +343,32 @@ export default {
     },
     data(){
         return{
+            pickerOptions1: {
+        //   disabledDate(time) {
+        //     return time.getTime() > Date.now();
+        //   },
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
+
             project_name:'',
             buildingForm:{
             material:'',

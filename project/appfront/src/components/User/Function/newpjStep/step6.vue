@@ -4,6 +4,9 @@
             <el-button size="small" class='btn' @click="next">下一步</el-button>
             <el-button size="small" class='btn' @click="back">上一步</el-button>
         </el-row>
+        <br>
+        <span class="notice_label">您可以选择点击下方按钮上传Excel文件至表格或手动输入表格数据。注意：保证您的Excel表格表头与本页面表格中的一致！</span><br><br>
+        <input type="file"  @change='importf1(this,$event)' accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
         <div class="div_table">
             <div>
                 <el-col :span="24">
@@ -31,6 +34,7 @@
                 </el-table>
             </div>
         </div>
+        <input type="file"  @change='importf2(this,$event)' accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
         <div class="div_table">
             <div>
                 <el-col :span="24">
@@ -58,6 +62,7 @@
                 </el-table>
             </div>
         </div>
+        <input type="file"  @change='importf3(this,$event)' accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
         <div class="div_table">
             <div>
                 <el-col :span="24">
@@ -85,6 +90,7 @@
                 </el-table>
             </div>
         </div>
+        <input type="file"  @change='importf4(this,$event)' accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
         <div class="div_table">
             <div>
                 <el-col :span="24">
@@ -133,7 +139,8 @@ export default {
         structure_response=JSON.stringify(structure_response)
         localStorage.setItem('structure_response', structure_response)
         console.log("路由离开前")
-        console.log(JSON.parse(localStorage.getItem('structure_response')))
+        console.log(this.data1[0].earthquake1)
+        //console.log(JSON.parse(localStorage.getItem('structure_response')))
         next()
     },
     created(){
@@ -157,6 +164,7 @@ export default {
             this.$emit('back','');
         },
         save6(){
+            console.log(this.data2)
             let _this=this;
             var isFull=true
             for(var j = 0; j < this.floors_num; j++){
@@ -384,13 +392,13 @@ export default {
                 }
                 this.option_num = "2"
                 this.data2 = []
-                for(var j = 0; j < this.floors_num; j++){
+                for(var j = 0; j <= this.floors_num; j++){
                     var temp = [{}]
                     for(var i = 0; i < this.quake_num; i++){
                         var temp2 = "earthquake" + (i+1)
                         temp[0][temp2] = ''    
                     }       
-                    temp[0].floor = j+1
+                    temp[0].floor = j
                     this.data2.push(temp[0])
                 }
             }
@@ -404,13 +412,13 @@ export default {
                 }
                 this.option_num = "2"
                 this.data2 = []
-                for(var j = 0; j < this.floors_num; j++){
+                for(var j = 0; j <= this.floors_num; j++){
                     var temp = [{}]
                     for(var i = 0; i < this.quake_num; i++){
                         var temp2 = "earthquake" + (i+1)
                         temp[0][temp2] = data_temp[0][j][i]   
                     }
-                    temp[0].floor = j+1
+                    temp[0].floor = j
                     this.data2.push(temp[0])
                 }
             }
@@ -425,13 +433,13 @@ export default {
                     }
                     this.option_num = "2"
                     this.data2 = []
-                    for(var j = 0; j < this.floors_num; j++){
+                    for(var j = 0; j <= this.floors_num; j++){
                         var temp = [{}]
                         for (var item in data_back_next[1][j])
                         {
                             temp[0][item] = data_back_next[1][j][item]        
                         }
-                        temp[0].floor = j+1
+                        temp[0].floor = j
                         this.data2.push(temp[0])
                     }
                     
@@ -514,13 +522,13 @@ export default {
                 }
                 this.option_num = "4"
                 this.data4 = []
-                for(var j = 0; j < this.floors_num; j++){
+                for(var j = 0; j <= this.floors_num; j++){
                     var temp = [{}]
                     for(var i = 0; i < this.quake_num; i++){
                         var temp4 = "earthquake" + (i+1)
                         temp[0][temp4] = ''    
                     }       
-                    temp[0].floor = j+1
+                    temp[0].floor = j
                     this.data4.push(temp[0])
                 }
                 }
@@ -534,13 +542,13 @@ export default {
                 }
                 this.option_num = "4"
                 this.data4 = []
-                for(var j = 0; j < this.floors_num; j++){
+                for(var j = 0; j <= this.floors_num; j++){
                     var temp = [{}]
                     for(var i = 0; i < this.quake_num; i++){
                         var temp4 = "earthquake" + (i+1)
                         temp[0][temp4] = data_temp[2][j][i]       
                     }
-                    temp[0].floor = j+1
+                    temp[0].floor = j
                     this.data4.push(temp[0])
                 }
             }
@@ -555,13 +563,13 @@ export default {
                     }
                     this.option_num = "4"
                     this.data4 = []
-                    for(var j = 0; j < this.floors_num; j++){
+                    for(var j = 0; j <= this.floors_num; j++){
                         var temp = [{}]
                         for (var item in data_back_next[3][j])
                         {
                             temp[0][item] = data_back_next[3][j][item]        
                         }
-                        temp[0].floor = j+1
+                        temp[0].floor = j
                         this.data4.push(temp[0])
                     }
                     
@@ -569,8 +577,240 @@ export default {
         },
         rowClass(){
             return 'background:#eee'
+        },
+        importf1(obj,e) {
+            let _this = this;
+            let inputDOM = this.$refs.inputer;   // 通过DOM取文件数据
+            var event=window.event||e;
+            this.file = event.currentTarget.files[0];  
+            var rABS = false; //是否将文件读取为二进制字符串
+            var f = this.file;
+            var reader = new FileReader();
+            FileReader.prototype.readAsBinaryString = function(f) { 
+            var binary = "";
+            var rABS = false; //是否将文件读取为二进制字符串
+            var pt = this;
+            var wb; //读取完成的数据
+            var outdata;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+            var bytes = new Uint8Array(reader.result);
+            var length = bytes.byteLength;
+            for(var i = 0; i < length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            var XLSX = require('xlsx');
+            if(rABS) {
+                wb = XLSX.read(btoa(fixdata(binary)), { //手动转化
+                    type: 'base64'
+                });
+            }
+            else {
+                wb = XLSX.read(binary, {
+                    type: 'binary'
+                });
+            }
+            // outdata就是你想要的东西 excel导入的数据
+            outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); 
+            console.log("outdata")
+            console.log(outdata)
+            _this.data1=[]
+            var obj={}
+            for(var j = 0; j < _this.floors_num; j++){
+                        obj={}
+                        for(var i = 0; i < _this.quake_num; i++){
+                            obj['earthquake'+(i+1)] = outdata[j]['earthquake'+(i+1)] 
+                            obj['floor'] = j+1  
+                        }       
+                        _this.data1.push(obj)
+            }
+            _this.reload();
+            }
+            reader.readAsArrayBuffer(f);
         }
-   
+        if(rABS) {
+            reader.readAsArrayBuffer(f);
+        }
+        else {
+            reader.readAsBinaryString(f);
+        }
+    },
+    importf2(obj,e) {
+            let _this = this;
+            let inputDOM = this.$refs.inputer;   // 通过DOM取文件数据
+            var event=window.event||e;
+            this.file = event.currentTarget.files[0];  
+            var rABS = false; //是否将文件读取为二进制字符串
+            var f = this.file;
+            var reader = new FileReader();
+            //if (!FileReader.prototype.readAsBinaryString) {
+            FileReader.prototype.readAsBinaryString = function(f) { 
+            var binary = "";
+            var rABS = false; //是否将文件读取为二进制字符串
+            var pt = this;
+            var wb; //读取完成的数据
+            var outdata;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+            var bytes = new Uint8Array(reader.result);
+            var length = bytes.byteLength;
+            for(var i = 0; i < length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            var XLSX = require('xlsx');
+            if(rABS) {
+                wb = XLSX.read(btoa(fixdata(binary)), { //手动转化
+                    type: 'base64'
+                });
+            }
+            else {
+                wb = XLSX.read(binary, {
+                    type: 'binary'
+                });
+            }
+            // outdata就是你想要的东西 excel导入的数据
+            outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); 
+            _this.data2=[]
+            var obj={}
+            for(var j = 0; j <= _this.floors_num; j++){
+                        obj={}
+                        for(var i = 0; i < _this.quake_num; i++){
+                            //var temp_head = "earthquake" + (i+1)
+                            obj['earthquake'+(i+1)] = outdata[j]['earthquake'+(i+1)] 
+                            obj['floor'] = j   
+                        }       
+                        _this.data2.push(obj)
+            }
+            _this.reload();
+            }
+            reader.readAsArrayBuffer(f);
+        }
+        if(rABS) {
+            reader.readAsArrayBuffer(f);
+        }
+        else {
+            reader.readAsBinaryString(f);
+        }
+    },
+    importf3(obj,e) {
+            let _this = this;
+            let inputDOM = this.$refs.inputer;   // 通过DOM取文件数据
+            var event=window.event||e;
+            this.file = event.currentTarget.files[0];  
+            var rABS = false; //是否将文件读取为二进制字符串
+            var f = this.file;
+            var reader = new FileReader();
+            //if (!FileReader.prototype.readAsBinaryString) {
+            FileReader.prototype.readAsBinaryString = function(f) { 
+            var binary = "";
+            var rABS = false; //是否将文件读取为二进制字符串
+            var pt = this;
+            var wb; //读取完成的数据
+            var outdata;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+            var bytes = new Uint8Array(reader.result);
+            var length = bytes.byteLength;
+            for(var i = 0; i < length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            var XLSX = require('xlsx');
+            if(rABS) {
+                wb = XLSX.read(btoa(fixdata(binary)), { //手动转化
+                    type: 'base64'
+                });
+            }
+            else {
+                wb = XLSX.read(binary, {
+                    type: 'binary'
+                });
+            }
+            // outdata就是你想要的东西 excel导入的数据
+            outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); 
+            _this.data3=[]
+            var obj={}
+            for(var j = 0; j < _this.floors_num; j++){
+                        obj={}
+                        for(var i = 0; i < _this.quake_num; i++){
+                            //var temp_head = "earthquake" + (i+1)
+                            obj['earthquake'+(i+1)] = outdata[j]['earthquake'+(i+1)] 
+                            obj['floor'] = j+1  
+                        }       
+                        _this.data3.push(obj)
+            }
+            _this.reload();
+            }
+            reader.readAsArrayBuffer(f);
+        }
+        if(rABS) {
+            reader.readAsArrayBuffer(f);
+        }
+        else {
+            reader.readAsBinaryString(f);
+        }
+    },
+    importf4(obj,e) {
+            let _this = this;
+            let inputDOM = this.$refs.inputer;   // 通过DOM取文件数据
+            var event=window.event||e;
+            this.file = event.currentTarget.files[0];  
+            var rABS = false; //是否将文件读取为二进制字符串
+            var f = this.file;
+            var reader = new FileReader();
+            //if (!FileReader.prototype.readAsBinaryString) {
+            FileReader.prototype.readAsBinaryString = function(f) { 
+            var binary = "";
+            var rABS = false; //是否将文件读取为二进制字符串
+            var pt = this;
+            var wb; //读取完成的数据
+            var outdata;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+            var bytes = new Uint8Array(reader.result);
+            var length = bytes.byteLength;
+            for(var i = 0; i < length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            var XLSX = require('xlsx');
+            if(rABS) {
+                wb = XLSX.read(btoa(fixdata(binary)), { //手动转化
+                    type: 'base64'
+                });
+            }
+            else {
+                wb = XLSX.read(binary, {
+                    type: 'binary'
+                });
+            }
+            // outdata就是你想要的东西 excel导入的数据
+            outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); 
+            _this.data4=[]
+            var obj={}
+            for(var j = 0; j <= _this.floors_num; j++){
+                        obj={}
+                        for(var i = 0; i < _this.quake_num; i++){
+                            obj['earthquake'+(i+1)] = outdata[j]['earthquake'+(i+1)] 
+                            obj['floor'] = j   
+                        }       
+                        _this.data4.push(obj)
+            }
+            _this.reload();
+            }
+            reader.readAsArrayBuffer(f);
+        }
+        if(rABS) {
+            reader.readAsArrayBuffer(f);
+        }
+        else {
+            reader.readAsBinaryString(f);
+        }
+    },
+    reload(){
+                this.isRouteAlive = false
+                this.$nextTick(function(){
+                    this.isRouteAlive = true
+                })
+            }
     },
     data(){
         return {
@@ -620,6 +860,9 @@ export default {
     /* .el-row{
         margin-bottom: 20px;
     } */
+    .notice_label{
+        color:red
+    }
     .div_table{
         margin-bottom:20px;
         margin-top:20px;
